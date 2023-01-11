@@ -10,8 +10,6 @@ var usersRouter = require('./routes/users');
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 
-
-
 var app = express();
 
 
@@ -27,6 +25,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function() {
   console.log("Connection to MongoDB established successfully");
 });
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

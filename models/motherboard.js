@@ -6,11 +6,11 @@ const motherboardSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
-    brand: { 
+    brand: [{ 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Brand', 
         required: true 
-    },
+    }],
     price: { 
         type: Number, 
         min: 0, 
@@ -18,7 +18,7 @@ const motherboardSchema = new mongoose.Schema({
     },
     chipset: { 
         type: String, 
-        enum: ['Intel H370', 'AMD B450', 'Intel Z490'], 
+        // enum: ['Intel H370', 'AMD B450', 'Intel Z490'], 
         required: true 
     },
     ramSlots: { 

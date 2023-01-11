@@ -6,11 +6,11 @@ const gpuSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    brand: {
+    brand: [{ //brands are in a array, because it's necesary for storage most of one brand
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Brand',
         required: true
-    },
+    }],
     model: {
         type: String,
         required: true
