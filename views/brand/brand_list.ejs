@@ -1,0 +1,20 @@
+<%- include('../partials/header.ejs') %>
+
+  <h1><%= title %></h1>
+
+  <ul>
+    <% for (var i=0; i< brand_list.length; i++) { %>
+      <li>
+        <a href="<%= brand_list[i].url %>"> <%= brand_list[i].name %> </a>
+        
+      </li>
+    <% } %>
+    <% if(brand_list.length === 0) { %>
+      <li> There are no brands.</li>
+    <% } %>
+  </ul>
+
+  <%- include('../partials/footer.ejs') %>
+
+
+

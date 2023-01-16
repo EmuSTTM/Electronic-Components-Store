@@ -33,6 +33,10 @@ const motherboardSchema = new mongoose.Schema({
     },
 });
 
+motherboardSchema.virtual('url').get(function() {
+    return `/components/motherboard/${this._id}`
+  })
+
 const Motherboard = mongoose.model('Motherboard', motherboardSchema);
 
 module.exports = Motherboard;

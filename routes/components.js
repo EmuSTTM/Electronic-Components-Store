@@ -55,7 +55,7 @@ router.get("/motherboard/:id/update", motherboard_controller.motherboard_update_
 router.post("/motherboard/:id/update", motherboard_controller.motherboard_update_post);
 
 // PowerSupply routes
-router.get("/powerSupply", powerSupply_controller.powerSupply_list);
+router.get("/powerSupplies", powerSupply_controller.powerSupply_list);
 router.get("/powerSupply/:id", powerSupply_controller.powerSupply_detail);
 router.get("/powerSupply/create", powerSupply_controller.powerSupply_create_get);
 router.post("/powerSupply/create", powerSupply_controller.powerSupply_create_post);

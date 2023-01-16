@@ -1,0 +1,48 @@
+<%- include('../partials/header.ejs') %>
+
+
+
+<div class="container">
+    <h1><%= title %></h1>
+  
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Model</th>
+          <th>Brand</th>
+          <th>Memory</th>
+          <th>Memory Type</th>
+          <th>Core Clock</th>
+          <th>Stream Proccesors</th>
+          <th>TDP</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (var i=0; i< gpu_list.length; i++) { %>
+          <tr>
+            <td><a href="<%= gpu_list[i].url %>"> <%= gpu_list[i].name %> </a></td>
+            <td><%= gpu_list[i].model %></td>
+            <td>
+              <% for (var j=0; j< gpu_list[i].brand.length; j++) { %>
+                  <%= gpu_list[i].brand[j].name %>
+                  <% if (j != gpu_list[i].brand.length -1) { %>
+                    ,
+                  <% } %>
+                  <% } %>
+                  </td>
+                  <td><%= gpu_list[i].memory %> </td>
+                  <td><%= gpu_list[i].memory_type %></td>
+                  <td><%= gpu_list[i].core_clock %></td>
+                  <td><%= gpu_list[i].stream_processors %></td>
+                  <td><%= gpu_list[i].tdp %> W</td>
+                  <td><%= "$" + gpu_list[i].price + " pesos argentinos" %></td>
+                  </tr>
+                  <% } %>
+                  </tbody>
+                  
+                    </table>
+                  </div>
+                  <%- include('../partials/footer.ejs') %>
+  

@@ -1,9 +1,18 @@
 const Motherboard = require("../models/motherboard");
 
 // Display list of all Motherboards.
-exports.motherboard_list = (req, res) => {
-  res.send("NOT IMPLEMENTED: Motherboard list");
-};
+exports.motherboard_list = function (req, res, next) {
+    Motherboard.find({}, "name brand model memory memory_type core_clock stream_proccesors tdp price")
+      .sort({ name: 1 })
+      .populate("brand")
+      .exec(function (err, list_motherboard) {
+        if (err) {
+          return next(err);
+        }
+        //Successful, so render
+        res.render("motherboard/motherboard_list", { title: "motherboard List", motherboard_list: list_motherboard });
+      });
+  };
 
 // Display detail page for a specific Motherboard.
 exports.motherboard_detail = (req, res) => {

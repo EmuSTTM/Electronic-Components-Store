@@ -32,7 +32,11 @@ const PowerSupplySchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('PowerSupply', PowerSupplySchema);
+PowerSupplySchema.virtual('url').get(function() {
+    return `/components/powerSupply/${this._id}`
+  })
+
+module.exports = mongoose.model('Power Supply', PowerSupplySchema);
 
 
 /*

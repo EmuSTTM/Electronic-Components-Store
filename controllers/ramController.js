@@ -1,9 +1,18 @@
 const RAM = require("../models/ram");
 
-// Display list of all Ram.
-exports.ram_list = (req, res) => {
-  res.send("NOT IMPLEMENTED: Ram list");
-};
+// Display list of all Ram. // brand model size speed type price
+exports.ram_list = function (req, res, next) {
+    RAM.find({}, "brand model size speed type price")
+      .sort({ speed: 1 })
+      .populate("brand")
+      .exec(function (err, list_ram) {
+        if (err) {
+          return next(err);
+        }
+        //Successful, so render
+        res.render("ram/ram_list", { title: "Ram List", ram_list: list_ram });
+      });
+  };
 
 // Display detail page for a specific Ram.
 exports.ram_detail = (req, res) => {

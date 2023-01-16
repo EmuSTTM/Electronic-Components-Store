@@ -1,0 +1,20 @@
+<%- include('../partials/header.ejs') %>
+
+  <h1><%= title %></h1>
+
+  <ul>
+    <% for (var i=0; i< cabinet_list.length; i++) { %>
+      <li>
+        <a href="<%= cabinet_list[i].url %>"> <%= cabinet_list[i].name %> </a>
+        <%= cabinet_list[i].type %> -
+        <%= cabinet_list[i]['brand'][0].name %> -
+        <%= "$" + cabinet_list[i].price + " pesos argentinos"%>
+        
+      </li>
+    <% } %>
+    <% if(cabinet_list.length === 0) { %>
+      <li> There are no cabinets.</li>
+    <% } %>
+  </ul>
+
+  <%- include('../partials/footer.ejs') %>

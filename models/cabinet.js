@@ -42,6 +42,10 @@ const cabinetSchema = new mongoose.Schema({
     }
 });
 
+
+cabinetSchema.virtual('url').get(function() {
+    return `/components/cabinet/${this._id}`
+  })
 const Cabinet = mongoose.model('Cabinet', cabinetSchema);
 
 module.exports = Cabinet;

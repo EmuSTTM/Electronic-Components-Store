@@ -1,9 +1,25 @@
 const Storage = require("../models/storage");
 
 // Display list of all Storage.
-exports.storage_list = (req, res) => {
-  res.send("NOT IMPLEMENTED: Storage list");
-};
+exports.storage_list = function (req, res, next) {
+    Storage.find({}, "name brand type interface price")
+      .sort({ name: 1 })
+      .populate("brand")
+      .exec(function (err, list_storage) {
+        if (err) {
+          return next(err);
+        }
+        //Successful, so render
+        res.render("storage/storage_list", { title: "Storage List", storage_list: list_storage });
+      });
+  };
+
+//   name: 'Seagate Barracuda 2TB',
+//   brand: 'Seagate',
+//   type: 'HDD',
+//   capacity: '2 TB',
+//   interface: 'SATA',
+//   price: 50
 
 // Display detail page for a specific Storage.
 exports.storage_detail = (req, res) => {

@@ -1,9 +1,18 @@
 const Brand = require("../models/brand");
 
-// Display list of all Brands.
-exports.brand_list = (req, res) => {
-  res.send("NOT IMPLEMENTED: Brand list");
-};
+// Display list of all Brands. Brand list it's a it useless
+exports.brand_list = function (req, res, next) {
+    Brand.find({}, "name")
+      .sort({ name: 1 })
+      .exec(function (err, list_brand) {
+        if (err) {
+          return next(err);
+        }
+        //Successful, so render
+        res.render("brand/brand_list", { title: "Brand List", brand_list: list_brand });
+      });
+  };
+  
 
 // Display detail page for a specific Brand.
 exports.brand_detail = (req, res) => {

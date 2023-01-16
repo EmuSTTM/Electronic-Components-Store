@@ -52,6 +52,10 @@ const gpuSchema = new mongoose.Schema({
     }
 });
 
+gpuSchema.virtual('url').get(function() {
+    return `/components/gpu/${this._id}`
+  })
+
 const GPU = mongoose.model('GPU', gpuSchema);
 module.exports = GPU;
 

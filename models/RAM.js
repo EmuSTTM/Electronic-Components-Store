@@ -32,6 +32,9 @@ const RAMSchema = new mongoose.Schema({
         min: 0
     }
 });
+RAMSchema.virtual('url').get(function() {
+    return `/components/ram/${this._id}`
+  })
 
 module.exports = mongoose.model('RAMModel', RAMSchema); // If you put only "RAM" there will be an error
 

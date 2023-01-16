@@ -1,9 +1,18 @@
 const Cabinet = require("../models/cabinet");
 
 // Display list of all Cabinets.
-exports.cabinet_list = (req, res) => {
-  res.send("NOT IMPLEMENTED: Cabinet list");
-};
+exports.cabinet_list = function (req, res, next) {
+    Cabinet.find({}, "name brand dimension type price ")
+      .sort({ name: 1 })
+      .populate("brand")
+      .exec(function (err, list_cabinet) {
+        if (err) {
+          return next(err);
+        }
+        //Successful, so render
+        res.render("cabinet/cabinet_list", { title: "Cabinet List", cabinet_list: list_cabinet });
+      });
+  };
 
 // Display detail page for a specific Cabinet.
 exports.cabinet_detail = (req, res) => {

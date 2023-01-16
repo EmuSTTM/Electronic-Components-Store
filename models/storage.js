@@ -33,6 +33,10 @@ const storageSchema = new mongoose.Schema({
     }
 });
 
+storageSchema.virtual('url').get(function() {
+    return `/components/storage/${this._id}`
+  })
+
 const Storage = mongoose.model('Storage', storageSchema);
 module.exports = Storage;
 

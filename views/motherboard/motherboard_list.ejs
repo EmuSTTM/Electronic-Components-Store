@@ -1,0 +1,38 @@
+
+
+<%- include('../partials/header.ejs') %>
+
+<div class="container">
+  <h1 class="text-center my-5"> <%= title %> </h1>
+
+  <div class="row">
+    <% for (var i=0; i< motherboard_list.length; i++) { %>
+      <div class="col-md-4 mb-3">
+        <div class="card h-100">
+          <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title"> <%= motherboard_list[i].name %> </h5>
+            <p class="card-text">
+              <% for (var j = 0; j < motherboard_list[i].brand.length; j++) { %>
+                <%= motherboard_list[i].brand[j].name %>
+              <% } %> -
+              <%= motherboard_list[i].chipset %> -
+              <%= motherboard_list[i].ramSlots %> Slots -
+              <%= motherboard_list[i].maxRam %> GB -
+              <%= motherboard_list[i].price %>
+            </p>
+            <a href="<%= motherboard_list[i].url %>" class="btn btn-primary">See More</a>
+          </div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+  <% if(motherboard_list.length === 0) { %>
+    <div class="text-center my-5">
+      <h3> There are no motherboards.</h3>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer.ejs') %>
+
