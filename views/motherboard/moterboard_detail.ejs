@@ -1,0 +1,44 @@
+<%- include('../partials/header.ejs') %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center my-4">Motherboard: <%= motherboard.name %></h1>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="text-secondary">Brand</h4>
+                            <p><%= motherboard.brand.name %></p>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="text-secondary">Price</h4>
+                            <p>$<%= motherboard.price %></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="text-secondary">Chipset</h4>
+                            <p><%= motherboard.chipset %></p>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="text-secondary">RAM Slots</h4>
+                            <p><%= motherboard.ramSlots %></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="text-secondary">Max RAM</h4>
+                            <p><%= motherboard.maxRam %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    
+            <a class="btn btn-outline-secondary my-4"href="javascript:history.back()"><< Back</a>
+
+      </div>
+    </div>
+</div>
+      
+<%- include('../partials/footer.ejs') %>

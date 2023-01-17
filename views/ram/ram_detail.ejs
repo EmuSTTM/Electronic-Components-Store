@@ -1,0 +1,58 @@
+<%- include('../partials/header.ejs') %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center">RAM Detail</h1>
+            <br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h4 class="text-secondary">Brand</h4>
+            <p class="text-dark">
+                <%= ramSchema.brand.name %>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h4 class="text-secondary">Model</h4>
+            <p class="text-dark">
+                <%= ramSchema.model %>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h4 class="text-secondary">Size</h4>
+            <p class="text-dark">
+                <%= ramSchema.size %>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h4 class="text-secondary">Memory Type</h4>
+            <p class="text-dark">
+                <%= ramSchema.type %>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h4 class="text-secondary">Speed</h4>
+            <p class="text-dark">
+                <%= ramSchema.speed %>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h4 class="text-secondary">Price</h4>
+            <p class="text-dark">
+                <%= ramSchema.price %>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <br>
+            <a href="javascript:history.back()" class="btn btn-primary">Go Back</a>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer.ejs') %>

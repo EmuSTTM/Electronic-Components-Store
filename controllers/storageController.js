@@ -23,7 +23,25 @@ exports.storage_list = function (req, res, next) {
 
 // Display detail page for a specific Storage.
 exports.storage_detail = (req, res) => {
-  res.send(`NOT IMPLEMENTED: Storage detail: ${req.params.id}`);
+  Storage.findById(req.params.id)
+  .populate("brand")
+  .exec(
+(err, storage) => {
+  if(err){
+    return next(err);
+  }
+  if(storage == null){
+    // No results
+    const err = new Error("Storage not found");
+    err.status = 404;
+    return next(err);
+  }
+  // Todo sucedió correctamente
+  res.render("storage/storage_detail",{
+    title:"Storage Detail",
+    storage: storage,
+  })
+})
 };
 
 // Display Storage create form on GET.

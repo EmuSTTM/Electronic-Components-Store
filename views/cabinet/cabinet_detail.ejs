@@ -1,0 +1,60 @@
+<%- include('../partials/header.ejs') %>
+
+<div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-center text-white" style="background-color: #343a40; padding: 20px;">Cabinet: <%= cabinet.name %></h1>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-4">
+        <h4 class="text-secondary">Brand:</h4>
+        <% if(cabinet.brand.length > 0){ %>
+          <ul class="list-group">
+            <% cabinet.brand.forEach(function(brand){ %>
+              <li class="list-group-item" style="background-color: #6c757d;">
+                <a href="<%= brand.url %>" class="text-white"><%= brand.name %></a>
+              </li>
+            <% }); %>
+          </ul>
+        <% } else { %>
+          <p class="text-danger">This cabinet doesn't have a brand</p>
+        <% } %>
+      </div>
+      <div class="col-md-4">
+        <h4 class="text-secondary">Dimension</h4>
+        <p class="text-white" style="background-color:  #6c757d; padding: 10px;"> <%= cabinet.dimension %></p>
+      </div>
+      <div class="col-md-4">
+        <h4 class="text-secondary">Type</h4>
+        <p class="text-white" style="background-color:  #6c757d; padding: 10px;"> <%= cabinet.type %></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <h4 class="text-secondary">Bay 5.25</h4>
+        <p class="text-white" style="background-color:  #6c757d; padding: 10px;"> <%= cabinet.bay_5_25 %></p>
+      </div>
+      <div class="col-md-4">
+        <h4 class="text-secondary">Bay 3.5</h4>
+        <p class="text-white" style="background-color:  #6c757d; padding: 10px;"> <%= cabinet.bay_3_5 %></p>
+      </div>
+      <div class="col-md-4">
+        <h4 class="text-secondary">Bay 2.5</h4>
+        <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= cabinet.bay_2_5 %></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <h4 class="text-secondary">Price</h4>
+        <p class="text-white" style="background-color:  #6c757d; padding: 10px;"> <%= cabinet.price %></p>
+    </div>
+  </div>
+  <br>
+  <div class="text-center">
+    <a href="javascript:history.back()" class="btn btn-secondary "><< Back</a>
+  </div>
+
+
+<%- include('../partials/footer.ejs') %>

@@ -1,4 +1,7 @@
 const GPU = require("../models/gpu");
+const async = require("async");
+
+const Brand = require("../models/brand");
 
 // Display list of all GPU.
 exports.gpu_list = function (req, res, next) {
@@ -25,8 +28,43 @@ exports.gpu_list = function (req, res, next) {
 // price: precio de la tarjeta gráfica
 
 // Display detail page for a specific GPU.
-exports.gpu_detail = (req, res) => {
-  res.send(`NOT IMPLEMENTED: GPU detail: ${req.params.id}`);
+exports.gpu_detail = (req, res, next) => {
+  // Cabinet.findById(req.params.id)
+  // .populate('brand')
+  // .exec((err, cabinet) => {
+  //     if (err) {
+  //         return next(err);
+  //     }
+  //     if (cabinet == null) {
+  //         const err = new Error("Cabinet not found");
+  //         err.status = 404;
+  //         return next(err);
+  //     }
+  //     res.render("cabinet/cabinet_detail", {
+  //         title: "Cabinet Detail",
+  //         cabinet: cabinet,
+  //     });
+  // });
+  GPU.findById(req.params.id)
+    .populate('brand')
+    .exec(
+  (err, gpu) => {
+    if(err){
+      return next(err);
+    }
+    if(gpu == null){
+      // No results
+      const err = new Error("GPU not found");
+      err.status = 404;
+      return next(err);
+    }
+    // Todo sucedió correctamente
+    res.render("gpu/gpu_detail",{
+      title:"GPU Detail",
+      gpu:gpu,
+      gpu_brand: gpu.brand,
+    })
+  })
 };
 
 // Display GPU create form on GET.

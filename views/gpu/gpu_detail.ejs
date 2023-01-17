@@ -1,0 +1,61 @@
+<%- include('../partials/header.ejs') %>
+
+<div class="container">
+  <h1 class="text-center" style="color:gray;">GPU: <%= gpu.name %></h1>
+  <br>
+  <div class="row">
+    <div class="col-md-4">
+      <h4 class="text-secondary">Brand</h4>
+      <% if(gpu_brand.length > 0){ %>
+      <ul class="list-group" style="margin-bottom:10px;">
+        <% gpu_brand.forEach(function(brand){ %>
+        <li class="list-group-item" style="background-color: #6c757d; padding: 10px;">
+            <a href="<%= brand.url %>" class="text-white"><%= brand.name %></a>
+        </li>
+        <% }); %>
+      </ul>
+      <% } else { %>
+      <p class="text-danger">This GPU has no brand</p>
+      <% } %>
+    </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Model</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= gpu.model %></p>
+    </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Memory</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= gpu.memory %></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <h4 class="text-secondary">Memory Type</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= gpu.memory_type %></p>
+    </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Boost Clock</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= gpu.boost_clock %></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <h4 class="text-secondary">Stream Processors</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= gpu.stream_processors %></p>
+    </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">TDP</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= gpu.tdp %> watts</p>
+    </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Price</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;">$ <%= gpu.price %></p>
+    </div>
+  </div>
+  <br>
+  <div class="text-center">
+    <a href="javascript:history.back()" class="btn btn-secondary "><< Back</a>
+  </div>
+</div>
+
+
+<%- include('../partials/footer.ejs') %>

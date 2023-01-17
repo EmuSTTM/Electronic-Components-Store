@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+
 const brand_controller = require("../controllers/brandController");
 const cabinet_controller = require("../controllers/cabinetController");
 const gpu_controller = require("../controllers/gpuController");
@@ -10,6 +11,8 @@ const ram_controller = require("../controllers/ramController");
 const storage_controller = require("../controllers/storageController");
 
 const components_controller = require("../controllers/componentsController");
+
+
 
 // Index routes
 router.get("/", components_controller.index);

@@ -15,9 +15,50 @@ exports.ram_list = function (req, res, next) {
   };
 
 // Display detail page for a specific Ram.
-exports.ram_detail = (req, res) => {
-  res.send(`NOT IMPLEMENTED: Ram detail: ${req.params.id}`);
+exports.ram_detail = (req, res, next) => {
+  RAM.findById(req.params.id)
+  .populate("brand")
+  .exec(
+(err, ramSchema) => {
+  if(err){
+    return next(err);
+  }
+  if(ramSchem == null){
+    // No results
+    const err = new Error("RAM not found");
+    err.status = 404;
+    return next(err);
+  }
+  // Todo sucedió correctamente
+  res.render("ram/ram_detail",{
+    title:"RAM Detail",
+    ramSchema: ramSchema,
+  })
+})
 };
+
+// // Display detail page for a specific PowerSupply.
+// exports.powerSupply_detail = (req, res, next) => {
+//   PowerSupply.findById(req.params.id)
+//   .populate("brand")
+//   .exec(
+// (err, powerSupply) => {
+//   if(err){
+//     return next(err);
+//   }
+//   if(powerSupply == null){
+//     // No results
+//     const err = new Error("Power Supply not found");
+//     err.status = 404;
+//     return next(err);
+//   }
+//   // Todo sucedió correctamente
+//   res.render("powerSupply/powerSupply_detail",{
+//     title:"Power Supply Detail",
+//     powerSupply: powerSupply,
+//   })
+// })
+// };
 
 // Display Ram create form on GET.
 exports.ram_create_get = (req, res) => {

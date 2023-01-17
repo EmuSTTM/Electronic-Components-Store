@@ -22,8 +22,26 @@ exports.powerSupply_list = function (req, res, next) {
 
 
 // Display detail page for a specific PowerSupply.
-exports.powerSupply_detail = (req, res) => {
-  res.send(`NOT IMPLEMENTED: PowerSupply detail: ${req.params.id}`);
+exports.powerSupply_detail = (req, res, next) => {
+    PowerSupply.findById(req.params.id)
+    .populate("brand")
+    .exec(
+  (err, powerSupply) => {
+    if(err){
+      return next(err);
+    }
+    if(powerSupply == null){
+      // No results
+      const err = new Error("Power Supply not found");
+      err.status = 404;
+      return next(err);
+    }
+    // Todo sucedió correctamente
+    res.render("powerSupply/powerSupply_detail",{
+      title:"Power Supply Detail",
+      powerSupply: powerSupply,
+    })
+  })
 };
 
 // Display PowerSupply create form on GET.

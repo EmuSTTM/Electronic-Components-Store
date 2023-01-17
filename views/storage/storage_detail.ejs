@@ -1,0 +1,26 @@
+<%- include('../partials/header.ejs') %>
+
+<div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"> <%= storage.name %> </h3>
+          </div>
+          <div class="card-body">
+            <p> <strong>Brand:</strong> <%= storage.brand.name %> </p>
+            <p> <strong>Type:</strong> <%= storage.type %> </p>
+            <p> <strong>Capacity:</strong> <%= storage.capacity %> </p>
+            <p> <strong>Speed:</strong> <%= storage.speed %> </p>
+            <p> <strong>Price:</strong> <%= storage.price %> </p>
+          </div>
+          <div class="card-footer">
+            <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <%- include('../partials/footer.ejs') %>
+  

@@ -1,4 +1,14 @@
 const Brand = require("../models/brand");
+const Cabinet = require("../models/cabinet");
+const GPU = require("../models/gpu");
+const Motherboard = require("../models/motherboard");
+const PowerSupply =  require("../models/powerSupply");
+const RamSchema = require("../models/ram");
+const Storage = require("../models/storage");
+
+const async = require("async");
+const { body, validationResult } = require("express-validator");
+
 
 // Display list of all Brands. Brand list it's a it useless
 exports.brand_list = function (req, res, next) {
@@ -14,9 +24,54 @@ exports.brand_list = function (req, res, next) {
   };
   
 
+  
 // Display detail page for a specific Brand.
-exports.brand_detail = (req, res) => {
-  res.send(`NOT IMPLEMENTED: Brand detail: ${req.params.id}`);
+exports.brand_detail = (req, res, next) => {
+  async.parallel({
+    brand(callback){
+      Brand.findById(req.params.id).exec(callback);
+    },
+    brand_cabinets(callback){
+      Cabinet.find({ brand: { $elemMatch: { $eq: req.params.id } } }).exec(callback);
+    },
+    brand_gpus(callback){
+      GPU.find({ brand: { $elemMatch: { $eq: req.params.id } } }).exec(callback);
+    },
+    brand_motherboards(callback){
+      Motherboard.find({ brand: { $elemMatch: { $eq: req.params.id } } }).exec(callback);
+    },
+    brand_powersupplies(callback){
+      PowerSupply.find({ brand:req.params.id }).exec(callback);
+    },
+    brand_rams(callback){
+      RamSchema.find({ brand:req.params.id }).exec(callback);
+    },
+    brand_storages(callback){
+      Storage.find({ brand:req.params.id }).exec(callback);
+    },
+  },
+  (err, results) => {
+    if(err){
+      return next(err);
+    }
+    if(results.brand == null){
+      // No results
+      const err = new Error("Brand not found");
+      err.status = 404;
+      return next(err);
+    }
+    // Todo sucedió correctamente
+    res.render("brand/brand_detail",{
+      title:"Brand Detail",
+      brand: results.brand,
+      brand_cabinets: results.brand_cabinets,
+      brand_gpus : results.brand_gpus,
+      brand_motherboards : results.brand_motherboards,
+      brand_powersupplies : results.brand_powersupplies,
+      brand_rams : results.brand_rams,
+      brand_storages : results.brand_storages,
+    })
+  })
 };
 
 // Display Brand create form on GET.

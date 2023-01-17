@@ -14,10 +14,25 @@ exports.cabinet_list = function (req, res, next) {
       });
   };
 
-// Display detail page for a specific Cabinet.
-exports.cabinet_detail = (req, res) => {
-  res.send(`NOT IMPLEMENTED: Cabinet detail: ${req.params.id}`);
-};
+
+  exports.cabinet_detail = (req, res, next) => {
+      Cabinet.findById(req.params.id)
+          .populate('brand')
+          .exec((err, cabinet) => {
+              if (err) {
+                  return next(err);
+              }
+              if (cabinet == null) {
+                  const err = new Error("Cabinet not found");
+                  err.status = 404;
+                  return next(err);
+              }
+              res.render("cabinet/cabinet_detail", {
+                  title: "Cabinet Detail",
+                  cabinet: cabinet,
+              });
+          });
+  };
 
 // Display Cabinet create form on GET.
 exports.cabinet_create_get = (req, res) => {
