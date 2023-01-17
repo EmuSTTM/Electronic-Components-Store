@@ -1,7 +1,10 @@
 const GPU = require("../models/gpu");
 const async = require("async");
+const { body, validationResult } = require("express-validator");
 
 const Brand = require("../models/brand");
+
+
 
 // Display list of all GPU.
 exports.gpu_list = function (req, res, next) {
@@ -29,20 +32,20 @@ exports.gpu_list = function (req, res, next) {
 
 // Display detail page for a specific GPU.
 exports.gpu_detail = (req, res, next) => {
-  // Cabinet.findById(req.params.id)
+  // gpu.findById(req.params.id)
   // .populate('brand')
-  // .exec((err, cabinet) => {
+  // .exec((err, gpu) => {
   //     if (err) {
   //         return next(err);
   //     }
-  //     if (cabinet == null) {
-  //         const err = new Error("Cabinet not found");
+  //     if (gpu == null) {
+  //         const err = new Error("gpu not found");
   //         err.status = 404;
   //         return next(err);
   //     }
-  //     res.render("cabinet/cabinet_detail", {
-  //         title: "Cabinet Detail",
-  //         cabinet: cabinet,
+  //     res.render("gpu/gpu_detail", {
+  //         title: "gpu Detail",
+  //         gpu: gpu,
   //     });
   // });
   GPU.findById(req.params.id)
@@ -68,14 +71,105 @@ exports.gpu_detail = (req, res, next) => {
 };
 
 // Display GPU create form on GET.
-exports.gpu_create_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: GPU create GET");
+exports.gpu_create_get = (req, res, next) => {
+  Brand.find((err, brands) => {
+    if(err){
+      return next(err);
+    }
+    res.render("gpu/gpu_form", {
+      title:"Add gpu",
+      brands: brands,
+    })
+  })
 };
 
 // Handle GPU create on POST.
-exports.gpu_create_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: GPU create POST");
-};
+exports.gpu_create_post = [ 
+   // Convert the brand to an array.  
+   (req, res, next) => {    
+    if (!Array.isArray(req.body.brand)) {      
+    req.body.brand = typeof req.body.brand === "undefined" ? [] : [req.body.brand];
+    }
+    next();
+  },
+  // Validate and sanitize the name field.
+  body("name", "GPU name is required")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  // Validate and sanitize the brand field.
+  body("brand.*", "GPU brand is required").escape(),
+  // Validate and sanitize the memory field.
+
+  // Validate and sanitize the model field.
+  body("model", "Model is required").trim().isLength({ min: 1 }).escape(),
+  body("memory", "GPU memory is required").trim().isLength({ min: 1 }).escape(),
+  body("memory_type", "memory type is required").trim().isLength({ min: 1 }).escape(),
+  // Validate and sanitize the core_clock field.
+  body("core_clock", "GPU core_clock is required").trim().isLength({ min: 1 }).escape(),
+  body("boost_clock","boost clock is required").trim().isLength({ min: 1 }).escape(),
+  body("stream_processors", "stream processors is required").trim().isLength({ min: 1 }).escape(),
+  // Validate and sanitize the tdp field.
+  body("tdp", "GPU tdp is required").trim().isLength({ min: 1 }).escape(),
+  // Validate and sanitize the price field.
+  body("price", "GPU price is required").trim().isLength({ min: 1 }).escape(),
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a GPU object with escaped and trimmed data.
+    const gpu = new GPU({
+      name: req.body.name,
+      brand: req.body.brand,
+      model: req.body.model,
+      memory: req.body.memory,
+      memory_type: req.body.memory_type,
+      core_clock: req.body.core_clock,
+      boost_clock: req.body.boost_clock,
+      stream_processors: req.body.stream_processors,
+      tdp: req.body.tdp,
+      price: req.body.price
+    });
+    if (!errors.isEmpty()) {
+        // There are errors. Render the form again with sanitized values/error messages.
+        Brand.find((err, brands) => {
+          if(err){
+            return next(err);
+          }
+          res.render("gpu/gpu_form", {
+            title:"Add GPU",
+            brands: brands,
+            gpu,
+            errors: errors.array(),
+          })
+        })
+        return;
+    } else {
+        // Data from form is valid.
+        // Check if GPU with same name already exists.
+        GPU.findOne({ name: req.body.name }).exec((err, found_gpu) => {
+          if (err) {
+              return next(err);
+          }
+          if (found_gpu) {
+            // GPU exists, redirect to its detail page.
+            res.redirect(found_gpu.url);
+          } else {
+            gpu.save((err) => {
+              if (err) {
+                return next(err);
+                }
+                // GPU saved. Redirect to GPU detail page.
+                res.redirect(gpu.url);
+                });
+            }
+          });
+        }
+  }
+];
+
 
 // Display GPU delete form on GET.
 exports.gpu_delete_get = (req, res) => {

@@ -75,14 +75,56 @@ exports.brand_detail = (req, res, next) => {
 };
 
 // Display Brand create form on GET.
-exports.brand_create_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: Brand create GET");
+exports.brand_create_get = (req, res, next) => {
+  res.render("brand/brand_form", {title: "Add Brand"});
 };
 
 // Handle Brand create on POST.
-exports.brand_create_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: Brand create POST");
-};
+exports.brand_create_post = [
+  // Validate and sanitize the name field.
+  body("name", "Brand name is required").trim().isLength({ min: 1 }).escape(),
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a brand object with escaped and trimmed data.
+    const brand = new Brand({ name: req.body.name });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render the form again with sanitized values/error messages.
+      res.render("brand_form", {
+        title: "Create Brand",
+        brand,
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      // Data from form is valid.
+      // Check if Brand with same name already exists.
+      Brand.findOne({ name: req.body.name }).exec((err, found_brand) => {
+        if (err) {
+          return next(err);
+        }
+
+        if (found_brand) {
+          // Brand exists, redirect to its detail page.
+          res.redirect(found_brand.url);
+        } else {
+          brand.save((err) => {
+            if (err) {
+              return next(err);
+            }
+            // Brand saved. Redirect to brand detail page.
+            res.redirect(brand.url);
+          });
+        }
+      });
+    }
+  },
+];
+
 
 // Display Brand delete form on GET.
 exports.brand_delete_get = (req, res) => {

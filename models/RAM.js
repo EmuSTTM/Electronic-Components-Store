@@ -12,7 +12,7 @@ const RAMSchema = new mongoose.Schema({
         trim: true
     },
     size: {
-        type: Number,
+        type: Number, 
         required: true,
         min: 0
     },
@@ -32,6 +32,7 @@ const RAMSchema = new mongoose.Schema({
         min: 0
     }
 });
+
 RAMSchema.virtual('url').get(function() {
     return `/components/ram/${this._id}`
   })
