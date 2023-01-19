@@ -9,7 +9,17 @@
                     <div class="row">
                         <div class="col-md-6">
                             <h4 class="text-secondary">Brand</h4>
-                            <p><%= motherboard.brand.name %></p>
+                                <% if(motherboard_brand.length > 0){ %>
+                                <ul class="list-group" style="margin-bottom:10px;">
+                                    <% motherboard_brand.forEach(function(brand){ %>
+                                    <li class="list-group-item" style="background-color: #6c757d; padding: 10px;">
+                                        <a href="<%= brand.url %>" class="text-white"><%= brand.name %></a>
+                                    </li>
+                                    <% }); %>
+                                </ul>
+                                <% } else { %>
+                                <p class="text-danger">This motherboard has no brand</p>
+                                <% } %>
                         </div>
                         <div class="col-md-6">
                             <h4 class="text-secondary">Price</h4>

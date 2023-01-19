@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const RAMSchema = new mongoose.Schema({
-    brand: {
+    brand: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Brand',
         required: true
-    },
+    }],
     model: {
         type: String,
         required: true,
@@ -29,6 +29,11 @@ const RAMSchema = new mongoose.Schema({
     price: {
         type: Number,
         required: true,
+        min: 0
+    },
+    name: {
+        type:String,
+        required:true,
         min: 0
     }
 });

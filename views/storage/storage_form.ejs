@@ -1,0 +1,54 @@
+
+<%- include('../partials/header.ejs') %>
+
+<form action="/components/storage/create" method="post" class="form-custom">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" id="name" required>
+        <div class="invalid-feedback"></div>
+    </div>
+    <div class="form-group">
+        <label for="brand">Brand</label>
+        <div>
+            <% for (let brand of brands) { %>
+                <input type="checkbox" name="brand" id="<%= brand._id %>" value="<%= brand._id %>">
+                <label for="<%= brand._id %>"> <%= brand.name %> </label>
+            <% } %>
+            <div class="invalid-feedback">
+                <% if(typeof errors !== 'undefined'){ %>
+                    <% errors.forEach(function(error) { %>
+                        <% if (error.param === 'brand') { %>
+                            <div class="alert alert-danger">
+                                <%= error.msg %>
+                            </div>
+                        <% }; %>
+                    <% }); %>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="type">Type</label>
+        <select class="form-control" name="type" id="type" required>
+            <option value="HDD">HDD</option>
+            <option value="SSD">SSD</option>
+            <option value="SSHD">SSHD</option>
+            <option value="NVMe">NVMe</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="capacity">Capacity</label>
+        <input type="text" class="form-control" name="capacity" id="capacity" placeholder="xxx GB" pattern="^\d+( GB| TB)$" required>
+    </div>
+    <div class="form-group">
+        <label for="speed">Speed</label>
+        <input type="text" class="form-control" name="speed" id="speed" placeholder="xxx RPM" pattern="^\d+ RPM$" required>
+    </div>
+    <div class="form-group">
+        <label for="price">Price</label>
+        <input type="number" class="form-control" name="price" id="price" min="0" required>
+    </div>
+    <button type="submit" class="btn btn-primary btn-custom">Create</button>
+</form>
+
+<%- include('../partials/footer.ejs') %>

@@ -11,7 +11,12 @@
         <div class="col-md-4">
             <h4 class="text-secondary">Brand</h4>
             <p class="text-dark">
-                <%= ramSchema.brand.name %>
+                <% for (var j=0; j< ramSchema.brand.length; j++) { %>
+                    <%= ramSchema.brand[j].name %>
+                    <% if (j != ramSchema.brand.length -1) { %>
+                      ,
+                    <% } %>
+                <% } %>
             </p>
         </div>
         <div class="col-md-4">

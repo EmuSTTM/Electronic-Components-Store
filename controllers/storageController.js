@@ -1,4 +1,8 @@
 const Storage = require("../models/storage");
+const async = require("async");
+const { body, validationResult } = require("express-validator");
+
+const Brand = require("../models/brand");
 
 // Display list of all Storage.
 exports.storage_list = function (req, res, next) {
@@ -45,14 +49,94 @@ exports.storage_detail = (req, res) => {
 };
 
 // Display Storage create form on GET.
-exports.storage_create_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: Storage create GET");
+exports.storage_create_get = (req, res, next) => {
+  Brand.find((err, brands) => {
+    if(err){
+      return next(err);
+    }
+    res.render("storage/storage_form", {
+      title:"Add storage",
+      brands: brands,
+    })
+  })
 };
 
 // Handle Storage create on POST.
-exports.storage_create_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: Storage create POST");
-};
+exports.storage_create_post = [ 
+  // Convert the brand to an array.  
+(req, res, next) => {    
+ if (!Array.isArray(req.body.brand)) {
+   req.body.brand = typeof req.body.brand === "undefined" ? [] : [req.body.brand];
+   }
+   next();
+ },
+ // Validate and sanitize the name field.
+ body("name", "storage name is required")
+   .trim()
+   .isLength({ min: 1 })
+   .escape(),
+ // Validate and sanitize the brand field.
+ body("brand.*", "storage brand is required").escape(),
+ // Validate and sanitize the type field.
+ body("type", "type is required").trim().isLength({ min: 1 }).escape(),
+ // Validate and sanitize the capacity field.
+ body("capacity", "capacity is required").trim().isLength({ min: 1 }).escape(),
+ // Validate and sanitize the speed field.
+ body("speed", "speed is required").trim().isLength({ min: 3 }).escape(),
+ // Validate and sanitize the price field.
+ body("price", "storage price is required").trim().isLength({ min: 1 }).escape(),
+ // Process request after validation and sanitization.
+ (req, res, next) => {
+   // Extract the validation errors from a request.
+   const errors = validationResult(req);
+
+   // Create a storage object with escaped and trimmed data.
+   const storage = new  Storage({
+     name: req.body.name,
+     brand: req.body.brand,
+     type: req.body.type,
+     capacity: req.body.capacity,
+     speed: req.body.speed,
+     price: req.body.price
+   });
+
+   if (!errors.isEmpty()) {
+       // There are errors. Render the form again with sanitized values/error messages.
+       Brand.find((err, brands) => {
+         if(err){
+           return next(err);
+         }
+         res.render("storage/storage_form", {
+           title:"Add storage",
+           brands: brands,
+           storage,
+           errors: errors.array(),
+         })
+       })
+       return;
+   } else {
+       // Data from form is valid.
+       // Check if storage with same name already exists.
+        Storage.findOne({ name: req.body.name }).exec((err, found_storage) => {
+         if (err) {
+             return next(err);
+         }
+         if (found_storage) {
+           // storage exists, redirect to its detail page.
+           res.redirect(found_storage.url);
+         } else {
+           storage.save((err) => {
+             if (err) {
+               return next(err);
+               }
+               // storagesaved. Redirect to storage detail page.
+               res.redirect(storage.url);
+               });
+           }
+         });
+       }
+ }
+];
 
 // Display Storage delete form on GET.
 exports.storage_delete_get = (req, res) => {

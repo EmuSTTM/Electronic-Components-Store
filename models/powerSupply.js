@@ -6,11 +6,11 @@ const PowerSupplySchema = new Schema({
         type: String,
         required: true
     },
-    brand: {
+    brand: [{
         type: Schema.Types.ObjectId, 
         ref: 'Brand', 
         required: true
-    },
+    }],
     model: {
         type: String,
         required: true

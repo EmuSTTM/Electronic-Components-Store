@@ -6,11 +6,11 @@ const storageSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    brand: {
+    brand: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Brand',
         required: true
-    },
+    }],
     type: {
         type: String,
         enum: ['HDD', 'SSD','SSHD', 'NVMe'],

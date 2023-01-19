@@ -1,4 +1,8 @@
 const PowerSupply = require("../models/powerSupply");
+const async = require("async");
+const { body, validationResult } = require("express-validator");
+
+const Brand = require("../models/brand");
 
 // Display list of all PowerSupply.
 exports.powerSupply_list = function (req, res, next) {
@@ -40,19 +44,100 @@ exports.powerSupply_detail = (req, res, next) => {
     res.render("powerSupply/powerSupply_detail",{
       title:"Power Supply Detail",
       powerSupply: powerSupply,
+      powerSupply_brand: powerSupply.brand,
     })
   })
 };
 
 // Display PowerSupply create form on GET.
-exports.powerSupply_create_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: PowerSupply create GET");
+exports.powerSupply_create_get = (req, res, next) => {
+  Brand.find((err, brands) => {
+    if(err){
+      return next(err);
+    }
+    res.render("powerSupply/powerSupply_form", {
+      title:"Add powerSupply",
+      brands: brands,
+    })
+  })
 };
 
 // Handle PowerSupply create on POST.
-exports.powerSupply_create_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: PowerSupply create POST");
-};
+exports.powerSupply_create_post = [ 
+  // Convert the brand to an array.  
+(req, res, next) => {    
+ if (!Array.isArray(req.body.brand)) {
+   req.body.brand = typeof req.body.brand === "undefined" ? [] : [req.body.brand];
+   }
+   next();
+ },
+ // Validate and sanitize the name field.
+ body("name", "PowerSupply name is required")
+   .trim()
+   .isLength({ min: 1 })
+   .escape(),
+ // Validate and sanitize the brand field.
+ body("brand.*", "powerSupply brand is required").escape(),
+ // Validate and sanitize the model field.
+ body("model", "model is required").trim().isLength({ min: 1 }).escape(),
+ // Validate and sanitize the power field.
+ body("power", "Power is required").trim().isLength({ min: 1 }).escape(),
+ // Validate and sanitize the certifications field.
+ body("certifications", "Certification is required").trim().isLength({ min: 3 }).escape(),
+ // Validate and sanitize the price field.
+ body("price", "powerSupply price is required").trim().isLength({ min: 1 }).escape(),
+ // Process request after validation and sanitization.
+ (req, res, next) => {
+   // Extract the validation errors from a request.
+   const errors = validationResult(req);
+
+   // Create a powerSupply object with escaped and trimmed data.
+   const powerSupply = new  PowerSupply({
+     name: req.body.name,
+     brand: req.body.brand,
+     model: req.body.model,
+     power: req.body.power,
+     certifications: req.body.certifications,
+     price: req.body.price
+   });
+
+   if (!errors.isEmpty()) {
+       // There are errors. Render the form again with sanitized values/error messages.
+       Brand.find((err, brands) => {
+         if(err){
+           return next(err);
+         }
+         res.render("powerSupply/powerSupply_form", {
+           title:"Add powerSupply",
+           brands: brands,
+           powerSupply,
+           errors: errors.array(),
+         })
+       })
+       return;
+   } else {
+       // Data from form is valid.
+       // Check if powerSupply with same name already exists.
+        PowerSupply.findOne({ name: req.body.name }).exec((err, found_powerSupply) => {
+         if (err) {
+             return next(err);
+         }
+         if (found_powerSupply) {
+           // powerSupply exists, redirect to its detail page.
+           res.redirect(found_powerSupply.url);
+         } else {
+           powerSupply.save((err) => {
+             if (err) {
+               return next(err);
+               }
+               // powerSupplysaved. Redirect to powerSupply detail page.
+               res.redirect(powerSupply.url);
+               });
+           }
+         });
+       }
+ }
+];
 
 // Display PowerSupply delete form on GET.
 exports.powerSupply_delete_get = (req, res) => {

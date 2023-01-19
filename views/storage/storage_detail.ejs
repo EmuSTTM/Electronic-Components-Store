@@ -8,7 +8,14 @@
             <h3 class="card-title"> <%= storage.name %> </h3>
           </div>
           <div class="card-body">
-            <p> <strong>Brand:</strong> <%= storage.brand.name %> </p>
+            <p> <strong>Brand:</strong> 
+              <% for (var j=0; j< storage.brand.length; j++) { %>
+                  <%= storage.brand[j].name %>
+                  <% if (j != storage.brand.length -1) { %>
+                    ,
+                  <% } %>
+              <% } %>
+          </p>
             <p> <strong>Type:</strong> <%= storage.type %> </p>
             <p> <strong>Capacity:</strong> <%= storage.capacity %> </p>
             <p> <strong>Speed:</strong> <%= storage.speed %> </p>
