@@ -136,17 +136,44 @@ exports.powerSupply_create_post = [
            }
          });
        }
- }
+ }               
 ];
 
-// Display PowerSupply delete form on GET.
-exports.powerSupply_delete_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: PowerSupply delete GET");
+// Display powerSupply delete form on GET.
+exports.powerSupply_delete_get = (req, res, next) => {
+  PowerSupply.findById(req.params.id)
+    .exec((err, powerSupply) =>{
+      if(err){
+        return next(err);
+      }
+      if(powerSupply == null){
+        res.redirect("/components/powerSupplies")
+      }
+      res.render("powerSupply/powerSupply_delete", {
+        title :"Remove powerSupply",
+        powerSupply : powerSupply,
+      })
+    })
 };
 
-// Handle PowerSupply delete on POST.
-exports.powerSupply_delete_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: PowerSupply delete POST");
+// Handle powerSupply delete on POST.
+exports.powerSupply_delete_post = (req, res, next) => {
+  PowerSupply.findById(req.body.powerSupplyid)
+  .exec((err, powerSupply) =>{
+    if (err) {
+      return next(err);
+    }
+    if(powerSupply == null){
+      res.redirect("/components/powerSupplies")
+    }
+    PowerSupply.findByIdAndRemove(req.body.powerSupplyid, (err) => {
+      if (err) {
+        return next(err);
+      }
+      // Success - go to author list
+      res.redirect("/components/powerSupplies");
+    })
+  })
 };
 
 // Display PowerSupply update form on GET.

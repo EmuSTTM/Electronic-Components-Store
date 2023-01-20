@@ -36,7 +36,16 @@
                     <h5 class="card-subtitle mb-2 text-muted">Certifications: <%= powerSupply.certifications %></h5>
                 </div>
             </div>
-            <a href="javascript:history.back()" class="btn btn-secondary mt-3">Go Back</a>
+            <div class="row" style="margin-bottom: 20px">
+                <div class="col-md-10">
+                    <br>
+                    <a href="javascript:history.back()" class="btn btn-outline-secondary my-4"> Go Back</a>
+                </div>
+                <div class="col-md-2">
+                  <br>
+                  <a href="<%= powerSupply.url %>/delete" class="btn btn-danger">Delete</a>
+                </div>
+              </div>
         </div>
     </div>
 </div>

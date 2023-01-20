@@ -138,14 +138,41 @@ exports.storage_create_post = [
  }
 ];
 
-// Display Storage delete form on GET.
-exports.storage_delete_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: Storage delete GET");
+// Display storage delete form on GET.
+exports.storage_delete_get = (req, res, next) => {
+  Storage.findById(req.params.id)
+    .exec((err, storage) =>{
+      if(err){
+        return next(err);
+      }
+      if(storage == null){
+        res.redirect("/components/storages")
+      }
+      res.render("storage/storage_delete", {
+        title :"Remove storage",
+        storage : storage,
+      })
+    })
 };
 
-// Handle Storage delete on POST.
-exports.storage_delete_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: Storage delete POST");
+// Handle storage delete on POST.
+exports.storage_delete_post = (req, res, next) => {
+  Storage.findById(req.body.storageid)
+  .exec((err, storage) =>{
+    if (err) {
+      return next(err);
+    }
+    if(storage == null){
+      res.redirect("/components/storages")
+    }
+    Storage.findByIdAndRemove(req.body.storageid, (err) => {
+      if (err) {
+        return next(err);
+      }
+      // Success - go to author list
+      res.redirect("/components/storages");
+    })
+  })
 };
 
 // Display Storage update form on GET.

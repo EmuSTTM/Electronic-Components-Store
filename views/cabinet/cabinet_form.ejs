@@ -1,15 +1,15 @@
 <%- include('../partials/header.ejs') %>
 
-<form action="/components/cabinet/create" method="post">
+<form action="" method="post">
     <div class="form-group">
       <label for="name">Name</label>
-      <input type="text" class="form-control" name="name" id="name" required>
+      <input value="<%= (typeof cabinet === 'undefined' ? '' : cabinet.name)  %>" type="text" class="form-control" name="name" id="name" required>
     </div>
     <div class="form-group">
-      <label for="brand">Brand</label>
+      <label for="brand">Brand </label>
         <div>
         <% for (let brand of brands) { %>
-            <input type="checkbox" name="brand" id="<%= brand._id %>" value="<%= brand._id %>">
+            <input type="checkbox" name="brand" id="<%= brand._id %>" value="<%= brand._id %>" %>" <%= brand.checked ? 'checked' : '' %>>
             <label for="<%= brand._id %>"> <%= brand.name %> </label> 
         <% } %>
         </div>
@@ -24,7 +24,7 @@
     </div>
     <div class="form-group">
       <label for="dimension">Dimension</label>
-      <input type="text" class="form-control" name="dimension" id="dimension" placeholder="xx*yy*zz cm" 
+      <input type="text" value="<%= (typeof cabinet === 'undefined' ? '' : cabinet.dimension)  %>" class="form-control" name="dimension" id="dimension" placeholder="xx*yy*zz cm" 
       required>
     </div>
     <div class="form-group">
@@ -37,25 +37,25 @@
     </div>
     <div class="form-group">
       <label for="bay_5_25">5.25 Bay</label>
-      <input type="number" class="form-control" name="bay_5_25" id="bay_5_25" min="0" required>
+      <input type="number" value="<%= (typeof cabinet === 'undefined' ? '' : cabinet.bay_5_25)  %>" class="form-control" name="bay_5_25" id="bay_5_25" min="0" required>
     </div>
     <div class="form-group">
       <label for="bay_3_5">3.5 Bay</label>
-      <input type="number" class="form-control" name="bay_3_5" id="bay_3_5" min="0">
+      <input type="number" class="form-control" value="<%= (typeof cabinet === 'undefined' ? '' : cabinet.bay_3_5)  %>" name="bay_3_5" id="bay_3_5" min="0">
     <div class="invalid-feedback"></div>
     </div>
     <div class="form-group">
         <label for="bay_2_5">2.5 Bay</label>
-        <input type="number" class="form-control" name="bay_2_5" id="bay_2_5" min="0">
+        <input type="number" class="form-control" value="<%= (typeof cabinet === 'undefined' ? '' : cabinet.bay_2_5)  %>"name="bay_2_5" id="bay_2_5" min="0">
     <div class="invalid-feedback">
 </div>
 </div>
 <div class="form-group">
   <label for="price">Price</label>
-  <input type="number" class="form-control" name="price" id="price" min="0">
+  <input type="number" class="form-control" name="price" value="<%= (typeof cabinet === 'undefined' ? '' : cabinet.price)  %>" id="price" min="0">
   <div class="invalid-feedback"></div>
 </div>
-<button type="submit" class="btn btn-primary">Create</button>
+<button type="submit" class="btn btn-primary">Submit</button>
 </form><br>
 <% if(typeof errors !== 'undefined'){ %>
     <% errors.forEach(function(error) { %>

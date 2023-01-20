@@ -1,6 +1,7 @@
 const Cabinet = require("../models/cabinet");
 const Brand = require("../models/brand")
 
+const async = require("async")
 const { body, validationResult } = require("express-validator");
 
 // Display list of all Cabinets.
@@ -145,21 +146,178 @@ exports.cabinet_create_post = [
 
 
 // Display Cabinet delete form on GET.
-exports.cabinet_delete_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: Cabinet delete GET");
+exports.cabinet_delete_get = (req, res, next) => {
+  Cabinet.findById(req.params.id)
+    .exec((err, cabinet) =>{
+      if(err){
+        return next(err);
+      }
+      if(cabinet == null){
+        res.redirect("/components/cabinets")
+      }
+      res.render("cabinet/cabinet_delete", {
+        title :"Remove Cabinet",
+        cabinet : cabinet,
+      })
+    })
 };
 
 // Handle Cabinet delete on POST.
-exports.cabinet_delete_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: Cabinet delete POST");
+exports.cabinet_delete_post = (req, res, next) => {
+  Cabinet.findById(req.body.cabinetid)
+  .exec((err, cabinet) =>{
+    if (err) {
+      return next(err);
+    }
+    if(cabinet == null){
+      res.redirect("/components/cabinets")
+    }
+    Cabinet.findByIdAndRemove(req.body.cabinetid, (err) => {
+      if (err) {
+        return next(err);
+      }
+      // Success - go to author list
+      res.redirect("/components/cabinets");
+    })
+  })
 };
 
-// Display Cabinet update form on GET.
-exports.cabinet_update_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: Cabinet update GET");
+// Display cabinet update form on GET.
+exports.cabinet_update_get = (req, res, next) => {
+  async.parallel({
+      cabinet(callback){
+        Cabinet.findById(req.params.id)
+        .populate("brand")
+        .exec(callback)
+      },
+      cabinet_brands(callback){
+        Brand.find(callback)
+      }
+    },
+    (err, results) =>{
+      if (err) {
+        return next(err);
+      }
+      if (results.cabinet == null) {
+        // No results.
+        const err = new Error("cabinet not found");
+        err.status = 404;
+        return next(err);
+    }
+    for (const brand of results.cabinet_brands) {
+      for (const cabinetBrand of results.cabinet.brand) {
+        if (brand._id.toString() === cabinetBrand._id.toString()) {
+          brand.checked = "true";
+        }
+      }
+    }
+    res.render("cabinet/cabinet_form", {
+      title :"Update cabinet",
+      cabinet: results.cabinet,
+      brands: results.cabinet_brands
+    })
+  })
+
 };
 
-// Handle Cabinet update on POST.
-exports.cabinet_update_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: Cabinet update POST");
-};
+// Handle cabinet update on POST.
+exports.cabinet_update_post = [
+  // Convert the genre to an array.
+  (req, res, next) => {
+    if (!Array.isArray(req.body.brand)) {
+      req.body.brand =
+        typeof req.body.brand === "undefined" ? [] : [req.body.brand];
+    }
+    next();
+  },
+  // Validate and sanitize the name field.
+  body("name", "Cabinet name is required")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  // Validate and sanitize the brand field.
+  body("brand.*", "Cabinet brand is required").escape(),
+  // Validate and sanitize the dimension field.
+  body("dimension", "Cabinet dimension is required").trim().isLength({ min: 1 }).escape(),
+  // Validate and sanitize the type field.
+  body("type", "Cabinet type is required").trim().isLength({ min: 1 }).escape(),
+  // Validate and sanitize the bay_5_25 field.
+  body("bay_5_25", "Cabinet bay_5_25 is required").trim().isLength({ min: 1 }).escape(),
+  // Validate and sanitize the bay_3_5 field.
+  body("bay_3_5", "Cabinet bay_3_5 is required").trim().isLength({ min: 1 }).escape(),
+  // Validate and sanitize the bay_2_5 field.
+  body("bay_2_5", "Cabinet bay_2_5 is required").trim().isLength({ min: 1 }).escape(),
+  // Validate and sanitize the price field.
+  body("price", "Cabinet price is required").trim().isLength({ min: 1 }).escape(),
+
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+    console.log("hola")
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a cabinet object with escaped/trimmed data and old id.
+    const cabinet = new Cabinet({
+      name:req.body.name,
+      brand: req.body.brand,
+      dimension: req.body.dimension,
+      type: req.body.type,
+      bay_5_25: req.body.bay_5_25,
+      bay_3_5: req.body.bay_3_5,
+      bay_2_5: req.body.bay_2_5,
+      price: req.body.price,
+      _id: req.params.id,
+    });
+
+    if (!errors.isEmpty()) {
+      async.parallel({
+        cabinet(callback){
+          Cabinet.findById(req.params.id)
+          .populate("brand")
+          .exec(callback)
+        },
+        cabinet_brands(callback){
+          Brand.find(callback)
+        }
+      },
+      (err, results) =>{
+        if (err) {
+          return next(err);
+        }
+        if (results.cabinet == null) {
+          // No results.
+          const err = new Error("cabinet not found");
+          err.status = 404;
+          return next(err);
+      }
+      for (const brand of results.cabinet_brands) {
+        for (const cabinetBrand of results.cabinet.brand) {
+          if (brand._id.toString() === cabinetBrand._id.toString()) {
+            brand.checked = "true";
+          }
+        }
+      }
+      res.render("cabinet/cabinet_form", {
+        title :"Update cabinet",
+        cabinet: results.cabinet,
+        brands: results.cabinet_brands,
+        cabinet,
+        errors: errors.array(),
+      })
+    })
+      return;
+    }
+
+    // Data from form is valid. Update the record.
+    Cabinet.findByIdAndUpdate(req.params.id, cabinet, {}, (err, thecabinet) => {
+      if (err) {
+        return next(err);
+      }
+
+      // Successful: redirect to cabinet detail page.
+      
+      res.redirect(thecabinet.url);
+    });
+  },
+];

@@ -171,14 +171,41 @@ exports.gpu_create_post = [
 ];
 
 
-// Display GPU delete form on GET.
-exports.gpu_delete_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: GPU delete GET");
+// Display gpu delete form on GET.
+exports.gpu_delete_get = (req, res, next) => {
+  GPU.findById(req.params.id)
+    .exec((err, gpu) =>{
+      if(err){
+        return next(err);
+      }
+      if(gpu == null){
+        res.redirect("/components/gpus")
+      }
+      res.render("gpu/gpu_delete", {
+        title :"Remove gpu",
+        gpu : gpu,
+      })
+    })
 };
 
-// Handle GPU delete on POST.
-exports.gpu_delete_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: GPU delete POST");
+// Handle gpu delete on POST.
+exports.gpu_delete_post = (req, res, next) => {
+  GPU.findById(req.body.gpuid)
+  .exec((err, gpu) =>{
+    if (err) {
+      return next(err);
+    }
+    if(gpu == null){
+      res.redirect("/components/gpus")
+    }
+    GPU.findByIdAndRemove(req.body.gpuid, (err) => {
+      if (err) {
+        return next(err);
+      }
+      // Success - go to author list
+      res.redirect("/components/gpus");
+    })
+  })
 };
 
 // Display GPU update form on GET.

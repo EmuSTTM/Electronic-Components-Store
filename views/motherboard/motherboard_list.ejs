@@ -9,7 +9,7 @@
         <div class="card h-100">
           <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="...">
           <div class="card-body">
-            <h5 class="card-title"> <%= motherboard_list[i].name %> </h5> 
+            <h5 class="card-title"> <a href="<%= motherboard_list[i].url %>"><%= motherboard_list[i].name %></a>  </h5> 
             <p class="card-text">
               <% for (var j = 0; j < motherboard_list[i].brand.length; j++) { %>
                 <%= motherboard_list[i].brand[j].name %>

@@ -1,0 +1,32 @@
+<%- include('../partials/header.ejs') %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Delete storage <%= storage.name %> </h3>
+                    <div class="card-body">
+                        <p>Are you sure you want to delete the following storage?</p>
+                        <h4><%= storage.name %></h4>
+                        <form action="" method="post">
+                            <input type="hidden" name="storageid" value="<%= storage._id %>" required>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <a href="/components/storages" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <br>
+                            <a href="javascript:history.back()" class="btn btn-primary">Go Back</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer.ejs') %>

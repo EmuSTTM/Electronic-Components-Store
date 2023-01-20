@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="text-center">RAM Detail</h1>
+            <h1 class="text-center"><%= ramSchema.name %></h1>
             <br>
         </div>
     </div>
@@ -52,12 +52,16 @@
             </p>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
+    <div class="row" style="margin-bottom: 20px">
+        <div class="col-md-10">
             <br>
-            <a href="javascript:history.back()" class="btn btn-primary">Go Back</a>
+            <a href="javascript:history.back()" class="btn btn-outline-secondary my-4"> Go Back</a>
         </div>
-    </div>
+        <div class="col-md-2">
+          <br>
+          <a href="<%= ramSchema.url %>/delete" class="btn btn-danger">Delete</a>
+        </div>
+      </div>
 </div>
 
 <%- include('../partials/footer.ejs') %>

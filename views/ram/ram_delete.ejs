@@ -1,0 +1,32 @@
+<%- include('../partials/header.ejs') %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Delete ram <%= ram.name %> </h3>
+                    <div class="card-body">
+                        <p>Are you sure you want to delete the following ram?</p>
+                        <h4><%= ram.name %></h4>
+                        <form action="" method="post">
+                            <input type="hidden" name="ramid" value="<%= ram._id %>" required>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <a href="/components/rams" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <br>
+                            <a href="javascript:history.back()" class="btn btn-primary">Go Back</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer.ejs') %>

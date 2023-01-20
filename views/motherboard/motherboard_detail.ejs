@@ -10,13 +10,13 @@
                         <div class="col-md-6">
                             <h4 class="text-secondary">Brand</h4>
                                 <% if(motherboard_brand.length > 0){ %>
-                                <ul class="list-group" style="margin-bottom:10px;">
+                                
                                     <% motherboard_brand.forEach(function(brand){ %>
-                                    <li class="list-group-item" style="background-color: #6c757d; padding: 10px;">
-                                        <a href="<%= brand.url %>" class="text-white"><%= brand.name %></a>
-                                    </li>
+                                    
+                                        <a href="<%= brand.url %>" class="text-black"><%= brand.name %></a>
+                                    
                                     <% }); %>
-                                </ul>
+
                                 <% } else { %>
                                 <p class="text-danger">This motherboard has no brand</p>
                                 <% } %>
@@ -45,8 +45,16 @@
                 </div>
             </div>
                     
-            <a class="btn btn-outline-secondary my-4"href="javascript:history.back()"><< Back</a>
-
+            <div class="row" style="margin-bottom: 20px">
+                <div class="col-md-10">
+                    <br>
+                    <a href="javascript:history.back()" class="btn btn-outline-secondary my-4"> Go Back</a>
+                </div>
+                <div class="col-md-2">
+                  <br>
+                  <a href="<%= motherboard.url %>/delete" class="btn btn-danger">Delete</a>
+                </div>
+              </div>
       </div>
     </div>
 </div>

@@ -9,7 +9,7 @@
         <div class="col-sm-4">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title"> <%= ram_list[i].model %> </h5>
+              <h5 class="card-title"> <a href="<%= ram_list[i].url %>"><%= ram_list[i].name %></a> </h5>
               <p class="card-text">Brand: 
                 <% for (var j=0; j< ram_list[i].brand.length; j++) { %>
                   <%= ram_list[i].brand[j].name %>

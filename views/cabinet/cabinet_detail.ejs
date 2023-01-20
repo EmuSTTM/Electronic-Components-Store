@@ -52,8 +52,19 @@
     </div>
   </div>
   <br>
-  <div class="text-center">
-    <a href="javascript:history.back()" class="btn btn-secondary "><< Back</a>
+  <div class="row" style="margin-bottom: 20px">
+    <div class="col-md-5">
+        <br>
+        <a href="javascript:history.back()" class="btn btn-primary"> Go Back</a>
+    </div>
+    <div class="col-md-5">
+      <br>
+      <a href="<%= cabinet.url %>/delete" class="btn btn-danger">Delete</a>
+    </div>
+    <div class="col-md-2">
+      <br>
+      <a href="<%= cabinet.url %>/update" class="btn btn-primary" style="background: rgb(51, 51, 148)"bac>Update</a>
+    </div>
   </div>
 
 

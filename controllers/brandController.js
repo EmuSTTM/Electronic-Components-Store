@@ -41,13 +41,13 @@ exports.brand_detail = (req, res, next) => {
       Motherboard.find({ brand: { $elemMatch: { $eq: req.params.id } } }).exec(callback);
     },
     brand_powersupplies(callback){
-      PowerSupply.find({ brand:req.params.id }).exec(callback);
+      PowerSupply.find({ brand: { $elemMatch: { $eq: req.params.id } } }).exec(callback);
     },
     brand_rams(callback){
-      RamSchema.find({ brand:req.params.id }).exec(callback);
+      RamSchema.find({ brand: { $elemMatch: { $eq: req.params.id } } }).exec(callback);
     },
     brand_storages(callback){
-      Storage.find({ brand:req.params.id }).exec(callback);
+      Storage.find({ brand: { $elemMatch: { $eq: req.params.id } } }).exec(callback);
     },
   },
   (err, results) => {
@@ -127,21 +127,141 @@ exports.brand_create_post = [
 
 
 // Display Brand delete form on GET.
-exports.brand_delete_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: Brand delete GET");
+exports.brand_delete_get = (req, res, next) => {
+  async.parallel({
+    brand(callback){
+      Brand.findById(req.params.id).exec(callback);
+    },
+    brand_cabinets(callback){
+      Cabinet.find({ brand: { $elemMatch: { $eq: req.params.id } } }).exec(callback);
+    },
+    brand_gpus(callback){
+      GPU.find({ brand: { $elemMatch: { $eq: req.params.id } } }).exec(callback);
+    },
+    brand_motherboards(callback){
+      Motherboard.find({ brand: { $elemMatch: { $eq: req.params.id } } }).exec(callback);
+    },
+    brand_powersupplies(callback){
+      PowerSupply.find({ brand: { $elemMatch: { $eq: req.params.id } } }).exec(callback);
+    },
+    brand_rams(callback){
+      RamSchema.find({ brand: { $elemMatch: { $eq: req.params.id } } }).exec(callback);
+    },
+    brand_storages(callback){
+      Storage.find({ brand: { $elemMatch: { $eq: req.params.id } } }).exec(callback);
+    },
+  },
+  (err, results)=> {
+    if (err) {
+      return next(err);
+    }
+    if(results.brand == null){
+      // No results
+      res.redirect("/components/brands")
+    }
+    res.render("brand/brand_delete", {
+      title: "Delete Brand",
+      brand: results.brand,
+      brand_cabinets : results.brand_cabinets,
+      brand_gpus : results.brand_gpus,
+      brand_motherboards: results.brand_motherboards,
+      brand_powersupplies : results.brand_powersupplies,
+      brand_rams : results.brand_rams,
+      brand_storages : results.brand_storages,
+      
+    })
+  })
 };
 
 // Handle Brand delete on POST.
-exports.brand_delete_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: Brand delete POST");
+exports.brand_delete_post = (req, res, next) => {
+  // Aquí utilizamos el parámetro "body.brandid" para evitar bugs, ya que si
+  // alguien intenta cambiar la url, no podrá eliminar otro brand. Ya que acá no comprobamos
+  // si el brand existe como si hacemos en el get
+  async.parallel({
+    brand(callback){
+      Brand.findById(req.body.brandid).exec(callback);
+    },
+    brand_cabinets(callback){
+      Cabinet.find({ brand: { $elemMatch: { $eq: req.body.brandid } } }).exec(callback);
+    },
+    brand_gpus(callback){
+      GPU.find({ brand: { $elemMatch: { $eq: req.body.brandid } } }).exec(callback);
+    },
+    brand_motherboards(callback){
+      Motherboard.find({ brand: { $elemMatch: { $eq: req.body.brandid } } }).exec(callback);
+    },
+    brand_powersupplies(callback){
+      PowerSupply.find({ brand: { $elemMatch: { $eq: req.body.brandid } } }).exec(callback);
+    },
+    brand_rams(callback){
+      RamSchema.find({ brand: { $elemMatch: { $eq: req.body.brandid } } }).exec(callback);
+    },
+    brand_storages(callback){
+      Storage.find({ brand: { $elemMatch: { $eq: req.body.brandid } } }).exec(callback);
+    },
+  },
+  (err, results) => {
+    if (err) {
+      return next(err);
+    }
+    if(results.brand_cabinets.isLength > 0 || 
+      results.brand_gpus.isLength > 0 ||
+      results.brand_motherboards.isLength > 0 ||
+      results.brand_powersupplies.isLength > 0 ||
+      results.brand_rams.isLength > 0 ||
+      results.brand_storages.isLength > 0){
+
+        res.render("brand/brand_delete", {
+          title: "Delete Brand",
+          brand: results.brand,
+          brand_cabinets : results.brand_cabinets,
+          brand_gpus : results.brand_gpus,
+          brand_motherboards: results.brand_motherboards,
+          brand_powersupplies : results.brand_powersupplies,
+          brand_rams : results.brand_rams,
+          brand_storages : results.brand_storages,
+          
+        });
+        return
+      }
+      if(results.brand == null){
+        // No results
+        res.redirect("/components/brands")
+      }
+      Brand.findByIdAndRemove(req.body.brandid, (err) => {
+        if(err){
+          return next(err);
+        };
+        res.redirect("/components/brands")
+      })
+
+  })
 };
 
 // Display Brand update form on GET.
-exports.brand_update_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: Brand update GET");
+exports.brand_update_get = (req, res, next) => {
+  Brand.findById(req.params.id).exec((err, brand) =>{
+    if (err){
+      return next(err);
+    };
+    res.render("brand/brand_form", {
+    title :"Update Brand",
+    brand: brand,
+  })
+  })
 };
 
 // Handle Brand update on POST.
-exports.brand_update_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: Brand update POST");
+exports.brand_update_post = (req, res, next) => {
+  const brand = new Brand({
+    name:req.body.name,
+    _id: req.params.id
+  })
+  Brand.findByIdAndUpdate(req.params.id, brand, {}, (err, thebrand) => {
+    if(err){
+      return next(err);
+    };
+    res.redirect(thebrand.url)
+  })
 };

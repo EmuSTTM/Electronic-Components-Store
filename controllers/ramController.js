@@ -6,7 +6,7 @@ const Brand = require("../models/brand");
 
 // Display list of all Ram. // brand model size speed type price
 exports.ram_list = function (req, res, next) {
-    RAM.find({}, "brand model size speed type price")
+    RAM.find({}, "brand model size speed type price name")
       .sort({ speed: 1 })
       .populate("brand")
       .exec(function (err, list_ram) {
@@ -156,14 +156,41 @@ exports.ram_create_post = [
  }
 ];
 
-// Display Ram delete form on GET.
-exports.ram_delete_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: Ram delete GET");
+// Display ram delete form on GET.
+exports.ram_delete_get = (req, res, next) => {
+  RAM.findById(req.params.id)
+    .exec((err, ram) =>{
+      if(err){
+        return next(err);
+      }
+      if(ram == null){
+        res.redirect("/components/rams")
+      }
+      res.render("ram/ram_delete", {
+        title :"Remove ram",
+        ram : ram,
+      })
+    })
 };
 
-// Handle Ram delete on POST.
-exports.ram_delete_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: Ram delete POST");
+// Handle ram delete on POST.
+exports.ram_delete_post = (req, res, next) => {
+  RAM.findById(req.body.ramid)
+  .exec((err, ram) =>{
+    if (err) {
+      return next(err);
+    }
+    if(ram == null){
+      res.redirect("/components/rams")
+    }
+    RAM.findByIdAndRemove(req.body.ramid, (err) => {
+      if (err) {
+        return next(err);
+      }
+      // Success - go to author list
+      res.redirect("/components/rams");
+    })
+  })
 };
 
 // Display Ram update form on GET.
