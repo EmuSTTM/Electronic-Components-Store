@@ -3,14 +3,14 @@
 <form action="" method="post">
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" name="name" id="name" required>
+        <input type="text" value="<%= (typeof motherboard === 'undefined' ? '' : motherboard.name) %>" class="form-control" name="name" id="name" required>
     </div>
     <div class="form-group">
         <label for="brand">Brand</label>
         <div>
             <% for (let brand of brands) { %>
-                <input type="checkbox" name="brand" id="<%= brand._id %>" value="<%= brand._id %>">
-                <label for="<%= brand._id %>"> <%= brand.name %> </label>
+                <input type="checkbox" name="brand" id="<%= brand._id %>" value="<%= brand._id %>" %>" <%= brand.checked ? 'checked' : '' %>>
+                <label for="<%= brand._id %>"> <%= brand.name %> </label> 
             <% } %>
             <div class="invalid-feedback">
                 <% if(typeof errors !== 'undefined'){ %>
@@ -27,21 +27,21 @@
     </div>
     <div class="form-group">
         <label for="chipset">Chipset</label>
-        <input type="text" class="form-control" name="chipset" id="chipset" required>
+        <input type="text" value="<%= (typeof motherboard === 'undefined' ? '' : motherboard.chipset) %>" class="form-control" name="chipset" id="chipset" required>
     </div>
     <div class="form-group">
         <label for="ram_slots">Ram slots</label>
-        <input type="number" class="form-control" name="ram_slots" id="ram_slots" min="0" required>
+        <input type="number" value="<%= (typeof motherboard === 'undefined' ? '' : motherboard.ramSlots) %>" class="form-control" name="ram_slots" id="ram_slots" min="0" required>
     </div>
     <div class="form-group">
         <label for="max_ram">Max RAM</label>
-        <input type="text" class="form-control" name="max_ram" id="max_ram" min="0" placeholder="X GB" required>
+        <input type="text" value="<%= (typeof motherboard === 'undefined' ? '' : motherboard.maxRam) %>" class="form-control" name="max_ram" id="max_ram" min="0" placeholder="X GB" required>
     </div>
     <div class="form-group">
         <label for="price">Price</label>
-        <input type="number" class="form-control" name="price" id="price" min="0" required>
+        <input type="number" value="<%= (typeof motherboard === 'undefined' ? '' : motherboard.price) %>" class="form-control" name="price" id="price" min="0" required>
     </div>
-    <button type="submit" class="btn btn-primary">Create</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form><br>
 <% if(typeof errors !== 'undefined'){ %>
     <% errors.forEach(function(error) { %>

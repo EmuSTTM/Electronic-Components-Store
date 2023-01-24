@@ -34,7 +34,6 @@ const RAMSchema = new mongoose.Schema({
     name: {
         type:String,
         required:true,
-        min: 0
     }
 });
 

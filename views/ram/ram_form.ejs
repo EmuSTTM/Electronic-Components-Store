@@ -4,26 +4,26 @@
     
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" name="name" id="name" required>
+        <input type="text" value="<%= (typeof ram === 'undefined' ? '' : ram.name) %>" class="form-control" name="name" id="name" required>
     </div>
     <div class="form-group">
         <label for="model">Model</label>
-        <input type="text" class="form-control" name="model" id="model" required>
+        <input type="text" value="<%= (typeof ram === 'undefined' ? '' : ram.model) %>" class="form-control" name="model" id="model" required>
     </div>
     <div class="form-group">
-        <label for="size">Size</label>
-        <input type="number" class="form-control" name="size" id="size" min="0" required>
+        <label for="size">Memory Size</label>
+        <input type="number" value="<%= (typeof ram === 'undefined' ? '' : ram.size) %>" class="form-control" name="size" id="size" min="0" required>
     </div>
     <div class="form-group">
         <label for="speed">Speed RAM</label>
-        <input type="number" class="form-control" name="speed" id="speed" min="0" required>
+        <input type="number" value="<%= (typeof ram === 'undefined' ? '' : ram.speed) %>" class="form-control" name="speed" id="speed" min="0" required>
     </div>
     <div class="form-group">
         <label for="type">Type</label>
         <select class="form-control" name="type" id="type" required>
-            <option value="DDR3">DDR3</option>
-            <option value="DDR4">DDR4</option>
-            <option value="DDR5">DDR5</option>
+            <option <%= ("DDR3" === ram.type ? 'selected' : '') %> value="DDR3">DDR3</option>
+            <option <%= ("DDR4" === ram.type ? 'selected' : '') %> value="DDR4">DDR4</option>
+            <option <%= ("DDR5" === ram.type ? 'selected' : '') %> value="DDR5">DDR5</option>
 
           </select>
     </div>
@@ -31,8 +31,8 @@
         <label for="brand">Brand</label>
         <div>
             <% for (let brand of brands) { %>
-                <input type="checkbox" name="brand" id="<%= brand._id %>" value="<%= brand._id %>">
-                <label for="<%= brand._id %>"> <%= brand.name %> </label>
+                <input type="checkbox" name="brand" id="<%= brand._id %>" value="<%= brand._id %>" %>" <%= brand.checked ? 'checked' : '' %>>
+                <label for="<%= brand._id %>"> <%= brand.name %> </label> 
             <% } %>
             <div class="invalid-feedback">
                 <% if(typeof errors !== 'undefined'){ %>
@@ -49,9 +49,9 @@
     </div>
     <div class="form-group">
         <label for="price">Price</label>
-        <input type="number" class="form-control" name="price" id="price" min="0" required>
+        <input type="number" value="<%= (typeof ram === 'undefined' ? '' : ram.price) %>" class="form-control" name="price" id="price" min="0" required>
     </div>
-    <button type="submit" class="btn btn-primary">Create</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form><br>
 <% if(typeof errors !== 'undefined'){ %>
     <% errors.forEach(function(error) { %>

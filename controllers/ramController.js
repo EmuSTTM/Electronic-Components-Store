@@ -193,12 +193,139 @@ exports.ram_delete_post = (req, res, next) => {
   })
 };
 
-// Display Ram update form on GET.
-exports.ram_update_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: Ram update GET");
+// Display ram update form on GET.
+exports.ram_update_get = (req, res, next) => {
+  async.parallel({
+      ram(callback){
+        RAM.findById(req.params.id)
+        .populate("brand")
+        .exec(callback)
+      },
+      ram_brands(callback){
+        Brand.find(callback)
+      }
+    },
+    (err, results) =>{
+      if (err) {
+        return next(err);
+      }
+      if (results.ram == null) {
+        // No results.
+        const err = new Error("ram not found");
+        err.status = 404;
+        return next(err);
+    }
+    for (const brand of results.ram_brands) {
+      for (const ramBrand of results.ram.brand) {
+        if (brand._id.toString() === ramBrand._id.toString()) {
+          brand.checked = "true";
+        }
+      }
+    }
+    res.render("ram/ram_form", {
+      title :"Update ram",
+      ram: results.ram,
+      brands: results.ram_brands
+    })
+  })
+
 };
 
-// Handle Ram update on POST.
-exports.ram_update_post = (req,res) => {
-    res.send("NOT IMPLEMENTED: Ram update POST")
-};
+// Handle ram update on POST.
+exports.ram_update_post = [
+  // Convert the genre to an array.
+  (req, res, next) => {
+    if (!Array.isArray(req.body.brand)) {
+      req.body.brand =
+        typeof req.body.brand === "undefined" ? [] : [req.body.brand];
+    }
+    next();
+  },
+// Validate and sanitize the name field.
+  body("name", "ram name is required")
+  .trim()
+  .isLength({ min: 1 })
+  .escape(),
+  // Validate and sanitize the brand field.
+  body("brand.*", "ram brand is required").escape(),
+  // Validate and sanitize the model field.
+  body("model", "model is required").trim().isLength({ min: 1 }).escape(),
+  // Validate and sanitize the speed field.
+  body("speed", "speed is required").trim().isLength({ min: 1 }).escape(),
+  // Validate and sanitize the type field.
+  body("type", "type is required").trim().isLength({ min: 3 }).escape(),
+  // Validate and sanitize the price field.
+  body("price", "ram price is required").trim().isLength({ min: 1 }).escape(),
+  // Validate and sanitize the price field.
+  body("size", "size is required").trim().isLength({ min: 1 }).escape(),
+
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a ram object with escaped/trimmed data and old id.
+    const ram = new RAM({
+      name: req.body.name,
+      brand: req.body.brand,
+      model: req.body.model,
+      speed: req.body.speed,
+      type: req.body.type,
+      price: req.body.price,
+      size:req.body.size,
+      _id: req.params.id,
+    });
+
+    if (!errors.isEmpty()) {
+      async.parallel({
+        ram(callback){
+          RAM.findById(req.params.id)
+          .populate("brand")
+          .exec(callback)
+        },
+        ram_brands(callback){
+          Brand.find(callback)
+        }
+      },
+      (err, results) =>{
+        if (err) {
+          return next(err);
+        }
+        if (results.ram == null) {
+          // No results.
+          const err = new Error("ram not found");
+          err.status = 404;
+          return next(err);
+      }
+      for (const brand of results.ram_brands) {
+        for (const ramBrand of results.ram.brand) {
+          if (brand._id.toString() === ramBrand._id.toString()) {
+            brand.checked = "true";
+          }
+        }
+      }
+      res.render("ram/ram_form", {
+        title :"Update ram",
+        ram: results.ram,
+        brands: results.ram_brands,
+        ram,
+        errors: errors.array(),
+      })
+    })
+      return;
+    }
+
+    // Data from form is valid. Update the record.
+    RAM.findByIdAndUpdate(req.params.id, ram, {}, (err, theram) => {
+      if (err) {
+        return next(err);
+      }
+
+      // Successful: redirect to ram detail page.
+      
+      res.redirect(theram.url);
+    });
+  },
+];

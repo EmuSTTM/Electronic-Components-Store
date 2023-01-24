@@ -177,11 +177,135 @@ exports.powerSupply_delete_post = (req, res, next) => {
 };
 
 // Display PowerSupply update form on GET.
-exports.powerSupply_update_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: PowerSupply update GET");
+exports.powerSupply_update_get = (req, res, next) => {
+  async.parallel({
+      powerSupply(callback){
+        PowerSupply.findById(req.params.id)
+        .populate("brand")
+        .exec(callback)
+      },
+      powerSupply_brands(callback){
+        Brand.find(callback)
+      }
+    },
+    (err, results) =>{
+      if (err) {
+        return next(err);
+      }
+      if (results.powerSupply == null) {
+        // No results.
+        const err = new Error("powerSupply not found");
+        err.status = 404;
+        return next(err);
+    }
+    for (const brand of results.powerSupply_brands) {
+      for (const powerSupplyBrand of results.powerSupply.brand) {
+        if (brand._id.toString() === powerSupplyBrand._id.toString()) {
+          brand.checked = "true";
+        }
+      }
+    }
+    res.render("powerSupply/powerSupply_form", {
+      title :"Update powerSupply",
+      powerSupply: results.powerSupply,
+      brands: results.powerSupply_brands
+    })
+  })
+
 };
 
-// Handle PowerSupply update on POST.
-exports.powerSupply_update_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: PowerSupply update POST");
-};
+// Handle powerSupply update on POST.
+exports.powerSupply_update_post = [
+  // Convert the genre to an array.
+  (req, res, next) => {
+    if (!Array.isArray(req.body.brand)) {
+      req.body.brand =
+        typeof req.body.brand === "undefined" ? [] : [req.body.brand];
+    }
+    next();
+  },
+   // Validate and sanitize the name field.
+ body("name", "PowerSupply name is required")
+ .trim()
+ .isLength({ min: 1 })
+ .escape(),
+// Validate and sanitize the brand field.
+body("brand.*", "powerSupply brand is required").escape(),
+// Validate and sanitize the model field.
+body("model", "model is required").trim().isLength({ min: 1 }).escape(),
+// Validate and sanitize the power field.
+body("power", "Power is required").trim().isLength({ min: 1 }).escape(),
+// Validate and sanitize the certifications field.
+body("certifications", "Certification is required").trim().isLength({ min: 3 }).escape(),
+// Validate and sanitize the price field.
+body("price", "powerSupply price is required").trim().isLength({ min: 1 }).escape(),
+
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a powerSupply object with escaped/trimmed data and old id.
+    const powerSupply = new PowerSupply({
+      name: req.body.name,
+      brand: req.body.brand,
+      model: req.body.model,
+      power: req.body.power,
+      certifications: req.body.certifications,
+      price: req.body.price,
+      _id: req.params.id,
+    });
+
+    if (!errors.isEmpty()) {
+      async.parallel({
+        powerSupply(callback){
+          PowerSupply.findById(req.params.id)
+          .populate("brand")
+          .exec(callback)
+        },
+        powerSupply_brands(callback){
+          Brand.find(callback)
+        }
+      },
+      (err, results) =>{
+        if (err) {
+          return next(err);
+        }
+        if (results.powerSupply == null) {
+          // No results.
+          const err = new Error("powerSupply not found");
+          err.status = 404;
+          return next(err);
+      }
+      for (const brand of results.powerSupply_brands) {
+        for (const powerSupplyBrand of results.powerSupply.brand) {
+          if (brand._id.toString() === powerSupplyBrand._id.toString()) {
+            brand.checked = "true";
+          }
+        }
+      }
+      res.render("powerSupply/powerSupply_form", {
+        title :"Update powerSupply",
+        powerSupply: results.powerSupply,
+        brands: results.powerSupply_brands,
+        powerSupply,
+        errors: errors.array(),
+      })
+    })
+      return;
+    }
+
+    // Data from form is valid. Update the record.
+    PowerSupply.findByIdAndUpdate(req.params.id, powerSupply, {}, (err, thepowerSupply) => {
+      if (err) {
+        return next(err);
+      }
+
+      // Successful: redirect to powerSupply detail page.
+      
+      res.redirect(thepowerSupply.url);
+    });
+  },
+];

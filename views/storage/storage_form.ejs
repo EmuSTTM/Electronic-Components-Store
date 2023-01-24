@@ -4,15 +4,15 @@
 <form action="" method="post" class="form-custom">
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" name="name" id="name" required>
+        <input type="text" value="<%= (typeof storage === 'undefined' ? '' : storage.name) %>" class="form-control" name="name" id="name" required>
         <div class="invalid-feedback"></div>
     </div>
     <div class="form-group">
         <label for="brand">Brand</label>
         <div>
             <% for (let brand of brands) { %>
-                <input type="checkbox" name="brand" id="<%= brand._id %>" value="<%= brand._id %>">
-                <label for="<%= brand._id %>"> <%= brand.name %> </label>
+                <input type="checkbox" name="brand" id="<%= brand._id %>" value="<%= brand._id %>" %>" <%= brand.checked ? 'checked' : '' %>>
+                <label for="<%= brand._id %>"> <%= brand.name %> </label> 
             <% } %>
             <div class="invalid-feedback">
                 <% if(typeof errors !== 'undefined'){ %>
@@ -30,25 +30,25 @@
     <div class="form-group">
         <label for="type">Type</label>
         <select class="form-control" name="type" id="type" required>
-            <option value="HDD">HDD</option>
-            <option value="SSD">SSD</option>
-            <option value="SSHD">SSHD</option>
-            <option value="NVMe">NVMe</option>
+            <option <%= ("HDD" === storage.type.toString() ? 'selected' : '') %> value="HDD">HDD</option>
+            <option <%= ("SSD" === storage.type.toString() ? 'selected' : '') %> value="SSD">SSD</option>
+            <option <%= ("SSHD" === storage.type.toString() ? 'selected' : '') %> value="SSHD">SSHD</option>
+            <option <%= ("NVMe" === storage.type.toString() ? 'selected' : '') %> value="NVMe">NVMe</option>
         </select>
     </div>
     <div class="form-group">
         <label for="capacity">Capacity</label>
-        <input type="text" class="form-control" name="capacity" id="capacity" placeholder="xxx GB" pattern="^\d+( GB| TB)$" required>
+        <input type="text" value="<%= (typeof storage === 'undefined' ? '' : storage.capacity) %>" class="form-control" name="capacity" id="capacity" placeholder="xxx GB" pattern="^\d+( GB| TB)$" required>
     </div>
     <div class="form-group">
         <label for="speed">Speed</label>
-        <input type="text" class="form-control" name="speed" id="speed" placeholder="xxx RPM" pattern="^\d+ RPM$" required>
+        <input type="text"  value="<%= (typeof storage === 'undefined' ? '' : storage.speed) %>"  class="form-control" name="speed" id="speed" placeholder="xxx RPM" pattern="^\d+ RPM$" required>
     </div>
     <div class="form-group">
         <label for="price">Price</label>
-        <input type="number" class="form-control" name="price" id="price" min="0" required>
+        <input type="number" value="<%= (typeof storage === 'undefined' ? '' : storage.price) %>"  class="form-control" name="price" id="price" min="0" required>
     </div>
-    <button type="submit" class="btn btn-primary btn-custom">Create</button>
+    <button type="submit" class="btn btn-primary btn-custom">Submit</button>
 </form>
 
 <%- include('../partials/footer.ejs') %>

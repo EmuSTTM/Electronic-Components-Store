@@ -3,7 +3,7 @@ const Brand = require("../models/brand");
 
 const { body, validationResult } = require("express-validator");
 
-
+const async = require("async");
 
 // Display list of all Motherboards.
 exports.motherboard_list = function (req, res, next) {
@@ -183,12 +183,136 @@ exports.motherboard_delete_post = (req, res, next) => {
   })
 };
 
-// Display Motherboard update form on GET.
-exports.motherboard_update_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: Motherboard update GET");
+// Display motherboard update form on GET.
+exports.motherboard_update_get = (req, res, next) => {
+  async.parallel({
+      motherboard(callback){
+        Motherboard.findById(req.params.id)
+        .populate("brand")
+        .exec(callback)
+      },
+      motherboard_brands(callback){
+        Brand.find(callback)
+      }
+    },
+    (err, results) =>{
+      if (err) {
+        return next(err);
+      }
+      if (results.motherboard == null) {
+        // No results.
+        const err = new Error("motherboard not found");
+        err.status = 404;
+        return next(err);
+    }
+    for (const brand of results.motherboard_brands) {
+      for (const motherboardBrand of results.motherboard.brand) {
+        if (brand._id.toString() === motherboardBrand._id.toString()) {
+          brand.checked = "true";
+        }
+      }
+    }
+    res.render("motherboard/motherboard_form", {
+      title :"Update motherboard",
+      motherboard: results.motherboard,
+      brands: results.motherboard_brands
+    })
+  })
+
 };
 
 // Handle Motherboard update on POST.
-exports.motherboard_update_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: Motherboard update POST");
-};
+exports.motherboard_update_post = [
+  // Convert the genre to an array.
+  (req, res, next) => {
+    if (!Array.isArray(req.body.brand)) {
+      req.body.brand =
+        typeof req.body.brand === "undefined" ? [] : [req.body.brand];
+    }
+    next();
+  },
+   // Validate and sanitize the name field.
+   body("name", "Motherboard name is required")
+   .trim()
+   .isLength({ min: 1 })
+   .escape(),
+ // Validate and sanitize the brand field.
+ body("brand.*", "Motherboard brand is required").escape(),
+ // Validate and sanitize the chipset field.
+ body("chipset", "Chipset is required").trim().isLength({ min: 1 }).escape(),
+ // Validate and sanitize the ram_slots field.
+ body("ram_slots", "Ram slots is required").trim().isLength({ min: 1 }).escape(),
+ // Validate and sanitize the max_ram field.
+ body("max_ram", "Max Ram is required").trim().isLength({ min: 3 }).escape(),
+ // Validate and sanitize the price field.
+ body("price", "Motherboard price is required").trim().isLength({ min: 1 }).escape(),
+
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a motherboard object with escaped/trimmed data and old id.
+    const motherboard = new Motherboard({
+      name: req.body.name,
+      brand: req.body.brand,
+      chipset: req.body.chipset,
+      ramSlots: req.body.ram_slots,
+      maxRam: req.body.max_ram,
+      price: req.body.price,
+      _id: req.params.id,
+    });
+
+    if (!errors.isEmpty()) {
+      async.parallel({
+        motherboard(callback){
+          Motherboard.findById(req.params.id)
+          .populate("brand")
+          .exec(callback)
+        },
+        motherboard_brands(callback){
+          Brand.find(callback)
+        }
+      },
+      (err, results) =>{
+        if (err) {
+          return next(err);
+        }
+        if (results.motherboard == null) {
+          // No results.
+          const err = new Error("motherboard not found");
+          err.status = 404;
+          return next(err);
+      }
+      for (const brand of results.motherboard_brands) {
+        for (const motherboardBrand of results.motherboard.brand) {
+          if (brand._id.toString() === motherboardBrand._id.toString()) {
+            brand.checked = "true";
+          }
+        }
+      }
+      res.render("motherboard/motherboard_form", {
+        title :"Update motherboard",
+        motherboard: results.motherboard,
+        brands: results.motherboard_brands,
+        motherboard,
+        errors: errors.array(),
+      })
+    })
+      return;
+    }
+
+    // Data from form is valid. Update the record.
+      Motherboard.findByIdAndUpdate(req.params.id, motherboard, {}, (err, themotherboard) => {
+      if (err) {
+        return next(err);
+      }
+
+      // Successful: redirect to motherboard detail page.
+      
+      res.redirect(themotherboard.url);
+    });
+  },
+];

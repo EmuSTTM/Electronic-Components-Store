@@ -3,15 +3,15 @@
 <form action="" method="post">
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" name="name" id="name" required>
+        <input type="text" class="form-control" name="name" id="name" value="<%= (typeof gpu === 'undefined' ? '' : gpu.name) %>" required>
     </div>
     <div class="form-group">
         <label for="brand">Brand</label>
         <div>
             <% for (let brand of brands) { %>
-                <input type="checkbox" name="brand" id="<%= brand._id %>" value="<%= brand._id %>">
-                <label for="<%= brand._id %>"> <%= brand.name %> </label>
-<% } %>
+                <input type="checkbox" name="brand" id="<%= brand._id %>" value="<%= brand._id %>" %>" <%= brand.checked ? 'checked' : '' %>>
+                <label for="<%= brand._id %>"> <%= brand.name %> </label> 
+            <% } %>
 <div class="invalid-feedback">
     <% if(typeof errors !== 'undefined'){ %>
         <% errors.forEach(function(error) { %>
@@ -27,42 +27,43 @@
 </div>
 <div class="form-group">
 <label for="model">Model</label>
-<input type="text" class="form-control" name="model" id="model" required>
+<input type="text" class="form-control" name="model" id="model" required value="<%= (typeof gpu === 'undefined' ? '' : gpu.model) %>">
 </div>
 <div class="form-group">
 <label for="core_clock">Core Clock</label>
-<input " class="form-control" name="core_clock" id="core_clock" min="0"  placeholder="XXXX MHz" required>
+<input " class="form-control" name="core_clock" id="core_clock" min="0" value="<%= (typeof gpu === 'undefined' ? '' : gpu.core_clock) %>" placeholder="XXXX MHz" required>
 </div>
 <div class="form-group">
 <label for="boost_clock">Boost Clock</label>
-<input  class="form-control" name="boost_clock" id="boost_clock" min="0" placeholder="XXXX MHz" required>
+<input  class="form-control" name="boost_clock" id="boost_clock" min="0" placeholder="XXXX MHz" value="<%= (typeof gpu === 'undefined' ? '' : gpu.boost_clock) %>"required>
 </div>
 <div class="form-group">
-<label for="memory">Memory Size</label>
-<input type="text" class="form-control" name="memory" id="memory" placeholder="X GB" required>
+<label for="memory">Memory</label>
+<input type="text" class="form-control" value="<%= (typeof gpu === 'undefined' ? '' : gpu.core_clock) %>" name="memory" id="memory" placeholder="X GB" required>
 </div>
 <div class="form-group">
 <label for="memory_type">Memory Type</label>
 <select class="form-control" name="memory_type" id="memory_type" required>
-    <option value="GDDR5">GDDR5</option>
-    <option value="GDDR6">GDDR6</option>
-    <option value="GDDR7">GDDR7</option>
+
+    <option <%= ("GDDR5" === gpu.memory_type ? 'selected' : '') %> value="GDDR5">GDDR5</option>
+    <option <%= ("GDDR6" === gpu.memory_type ? 'selected' : '') %> value="GDDR6">GDDR6</option>
+    <option <%= ("GDDR7" === gpu.memory_type ? 'selected' : '') %> value="GDDR7">GDDR7</option>
   </select>
 </div>
 <div class="form-group">
 <label for="tdp">TDP</label>
-<input type="number" class="form-control" name="tdp" id="tdp" min="0" placeholder="Watts" required>
+<input type="number" value="<%= (typeof gpu === 'undefined' ? '' : gpu.tdp) %>" class="form-control" name="tdp" id="tdp" min="0" placeholder="Watts" required>
 </div>
 <div class="form-group">
     <label for="stream_processors">Stream Processors</label>
-    <input type="number" class="form-control" name="stream_processors" id="stream_processors" min="0" required>
+    <input type="number" class="form-control" value="<%= (typeof gpu === 'undefined' ? '' : gpu.stream_processors) %>"name="stream_processors" id="stream_processors" min="0" required>
     </div>
 <div class="form-group">
 <label for="price">Price</label>
-<input type="number" class="form-control" name="price" id="price" min="0">
+<input type="number" class="form-control" value="<%= (typeof gpu === 'undefined' ? '' : gpu.price) %>" name="price" id="price" min="0">
   
 </div>
-<button type="submit" class="btn btn-primary">Create</button>
+<button type="submit" class="btn btn-primary">Submit</button>
 </form><br>
 <% if(typeof errors !== 'undefined'){ %>
     <% errors.forEach(function(error) { %>

@@ -182,6 +182,7 @@ exports.cabinet_delete_post = (req, res, next) => {
   })
 };
 
+
 // Display cabinet update form on GET.
 exports.cabinet_update_get = (req, res, next) => {
   async.parallel({
@@ -253,7 +254,7 @@ exports.cabinet_update_post = [
 
   // Process request after validation and sanitization.
   (req, res, next) => {
-    console.log("hola")
+
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 

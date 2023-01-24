@@ -97,7 +97,7 @@ exports.storage_create_post = [
      type: req.body.type,
      capacity: req.body.capacity,
      speed: req.body.speed,
-     price: req.body.price
+     price: req.body.price,
    });
 
    if (!errors.isEmpty()) {
@@ -175,12 +175,137 @@ exports.storage_delete_post = (req, res, next) => {
   })
 };
 
-// Display Storage update form on GET.
-exports.storage_update_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: Storage update GET");
+// Display storage update form on GET.
+exports.storage_update_get = (req, res, next) => {
+  async.parallel({
+      storage(callback){
+        Storage.findById(req.params.id)
+        .populate("brand")
+        .exec(callback)
+      },
+      storage_brands(callback){
+        Brand.find(callback)
+      }
+    },
+    (err, results) =>{
+      if (err) {
+        return next(err);
+      }
+      if (results.storage == null) {
+        // No results.
+        const err = new Error("storage not found");
+        err.status = 404;
+        return next(err);
+    }
+    for (const brand of results.storage_brands) {
+      for (const storageBrand of results.storage.brand) {
+        if (brand._id.toString() === storageBrand._id.toString()) {
+          brand.checked = "true";
+        }
+      }
+    }
+    res.render("storage/storage_form", {
+      title :"Update storage",
+      storage: results.storage,
+      brands: results.storage_brands
+    })
+  })
+
 };
 
-// Handle Storage update on POST.
-exports.storage_update_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: Storage update POST");
-};
+// Handle storage update on POST.
+exports.storage_update_post = [
+  // Convert the genre to an array.
+  (req, res, next) => {
+    if (!Array.isArray(req.body.brand)) {
+      req.body.brand =
+        typeof req.body.brand === "undefined" ? [] : [req.body.brand];
+    }
+    next();
+  },
+ // Validate and sanitize the name field.
+ body("name", "storage name is required")
+   .trim()
+   .isLength({ min: 1 })
+   .escape(),
+ // Validate and sanitize the brand field.
+ body("brand.*", "storage brand is required").escape(),
+ // Validate and sanitize the type field.
+ body("type", "type is required").trim().isLength({ min: 1 }).escape(),
+ // Validate and sanitize the capacity field.
+ body("capacity", "capacity is required").trim().isLength({ min: 1 }).escape(),
+ // Validate and sanitize the speed field.
+ body("speed", "speed is required").trim().isLength({ min: 3 }).escape(),
+ // Validate and sanitize the price field.
+ body("price", "storage price is required").trim().isLength({ min: 1 }).escape(),
+
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a storage object with escaped/trimmed data and old id.
+    const storage = new Storage({
+      name: req.body.name,
+      brand: req.body.brand,
+      type: req.body.type,
+      capacity: req.body.capacity,
+      speed: req.body.speed,
+      price: req.body.price,
+      _id: req.params.id,
+    });
+
+    if (!errors.isEmpty()) {
+      async.parallel({
+        storage(callback){
+          Storage.findById(req.params.id)
+          .populate("brand")
+          .exec(callback)
+        },
+        storage_brands(callback){
+          Brand.find(callback)
+        }
+      },
+      (err, results) =>{
+        if (err) {
+          return next(err);
+        }
+        if (results.storage == null) {
+          // No results.
+          const err = new Error("storage not found");
+          err.status = 404;
+          return next(err);
+      }
+      for (const brand of results.storage_brands) {
+        for (const storageBrand of results.storage.brand) {
+          if (brand._id.toString() === storageBrand._id.toString()) {
+            brand.checked = "true";
+          }
+        }
+      }
+      res.render("storage/storage_form", {
+        title :"Update storage",
+        storage: results.storage,
+        brands: results.storage_brands,
+        storage,
+        errors: errors.array(),
+      })
+    })
+      return;
+    }
+
+    // Data from form is valid. Update the record.
+    Storage.findByIdAndUpdate(req.params.id, storage, {}, (err, thestorage) => {
+      if (err) {
+        return next(err);
+      }
+
+      // Successful: redirect to storage detail page.
+      
+      res.redirect(thestorage.url);
+    });
+  },
+];
+

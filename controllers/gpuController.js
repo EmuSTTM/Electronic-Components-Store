@@ -209,11 +209,144 @@ exports.gpu_delete_post = (req, res, next) => {
 };
 
 // Display GPU update form on GET.
-exports.gpu_update_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: GPU update GET");
+exports.gpu_update_get = (req, res, next) => {
+  async.parallel({
+      gpu(callback){
+        GPU.findById(req.params.id)
+        .populate("brand")
+        .exec(callback)
+      },
+      gpu_brands(callback){
+        Brand.find(callback)
+      }
+    },
+    (err, results) =>{
+      if (err) {
+        return next(err);
+      }
+      if (results.gpu == null) {
+        // No results.
+        const err = new Error("gpu not found");
+        err.status = 404;
+        return next(err);
+    }
+    for (const brand of results.gpu_brands) {
+      for (const gpuBrand of results.gpu.brand) {
+        if (brand._id.toString() === gpuBrand._id.toString()) {
+          brand.checked = "true";
+        }
+      }
+    }
+    res.render("gpu/gpu_form", {
+      title :"Update gpu",
+      gpu: results.gpu,
+      brands: results.gpu_brands
+    })
+  })
+
 };
 
-// Handle GPU update on POST.
-exports.gpu_update_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: GPU update POST");
-};
+// Handle gpu update on POST.
+exports.gpu_update_post = [
+  // Convert the genre to an array.
+  (req, res, next) => {
+    if (!Array.isArray(req.body.brand)) {
+      req.body.brand =
+        typeof req.body.brand === "undefined" ? [] : [req.body.brand];
+    }
+    next();
+  },
+  // Validate and sanitize the name field.
+    body("name", "GPU name is required")
+      .trim()
+      .isLength({ min: 1 })
+      .escape(),
+    // Validate and sanitize the brand field.
+    body("brand.*", "GPU brand is required").escape(),
+    // Validate and sanitize the memory field.
+
+    // Validate and sanitize the model field.
+    body("model", "Model is required").trim().isLength({ min: 1 }).escape(),
+    body("memory", "GPU memory is required").trim().isLength({ min: 1 }).escape(),
+    body("memory_type", "memory type is required").trim().isLength({ min: 1 }).escape(),
+    // Validate and sanitize the core_clock field.
+    body("core_clock", "GPU core_clock is required").trim().isLength({ min: 1 }).escape(),
+    body("boost_clock","boost clock is required").trim().isLength({ min: 1 }).escape(),
+    body("stream_processors", "stream processors is required").trim().isLength({ min: 1 }).escape(),
+    // Validate and sanitize the tdp field.
+    body("tdp", "GPU tdp is required").trim().isLength({ min: 1 }).escape(),
+    // Validate and sanitize the price field.
+  body("price", "GPU price is required").trim().isLength({ min: 1 }).escape(),
+
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a gpu object with escaped/trimmed data and old id.
+    const gpu = new GPU({
+      name:req.body.name,
+      brand: req.body.brand,
+      memory: req.body.memory,
+      memory_type: req.body.memory_type,
+      core_clock: req.body.core_clock,
+      boost_clock: req.body.boost_clock,
+      stream_processors: req.body.stream_processors,
+      tdp : req.body.tdp,
+      price: req.body.price,
+      _id: req.params.id,
+    });
+
+    if (!errors.isEmpty()) {
+      async.parallel({
+        gpu(callback){
+          GPU.findById(req.params.id)
+          .populate("brand")
+          .exec(callback)
+        },
+        gpu_brands(callback){
+          Brand.find(callback)
+        }
+      },
+      (err, results) =>{
+        if (err) {
+          return next(err);
+        }
+        if (results.gpu == null) {
+          // No results.
+          const err = new Error("gpu not found");
+          err.status = 404;
+          return next(err);
+      }
+      for (const brand of results.gpu_brands) {
+        for (const gpuBrand of results.gpu.brand) {
+          if (brand._id.toString() === gpuBrand._id.toString()) {
+            brand.checked = "true";
+          }
+        }
+      }
+      res.render("gpu/gpu_form", {
+        title :"Update gpu",
+        gpu: results.gpu,
+        brands: results.gpu_brands,
+        gpu,
+        errors: errors.array(),
+      })
+    })
+      return;
+    }
+
+    // Data from form is valid. Update the record.
+    GPU.findByIdAndUpdate(req.params.id, gpu, {}, (err, thegpu) => {
+      if (err) {
+        return next(err);
+      }
+
+      // Successful: redirect to gpu detail page.
+      
+      res.redirect(thegpu.url);
+    });
+  },
+];

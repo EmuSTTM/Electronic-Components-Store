@@ -20,7 +20,7 @@ const app = express();
 const setActivePage = require('./middlewares/setActivePage');
 
 // Connect to MongoDB
-const uri = 'mongodb://localhost:27017/ECS'; //Reemplaza la url de tu instancia de MongoDB
+const uri = 'mongodb://127.0.0.1:27017/ECS'; //Reemplaza la url de tu instancia de MongoDB
 mongoose.connect(uri, { useNewUrlParser: true });
 const db = mongoose.connection;
 
