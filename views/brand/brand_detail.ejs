@@ -4,6 +4,9 @@
 <div class="container">
   <h1 class="text-center" style="color:black;">Brand: <%= brand.name %></h1>
   <br>
+  <% if(brand.image !== undefined){ %>
+    <img class="img-tumbnail" src="/images/<%= brand.image %>" alt="<%= brand.name %>">
+  <% }; %>
   <div class="row">
     <div class="col-md-6">
       <h4 class="text-light bg-dark p-3">Cabinets</h4>

@@ -12,6 +12,19 @@ const storage_controller = require("../controllers/storageController");
 
 const components_controller = require("../controllers/componentsController");
 
+const multer = require('multer');
+var date = Date.now();
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/images');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + date + '.' + file.originalname)
+    }
+});
+
+const upload = multer({ storage: storage });
 
 
 // Index routes
@@ -20,7 +33,7 @@ router.get("/", components_controller.index);
 // Brand routes
 router.get("/brands", brand_controller.brand_list);
 router.get("/brand/create", brand_controller.brand_create_get);
-router.post("/brand/create", brand_controller.brand_create_post);
+router.post("/brand/create", upload.single('image'), brand_controller.brand_create_post);
 router.get("/brand/:id", brand_controller.brand_detail);
 router.get("/brand/:id/delete", brand_controller.brand_delete_get);
 router.post("/brand/:id/delete", brand_controller.brand_delete_post);

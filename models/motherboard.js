@@ -31,6 +31,9 @@ const motherboardSchema = new mongoose.Schema({
         match: /^\d+( GB| TB)$/, 
         required: true 
     },
+    image: { 	
+        typeof: String, 
+    },
 });
 
 motherboardSchema.virtual('url').get(function() {

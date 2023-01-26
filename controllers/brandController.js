@@ -7,7 +7,7 @@ const RamSchema = require("../models/ram");
 const Storage = require("../models/storage");
 
 const async = require("async");
-const { body, validationResult } = require("express-validator");
+const {body, validationResult } = require("express-validator");
 
 
 // Display list of all Brands. Brand list it's a it useless
@@ -83,18 +83,22 @@ exports.brand_create_get = (req, res, next) => {
 exports.brand_create_post = [
   // Validate and sanitize the name field.
   body("name", "Brand name is required").trim().isLength({ min: 1 }).escape(),
+  
 
   // Process request after validation and sanitization.
   (req, res, next) => {
     // Extract the validation errors from a request.
     const errors = validationResult(req);
-
+    console.log(req.file.filename)
     // Create a brand object with escaped and trimmed data.
-    const brand = new Brand({ name: req.body.name });
+    const brand = new Brand({ 
+      name: req.body.name,
+      image: req.file.filename });
 
     if (!errors.isEmpty()) {
       // There are errors. Render the form again with sanitized values/error messages.
-      res.render("brand_form", {
+      console.log(errors)
+      res.render("brand/brand_form", {
         title: "Create Brand",
         brand,
         errors: errors.array(),
