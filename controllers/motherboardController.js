@@ -1,13 +1,15 @@
 const Motherboard = require("../models/motherboard");
 const Brand = require("../models/brand");
 
+
 const { body, validationResult } = require("express-validator");
 
 const async = require("async");
+const fs = require("fs");
 
 // Display list of all Motherboards.
 exports.motherboard_list = function (req, res, next) {
-    Motherboard.find({}, "name brand chipset ramSlots maxRam price")
+    Motherboard.find({}, "name brand chipset ramSlots maxRam price image")
       .sort({ name: 1 })
       .populate("brand")
       .exec(function (err, list_motherboard) {
@@ -104,7 +106,8 @@ exports.motherboard_create_post = [
       chipset: req.body.chipset,
       ramSlots: req.body.ram_slots,
       maxRam: req.body.max_ram,
-      price: req.body.price
+      price: req.body.price,
+      image: req.file.filename,
     });
 
     if (!errors.isEmpty()) {
@@ -177,7 +180,16 @@ exports.motherboard_delete_post = (req, res, next) => {
       if (err) {
         return next(err);
       }
-      // Success - go to author list
+
+      if(typeof motherboard.image != undefined){
+        const ImageName = "public/images/" + motherboard.image
+
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }
+      
+      }  
+      // Success - go to motherboard list
       res.redirect("/components/motherboards");
     })
   })
@@ -262,6 +274,7 @@ exports.motherboard_update_post = [
       ramSlots: req.body.ram_slots,
       maxRam: req.body.max_ram,
       price: req.body.price,
+      image: req.file.filename,
       _id: req.params.id,
     });
 

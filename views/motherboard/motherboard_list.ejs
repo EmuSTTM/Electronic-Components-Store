@@ -7,7 +7,8 @@
     <% for (var i=0; i< motherboard_list.length; i++) { %>
       <div class="col-md-4 mb-3">
         <div class="card h-100">
-          <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="...">
+
+          <img src="<%=  typeof motherboard_list[i].toObject().image !== 'undefined' ? '/images/' + motherboard_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= motherboard_list[i].name%>">
           <div class="card-body">
             <h5 class="card-title"> <a href="<%= motherboard_list[i].url %>"><%= motherboard_list[i].name %></a>  </h5> 
             <p class="card-text">

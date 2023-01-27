@@ -32,7 +32,7 @@ const motherboardSchema = new mongoose.Schema({
         required: true 
     },
     image: { 	
-        typeof: String, 
+        type: String, 
     },
 });
 

@@ -63,12 +63,12 @@ router.post("/gpu/:id/update", gpu_controller.gpu_update_post);
 // Motherboard routes
 router.get("/motherboards", motherboard_controller.motherboard_list);
 router.get("/motherboard/create", motherboard_controller.motherboard_create_get);
-router.post("/motherboard/create", motherboard_controller.motherboard_create_post);
+router.post("/motherboard/create", upload.single('image'), motherboard_controller.motherboard_create_post);
 router.get("/motherboard/:id", motherboard_controller.motherboard_detail);
 router.get("/motherboard/:id/delete", motherboard_controller.motherboard_delete_get);
 router.post("/motherboard/:id/delete", motherboard_controller.motherboard_delete_post);
 router.get("/motherboard/:id/update", motherboard_controller.motherboard_update_get);
-router.post("/motherboard/:id/update", motherboard_controller.motherboard_update_post);
+router.post("/motherboard/:id/update",  upload.single('image'), motherboard_controller.motherboard_update_post);
 
 // PowerSupply routes
 router.get("/powerSupplies", powerSupply_controller.powerSupply_list);
