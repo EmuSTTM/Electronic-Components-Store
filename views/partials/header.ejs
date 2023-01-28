@@ -20,7 +20,7 @@
             <a class="nav-link <%= (option == 'components') ? 'active' : '' %>" href="/components">Components</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <%= (option == 'pcs') ? 'active' : '' %>" href="/pcs">PCs</a>
+            <a class="nav-link <%= (option == 'computers') ? 'active' : '' %>" href="/computers">Computers</a>
           </li>
           <li class="nav-item">
             <a class="nav-link <%= (option == 'pcBuild') ? 'active' : '' %>" href="/pcBuild">PC Build</a>
@@ -33,7 +33,10 @@
         <div class="col-sm-2">
           <ul class="nav flex-column sidebar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="/components">Home</a>
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/computers" >All Computers</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/components/brands">All Brands</a>
@@ -58,6 +61,9 @@
             </li>
             <li class="nav-item">
               <hr>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/pcBuild">Create new Computer</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/components/brand/create">Create new Brand</a>

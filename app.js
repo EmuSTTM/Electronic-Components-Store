@@ -8,7 +8,7 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const componentsRouter = require('./routes/components')
-const pcsRouter = require('./routes/pcs')
+const pcsRouter = require('./routes/computers')
 
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
@@ -44,7 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', setActivePage, indexRouter);
 app.use('/users', setActivePage, usersRouter);
 app.use('/components', setActivePage, componentsRouter);
-app.use('/pcs', setActivePage, pcsRouter);
+app.use('/computers', setActivePage, pcsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

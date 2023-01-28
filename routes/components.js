@@ -10,6 +10,7 @@ const powerSupply_controller = require("../controllers/powerSupplyController");
 const ram_controller = require("../controllers/ramController");
 const storage_controller = require("../controllers/storageController");
 
+
 const components_controller = require("../controllers/componentsController");
 
 // Middleware of multers 
@@ -88,6 +89,8 @@ router.get("/storage/:id/delete", storage_controller.storage_delete_get);
 router.post("/storage/:id/delete", storage_controller.storage_delete_post);
 router.get("/storage/:id/update", storage_controller.storage_update_get);
 router.post("/storage/:id/update", upload.single('image'), storage_controller.storage_update_post);
+
+
 
 module.exports = router;
 
