@@ -30,7 +30,10 @@ const storageSchema = new mongoose.Schema({
         type: Number,
         min: 0,
         required: true
-    }
+    },
+    image: { 	
+        type: String, 
+    },
 });
 
 storageSchema.virtual('url').get(function() {

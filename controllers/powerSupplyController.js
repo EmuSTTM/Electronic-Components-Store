@@ -1,8 +1,10 @@
 const PowerSupply = require("../models/powerSupply");
 const async = require("async");
 const { body, validationResult } = require("express-validator");
+const fs = require("fs");
 
 const Brand = require("../models/brand");
+
 
 // Display list of all PowerSupply.
 exports.powerSupply_list = function (req, res, next) {
@@ -98,7 +100,8 @@ exports.powerSupply_create_post = [
      model: req.body.model,
      power: req.body.power,
      certifications: req.body.certifications,
-     price: req.body.price
+     price: req.body.price,
+     image: req.file.filename,
    });
 
    if (!errors.isEmpty()) {
@@ -169,6 +172,13 @@ exports.powerSupply_delete_post = (req, res, next) => {
     PowerSupply.findByIdAndRemove(req.body.powerSupplyid, (err) => {
       if (err) {
         return next(err);
+      }
+      if(typeof powerSupply.image != undefined){
+        const ImageName = "public/images/" + powerSupply.image
+
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }
       }
       // Success - go to author list
       res.redirect("/components/powerSupplies");
@@ -255,6 +265,7 @@ body("price", "powerSupply price is required").trim().isLength({ min: 1 }).escap
       power: req.body.power,
       certifications: req.body.certifications,
       price: req.body.price,
+      image: req.file.filename,
       _id: req.params.id,
     });
 
@@ -286,6 +297,12 @@ body("price", "powerSupply price is required").trim().isLength({ min: 1 }).escap
           }
         }
       }
+      if(typeof results.powerSupply.image != undefined){
+        const ImageName = "public/images/" + results.powerSupply.image;
+  
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }}
       res.render("powerSupply/powerSupply_form", {
         title :"Update powerSupply",
         powerSupply: results.powerSupply,
@@ -296,7 +313,17 @@ body("price", "powerSupply price is required").trim().isLength({ min: 1 }).escap
     })
       return;
     }
+    PowerSupply.findById(req.params.id, (err, powerSupply) => {
+      if (err) {
+        return next(err);
+      }
+      if(typeof powerSupply.image != undefined){
+        const ImageName = "public/images/" + powerSupply.image;
 
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }}
+    })
     // Data from form is valid. Update the record.
     PowerSupply.findByIdAndUpdate(req.params.id, powerSupply, {}, (err, thepowerSupply) => {
       if (err) {

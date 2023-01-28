@@ -8,6 +8,7 @@ const Storage = require("../models/storage");
 
 const async = require("async");
 const {body, validationResult } = require("express-validator");
+const fs = require("fs");
 
 
 // Display list of all Brands. Brand list it's a it useless
@@ -237,6 +238,13 @@ exports.brand_delete_post = (req, res, next) => {
         if(err){
           return next(err);
         };
+        if(typeof results.brand.image != undefined){
+          const ImageName = "public/images/" + results.brand.image
+  
+          if(fs.existsSync(ImageName)){
+            fs.unlinkSync(ImageName);
+        }
+        } 
         res.redirect("/components/brands")
       })
 
@@ -257,15 +265,28 @@ exports.brand_update_get = (req, res, next) => {
 };
 
 // Handle Brand update on POST.
-exports.brand_update_post = (req, res, next) => {
-  const brand = new Brand({
-    name:req.body.name,
-    _id: req.params.id
-  })
-  Brand.findByIdAndUpdate(req.params.id, brand, {}, (err, thebrand) => {
-    if(err){
-      return next(err);
-    };
-    res.redirect(thebrand.url)
-  })
+exports.brand_update_post = async (req, res, next) => {
+  try {
+    const brandToDeleteImage = await Brand.findById(req.params.id).exec();
+    if (brandToDeleteImage && brandToDeleteImage.image) {
+      const ImageName = "public/images/" + brandToDeleteImage.image;
+      if (fs.existsSync(ImageName)) {
+        fs.unlinkSync(ImageName);
+      }
+    }
+
+    const brand = new Brand({
+      name: req.body.name,
+      _id: req.params.id
+    });
+
+    if (req.file && req.file.filename) {
+      brand.image = req.file.filename;
+    }
+
+    const updatedBrand = await Brand.findByIdAndUpdate(req.params.id, brand, {});
+    res.redirect(updatedBrand.url);
+  } catch (err) {
+    return next(err);
+  }
 };

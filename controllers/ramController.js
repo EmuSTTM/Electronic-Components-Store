@@ -1,6 +1,7 @@
 const RAM = require("../models/ram");
 const async = require("async");
 const { body, validationResult } = require("express-validator");
+const fs = require("fs");
 
 const Brand = require("../models/brand");
 
@@ -116,6 +117,7 @@ exports.ram_create_post = [
      type: req.body.type,
      price: req.body.price,
      size:req.body.size,
+     image: req.file.filename,
    });
 
    if (!errors.isEmpty()) {
@@ -186,6 +188,13 @@ exports.ram_delete_post = (req, res, next) => {
     RAM.findByIdAndRemove(req.body.ramid, (err) => {
       if (err) {
         return next(err);
+      }
+      if(typeof ram.image != undefined){
+        const ImageName = "public/images/" + ram.image
+
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }
       }
       // Success - go to author list
       res.redirect("/components/rams");
@@ -275,6 +284,7 @@ exports.ram_update_post = [
       type: req.body.type,
       price: req.body.price,
       size:req.body.size,
+      image: req.file.filename,
       _id: req.params.id,
     });
 
@@ -306,6 +316,12 @@ exports.ram_update_post = [
           }
         }
       }
+      if(typeof results.ram.image != undefined){
+        const ImageName = "public/images/" + results.ram.image;
+  
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }}
       res.render("ram/ram_form", {
         title :"Update ram",
         ram: results.ram,
@@ -316,7 +332,17 @@ exports.ram_update_post = [
     })
       return;
     }
+    RAM.findById(req.params.id, (err, ram) => {
+      if (err) {
+        return next(err);
+      }
+      if(typeof ram.image != undefined){
+        const ImageName = "public/images/" + ram.image;
 
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }}
+    })
     // Data from form is valid. Update the record.
     RAM.findByIdAndUpdate(req.params.id, ram, {}, (err, theram) => {
       if (err) {

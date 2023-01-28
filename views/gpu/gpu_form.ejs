@@ -1,9 +1,14 @@
 <%- include('../partials/header.ejs') %>
 
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label for="name">Name</label>
         <input type="text" class="form-control" name="name" id="name" value="<%= (typeof gpu === 'undefined' ? '' : gpu.name) %>" required>
+    </div>
+    <div class="form-group">
+        <label for="image">Image</label>
+        <p class="alert-danger">For the moment, you can have only one image for product. In the future, this functionality will be expanded</p>
+        <input type="file" multiple name="image" id="image"  class="form-control" >
     </div>
     <div class="form-group">
         <label for="brand">Brand</label>
@@ -44,10 +49,10 @@
 <div class="form-group">
 <label for="memory_type">Memory Type</label>
 <select class="form-control" name="memory_type" id="memory_type" required>
-
-    <option <%= ("GDDR5" === gpu.memory_type ? 'selected' : '') %> value="GDDR5">GDDR5</option>
-    <option <%= ("GDDR6" === gpu.memory_type ? 'selected' : '') %> value="GDDR6">GDDR6</option>
-    <option <%= ("GDDR7" === gpu.memory_type ? 'selected' : '') %> value="GDDR7">GDDR7</option>
+    
+    <option <%= (typeof gpu !== 'undefined' && "GDDR5" === gpu.memory_type) ? 'selected' : '' %> value="GDDR5">GDDR5</option>
+    <option <%= (typeof gpu !== 'undefined' && "GDDR6" === gpu.memory_type) ? 'selected' : '' %> value="GDDR6">GDDR6</option>
+    <option <%= (typeof gpu !== 'undefined' && "GDDR7" === gpu.memory_type) ? 'selected' : '' %> value="GDDR7">GDDR7</option>
   </select>
 </div>
 <div class="form-group">

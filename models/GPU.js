@@ -49,7 +49,10 @@ const gpuSchema = new mongoose.Schema({
         type: Number,
         min: 0,
         required: true
-    }
+    },
+    image: { 	
+        type: String, 
+    },
 });
 
 gpuSchema.virtual('url').get(function() {

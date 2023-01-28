@@ -12,19 +12,8 @@ const storage_controller = require("../controllers/storageController");
 
 const components_controller = require("../controllers/componentsController");
 
-const multer = require('multer');
-var date = Date.now();
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'public/images');
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + date + '.' + file.originalname)
-    }
-});
-
-const upload = multer({ storage: storage });
+// Middleware of multers 
+const upload = require("../middlewares/uploadImage");
 
 
 // Index routes
@@ -38,27 +27,27 @@ router.get("/brand/:id", brand_controller.brand_detail);
 router.get("/brand/:id/delete", brand_controller.brand_delete_get);
 router.post("/brand/:id/delete", brand_controller.brand_delete_post);
 router.get("/brand/:id/update", brand_controller.brand_update_get);
-router.post("/brand/:id/update", brand_controller.brand_update_post);
+router.post("/brand/:id/update", upload.single('image'), brand_controller.brand_update_post);
 
 // Cabinet routes
 router.get("/cabinets", cabinet_controller.cabinet_list);
 router.get("/cabinet/create", cabinet_controller.cabinet_create_get);
-router.post("/cabinet/create", cabinet_controller.cabinet_create_post);
+router.post("/cabinet/create", upload.single('image'),  cabinet_controller.cabinet_create_post);
 router.get("/cabinet/:id", cabinet_controller.cabinet_detail);
 router.get("/cabinet/:id/delete", cabinet_controller.cabinet_delete_get);
 router.post("/cabinet/:id/delete", cabinet_controller.cabinet_delete_post);
 router.get("/cabinet/:id/update", cabinet_controller.cabinet_update_get);
-router.post("/cabinet/:id/update", cabinet_controller.cabinet_update_post);
+router.post("/cabinet/:id/update", upload.single('image'), cabinet_controller.cabinet_update_post);
 
 // GPU routes
 router.get("/gpus", gpu_controller.gpu_list);
 router.get("/gpu/create", gpu_controller.gpu_create_get);
-router.post("/gpu/create", gpu_controller.gpu_create_post);
+router.post("/gpu/create", upload.single('image'), gpu_controller.gpu_create_post);
 router.get("/gpu/:id", gpu_controller.gpu_detail);
 router.get("/gpu/:id/delete", gpu_controller.gpu_delete_get);
 router.post("/gpu/:id/delete", gpu_controller.gpu_delete_post);
 router.get("/gpu/:id/update", gpu_controller.gpu_update_get);
-router.post("/gpu/:id/update", gpu_controller.gpu_update_post);
+router.post("/gpu/:id/update", upload.single('image'), gpu_controller.gpu_update_post);
 
 // Motherboard routes
 router.get("/motherboards", motherboard_controller.motherboard_list);
@@ -73,32 +62,32 @@ router.post("/motherboard/:id/update",  upload.single('image'), motherboard_cont
 // PowerSupply routes
 router.get("/powerSupplies", powerSupply_controller.powerSupply_list);
 router.get("/powerSupply/create", powerSupply_controller.powerSupply_create_get);
-router.post("/powerSupply/create", powerSupply_controller.powerSupply_create_post);
+router.post("/powerSupply/create", upload.single('image'), powerSupply_controller.powerSupply_create_post);
 router.get("/powerSupply/:id", powerSupply_controller.powerSupply_detail);
 router.get("/powerSupply/:id/delete", powerSupply_controller.powerSupply_delete_get);
 router.post("/powerSupply/:id/delete", powerSupply_controller.powerSupply_delete_post);
 router.get("/powerSupply/:id/update", powerSupply_controller.powerSupply_update_get);
-router.post("/powerSupply/:id/update", powerSupply_controller.powerSupply_update_post);
+router.post("/powerSupply/:id/update", upload.single('image'), powerSupply_controller.powerSupply_update_post);
 
 // Ram routes
 router.get("/rams", ram_controller.ram_list);
 router.get("/ram/create", ram_controller.ram_create_get);
-router.post("/ram/create", ram_controller.ram_create_post);
+router.post("/ram/create", upload.single('image'), ram_controller.ram_create_post);
 router.get("/ram/:id", ram_controller.ram_detail);
 router.get("/ram/:id/delete", ram_controller.ram_delete_get);
 router.post("/ram/:id/delete", ram_controller.ram_delete_post);
 router.get("/ram/:id/update", ram_controller.ram_update_get);
-router.post("/ram/:id/update", ram_controller.ram_update_post);
+router.post("/ram/:id/update", upload.single('image'), ram_controller.ram_update_post);
 
 // Storage routes
 router.get("/storages", storage_controller.storage_list);
 router.get("/storage/create", storage_controller.storage_create_get);
-router.post("/storage/create", storage_controller.storage_create_post);
+router.post("/storage/create", upload.single('image'), storage_controller.storage_create_post);
 router.get("/storage/:id", storage_controller.storage_detail);
 router.get("/storage/:id/delete", storage_controller.storage_delete_get);
 router.post("/storage/:id/delete", storage_controller.storage_delete_post);
 router.get("/storage/:id/update", storage_controller.storage_update_get);
-router.post("/storage/:id/update", storage_controller.storage_update_post);
+router.post("/storage/:id/update", upload.single('image'), storage_controller.storage_update_post);
 
 module.exports = router;
 

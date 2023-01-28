@@ -187,7 +187,6 @@ exports.motherboard_delete_post = (req, res, next) => {
         if(fs.existsSync(ImageName)){
           fs.unlinkSync(ImageName);
       }
-      
       }  
       // Success - go to motherboard list
       res.redirect("/components/motherboards");
@@ -224,6 +223,7 @@ exports.motherboard_update_get = (req, res, next) => {
         }
       }
     }
+    
     res.render("motherboard/motherboard_form", {
       title :"Update motherboard",
       motherboard: results.motherboard,
@@ -306,6 +306,12 @@ exports.motherboard_update_post = [
           }
         }
       }
+      if(typeof results.motherboard.image != undefined){
+        const ImageName = "public/images/" + results.motherboard.image;
+  
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }}
       res.render("motherboard/motherboard_form", {
         title :"Update motherboard",
         motherboard: results.motherboard,
@@ -316,6 +322,17 @@ exports.motherboard_update_post = [
     })
       return;
     }
+    motherboard.findById(req.params.id, (err, motherboard) => {
+      if (err) {
+        return next(err);
+      }
+      if(typeof motherboard.image != undefined){
+        const ImageName = "public/images/" + motherboard.image;
+
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }}
+    })
 
     // Data from form is valid. Update the record.
       Motherboard.findByIdAndUpdate(req.params.id, motherboard, {}, (err, themotherboard) => {

@@ -1,12 +1,13 @@
 const Cabinet = require("../models/cabinet");
 const Brand = require("../models/brand")
 
+const fs = require("fs");
 const async = require("async")
-const { body, validationResult } = require("express-validator");
+const { body, validationResult, check } = require("express-validator");
 
 // Display list of all Cabinets.
 exports.cabinet_list = function (req, res, next) {
-    Cabinet.find({}, "name brand dimension type price ")
+    Cabinet.find({}, "name brand dimension type price image")
       .sort({ name: 1 })
       .populate("brand")
       .exec(function (err, list_cabinet) {
@@ -95,6 +96,7 @@ exports.cabinet_create_post = [
       bay_5_25: req.body.bay_5_25,
       bay_3_5: req.body.bay_3_5,
       bay_2_5: req.body.bay_2_5,
+      image: req.file.filename,
       price: req.body.price
     });
     if (!errors.isEmpty()) {
@@ -176,7 +178,14 @@ exports.cabinet_delete_post = (req, res, next) => {
       if (err) {
         return next(err);
       }
-      // Success - go to author list
+      if(typeof cabinet.image != undefined){
+        const ImageName = "public/images/" + cabinet.image
+
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }}
+
+      // Success - go to cabinet list
       res.redirect("/components/cabinets");
     })
   })
@@ -251,13 +260,12 @@ exports.cabinet_update_post = [
   // Validate and sanitize the price field.
   body("price", "Cabinet price is required").trim().isLength({ min: 1 }).escape(),
 
-
-  // Process request after validation and sanitization.
+  // Process check().not().isEmpty().withMessage('Cabinet image is required'),request after validation and sanitization.
   (req, res, next) => {
 
     // Extract the validation errors from a request.
     const errors = validationResult(req);
-
+    
     // Create a cabinet object with escaped/trimmed data and old id.
     const cabinet = new Cabinet({
       name:req.body.name,
@@ -270,7 +278,10 @@ exports.cabinet_update_post = [
       price: req.body.price,
       _id: req.params.id,
     });
-
+    if(typeof req.file.filename != undefined){
+      cabinet.image = req.file.filename;
+    } 
+    
     if (!errors.isEmpty()) {
       async.parallel({
         cabinet(callback){
@@ -299,6 +310,13 @@ exports.cabinet_update_post = [
           }
         }
       }
+      if(typeof results.cabinet.image != undefined){
+        const ImageName = "public/images/" + results.cabinet.image;
+
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }}
+
       res.render("cabinet/cabinet_form", {
         title :"Update cabinet",
         cabinet: results.cabinet,
@@ -309,6 +327,17 @@ exports.cabinet_update_post = [
     })
       return;
     }
+    Cabinet.findById(req.params.id, (err, cabinet) => {
+      if (err) {
+        return next(err);
+      }
+      if(typeof cabinet.image != undefined){
+        const ImageName = "public/images/" + cabinet.image;
+
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }}
+    })
 
     // Data from form is valid. Update the record.
     Cabinet.findByIdAndUpdate(req.params.id, cabinet, {}, (err, thecabinet) => {

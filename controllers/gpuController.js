@@ -1,14 +1,14 @@
 const GPU = require("../models/gpu");
-const async = require("async");
-const { body, validationResult } = require("express-validator");
-
 const Brand = require("../models/brand");
 
+const async = require("async");
+const { body, validationResult } = require("express-validator");
+const fs = require("fs");
 
 
 // Display list of all GPU.
 exports.gpu_list = function (req, res, next) {
-    GPU.find({}, "name brand model memory memory_type core_clock stream_processors tdp price")
+    GPU.find({}, "name brand model memory memory_type core_clock stream_processors tdp price image")
       .sort({ name: 1 })
       .populate("brand")
       .exec(function (err, list_gpu) {
@@ -130,7 +130,8 @@ exports.gpu_create_post = [
       boost_clock: req.body.boost_clock,
       stream_processors: req.body.stream_processors,
       tdp: req.body.tdp,
-      price: req.body.price
+      price: req.body.price,
+      image: req.file.filename,
     });
     if (!errors.isEmpty()) {
         // There are errors. Render the form again with sanitized values/error messages.
@@ -202,6 +203,13 @@ exports.gpu_delete_post = (req, res, next) => {
       if (err) {
         return next(err);
       }
+      if(typeof gpu.image != undefined){
+        const ImageName = "public/images/" + gpu.image
+
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }
+      }  
       // Success - go to author list
       res.redirect("/components/gpus");
     })
@@ -245,8 +253,6 @@ exports.gpu_update_get = (req, res, next) => {
   })
 
 };
-
-// Handle gpu update on POST.
 exports.gpu_update_post = [
   // Convert the genre to an array.
   (req, res, next) => {
@@ -256,49 +262,50 @@ exports.gpu_update_post = [
     }
     next();
   },
-  // Validate and sanitize the name field.
-    body("name", "GPU name is required")
-      .trim()
-      .isLength({ min: 1 })
-      .escape(),
-    // Validate and sanitize the brand field.
-    body("brand.*", "GPU brand is required").escape(),
-    // Validate and sanitize the memory field.
+   // Validate and sanitize the name field.
+   body("name", "GPU name is required")
+   .trim()
+   .isLength({ min: 1 })
+   .escape(),
+ // Validate and sanitize the brand field.
+ body("brand.*", "GPU brand is required").escape(),
+ // Validate and sanitize the memory field.
 
-    // Validate and sanitize the model field.
-    body("model", "Model is required").trim().isLength({ min: 1 }).escape(),
-    body("memory", "GPU memory is required").trim().isLength({ min: 1 }).escape(),
-    body("memory_type", "memory type is required").trim().isLength({ min: 1 }).escape(),
-    // Validate and sanitize the core_clock field.
-    body("core_clock", "GPU core_clock is required").trim().isLength({ min: 1 }).escape(),
-    body("boost_clock","boost clock is required").trim().isLength({ min: 1 }).escape(),
-    body("stream_processors", "stream processors is required").trim().isLength({ min: 1 }).escape(),
-    // Validate and sanitize the tdp field.
-    body("tdp", "GPU tdp is required").trim().isLength({ min: 1 }).escape(),
-    // Validate and sanitize the price field.
-  body("price", "GPU price is required").trim().isLength({ min: 1 }).escape(),
+ // Validate and sanitize the model field.
+ body("model", "Model is required").trim().isLength({ min: 1 }).escape(),
+ body("memory", "GPU memory is required").trim().isLength({ min: 1 }).escape(),
+ body("memory_type", "memory type is required").trim().isLength({ min: 1 }).escape(),
+ // Validate and sanitize the core_clock field.
+ body("core_clock", "GPU core_clock is required").trim().isLength({ min: 1 }).escape(),
+ body("boost_clock","boost clock is required").trim().isLength({ min: 1 }).escape(),
+ body("stream_processors", "stream processors is required").trim().isLength({ min: 1 }).escape(),
+ // Validate and sanitize the tdp field.
+ body("tdp", "GPU tdp is required").trim().isLength({ min: 1 }).escape(),
+ // Validate and sanitize the price field.
+ body("price", "GPU price is required").trim().isLength({ min: 1 }).escape(),
 
-
-  // Process request after validation and sanitization.
+  // Process check().not().isEmpty().withMessage('gpu image is required'),request after validation and sanitization.
   (req, res, next) => {
 
     // Extract the validation errors from a request.
     const errors = validationResult(req);
-
+    
     // Create a gpu object with escaped/trimmed data and old id.
     const gpu = new GPU({
-      name:req.body.name,
+      name: req.body.name,
       brand: req.body.brand,
+      model: req.body.model,
       memory: req.body.memory,
       memory_type: req.body.memory_type,
       core_clock: req.body.core_clock,
       boost_clock: req.body.boost_clock,
       stream_processors: req.body.stream_processors,
-      tdp : req.body.tdp,
+      tdp: req.body.tdp,
       price: req.body.price,
+      image: req.file.filename,
       _id: req.params.id,
     });
-
+    
     if (!errors.isEmpty()) {
       async.parallel({
         gpu(callback){
@@ -327,6 +334,13 @@ exports.gpu_update_post = [
           }
         }
       }
+      if(typeof results.gpu.image != undefined){
+        const ImageName = "public/images/" + results.gpu.image;
+
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }}
+      
       res.render("gpu/gpu_form", {
         title :"Update gpu",
         gpu: results.gpu,
@@ -337,6 +351,17 @@ exports.gpu_update_post = [
     })
       return;
     }
+    GPU.findById(req.params.id, (err, gpu) => {
+      if (err) {
+        return next(err);
+      }
+      if(typeof gpu.image != undefined){
+        const ImageName = "public/images/" + gpu.image;
+
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }}
+    })
 
     // Data from form is valid. Update the record.
     GPU.findByIdAndUpdate(req.params.id, gpu, {}, (err, thegpu) => {

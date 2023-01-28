@@ -1,11 +1,16 @@
 
 <%- include('../partials/header.ejs') %>
 
-<form action="" method="post" class="form-custom">
+<form action="" method="post" class="form-custom" enctype="multipart/form-data">
     <div class="form-group">
         <label for="name">Name</label>
         <input type="text" value="<%= (typeof storage === 'undefined' ? '' : storage.name) %>" class="form-control" name="name" id="name" required>
         <div class="invalid-feedback"></div>
+    </div>
+    <div class="form-group">
+        <label for="image">Image</label>
+        <p class="alert-danger">For the moment, you can have only one image for product. In the future, this functionality will be expanded</p>
+        <input type="file" multiple name="image" id="image"  class="form-control" >
     </div>
     <div class="form-group">
         <label for="brand">Brand</label>

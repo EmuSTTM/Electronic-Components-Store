@@ -39,7 +39,10 @@ const cabinetSchema = new mongoose.Schema({
         type: Number,
         min: 0,
         required: true
-    }
+    },
+    image: { 	
+        type: String, 
+    },
 });
 
 

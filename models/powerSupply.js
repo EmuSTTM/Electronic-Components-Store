@@ -29,7 +29,10 @@ const PowerSupplySchema = new Schema({
         type: Number,
         min: 0,
         required: true
-    }
+    },
+    image: { 	
+        type: String, 
+    },
 });
 
 PowerSupplySchema.virtual('url').get(function() {

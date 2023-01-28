@@ -1,10 +1,17 @@
 <%- include('../partials/header.ejs') %>
 
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
     <div class="form-group">
       <label for="name">Name</label>
       <input value="<%= (typeof cabinet === 'undefined' ? '' : cabinet.name)  %>" type="text" class="form-control" name="name" id="name" required>
     </div>
+
+    <div class="form-group">
+      <label for="image">Image</label>
+      <p class="alert-danger">For the moment, you can have only one image for product. In the future, this functionality will be expanded</p>
+      <input type="file" multiple name="image" id="image" required class="form-control" >
+  </div>
+
     <div class="form-group">
       <label for="brand">Brand </label>
         <div>
@@ -15,9 +22,9 @@
         </div>
         <div class="invalid-feedback">
             <% if(typeof errors !== 'undefined'){ %>
-            <% if (error.param === 'brand') { %>
+            <% if (errors.param === 'brand') { %>
                 <div class="alert alert-danger">
-                    <%= error.msg %>
+                    <%= errors.msg %>
                 </div>
             <% }; %>
         <% } %></div>

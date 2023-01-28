@@ -1,6 +1,7 @@
 const Storage = require("../models/storage");
 const async = require("async");
 const { body, validationResult } = require("express-validator");
+const fs = require("fs");
 
 const Brand = require("../models/brand");
 
@@ -98,6 +99,7 @@ exports.storage_create_post = [
      capacity: req.body.capacity,
      speed: req.body.speed,
      price: req.body.price,
+     image: req.file.filename,
    });
 
    if (!errors.isEmpty()) {
@@ -168,6 +170,13 @@ exports.storage_delete_post = (req, res, next) => {
     Storage.findByIdAndRemove(req.body.storageid, (err) => {
       if (err) {
         return next(err);
+      }
+      if(typeof storage.image != undefined){
+        const ImageName = "public/images/" + storage.image
+
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }
       }
       // Success - go to author list
       res.redirect("/components/storages");
@@ -254,6 +263,7 @@ exports.storage_update_post = [
       capacity: req.body.capacity,
       speed: req.body.speed,
       price: req.body.price,
+      image:req.file.filename,
       _id: req.params.id,
     });
 
@@ -285,6 +295,12 @@ exports.storage_update_post = [
           }
         }
       }
+      if(typeof results.storage.image != undefined){
+        const ImageName = "public/images/" + results.storage.image;
+  
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }}
       res.render("storage/storage_form", {
         title :"Update storage",
         storage: results.storage,
@@ -296,6 +312,18 @@ exports.storage_update_post = [
       return;
     }
 
+    Storage.findById(req.params.id, (err, storage) => {
+      if (err) {
+        return next(err);
+      }
+      if(typeof storage.image != undefined){
+        const ImageName = "public/images/" + storage.image;
+
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }}
+    })
+    
     // Data from form is valid. Update the record.
     Storage.findByIdAndUpdate(req.params.id, storage, {}, (err, thestorage) => {
       if (err) {
