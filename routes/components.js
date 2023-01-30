@@ -4,6 +4,7 @@ const router = express.Router();
 
 const brand_controller = require("../controllers/brandController");
 const cabinet_controller = require("../controllers/cabinetController");
+const cpu_controller = require("../controllers/cpuController");
 const gpu_controller = require("../controllers/gpuController");
 const motherboard_controller = require("../controllers/motherboardController");
 const powerSupply_controller = require("../controllers/powerSupplyController");
@@ -39,6 +40,16 @@ router.get("/cabinet/:id/delete", cabinet_controller.cabinet_delete_get);
 router.post("/cabinet/:id/delete", cabinet_controller.cabinet_delete_post);
 router.get("/cabinet/:id/update", cabinet_controller.cabinet_update_get);
 router.post("/cabinet/:id/update", upload.single('image'), cabinet_controller.cabinet_update_post);
+
+// CPU routes
+router.get("/cpus", cpu_controller.cpu_list);
+router.get("/cpu/create", cpu_controller.cpu_create_get);
+router.post("/cpu/create", upload.single('image'), cpu_controller.cpu_create_post);
+router.get("/cpu/:id", cpu_controller.cpu_detail);
+router.get("/cpu/:id/delete", cpu_controller.cpu_delete_get);
+router.post("/cpu/:id/delete", cpu_controller.cpu_delete_post);
+router.get("/cpu/:id/update", cpu_controller.cpu_update_get);
+router.post("/cpu/:id/update", upload.single('image'), cpu_controller.cpu_update_post);
 
 // GPU routes
 router.get("/gpus", gpu_controller.gpu_list);

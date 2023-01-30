@@ -26,9 +26,10 @@
     <div class="form-group">
         <label for="type">Type</label>
         <select class="form-control" name="type" id="type" required>
-            <option <%= ("DDR3" === ram.type ? 'selected' : '') %> value="DDR3">DDR3</option>
-            <option <%= ("DDR4" === ram.type ? 'selected' : '') %> value="DDR4">DDR4</option>
-            <option <%= ("DDR5" === ram.type ? 'selected' : '') %> value="DDR5">DDR5</option>
+            
+            <option <%= (typeof ram !== 'undefined' && "DDR3" === ram.type ? 'selected' : '') %> value="DDR3">DDR3</option>
+            <option <%= (typeof ram !== 'undefined' && "DDR4" === ram.type ? 'selected' : '') %> value="DDR4">DDR4</option>
+            <option <%= (typeof ram !== 'undefined' && "DDR5" === ram.type ? 'selected' : '') %> value="DDR5">DDR5</option>
 
           </select>
     </div>

@@ -1,0 +1,58 @@
+<%- include('../partials/header.ejs') %>
+
+<div class="container">
+  <h1 class="text-center" style="color:gray;">cpu: <%= cpu.name %></h1>
+  <br>
+  <div class="row">
+    <div class="col-md-4">
+      <h4 class="text-secondary">Brand</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= cpu_brand.name %></p>
+    </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Model</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= cpu.model %></p>
+    </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Cores</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= cpu.coreCount %></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <h4 class="text-secondary">Threads</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= cpu.threadCount %></p>
+    </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Clock Speed</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= cpu.clockSpeed %></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <h4 class="text-secondary">Socket</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= cpu.socket %></p>
+    </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Price</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;">$ <%= cpu.price %></p>
+    </div>
+  </div>
+  <br>
+  <div class="row" style="margin-bottom: 20px">
+    <div class="col-md-5">
+        <br>
+        <a href="javascript:history.back()" class="btn btn-primary"> Go Back</a>
+    </div>
+    <div class="col-md-5">
+      <br>
+      <a href="<%= cpu.url %>/delete" class="btn btn-danger">Delete</a>
+    </div>
+    <div class="col-md-2">
+      <br>
+      <a href="<%= cpu.url %>/update" class="btn btn-primary" style="background: rgb(51, 51, 148)"bac>Update</a>
+    </div>
+  </div>
+</div>
+
+
+<%- include('../partials/footer.ejs') %>

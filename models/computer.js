@@ -12,6 +12,11 @@ const computerSchema = new mongoose.Schema({
         ref: 'Brand',
         required: true
         },
+        cpu: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'CPU',
+        required: true
+        },
         gpu: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'GPU',

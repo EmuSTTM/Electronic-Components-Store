@@ -35,10 +35,10 @@
     <div class="form-group">
         <label for="type">Type</label>
         <select class="form-control" name="type" id="type" required>
-            <option <%= ("HDD" === storage.type.toString() ? 'selected' : '') %> value="HDD">HDD</option>
-            <option <%= ("SSD" === storage.type.toString() ? 'selected' : '') %> value="SSD">SSD</option>
-            <option <%= ("SSHD" === storage.type.toString() ? 'selected' : '') %> value="SSHD">SSHD</option>
-            <option <%= ("NVMe" === storage.type.toString() ? 'selected' : '') %> value="NVMe">NVMe</option>
+            <option <%= (typeof storage !== 'undefined' && "HDD" === storage.type.toString() ? 'selected' : '') %> value="HDD">HDD</option>
+            <option <%= (typeof storage !== 'undefined' && "SSD" === storage.type.toString() ? 'selected' : '') %> value="SSD">SSD</option>
+            <option <%= (typeof storage !== 'undefined' && "SSHD" === storage.type.toString() ? 'selected' : '') %> value="SSHD">SSHD</option>
+            <option <%= (typeof storage !== 'undefined' && "NVMe" === storage.type.toString() ? 'selected' : '') %> value="NVMe">NVMe</option>
         </select>
     </div>
     <div class="form-group">
