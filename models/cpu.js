@@ -15,15 +15,15 @@ const cpuSchema = new Schema({
         type: String,
         required: true
     },
-    coreCount: {
+    core_count: {
         type: Number,
         required: true
     },
-    threadCount: {
+    thread_count: {
         type: Number,
         required: true
     },
-    clockSpeed: {
+    clock_speed: {
         type: String,
         match: /^\d+ MHz$/,
         required: true
@@ -35,6 +35,10 @@ const cpuSchema = new Schema({
     socket: {
         type: String,
         required: true
+    },
+    frecuency_ram: {
+        type: Number,
+        required: true,
     },
     image: {
         type: String

@@ -22,9 +22,9 @@
           <td><a href="<%= cpu_list[i].url %>"> <%= cpu_list[i].name %> </a></td>
           <td><%= cpu_list[i].model %></td>
           <td><a href="<%= cpu_list[i].brand.url %>"><%= cpu_list[i].brand.name %></a></td>
-          <td><%= cpu_list[i].coreCount %></td>
-          <td><%= cpu_list[i].threadCount %></td>
-          <td><%= cpu_list[i].clockSpeed %> GHz</td>
+          <td><%= cpu_list[i].core_count %></td>
+          <td><%= cpu_list[i].thread_count %></td>
+          <td><%= cpu_list[i].clock_speed %> GHz</td>
           <td><%= cpu_list[i].socket %></td>
           <td><%= "$" + cpu_list[i].price + " pesos argentinos" %></td>
         </tr>

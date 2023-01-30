@@ -35,13 +35,42 @@
         <input type="text" value="<%= (typeof motherboard === 'undefined' ? '' : motherboard.chipset) %>" class="form-control" name="chipset" id="chipset" required>
     </div>
     <div class="form-group">
-        <label for="ram_slots">Ram slots</label>
-        <input type="number" value="<%= (typeof motherboard === 'undefined' ? '' : motherboard.ramSlots) %>" class="form-control" name="ram_slots" id="ram_slots" min="0" required>
+        <label for="socket">Socket</label>
+        <input type="text" value="<%= (typeof motherboard === 'undefined' ? '' : motherboard.socket) %>" class="form-control" name="socket" id="socket" placeholder="AM4, 1151, ETC." required>
     </div>
     <div class="form-group">
-        <label for="max_ram">Max RAM</label>
-        <input type="text" value="<%= (typeof motherboard === 'undefined' ? '' : motherboard.maxRam) %>" class="form-control" name="max_ram" id="max_ram" min="0" placeholder="X GB" required>
+        <label for="type">type</label>
+        <select class="form-control" name="type" id="type" required>
+    
+            <option <%= (typeof motherboard !== 'undefined' && "ATX" === motherboard.type) ? 'selected' : '' %> value="ATX">ATX</option>
+            <option <%= (typeof motherboard !== 'undefined' && "M-ATX" === motherboard.type) ? 'selected' : '' %> value="M-ATX">M-ATX</option>
+            <option <%= (typeof motherboard !== 'undefined' && "ITX" === motherboard.type) ? 'selected' : '' %> value="ITX">ITX</option>
+          </select>
     </div>
+    <div class="form-group">
+        <label for="frecuency_ram">RAM frecuency in MHz</label>
+        <input type="text" value="<%= (typeof motherboard === 'undefined' ? '' : motherboard.frecuency_ram) %>" class="form-control" name="frecuency_ram" id="frecuency_ram" required>
+    </div>
+    <div class="form-group">
+        <label for="socket_ram"> RAM socket </label>
+        <select class="form-control" name="socket_ram" id="socket_ram" required>
+            
+            <option <%= (typeof motherboard  !== 'undefined' && "DDR3" === motherboard.socket_ram ? 'selected' : '') %> value="DDR3">DDR3</option>
+            <option <%= (typeof motherboard !== 'undefined' && "DDR4" === motherboard.socket_ram ? 'selected' : '') %> value="DDR4">DDR4</option>
+            <option <%= (typeof motherboard !== 'undefined' && "DDR5" === motherboard.socket_ram ? 'selected' : '') %> value="DDR5">DDR5</option>
+
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="ram_slots">Ram slots</label>
+        <input type="number" value="<%= (typeof motherboard === 'undefined' ? '' : motherboard.ram_slots) %>" class="form-control" name="ram_slots" id="ram_slots" min="0" required>
+    </div>
+    <div class="form-group">
+        <label for="max_ram">Max RAM in Gigabytes</label>
+        <input type="number" value="<%= (typeof motherboard === 'undefined' ? '' : motherboard.max_ram) %>" class="form-control" name="max_ram" id="max_ram" min="0"  required>
+    </div>
+    
+    
     <div class="form-group">
         <label for="price">Price</label>
         <input type="number" value="<%= (typeof motherboard === 'undefined' ? '' : motherboard.price) %>" class="form-control" name="price" id="price" min="0" required>

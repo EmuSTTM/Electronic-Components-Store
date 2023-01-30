@@ -27,17 +27,21 @@
 
     <div class="form-group">
         <label for="coreCount">Core Count</label>
-        <input type="number" class="form-control" name="coreCount" id="coreCount" min="0" value="<%= (typeof cpu === 'undefined' ? '' : cpu.coreCount) %>"  required>
+        <input type="number" class="form-control" name="coreCount" id="coreCount" min="0" value="<%= (typeof cpu === 'undefined' ? '' : cpu.core_count) %>"  required>
     </div>
 
     <div class="form-group">
         <label for="threadCount">Thread Count</label>
-        <input  type="number" class="form-control" name="threadCount" id="threadCount" min="0"  value="<%= (typeof cpu === 'undefined' ? '' : cpu.threadCount) %>"required>
+        <input  type="number" class="form-control" name="threadCount" id="threadCount" min="0"  value="<%= (typeof cpu === 'undefined' ? '' : cpu.thread_count) %>"required>
     </div>
 
     <div class="form-group">
         <label for="clockSpeed">Clock Speed</label>
-        <input type="text" class="form-control" value="<%= (typeof cpu === 'undefined' ? '' : cpu.clockSpeed) %>" name="clockSpeed" id="clockSpeed" placeholder="XXXX MHz" required>
+        <input type="text" class="form-control" value="<%= (typeof cpu === 'undefined' ? '' : cpu.clock_speed) %>" name="clockSpeed" id="clockSpeed" placeholder="XXXX MHz" required>
+    </div>
+    <div class="form-group">
+        <label for="frecuencyRam">RAM frecuency</label>
+        <input type="text" class="form-control" value="<%= (typeof cpu === 'undefined' ? '' : cpu.frecuency_ram) %>" name="frecuencyRam" id="frecuencyRam" placeholder="XXXX MHz" required>
     </div>
 
     <div class="form-group">

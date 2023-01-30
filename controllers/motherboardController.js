@@ -79,21 +79,17 @@ exports.motherboard_create_post = [
     }
     next();
   },
-  // Validate and sanitize the name field.
-  body("name", "Motherboard name is required")
-    .trim()
-    .isLength({ min: 1 })
-    .escape(),
-  // Validate and sanitize the brand field.
+  // Validate and sanitize the fields.
+  body("name", "Motherboard name is required").trim().isLength({ min: 1 }).escape(),
   body("brand.*", "Motherboard brand is required").escape(),
-  // Validate and sanitize the chipset field.
   body("chipset", "Chipset is required").trim().isLength({ min: 1 }).escape(),
-  // Validate and sanitize the ram_slots field.
   body("ram_slots", "Ram slots is required").trim().isLength({ min: 1 }).escape(),
-  // Validate and sanitize the max_ram field.
   body("max_ram", "Max Ram is required").trim().isLength({ min: 3 }).escape(),
-  // Validate and sanitize the price field.
   body("price", "Motherboard price is required").trim().isLength({ min: 1 }).escape(),
+  body("frecuency_ram", "Frecuency Ram is required").trim().isLength({ min: 1 }).escape(),
+  body("socket", "Socket is required").trim().isLength({ min: 1 }).escape(),
+  body("socket_ram", "Socket RAM is required").trim().isLength({min: 1 }).escape(),
+  body("type", "Motherboard type is required").trim().isLength({ min: 1 }).escape(),
   // Process request after validation and sanitization.
   (req, res, next) => {
     // Extract the validation errors from a request.
@@ -104,11 +100,16 @@ exports.motherboard_create_post = [
       name: req.body.name,
       brand: req.body.brand,
       chipset: req.body.chipset,
-      ramSlots: req.body.ram_slots,
-      maxRam: req.body.max_ram,
+      ram_slots: req.body.ram_slots,
+      max_ram: req.body.max_ram,
       price: req.body.price,
+      frecuency_ram: req.body.frecuency_ram,
+      socket: req.body.socket,
+      type: req.body.type,
+      socket_ram: req.body.socket_ram,
       image: req.file.filename,
     });
+
 
     if (!errors.isEmpty()) {
         // There are errors. Render the form again with sanitized values/error messages.
@@ -244,20 +245,16 @@ exports.motherboard_update_post = [
     next();
   },
    // Validate and sanitize the name field.
-   body("name", "Motherboard name is required")
-   .trim()
-   .isLength({ min: 1 })
-   .escape(),
- // Validate and sanitize the brand field.
- body("brand.*", "Motherboard brand is required").escape(),
- // Validate and sanitize the chipset field.
- body("chipset", "Chipset is required").trim().isLength({ min: 1 }).escape(),
- // Validate and sanitize the ram_slots field.
- body("ram_slots", "Ram slots is required").trim().isLength({ min: 1 }).escape(),
- // Validate and sanitize the max_ram field.
- body("max_ram", "Max Ram is required").trim().isLength({ min: 3 }).escape(),
- // Validate and sanitize the price field.
- body("price", "Motherboard price is required").trim().isLength({ min: 1 }).escape(),
+  body("name", "Motherboard name is required").trim().isLength({ min: 1 }).escape(),
+  body("brand.*", "Motherboard brand is required").escape(),
+  body("chipset", "Chipset is required").trim().isLength({ min: 1 }).escape(),
+  body("ram_slots", "Ram slots is required").trim().isLength({ min: 1 }).escape(),
+  body("max_ram", "Max Ram is required").trim().isLength({ min: 3 }).escape(),
+  body("price", "Motherboard price is required").trim().isLength({ min: 1 }).escape(),
+  body("frecuency_ram", "Frecuency Ram is required").trim().isLength({ min: 1 }).escape(),
+  body("socket", "Socket is required").trim().isLength({ min: 1 }).escape(),
+  body("socket_ram", "Socket Ram is required").trim().isLength({ min: 1 }).escape(),
+  body("type", "Motherboard type is required").trim().isLength({ min: 1 }).escape(),
 
 
   // Process request after validation and sanitization.
@@ -274,6 +271,10 @@ exports.motherboard_update_post = [
       ramSlots: req.body.ram_slots,
       maxRam: req.body.max_ram,
       price: req.body.price,
+      frecuency_ram: req.body.frecuency_ram,
+      socket: req.body.socket,
+      socket_ram: req.body.socket_ram,
+      type: req.body.type,
       image: req.file.filename,
       _id: req.params.id,
     });

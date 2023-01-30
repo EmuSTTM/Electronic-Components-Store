@@ -32,11 +32,11 @@ const computerSchema = new mongoose.Schema({
         ref: 'Power Supply',
         required: true
         },
-        ram: {
+        ram: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'RAMModel',
         required: true
-        },
+        }],
         storage: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Storage',

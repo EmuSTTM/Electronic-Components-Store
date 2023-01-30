@@ -21,19 +21,45 @@ const motherboardSchema = new mongoose.Schema({
         // enum: ['Intel H370', 'AMD B450', 'Intel Z490'], 
         required: true 
     },
-    ramSlots: { 
+    ram_slots: { 
         type: Number, 
         min: 0, 
         required: true 
     },
-    maxRam: { 
-        type: String, 
-        match: /^\d+( GB| TB)$/, 
+    max_ram: { 
+        type: Number,  
         required: true 
     },
     image: { 	
         type: String, 
     },
+    
+    // properties for compatibilities
+
+    // For the CPU and for the ram
+    frecuency_ram: {
+        type: Number,
+        required: true,
+    },
+    // For the cpu
+    socket: {
+        type: String,
+        required: true,
+    },
+
+    // For the cabinet and for the GPU
+    type: {
+        type: String,
+        enum: ['ITX', 'M-ATX', 'ATX'],
+        required: true,
+    
+    },
+    // For the ram sockets
+    socket_ram: {
+        type: String,
+        required: true,
+    },
+
 });
 
 motherboardSchema.virtual('url').get(function() {
