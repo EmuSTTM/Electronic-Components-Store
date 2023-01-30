@@ -9,7 +9,7 @@ const fs = require("fs");
 
 // Display list of all Motherboards.
 exports.motherboard_list = function (req, res, next) {
-    Motherboard.find({}, "name brand chipset ramSlots maxRam price image")
+    Motherboard.find({}, "name brand chipset ram_slots max_ram price image")
       .sort({ name: 1 })
       .populate("brand")
       .exec(function (err, list_motherboard) {

@@ -7,47 +7,47 @@ const computerSchema = new mongoose.Schema({
         ref: 'Cabinet',
         required: true
         },
-        brand: {
+      brand: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Brand',
         required: true
         },
-        cpu: {
+      cpu: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'CPU',
         required: true
         },
-        gpu: {
+      gpu: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'GPU',
         required: true
         },
-        motherboard: {
+      motherboard: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Motherboard',
         required: true
         },
-        powerSupply: {
+      powerSupply: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Power Supply',
         required: true
         },
-        ram: [{
+      ram: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'RAMModel',
         required: true
         }],
-        storage: {
+      storage: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Storage',
         required: true
         },
-        price: {
+      price: {
         type: Number,
         required: true,
         min: 0,
         },
-        image: {
+      image: {
         type: String,
         }
 });
@@ -56,5 +56,5 @@ computerSchema.virtual('url').get(function() {
     return `/components/computer/${this._id}`
   })
 
-const Computer = mongoose.model('computer', computerSchema);
+const Computer = mongoose.model('Computer', computerSchema);
 module.exports = Computer;
