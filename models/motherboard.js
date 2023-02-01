@@ -21,11 +21,7 @@ const motherboardSchema = new mongoose.Schema({
         // enum: ['Intel H370', 'AMD B450', 'Intel Z490'], 
         required: true 
     },
-    ram_slots: { 
-        type: Number, 
-        min: 0, 
-        required: true 
-    },
+    
     max_ram: { 
         type: Number,  
         required: true 
@@ -35,7 +31,11 @@ const motherboardSchema = new mongoose.Schema({
     },
     
     // properties for compatibilities
-
+    ram_slots: { 
+        type: Number, 
+        min: 0, 
+        required: true 
+    },
     // For the CPU and for the ram
     frecuency_ram: {
         type: Number,
@@ -57,8 +57,15 @@ const motherboardSchema = new mongoose.Schema({
     // For the ram sockets
     socket_ram: {
         type: String,
+        enum: ['DDR3', 'DDR4', 'DDR5'],
         required: true,
     },
+
+    //  I need the add this comprobation in the motherboards
+    // socket_v2: {
+    //     type: Number,
+    //     required: true,
+    // }
 
 });
 

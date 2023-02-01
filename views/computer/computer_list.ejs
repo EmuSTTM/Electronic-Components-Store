@@ -1,4 +1,36 @@
 <%- include('../partials/header.ejs') %>
-This is pc list 
+
+<div class="container">
+  <h1 class="text-center my-5"> <%= title %> </h1>
+
+  <div class="row">
+    <% for (var i=0; i< computer_list.length; i++) { %>
+      <div class="col-md-4 mb-3">
+        <div class="card h-100">
+
+          <img src="<%=  typeof computer_list[i].toObject().image !== 'undefined' ? '/images/' + computer_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= computer_list[i].name%>">
+          <div class="card-body">
+            <h5 class="card-title"> <a href="<%= computer_list[i].url %>"><%= computer_list[i].name %></a>  </h5> 
+            <p class="card-text">
+               Marca: <%= computer_list[i].brand.name %> <br>
+               - <%= computer_list[i].cpu.name %>  <br>
+               - <%= computer_list[i].gpu.name %>  <br>
+               - <%= computer_list[i].motherboard.name %>  <br>
+               - <%= computer_list[i].cabinet.name %>  <br><br>
+               $ <%= computer_list[i].price %> Pesos Argentinos
+            </p>
+            <a href="<%= computer_list[i].url %>" class="btn btn-primary">See More</a>
+          </div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+  <% if(computer_list.length === 0) { %>
+    <div class="text-center my-5">
+      <h3> There are no computers.</h3>
+    </div>
+  <% } %>
+</div>
+
 
 <%- include('../partials/footer.ejs') %>

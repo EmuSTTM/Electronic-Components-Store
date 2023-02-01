@@ -17,7 +17,7 @@ const cabinetSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ['ATX', 'micro-ATX', 'mini-ITX'],
+        enum: ['ATX', 'M-ATX', 'ITX'],
         required: true
     },
     bay_5_25: {

@@ -1,3 +1,74 @@
 <%- include('../partials/header.ejs') %>
-This is computer detail 
+<div class="container">
+    <h1 class="text-center" style="color:gray;">computer: <%= computer.name %></h1>
+    <h4 class="text-center" style="color:rgb(185, 185, 185);">description <%= computer.description %></h4>
+    <br>
+    <div class="row">
+      <div class="col-md-4">
+        <h4 class="text-secondary">Brand</h4>
+        <p  style="background-color: #6c757d; padding: 10px;"> <a class="text-white" href="<%= computer.brand.url %>"><%= computer.brand.name %></a> </p>
+      </div>
+      <div class="col-md-4">
+        <h4 class="text-secondary">CPU</h4>
+        <p  style="background-color: #6c757d; padding: 10px;"> <a class="text-white" href="<%= computer.cpu.url %>"><%= computer.cpu.name %></a></p>
+      </div>
+      <div class="col-md-4">
+        <h4 class="text-secondary">GPU</h4>
+        <p  style="background-color: #6c757d; padding: 10px;"> <a class="text-white" href="<%= computer.gpu.url %>"><%= computer.gpu.name %></a></p>
+      </div>
+      <div class="col-md-4">
+        <h4 class="text-secondary">Cabinet</h4>
+        <p  style="background-color: #6c757d; padding: 10px;"> <a class="text-white"  href="<%= computer.cabinet.url %>"><%= computer.cabinet.name %></a></p>
+      </div>
+      <div class="col-md-4">
+        <h4 class="text-secondary">Power Supply </h4>
+        <p  style="background-color: #6c757d; padding: 10px;"> <a class="text-white" href="<%= computer.powerSupply.url %>"><%= computer.powerSupply.name %></a></p>
+      </div>
+      <div class="col-md-4">
+        <h4 class="text-secondary">Rams</h4>
+        <% if(computer.ram.length > 0){ %>
+          <ul class="list-group">
+            <% computer.ram.forEach(function(ram){ %>
+              <li class="list-group-item" style="background-color: #6c757d;">
+                <a href="<%= ram.url %>" class="text-white"><%= ram.name %></a>
+              </li>
+            <% }); %>
+          </ul>
+        <% } %>
+      </div>
+      <div class="col-md-4">
+        <h4 class="text-secondary">Storages</h4>
+        <% if(computer.storage.length > 0){ %>
+          <ul class="list-group">
+            <% computer.storage.forEach(function(storage){ %>
+              <li class="list-group-item" style="background-color: #6c757d;">
+                <a href="<%= storage.url %>" class="text-white"><%= storage.name %></a>
+              </li>
+            <% }); %>
+          </ul>
+        <% } %>
+      </div>
+      <div class="col-md-4">
+        <h4 class="text-secondary">Price</h4>
+        <p  class="text-white" style="background-color:  #092309; padding: 10px;"> $ <%= computer.price %></p>
+      </div>
+
+     
+    <br>
+    <div class="row" style="margin-bottom: 20px">
+      <div class="col-md-5">
+          <br>
+          <a href="javascript:history.back()" class="btn btn-primary"> Go Back</a>
+      </div>
+      <div class="col-md-5">
+        <br>
+        <a href="<%= computer.url %>/delete" class="btn btn-danger">Delete</a>
+      </div>
+      <div class="col-md-2">
+        <br>
+        <a href="<%= computer.url %>/update" class="btn btn-primary" style="background: rgb(51, 51, 148)"bac>Update</a>
+      </div>
+    </div>
+  </div>
+  
 <%- include('../partials/footer.ejs') %>

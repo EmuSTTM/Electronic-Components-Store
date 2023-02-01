@@ -2,7 +2,17 @@ const mongoose = require('mongoose');
 
 
 const computerSchema = new mongoose.Schema({
-    cabinet: {
+  name: {
+    type: String,
+    required: true
+    },
+    
+  description: {
+    type: String,
+
+  },
+
+      cabinet: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Cabinet',
         required: true
@@ -12,6 +22,7 @@ const computerSchema = new mongoose.Schema({
         ref: 'Brand',
         required: true
         },
+      
       cpu: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'CPU',
@@ -37,14 +48,13 @@ const computerSchema = new mongoose.Schema({
         ref: 'RAMModel',
         required: true
         }],
-      storage: {
+      storage: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Storage',
         required: true
-        },
+        }],
       price: {
         type: Number,
-        required: true,
         min: 0,
         },
       image: {
@@ -53,7 +63,7 @@ const computerSchema = new mongoose.Schema({
 });
 
 computerSchema.virtual('url').get(function() {
-    return `/components/computer/${this._id}`
+    return `/computers/computer/${this._id}`
   })
 
 const Computer = mongoose.model('Computer', computerSchema);
