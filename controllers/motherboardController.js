@@ -90,6 +90,8 @@ exports.motherboard_create_post = [
   body("socket", "Socket is required").trim().isLength({ min: 1 }).escape(),
   body("socket_ram", "Socket RAM is required").trim().isLength({min: 1 }).escape(),
   body("type", "Motherboard type is required").trim().isLength({ min: 1 }).escape(),
+  body("sockets_v2", "Sockets V2 are required").trim().isLength({ min: 1 }).escape(),
+  body("sockets_sata", "Sockets SATA are required").trim().isLength({ min: 1 }).escape(),
   // Process request after validation and sanitization.
   (req, res, next) => {
     // Extract the validation errors from a request.
@@ -107,6 +109,8 @@ exports.motherboard_create_post = [
       socket: req.body.socket,
       type: req.body.type,
       socket_ram: req.body.socket_ram,
+      sockets_sata: req.body.sockets_sata,
+      sockets_v2: req.body.sockets_v2,
       image: req.file.filename,
     });
 
@@ -255,7 +259,8 @@ exports.motherboard_update_post = [
   body("socket", "Socket is required").trim().isLength({ min: 1 }).escape(),
   body("socket_ram", "Socket Ram is required").trim().isLength({ min: 1 }).escape(),
   body("type", "Motherboard type is required").trim().isLength({ min: 1 }).escape(),
-
+  body("sockets_v2", "Sockets V2 are required").trim().isLength({ min: 1 }).escape(),
+  body("sockets_sata", "Sockets SATA are required").trim().isLength({ min: 1 }).escape(),
 
   // Process request after validation and sanitization.
   (req, res, next) => {
@@ -274,6 +279,8 @@ exports.motherboard_update_post = [
       frecuency_ram: req.body.frecuency_ram,
       socket: req.body.socket,
       socket_ram: req.body.socket_ram,
+      sockets_sata: req.body.sockets_sata,
+      sockets_v2: req.body.sockets_v2,
       type: req.body.type,
       image: req.file.filename,
       _id: req.params.id,

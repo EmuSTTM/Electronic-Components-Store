@@ -65,6 +65,16 @@
         <label for="ram_slots">Ram slots</label>
         <input type="number" value="<%= (typeof motherboard === 'undefined' ? '' : motherboard.ram_slots) %>" class="form-control" name="ram_slots" id="ram_slots" min="0" required>
     </div>
+    <h4>Storages</h4>
+    <div class="form-group">
+        <label for="sockets_v2">Sockets V2</label>
+        <input type="number" value="<%= (typeof motherboard === 'undefined' ? '' : motherboard.sockets_v2) %>" class="form-control" name="sockets_v2" id="sockets_v2" min="0" required>
+    </div>
+
+    <div class="form-group">
+        <label for="sockets_sata">Sockets SATA </label>
+        <input type="number" value="<%= (typeof motherboard === 'undefined' ? '' : motherboard.sockets_sata) %>" class="form-control" name="sockets_sata" id="sockets_sata" min="0" required>
+    </div>
     <div class="form-group">
         <label for="max_ram">Max RAM in Gigabytes</label>
         <input type="number" value="<%= (typeof motherboard === 'undefined' ? '' : motherboard.max_ram) %>" class="form-control" name="max_ram" id="max_ram" min="0"  required>

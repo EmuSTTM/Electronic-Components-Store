@@ -61,11 +61,16 @@ const motherboardSchema = new mongoose.Schema({
         required: true,
     },
 
-    //  I need the add this comprobation in the motherboards
-    // socket_v2: {
-    //     type: Number,
-    //     required: true,
-    // }
+    //  This comprobation it's for the storages compatibility 
+    sockets_v2: {
+        type: Number,
+        required: true,
+    },
+
+    sockets_sata: {
+        type: Number,
+        required: true,
+    }
 
 });
 
