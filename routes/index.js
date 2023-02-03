@@ -1,14 +1,14 @@
 var express = require('express');
 var router = express.Router();
 const computer_controller = require("../controllers/computerController");
+const index_controller = require("../controllers/indexController");
 
 // Middleware of multers 
 const upload = require("../middlewares/uploadImage");
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.redirect("/components");
-});
+router.get('/', index_controller.index);
+
 
 router.get("/pcBuild", computer_controller.computer_create_get);
 router.post("/pcBuild", upload.single('image'), computer_controller.computer_create_post);

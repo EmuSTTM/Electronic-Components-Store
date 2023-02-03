@@ -1,40 +1,37 @@
-
 <%- include('../partials/header.ejs') %>
 <div class="container">
-    <h1 class="text-center"><%= title %></h1>
-    <br>
-    <div class="row">
-      <% for (var i=0; i< storage_list.length; i++) { %>
-        <div class="col-md-4">
-          <div class="card text-center">
-            <div class="card-header">
-              <h5><a href="<%= storage_list[i].url %>"> <%= storage_list[i].name %> </a></h5>
-            </div>
-            <div class="card-body">
-              <p class="card-text">Brand: 
-                <% for (var j=0; j< storage_list[i].brand.length; j++) { %>
-                  <%= storage_list[i].brand[j].name %>
-                  <% if (j != storage_list[i].brand.length -1) { %>
-                    ,
-                  <% } %>
-                <% } %>
-              </p>
-              <p class="card-text">Type: <%= storage_list[i].type %></p>
-              <p class="card-text">Interface: <%= storage_list[i].interface %></p>
-              <p class="card-text">Price: $ <%= storage_list[i].price %></p>
-            </div>
+  <h1 class="text-center my-5"> <%= title %> </h1>
+
+  <div class="row">
+    <% for (var i=0; i< storage_list.length; i++) { %>
+      <div class="col-md-3 mb-3">
+        <div class="card h-100">
+
+          <img src="<%=  typeof storage_list[i].toObject().image !== 'undefined' ? '/images/' + storage_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= storage_list[i].name%>">
+          <div class="card-body">
+            <h5 class="card-title"> <a href="<%= storage_list[i].url %>"><%= storage_list[i].name %></a>  </h5> 
+            <p class="card-text">
+              <% for (var j = 0; j < storage_list[i].brand.length; j++) { %>
+                <%= storage_list[i].brand[j].name %>
+              <% } %>
+             
+              <br>
+              <%= storage_list[i].type %> <br>
+              <%= storage_list[i].speed %> <br>
+              <span class="badge badge-success badge-pill">
+                <%= "$" + storage_list[i].price + " ARS"%>
+              </span>
+            </p>
+            <a href="<%= storage_list[i].url %>" class="btn btn-primary">See More</a>
           </div>
-          <br>
         </div>
-      <% } %>
-    </div>
-    <% if(storage_list.length === 0) { %>
-      <div class="alert alert-danger text-center" role="alert">
-        There are no storages.
       </div>
     <% } %>
   </div>
-  
-  <%- include('../partials/footer.ejs') %>
-  
-  
+  <% if(storage_list.length === 0) { %>
+    <div class="text-center my-5">
+      <h3> There are no storages.</h3>
+    </div>
+  <% } %>
+</div>
+<%- include('../partials/footer.ejs') %>

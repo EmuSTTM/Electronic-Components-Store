@@ -13,7 +13,7 @@ const fs = require("fs");
 
 // Display list of all Brands. Brand list it's a it useless
 exports.brand_list = function (req, res, next) {
-    Brand.find({}, "name")
+    Brand.find({}, "name image")
       .sort({ name: 1 })
       .exec(function (err, list_brand) {
         if (err) {
@@ -94,7 +94,13 @@ exports.brand_create_post = [
     // Create a brand object with escaped and trimmed data.
     const brand = new Brand({ 
       name: req.body.name,
-      image: req.file.filename });
+    });
+    if (typeof req.file.filename !== "undefined") {
+      brand.image = req.file.filename;
+    }
+    if (typeof req.body.description !== "undefined") {
+      brand.description = req.body.description;
+    }
 
     if (!errors.isEmpty()) {
       // There are errors. Render the form again with sanitized values/error messages.
@@ -277,11 +283,15 @@ exports.brand_update_post = async (req, res, next) => {
 
     const brand = new Brand({
       name: req.body.name,
+      
       _id: req.params.id
     });
 
-    if (req.file && req.file.filename) {
+    if (typeof req.file.filename !== "undefined") {
       brand.image = req.file.filename;
+    }
+    if (typeof req.body.description !== "undefined") {
+      brand.description = req.body.description;
     }
 
     const updatedBrand = await Brand.findByIdAndUpdate(req.params.id, brand, {});

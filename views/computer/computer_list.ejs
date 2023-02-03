@@ -12,12 +12,10 @@
           <div class="card-body">
             <h5 class="card-title"> <a href="<%= computer_list[i].url %>"><%= computer_list[i].name %></a>  </h5> 
             <p class="card-text">
-               Marca: <%= computer_list[i].brand.name %> <br>
-               - <%= computer_list[i].cpu.name %>  <br>
-               - <%= computer_list[i].gpu.name %>  <br>
-               - <%= computer_list[i].motherboard.name %>  <br>
-               - <%= computer_list[i].cabinet.name %>  <br><br>
-               $ <%= computer_list[i].price %> Pesos Argentinos
+            <br>
+               <span class="badge badge-success badge-pill">
+                <%= "$" + computer_list[i].price + " ARS"%>
+              </span>
             </p>
             <a href="<%= computer_list[i].url %>" class="btn btn-primary">See More</a>
           </div>

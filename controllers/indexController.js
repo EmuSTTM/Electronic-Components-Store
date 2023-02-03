@@ -5,6 +5,8 @@ const Motherboard = require("../models/motherboard");
 const PowerSupply = require("../models/powerSupply");
 const RAM = require("../models/ram");
 const Storage = require("../models/storage");
+const CPU = require("../models/cpu");
+const Computer = require("../models/computer");
 
 const async = require("async");
 
@@ -31,6 +33,12 @@ exports.index = (req, res) => {
         },
         storage_count(callback) {
           Storage.countDocuments({}, callback);
+        },
+        cpu_count(callback) {
+          CPU.countDocuments({}, callback);
+        },
+        computer_count(callback) {
+          Computer.countDocuments({}, callback);
         },
       },
       (err, results) => {

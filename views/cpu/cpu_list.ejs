@@ -1,36 +1,37 @@
 <%- include('../partials/header.ejs') %>
 
 <div class="container">
-    <h1><%= title %></h1>
+  <h1 class="text-center my-5"> <%= title %> </h1>
 
-<table class="table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Model</th>
-        <th>Brand</th>
-        <th>Core Count</th>
-        <th>Thread Count</th>
-        <th>Clock Speed</th>
-        <th>Socket</th>
-        <th>Price</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% for (var i=0; i< cpu_list.length; i++) { %>
-        <tr>
-          <td><a href="<%= cpu_list[i].url %>"> <%= cpu_list[i].name %> </a></td>
-          <td><%= cpu_list[i].model %></td>
-          <td><a href="<%= cpu_list[i].brand.url %>"><%= cpu_list[i].brand.name %></a></td>
-          <td><%= cpu_list[i].core_count %></td>
-          <td><%= cpu_list[i].thread_count %></td>
-          <td><%= cpu_list[i].clock_speed %> GHz</td>
-          <td><%= cpu_list[i].socket %></td>
-          <td><%= "$" + cpu_list[i].price + " pesos argentinos" %></td>
-        </tr>
-        <% } %>
-    </tbody>
-  </table>
+  <div class="row">
+    <% for (var i=0; i< cpu_list.length; i++) { %>
+      <div class="col-md-3 mb-3">
+        <div class="card h-100">
+
+          <img src="<%=  typeof cpu_list[i].toObject().image !== 'undefined' ? '/images/' + cpu_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= cpu_list[i].name%>">
+          <div class="card-body">
+            <h5 class="card-title"> <a href="<%= cpu_list[i].url %>"><%= cpu_list[i].name %></a>  </h5> 
+            <p class="card-text">
+              <% for (var j = 0; j < cpu_list[i].brand.length; j++) { %>
+                <%= cpu_list[i].brand[j].name %>
+              <% } %>
+              - <%= cpu_list[i].core_count %> cores <br>
+              - <%= cpu_list[i].thread_count %> threads<br>
+              <span class="badge badge-success badge-pill">
+                <%= "$" + cpu_list[i].price + " ARS"%>
+              </span>
+            </p>
+            <a href="<%= cpu_list[i].url %>" class="btn btn-primary">See More</a>
+          </div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+  <% if(cpu_list.length === 0) { %>
+    <div class="text-center my-5">
+      <h3> There are no cpus.</h3>
+    </div>
+  <% } %>
 </div>
 <%- include('../partials/footer.ejs') %>
   

@@ -1,20 +1,36 @@
 <%- include('../partials/header.ejs') %>
 
-  <h1><%= title %></h1>
 
-  <ul>
-    <% for (var i=0; i< brand_list.length; i++) { %>
-      <li>
-        <a href="<%= brand_list[i].url %>"> <%= brand_list[i].name %> </a>
-        
-      </li>
-    <% } %>
+
+  <div class="container">
+    <h1 class="text-center my-5"> <%= title %> </h1>
+  
+    <div class="row">
+      <% for (var i=0; i< brand_list.length; i++) { %>
+        <div class="col-md-2 mb-3">
+          <div class="card h-100 text-center">
+  
+            <img src="<%=  typeof brand_list[i].toObject().image !== 'undefined' ? '/images/' + brand_list[i].image : 'https://via.placeholder.com/100x100' %>" class="card-img-top" alt="<%= brand_list[i].name%>">
+            <div class="card-body">
+              <h5 class="card-title"> <a href="<%= brand_list[i].url %>"> <%= brand_list[i].name %> </a> </h5> 
+            </div>
+          </div>
+        </div>
+        <% if ((i + 1) % 5 === 0) { %>
+          </div>
+          <div class="row">
+        <% } %>
+      <% } %>
+    </div>
     <% if(brand_list.length === 0) { %>
-      <li> There are no brands.</li>
+      <div class="text-center my-5">
+        <h3> There are no brands.</h3>
+      </div>
     <% } %>
-  </ul>
-
+  </div>
+  
   <%- include('../partials/footer.ejs') %>
+
 
 
 

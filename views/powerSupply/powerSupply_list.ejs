@@ -1,44 +1,38 @@
 <%- include('../partials/header.ejs') %>
 <div class="container">
-    <h1 class="text-center"><%= title %></h1>
-    <br>
-    <table class="table table-hover table-striped">
-      <thead class="thead-dark">
-        <tr>
-          <th>Name</th>
-          <th>Brand</th>
-          <th>Model</th>
-          <th>Power</th>
-          <th>Certifications</th>
-          <th>Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% for (var i=0; i< powerSupply_list.length; i++) { %>
-          <tr>
-            <td><a href="<%= powerSupply_list[i].url %>"> <%= powerSupply_list[i].name %> </a></td>
-            <td>
-              <% for (var j=0; j< powerSupply_list[i].brand.length; j++) { %>
-                  <%= powerSupply_list[i].brand[j].name %>
-                  <% if (j != powerSupply_list[i].brand.length -1) { %>
-                    ,
-                  <% } %>
+  <h1 class="text-center my-5"> <%= title %> </h1>
+
+  <div class="row">
+    <% for (var i=0; i< powerSupply_list.length; i++) { %>
+      <div class="col-md-3 mb-3">
+        <div class="card h-100">
+
+          <img src="<%=  typeof powerSupply_list[i].toObject().image !== 'undefined' ? '/images/' + powerSupply_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= powerSupply_list[i].name%>">
+          <div class="card-body">
+            <h5 class="card-title"> <a href="<%= powerSupply_list[i].url %>"><%= powerSupply_list[i].name %></a>  </h5> 
+            <p class="card-text">
+              <% for (var j = 0; j < powerSupply_list[i].brand.length; j++) { %>
+                <%= powerSupply_list[i].brand[j].name %>
               <% } %>
-            </td>
-            <td><%= powerSupply_list[i].model %></td>
-            <td><%= powerSupply_list[i].power %> W</td>
-            <td><%= powerSupply_list[i].certifications %></td>
-            <td>$ <%= powerSupply_list[i].price %></td>
-          </tr>
-        <% } %>
-      </tbody>
-    </table>
-    <% if(powerSupply_list.length === 0) { %>
-      <div class="alert alert-danger" role="alert">
-        There are no power supplies.
+             
+              
+              <%= powerSupply_list[i].certifications %> <br>
+              <%= powerSupply_list[i].power %> W <br>
+              <span class="badge badge-success badge-pill">
+                <%= "$" + powerSupply_list[i].price + " ARS"%>
+              </span>
+            </p>
+            <a href="<%= powerSupply_list[i].url %>" class="btn btn-primary">See More</a>
+          </div>
         </div>
-        <% } %>
-        
-        </div>
+      </div>
+    <% } %>
+  </div>
+  <% if(powerSupply_list.length === 0) { %>
+    <div class="text-center my-5">
+      <h3> There are no powerSupplys.</h3>
+    </div>
+  <% } %>
+</div>
 <%- include('../partials/footer.ejs') %>
   

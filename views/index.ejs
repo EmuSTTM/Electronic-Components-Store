@@ -1,23 +1,79 @@
+
+
 <%- include('./partials/header.ejs') %>
 
-<h1><%= title %></h1>
-<p>Welcome to Electronic Components Store, here you will find all the components you need!</p>
+<div class="container my-5">
+  <h1 class="text-center"><%= title %></h1>
+  <p class="text-center">Welcome to Electronic Components Store, here you will find all the components you need!
+    
+  </p>
 
-<h2>Dynamic content</h2>
 
-<% if (error) { %>
-  <p>Error getting dynamic content.</p>
-<% } else { %>
-  <p> ECS has the following record counts:</p>
-  <ul>
-    <li><strong>Brands:</strong> <%= data.brand_count %></li>
-    <li><strong>Cabinets:</strong> <%= data.cabinet_count %></li>
-    <li><strong>GPUs:</strong> <%= data.gpu_count %></li>
-    <li><strong>Motherboards:</strong> <%= data.motherboard_count %></li>
-    <li><strong>Power Supplies:</strong> <%= data.power_supply_count %></li>
-    <li><strong>RAMs:</strong> <%= data.ram_count %></li>
-    <li><strong>Storages:</strong> <%= data.storage_count %></li>
-  </ul>
-<% } %>
+  <% if (error) { %>
+    <p class="text-center text-danger">Error getting dynamic content.</p>
+  <% } else { %>
+    <p class="text-center"> ECS has the following record counts:</p>
+    <div class="row">
+      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title"><a href="/computers">Computers</a></h5>
+            <p class="card-text"><%= data.computer_count %></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title"><a href="/components/brands">Brands</a></h5>
+            <p class="card-text"><%= data.brand_count %></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title"><a href="/components/cabinets">Cabinets</a></h5>
+            <p class="card-text"><%= data.cabinet_count %></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title"><a href="/components/gpus">GPUs</a></h5>
+            <p class="card-text"><%= data.gpu_count %></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title"><a href="/components/motherboards">Motherboards</a></h5>
+            <p class="card-text"><%= data.motherboard_count %></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title"><a href="/components/powerSupplies">Power Supplies</a></h5>
+            <p class="card-text"><%= data.power_supply_count %></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title"><a href="/components/cpus">CPUS</a></h5>
+            <p class="card-text"><%= data.cpu_count %></p>
+          </div>
+        </div>
+      </div>
+      
+
+    <% } %>
+           
+
 
 <%- include('./partials/footer.ejs') %>

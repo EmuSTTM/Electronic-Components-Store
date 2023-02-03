@@ -8,7 +8,7 @@ const fs = require("fs");
 
 // Display list of all GPU.
 exports.gpu_list = function (req, res, next) {
-    GPU.find({}, "name brand model memory memory_type core_clock stream_processors tdp price image")
+    GPU.find({}, "name brand model core_clock memory price image")
       .sort({ name: 1 })
       .populate("brand")
       .exec(function (err, list_gpu) {

@@ -15,10 +15,10 @@
               <% for (var j = 0; j < motherboard_list[i].brand.length; j++) { %>
                 <%= motherboard_list[i].brand[j].name %>
               <% } %> -
-              <%= motherboard_list[i].chipset %> -
-              <%= motherboard_list[i].ramSlots %> Slots -
-              <%= motherboard_list[i].maxRam %> GB -
-              <%= motherboard_list[i].price %>
+              <%= motherboard_list[i].chipset %> <br>
+              <span class="badge badge-success badge-pill">
+                <%= "$" + motherboard_list[i].price + " ARS"%>
+              </span>
             </p>
             <a href="<%= motherboard_list[i].url %>" class="btn btn-primary">See More</a>
           </div>

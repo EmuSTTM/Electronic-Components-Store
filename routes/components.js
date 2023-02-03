@@ -12,14 +12,14 @@ const ram_controller = require("../controllers/ramController");
 const storage_controller = require("../controllers/storageController");
 
 
-const components_controller = require("../controllers/componentsController");
-
 // Middleware of multers 
 const upload = require("../middlewares/uploadImage");
 
 
 // Index routes
-router.get("/", components_controller.index);
+router.get("/", (req, res, next) => {
+    res.redirect("/");
+});
 
 // Brand routes
 router.get("/brands", brand_controller.brand_list);
