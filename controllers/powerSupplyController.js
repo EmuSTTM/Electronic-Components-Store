@@ -265,9 +265,15 @@ body("price", "powerSupply price is required").trim().isLength({ min: 1 }).escap
       power: req.body.power,
       certifications: req.body.certifications,
       price: req.body.price,
-      image: req.file.filename,
       _id: req.params.id,
     });
+
+    if (typeof req.file !== 'undefined') {
+      powerSupply.image = req.file.filename;
+    } else {
+      powerSupply.image = req.body.last_image;
+    }
+    
 
     if (!errors.isEmpty()) {
       async.parallel({
@@ -297,7 +303,7 @@ body("price", "powerSupply price is required").trim().isLength({ min: 1 }).escap
           }
         }
       }
-      if(typeof results.powerSupply.image != undefined){
+      if(typeof results.powerSupply.image != undefined && typeof req.file != 'undefined'){
         const ImageName = "public/images/" + results.powerSupply.image;
   
         if(fs.existsSync(ImageName)){
@@ -317,7 +323,7 @@ body("price", "powerSupply price is required").trim().isLength({ min: 1 }).escap
       if (err) {
         return next(err);
       }
-      if(typeof powerSupply.image != undefined){
+      if(typeof powerSupply.image != undefined && typeof req.file != 'undefined'){
         const ImageName = "public/images/" + powerSupply.image;
 
         if(fs.existsSync(ImageName)){

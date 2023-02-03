@@ -254,6 +254,20 @@ exports.gpu_update_get = (req, res, next) => {
 
 };
 exports.gpu_update_post = [
+//   (req, res, next) => {
+//   GPU.findById(req.params.id,
+//       (err, gpu) => {
+//         if (err) {
+//           return next(err);
+//         }
+
+//         if (typeof req.file == "undefined" || req.body.image == "undefined"){
+//           req.body.image = gpu.image;
+//         }
+//       })
+// },
+
+
   // Convert the genre to an array.
   (req, res, next) => {
     if (!Array.isArray(req.body.brand)) {
@@ -302,9 +316,17 @@ exports.gpu_update_post = [
       stream_processors: req.body.stream_processors,
       tdp: req.body.tdp,
       price: req.body.price,
-      image: req.file.filename,
+
       _id: req.params.id,
     });
+    if (typeof req.file !== 'undefined') {
+      gpu.image = req.file.filename;
+    } else {
+      gpu.image = req.body.last_image;
+    }
+    
+
+   
     
     if (!errors.isEmpty()) {
       async.parallel({
@@ -334,7 +356,7 @@ exports.gpu_update_post = [
           }
         }
       }
-      if(typeof results.gpu.image != undefined){
+      if(typeof results.gpu.image != undefined && typeof req.file != 'undefined'){
         const ImageName = "public/images/" + results.gpu.image;
 
         if(fs.existsSync(ImageName)){
@@ -355,7 +377,7 @@ exports.gpu_update_post = [
       if (err) {
         return next(err);
       }
-      if(typeof gpu.image != undefined){
+      if(typeof gpu.image != 'undefined' && typeof req.file != 'undefined'){
         const ImageName = "public/images/" + gpu.image;
 
         if(fs.existsSync(ImageName)){

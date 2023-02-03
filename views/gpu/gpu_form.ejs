@@ -1,75 +1,103 @@
+
+
 <%- include('../partials/header.ejs') %>
 
-<form action="" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" name="name" id="name" value="<%= (typeof gpu === 'undefined' ? '' : gpu.name) %>" required>
-    </div>
-    <div class="form-group">
-        <label for="image">Image</label>
-        <p class="alert-danger">For the moment, you can have only one image for product. In the future, this functionality will be expanded</p>
-        <input type="file" multiple name="image" id="image"  class="form-control" >
-    </div>
-    <div class="form-group">
-        <label for="brand">Brand</label>
-        <div>
+<div class="card" style="width: 650px;margin: 20px auto;">
+    <h5 class="card-header" style="font-size: 1.25rem; text-align: center;">
+      <%= title %>
+    </h5>
+    <div class="card-body">
+      <form id="form" action="" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="name" style="font-size: 1.15rem;">Name</label>
+          <input type="text" value="<%= (typeof gpu === 'undefined' ? '' : gpu.name) %>"
+            class="form-control" id="name" name="name" placeholder="Enter gpu name" required>
+      </div>
+        
+
+      <div class="row">
+        <div class="col-6">
+
+            <div class="form-group">
+                <label for="model">Model</label>
+                <input type="text" class="form-control" name="model" id="model" 
+                required value="<%= (typeof gpu === 'undefined' ? '' : gpu.model) %>">
+            </div>
+            <div class="form-group">
+                <label for="core_clock">Core Clock</label>
+                <input " class="form-control" name="core_clock" id="core_clock" 
+                min="0" value="<%= (typeof gpu === 'undefined' ? '' : gpu.core_clock) %>" 
+                placeholder="XXXX MHz" required>
+            </div>
+            <div class="form-group">
+                <label for="boost_clock">Boost Clock</label>
+                <input  class="form-control" name="boost_clock" id="boost_clock" 
+                min="0" placeholder="XXXX MHz" value="<%= (typeof gpu === 'undefined' ? '' : gpu.boost_clock) %>"
+                required>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" class="form-control" name="price" 
+                value="<%= (typeof gpu === 'undefined' ? '' : gpu.price)  %>" id="price" min="0">
+                
+              </div>
+
+
+        
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label for="memory">Memory</label>
+                <input type="text" class="form-control" value="<%= (typeof gpu === 'undefined' ? '' : gpu.core_clock) %>" name="memory" id="memory" placeholder="X GB" required>
+            </div>
+            <div class="form-group">
+                <label for="memory_type">Memory Type</label>
+                <select class="form-control" name="memory_type" id="memory_type" required>
+                    
+                    <option <%= (typeof gpu !== 'undefined' && "GDDR5" === gpu.memory_type) ? 'selected' : '' %> value="GDDR5">GDDR5</option>
+                    <option <%= (typeof gpu !== 'undefined' && "GDDR6" === gpu.memory_type) ? 'selected' : '' %> value="GDDR6">GDDR6</option>
+                    <option <%= (typeof gpu !== 'undefined' && "GDDR7" === gpu.memory_type) ? 'selected' : '' %> value="GDDR7">GDDR7</option>
+                  </select>
+            </div>
+            <div class="form-group">
+                <label for="tdp">TDP</label>
+                <input type="number" value="<%= (typeof gpu === 'undefined' ? '' : gpu.tdp) %>" class="form-control" name="tdp" id="tdp" min="0" placeholder="Watts" required>
+            </div>
+            <div class="form-group">
+                    <label for="stream_processors">Stream Processors</label>
+                    <input type="number" class="form-control" value="<%= (typeof gpu === 'undefined' ? '' : gpu.stream_processors) %>"name="stream_processors" id="stream_processors" min="0" required>
+            </div>
+            
+          
+        </div>
+        
+      </div>
+     
+      <div class="form-group">
+        <label for="brand" style="font-size: 1.25rem; text-align: center;">Brand </label>
+          <div>
             <% for (let brand of brands) { %>
-                <input type="checkbox" name="brand" id="<%= brand._id %>" value="<%= brand._id %>" %>" <%= brand.checked ? 'checked' : '' %>>
-                <label for="<%= brand._id %>"> <%= brand.name %> </label> 
-            <% } %>
-<div class="invalid-feedback">
-    <% if(typeof errors !== 'undefined'){ %>
-        <% errors.forEach(function(error) { %>
-            <% if (error.param === 'brand') { %>
-                <div class="alert alert-danger">
-                    <%= error.msg %>
-                </div>
-            <% }; %>
-          <% }); %>
-    
-<% } %></div>
-</div>
-</div>
-<div class="form-group">
-<label for="model">Model</label>
-<input type="text" class="form-control" name="model" id="model" required value="<%= (typeof gpu === 'undefined' ? '' : gpu.model) %>">
-</div>
-<div class="form-group">
-<label for="core_clock">Core Clock</label>
-<input " class="form-control" name="core_clock" id="core_clock" min="0" value="<%= (typeof gpu === 'undefined' ? '' : gpu.core_clock) %>" placeholder="XXXX MHz" required>
-</div>
-<div class="form-group">
-<label for="boost_clock">Boost Clock</label>
-<input  class="form-control" name="boost_clock" id="boost_clock" min="0" placeholder="XXXX MHz" value="<%= (typeof gpu === 'undefined' ? '' : gpu.boost_clock) %>"required>
-</div>
-<div class="form-group">
-<label for="memory">Memory</label>
-<input type="text" class="form-control" value="<%= (typeof gpu === 'undefined' ? '' : gpu.core_clock) %>" name="memory" id="memory" placeholder="X GB" required>
-</div>
-<div class="form-group">
-<label for="memory_type">Memory Type</label>
-<select class="form-control" name="memory_type" id="memory_type" required>
-    
-    <option <%= (typeof gpu !== 'undefined' && "GDDR5" === gpu.memory_type) ? 'selected' : '' %> value="GDDR5">GDDR5</option>
-    <option <%= (typeof gpu !== 'undefined' && "GDDR6" === gpu.memory_type) ? 'selected' : '' %> value="GDDR6">GDDR6</option>
-    <option <%= (typeof gpu !== 'undefined' && "GDDR7" === gpu.memory_type) ? 'selected' : '' %> value="GDDR7">GDDR7</option>
-  </select>
-</div>
-<div class="form-group">
-<label for="tdp">TDP</label>
-<input type="number" value="<%= (typeof gpu === 'undefined' ? '' : gpu.tdp) %>" class="form-control" name="tdp" id="tdp" min="0" placeholder="Watts" required>
-</div>
-<div class="form-group">
-    <label for="stream_processors">Stream Processors</label>
-    <input type="number" class="form-control" value="<%= (typeof gpu === 'undefined' ? '' : gpu.stream_processors) %>"name="stream_processors" id="stream_processors" min="0" required>
+                  <input  type="checkbox" name="brand" id="<%= brand._id %>" 
+                  value="<%= brand._id %>" %>" <%= brand.checked ? 'checked' : '' %>>
+                  <label style="font-size: 0.8rem;" for="<%= brand._id %>"> <%= brand.name %> </label> 
+              <% } %>
+      </div>
+      <div class="form-group">
+          <label for="image" style="font-size: 1.15rem;">Image</label>
+          <p class="alert-danger">For the moment, you can have only one image for product. In the future, this functionality will be expanded</p>
+          <input id="image" type="file" multiple name="image" class="form-control-file"  required>
+          <input id="last_image" name="last_image" value="<%= (typeof gpu === 'undefined' ? '' : gpu.image) %>" style="visibility:hidden" >
+          <img src="<%= (typeof gpu !== 'undefined' && typeof gpu.toObject().image !== 'undefined') 
+          ? `/images/${gpu.image}` : 'https://via.placeholder.com/300x250' %>" height="250" 
+          alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
+        </div>
+      </form>
     </div>
-<div class="form-group">
-<label for="price">Price</label>
-<input type="number" class="form-control" value="<%= (typeof gpu === 'undefined' ? '' : gpu.price) %>" name="price" id="price" min="0">
-  
+    <button onclick="document.getElementById('form').submit();" type="submit" 
+    class="btn btn-primary d-flex mx-auto mt-3" style="margin-bottom: 10px;">Submit</button>
+
 </div>
-<button type="submit" class="btn btn-primary">Submit</button>
-</form><br>
 <% if(typeof errors !== 'undefined'){ %>
     <% errors.forEach(function(error) { %>
         <div class="alert alert-danger">
@@ -77,9 +105,24 @@
         </div>
     <% }); %>
 <% } %>
+<script>
+function previewFile() {
+  var preview = document.getElementById("preview");
+  var file = document.querySelector("input[type=file]").files[0];
+  var reader = new FileReader();
 
-</div>
-</div>
-</div>
+  reader.addEventListener("load", function () {
+    preview.src = reader.result;
+  }, false);
 
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+}
+
+document.querySelector("input[type=file]").addEventListener("change", previewFile);
+</script>
 <%- include('../partials/footer.ejs') %>
+
+
+

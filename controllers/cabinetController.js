@@ -278,9 +278,11 @@ exports.cabinet_update_post = [
       price: req.body.price,
       _id: req.params.id,
     });
-    if(typeof req.file.filename != undefined){
+    if (typeof req.file !== 'undefined') {
       cabinet.image = req.file.filename;
-    } 
+    } else {
+      cabinet.image = req.body.last_image;
+    }
     
     if (!errors.isEmpty()) {
       async.parallel({
@@ -310,7 +312,7 @@ exports.cabinet_update_post = [
           }
         }
       }
-      if(typeof results.cabinet.image != undefined){
+      if(typeof results.cabinet.image != undefined && typeof req.file != 'undefined'){
         const ImageName = "public/images/" + results.cabinet.image;
 
         if(fs.existsSync(ImageName)){
@@ -331,7 +333,7 @@ exports.cabinet_update_post = [
       if (err) {
         return next(err);
       }
-      if(typeof cabinet.image != undefined){
+      if(typeof cabinet.image != undefined && typeof req.file != 'undefined'){
         const ImageName = "public/images/" + cabinet.image;
 
         if(fs.existsSync(ImageName)){

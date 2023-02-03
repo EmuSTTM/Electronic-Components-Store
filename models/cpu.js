@@ -24,8 +24,7 @@ const cpuSchema = new Schema({
         required: true
     },
     clock_speed: {
-        type: String,
-        match: /^\d+ MHz$/,
+        type: Number,
         required: true
     },
     price: {

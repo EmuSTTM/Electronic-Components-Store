@@ -284,9 +284,15 @@ exports.ram_update_post = [
       type: req.body.type,
       price: req.body.price,
       size:req.body.size,
-      image: req.file.filename,
       _id: req.params.id,
     });
+
+    if (typeof req.file !== 'undefined') {
+      ram.image = req.file.filename;
+    } else {
+      ram.image = req.body.last_image;
+    }
+    
 
     if (!errors.isEmpty()) {
       async.parallel({
@@ -316,7 +322,7 @@ exports.ram_update_post = [
           }
         }
       }
-      if(typeof results.ram.image != undefined){
+      if(typeof results.ram.image != undefined && typeof req.file != 'undefined'){
         const ImageName = "public/images/" + results.ram.image;
   
         if(fs.existsSync(ImageName)){
@@ -336,7 +342,7 @@ exports.ram_update_post = [
       if (err) {
         return next(err);
       }
-      if(typeof ram.image != undefined){
+      if(typeof ram.image != undefined && typeof req.file != 'undefined'){
         const ImageName = "public/images/" + ram.image;
 
         if(fs.existsSync(ImageName)){

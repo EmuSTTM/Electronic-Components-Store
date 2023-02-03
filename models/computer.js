@@ -54,8 +54,8 @@ const computerSchema = new mongoose.Schema({
         required: true
         }],
       price: {
-        type: Number,
-        min: 0,
+        type: String,
+  
         },
       image: {
         type: String,

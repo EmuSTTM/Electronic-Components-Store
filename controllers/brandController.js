@@ -263,6 +263,12 @@ exports.brand_update_get = (req, res, next) => {
     if (err){
       return next(err);
     };
+    if (brand == null) {
+      // No results.
+      const err = new Error("brand not found");
+      err.status = 404;
+      return next(err);
+    }
     res.render("brand/brand_form", {
     title :"Update Brand",
     brand: brand,
@@ -271,32 +277,73 @@ exports.brand_update_get = (req, res, next) => {
 };
 
 // Handle Brand update on POST.
-exports.brand_update_post = async (req, res, next) => {
-  try {
-    const brandToDeleteImage = await Brand.findById(req.params.id).exec();
-    if (brandToDeleteImage && brandToDeleteImage.image) {
-      const ImageName = "public/images/" + brandToDeleteImage.image;
-      if (fs.existsSync(ImageName)) {
-        fs.unlinkSync(ImageName);
-      }
-    }
+exports.brand_update_post = [
+  body("name", "Brand name is required ").trim().isLength({ min: 1 }).escape(),
+  (req, res, next) => {
 
+    const errors = validationResult(req);
+
+    
     const brand = new Brand({
       name: req.body.name,
-      
       _id: req.params.id
     });
 
-    if (typeof req.file.filename !== "undefined") {
+    if (typeof req.file !== 'undefined') {
       brand.image = req.file.filename;
+    } else {
+      brand.image = req.body.last_image;
     }
     if (typeof req.body.description !== "undefined") {
       brand.description = req.body.description;
     }
 
-    const updatedBrand = await Brand.findByIdAndUpdate(req.params.id, brand, {});
-    res.redirect(updatedBrand.url);
-  } catch (err) {
-    return next(err);
-  }
-};
+    if (!errors.isEmpty()) {
+      Brand.findById(req.params.id).exec((err, brand) =>{
+        if (err){
+          return next(err);
+        };
+        if (brand == null) {
+          // No results.
+          const err = new Error("brand not found");
+          err.status = 404;
+          return next(err);
+        }
+        if(typeof brand.image != undefined && typeof req.file != 'undefined'){
+          const ImageName = "public/images/" + brand.image;
+  
+          if(fs.existsSync(ImageName)){
+            fs.unlinkSync(ImageName);
+        }}
+        res.render("brand/brand_form", {
+        title :"Update Brand",
+        brand: brand,
+        errors: errors.array()
+      })
+      })
+      return;
+    }
+
+    Brand.findById(req.params.id, (err, brand) => {
+      if (err) {
+        return next(err);
+      }
+      if(typeof brand.image != undefined && typeof req.file != 'undefined'){
+        const ImageName = "public/images/" + brand.image;
+
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }}
+    })
+    // Data from form is valid. Update the record.
+    Brand.findByIdAndUpdate(req.params.id, brand, {}, (err, thebrand) => {
+      if (err) {
+        return next(err);
+      }
+
+      // Successful: redirect to brand detail page.
+      
+      res.redirect(thebrand.url);
+    });
+  },
+];

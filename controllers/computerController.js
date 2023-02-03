@@ -43,10 +43,19 @@ exports.computer_list = (req, res, next) => {
           const totalStorage = computer.storage.reduce((accumulator, currentValue) => {
             return accumulator + currentValue.price;
           }, 0);
-
-          computer.price = computer.cabinet.price + computer.cpu.price + computer.gpu.price +
-          computer.motherboard.price + totalRam + totalStorage +
-          computer.powerSupply.price;
+          
+          ;
+          if (computer.cabinet && computer.cpu && computer.gpu && computer.motherboard && computer.totalRam && computer.totalStorage && computer.powerSupply) {
+            computer.price = computer.cabinet.price + computer.cpu.price + computer.gpu.price + computer.motherboard.price + computer.totalRam + computer.totalStorage + computer.powerSupply.price;
+          }
+          console.log(typeof computer.price)
+          if (typeof computer.price == "undefined"){
+            computer.price = " Consultar en ";
+          
+          }
+          
+          
+          
           return computer;
         });
         
@@ -88,9 +97,15 @@ exports.computer_detail = (req, res, next) => {
         return accumulator + currentValue.price;
       }, 0);
 
-        computer.price = computer.cabinet.price + computer.cpu.price + computer.gpu.price +
-        computer.motherboard.price + totalRam + totalStorage +
-        computer.powerSupply.price;
+
+        if (computer.cabinet && computer.cpu && computer.gpu && computer.motherboard && computer.totalRam && computer.totalStorage && computer.powerSupply) {
+          computer.price = computer.cabinet.price + computer.cpu.price + computer.gpu.price + computer.motherboard.price + computer.totalRam + computer.totalStorage + computer.powerSupply.price;
+        }
+        console.log(typeof computer.price)
+        if (typeof computer.price == "undefined"){
+          computer.price = " Consultar en ";
+        
+        }
 
       // Todo sucedió correctamente
       res.render("computer/computer_detail",{

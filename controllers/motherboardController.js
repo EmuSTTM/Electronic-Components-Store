@@ -282,9 +282,16 @@ exports.motherboard_update_post = [
       sockets_sata: req.body.sockets_sata,
       sockets_v2: req.body.sockets_v2,
       type: req.body.type,
-      image: req.file.filename,
+      
       _id: req.params.id,
     });
+
+    if (typeof req.file !== 'undefined') {
+      motherboard.image = req.file.filename;
+    } else {
+      motherboard.image = req.body.last_image;
+    }
+    
 
     if (!errors.isEmpty()) {
       async.parallel({
@@ -314,7 +321,7 @@ exports.motherboard_update_post = [
           }
         }
       }
-      if(typeof results.motherboard.image != undefined){
+      if(typeof results.motherboard.image != undefined && typeof req.file != 'undefined'){
         const ImageName = "public/images/" + results.motherboard.image;
   
         if(fs.existsSync(ImageName)){
@@ -334,7 +341,7 @@ exports.motherboard_update_post = [
       if (err) {
         return next(err);
       }
-      if(typeof motherboard.image != undefined){
+      if(typeof motherboard.image != undefined && typeof req.file != 'undefined'){
         const ImageName = "public/images/" + motherboard.image;
 
         if(fs.existsSync(ImageName)){

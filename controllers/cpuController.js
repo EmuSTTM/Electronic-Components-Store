@@ -239,9 +239,13 @@ exports.cpu_update_post = [
        frecuency_ram: req.body.frecuencyRam,
        socket: req.body.socket,
        price: req.body.price,
-       image: req.file.filename,
         _id: req.params.id,
       });
+      if (typeof req.file !== 'undefined') {
+        cpu.image = req.file.filename;
+      } else {
+        cpu.image = req.body.last_image;
+      }
       
       if (!errors.isEmpty()) {
         async.parallel({
@@ -269,7 +273,8 @@ exports.cpu_update_post = [
               brand.checked = "true";
             }
         }
-        if(typeof results.cpu.image != undefined){
+        if(typeof cpu.image != 'undefined' && typeof req.file != 'undefined'){
+          console.log(typeof req.file)
           const ImageName = "public/images/" + results.cpu.image;
   
           if(fs.existsSync(ImageName)){
@@ -290,7 +295,7 @@ exports.cpu_update_post = [
         if (err) {
           return next(err);
         }
-        if(typeof cpu.image != undefined){
+        if(typeof cpu.image != undefined && typeof req.file != 'undefined'){
           const ImageName = "public/images/" + cpu.image;
   
           if(fs.existsSync(ImageName)){

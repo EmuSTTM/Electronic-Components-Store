@@ -263,9 +263,15 @@ exports.storage_update_post = [
       capacity: req.body.capacity,
       speed: req.body.speed,
       price: req.body.price,
-      image:req.file.filename,
       _id: req.params.id,
     });
+
+    if (typeof req.file !== 'undefined') {
+      storage.image = req.file.filename;
+    } else {
+      storage.image = req.body.last_image;
+    }
+    
 
     if (!errors.isEmpty()) {
       async.parallel({
@@ -295,7 +301,7 @@ exports.storage_update_post = [
           }
         }
       }
-      if(typeof results.storage.image != undefined){
+      if(typeof results.storage.image != undefined && typeof req.file != 'undefined'){
         const ImageName = "public/images/" + results.storage.image;
   
         if(fs.existsSync(ImageName)){
@@ -316,7 +322,7 @@ exports.storage_update_post = [
       if (err) {
         return next(err);
       }
-      if(typeof storage.image != undefined){
+      if(typeof storage.image != undefined && typeof req.file != 'undefined'){
         const ImageName = "public/images/" + storage.image;
 
         if(fs.existsSync(ImageName)){

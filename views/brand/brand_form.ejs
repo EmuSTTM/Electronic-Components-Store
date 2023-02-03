@@ -1,6 +1,6 @@
 <%- include('../partials/header.ejs') %>
 
-<div class="card" style="width: 500px; height: 600px;margin: 20px auto;">
+<div class="card" style="width: 500px;margin: 20px auto;">
     <h5 class="card-header" style="font-size: 1.25rem; text-align: center;">
       <%= title %>
     </h5>
@@ -15,14 +15,24 @@
           required><%= (typeof brand === 'undefined' || typeof brand.description === 'undefined' ? '' : brand.description)
            %></textarea>
           <label for="image" style="font-size: 1.15rem;">Image</label>
-          <input id="image" type="file" multiple name="image" class="form-control-file">
+          <p class="alert-danger">For the moment, you can have only one image for product. In the future, this functionality will be expanded</p>
+          <input id="image" type="file" multiple name="image" class="form-control-file"  required>
+          <input id="last_image" name="last_image" value="<%= (typeof brand === 'undefined' ? '' : brand.image) %>" style="visibility:hidden" >
           <img src="<%= (typeof brand !== 'undefined' && typeof brand.toObject().image !== 'undefined') ? `/images/${brand.image}` : 'https://via.placeholder.com/200x200' %>" height="200" alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
         </div>
       </form>
+      <button onclick="document.getElementById('form').submit();" type="submit" class="btn btn-primary d-flex mx-auto mt-3" style="margin-bottom: 10px;">Submit</button>
     </div>
-    <butto onclick="document.getElementById('form').submit();" type="submit" class="btn btn-primary d-flex mx-auto mt-3" style="margin-bottom: 10px;">Submit</butto
-      n>
+    
+    
 </div>
+<% if(typeof errors !== 'undefined'){ %>
+  <% errors.forEach(function(error) { %>
+      <div class="alert alert-danger">
+          <%= error.msg %>
+      </div>
+  <% }); %>
+<% } %>
 <script>
 function previewFile() {
   var preview = document.getElementById("preview");
