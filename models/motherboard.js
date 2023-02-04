@@ -23,7 +23,8 @@ const motherboardSchema = new mongoose.Schema({
     },
     
     max_ram: { 
-        type: Number,  
+        type: Number, 
+        min:0, 
         required: true 
     },
     image: { 	

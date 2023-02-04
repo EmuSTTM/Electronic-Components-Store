@@ -1,44 +1,37 @@
+
 <%- include('../partials/header.ejs') %>
 
-<form action="" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" value="<%= (typeof powerSupply === 'undefined' ? '' : powerSupply.name) %>"class="form-control" name="name" id="name" required>
-    </div>
-    <div class="form-group">
-        <label for="image">Image</label>
-        <p class="alert-danger">For the moment, you can have only one image for product. In the future, this functionality will be expanded</p>
-        <input type="file" multiple name="image" id="image"  class="form-control" >
-    </div>
-    <div class="form-group">
-        <label for="brand">Brand</label>
-        <div>
-            <% for (let brand of brands) { %>
-                <input type="checkbox" name="brand" id="<%= brand._id %>" value="<%= brand._id %>" %>" <%= brand.checked ? 'checked' : '' %>>
-                <label for="<%= brand._id %>"> <%= brand.name %> </label> 
-            <% } %>
-            <div class="invalid-feedback">
-                <% if(typeof errors !== 'undefined'){ %>
-                    <% errors.forEach(function(error) { %>
-                        <% if (error.param === 'brand') { %>
-                            <div class="alert alert-danger">
-                                <%= error.msg %>
-                            </div>
-                        <% }; %>
-                    <% }); %>
-                <% } %>
+<div class="card" style="width: 650px;margin: 20px auto;">
+    <h5 class="card-header" style="font-size: 1.25rem; text-align: center;">
+      <%= title %>
+    </h5>
+    <div class="card-body">
+      <form id="form" action="" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="name" style="font-size: 1.15rem;">Name</label>
+          <input type="text" value="<%= (typeof powerSupply === 'undefined' ? '' : powerSupply.name) %>"
+            class="form-control" id="name" name="name" placeholder="Enter   power supply name" required>
+      </div>
+        
+
+      <div class="row">
+        <div class="col-6">
+
+            <div class="form-group">
+                <label for="model">Model</label>
+                <input type="text" value="<%= (typeof powerSupply === 'undefined' ? '' : powerSupply.model) %>"class="form-control" name="model" id="model" required>
             </div>
+            <div class="form-group">
+                <label for="power">Power</label>
+                <input type="number" placeholder="W" value="<%= (typeof powerSupply === 'undefined' ? '' : powerSupply.power) %>"class="form-control" name="power" id="power" min="0" required>
+            </div>
+
+
+        
         </div>
-    </div>
-    <div class="form-group">
-        <label for="model">Model</label>
-        <input type="text" value="<%= (typeof powerSupply === 'undefined' ? '' : powerSupply.model) %>"class="form-control" name="model" id="model" required>
-    </div>
-    <div class="form-group">
-        <label for="power">Power</label>
-        <input type="number" value="<%= (typeof powerSupply === 'undefined' ? '' : powerSupply.power) %>"class="form-control" name="power" id="power" min="0" required>
-    </div>
-    <div class="form-group">
+        <div class="col-6">
+
+             <div class="form-group">
         <label for="certifications">Certifications</label>
         <select class="form-control" name="certifications" id="certifications" required>
             <%= (typeof cpu !== 'undefined' && "AM5" === cpu.socket) ? 'selected' : '' %>
@@ -49,12 +42,43 @@
             <option <%= (typeof powerSupply !== 'undefined' && "80+ Titanium" == powerSupply.certifications ? 'selected' : '') %> value="80+ Titanium">80+ Titanium</option>
           </select>
     </div>
-    <div class="form-group">
-        <label for="price">Price</label>
-        <input type="number" class="form-control" value="<%= (typeof powerSupply === 'undefined' ? '' : powerSupply.price) %>"name="price" id="price" min="0" required>
+            
+            
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" value="<%= (typeof powerSupply === 'undefined' ? '' : powerSupply.price) %>" class="form-control" name="price" id="price" min="0" required>
+            </div>
+            
+          
+        </div>
+        
+      </div>
+     
+      <div class="form-group">
+        <label for="brand" style="font-size: 1.25rem; text-align: center;">Brand </label>
+          <div>
+            <% for (let brand of brands) { %>
+                  <input  type="checkbox" name="brand" id="<%= brand._id %>" 
+                  value="<%= brand._id %>" %>" <%= brand.checked ? 'checked' : '' %>>
+                  <label style="font-size: 0.8rem;" for="<%= brand._id %>"> <%= brand.name %> </label> 
+              <% } %>
+      </div>
+      <div class="form-group">
+          <label for="image" style="font-size: 1.15rem;">Image</label>
+          <p class="alert-danger">For the moment, you can have only one image for product. In the future, this functionality will be expanded</p>
+          <input id="image" type="file" multiple name="image" class="form-control-file"  required>
+          <input id="last_image" name="last_image" value="<%= (typeof powerSupply === 'undefined' ? '' : powerSupply.image) %>" style="visibility:hidden" >
+          <img src="<%= (typeof powerSupply !== 'undefined' && typeof powerSupply.toObject().image !== 'undefined') 
+          ? `/images/${powerSupply.image}` : 'https://via.placeholder.com/300x250' %>" height="250" 
+          alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
+        </div>
+      </form>
+      <button  type="submit" 
+      class="btn btn-primary d-flex mx-auto mt-3" style="margin-bottom: 10px;">Submit</button>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form><br>
+
+
+</div>
 <% if(typeof errors !== 'undefined'){ %>
     <% errors.forEach(function(error) { %>
         <div class="alert alert-danger">
@@ -62,5 +86,22 @@
         </div>
     <% }); %>
 <% } %>
+<script>
+function previewFile() {
+  var preview = document.getElementById("preview");
+  var file = document.querySelector("input[type=file]").files[0];
+  var reader = new FileReader();
 
+  reader.addEventListener("load", function () {
+    preview.src = reader.result;
+  }, false);
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+}
+
+document.querySelector("input[type=file]").addEventListener("change", previewFile);
+</script>
 <%- include('../partials/footer.ejs') %>
+

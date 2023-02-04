@@ -20,9 +20,11 @@
           <input id="last_image" name="last_image" value="<%= (typeof brand === 'undefined' ? '' : brand.image) %>" style="visibility:hidden" >
           <img src="<%= (typeof brand !== 'undefined' && typeof brand.toObject().image !== 'undefined') ? `/images/${brand.image}` : 'https://via.placeholder.com/200x200' %>" height="200" alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
         </div>
+        <button  type="submit" class="btn btn-primary d-flex mx-auto mt-3" style="margin-bottom: 10px;">Submit</button>
       </form>
-      <button onclick="document.getElementById('form').submit();" type="submit" class="btn btn-primary d-flex mx-auto mt-3" style="margin-bottom: 10px;">Submit</button>
+      
     </div>
+
     
     
 </div>

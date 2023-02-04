@@ -8,7 +8,7 @@ const Brand = require("../models/brand");
 
 // Display list of all PowerSupply.
 exports.powerSupply_list = function (req, res, next) {
-    PowerSupply.find({}, "name brand model power certifications price")
+    PowerSupply.find({}, "name brand model power certifications price image")
       .sort({ name: 1 })
       .populate("brand")
       .exec(function (err, list_powerSupply) {

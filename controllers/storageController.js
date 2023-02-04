@@ -7,7 +7,7 @@ const Brand = require("../models/brand");
 
 // Display list of all Storage.
 exports.storage_list = function (req, res, next) {
-    Storage.find({}, "name brand type speed price")
+    Storage.find({}, "name brand type speed price image")
       .sort({ name: 1 })
       .populate("brand")
       .exec(function (err, list_storage) {

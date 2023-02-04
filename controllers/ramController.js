@@ -7,7 +7,7 @@ const Brand = require("../models/brand");
 
 // Display list of all Ram. // brand model size speed type price
 exports.ram_list = function (req, res, next) {
-    RAM.find({}, "brand model size speed type price name")
+    RAM.find({}, "brand model size speed type price name image")
       .sort({ speed: 1 })
       .populate("brand")
       .exec(function (err, list_ram) {
@@ -117,8 +117,10 @@ exports.ram_create_post = [
      type: req.body.type,
      price: req.body.price,
      size:req.body.size,
-     image: req.file.filename,
    });
+   if (!req.file) {
+      ram.image = req.file.filename;
+   }
 
    if (!errors.isEmpty()) {
        // There are errors. Render the form again with sanitized values/error messages.

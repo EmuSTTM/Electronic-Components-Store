@@ -90,12 +90,12 @@ exports.brand_create_post = [
   (req, res, next) => {
     // Extract the validation errors from a request.
     const errors = validationResult(req);
-    console.log(req.file.filename)
+    
     // Create a brand object with escaped and trimmed data.
     const brand = new Brand({ 
       name: req.body.name,
     });
-    if (typeof req.file.filename !== "undefined") {
+    if (typeof req.file !== "undefined") {
       brand.image = req.file.filename;
     }
     if (typeof req.body.description !== "undefined") {

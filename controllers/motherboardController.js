@@ -253,7 +253,7 @@ exports.motherboard_update_post = [
   body("brand.*", "Motherboard brand is required").escape(),
   body("chipset", "Chipset is required").trim().isLength({ min: 1 }).escape(),
   body("ram_slots", "Ram slots is required").trim().isLength({ min: 1 }).escape(),
-  body("max_ram", "Max Ram is required").trim().isLength({ min: 3 }).escape(),
+  body("max_ram", "Max Ram is required").trim().isLength({ min: 1 }).escape(),
   body("price", "Motherboard price is required").trim().isLength({ min: 1 }).escape(),
   body("frecuency_ram", "Frecuency Ram is required").trim().isLength({ min: 1 }).escape(),
   body("socket", "Socket is required").trim().isLength({ min: 1 }).escape(),
@@ -337,7 +337,7 @@ exports.motherboard_update_post = [
     })
       return;
     }
-    motherboard.findById(req.params.id, (err, motherboard) => {
+      Motherboard.findById(req.params.id, (err, motherboard) => {
       if (err) {
         return next(err);
       }
