@@ -1,30 +1,45 @@
 <%- include('../partials/header.ejs') %>
 
 <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h1 class="text-center text-white" style="background-color: #343a40; padding: 20px;">Cabinet: <%= cabinet.name %></h1>
-      </div>
+  <div class="row">
+    <div class="col-md-6">
+      <% if(cabinet.image !== undefined){ %>
+        <img class="img-tumbnail" height= "360px" style="margin:20px"src="/images/<%= cabinet.image %>" alt="<%= cabinet.name %>">
+      <% }; %>
     </div>
-    <br>
+    <div class="col-md-6">
+      <h1  style="margin-top: 60px;"><%= cabinet.name %></h1>
+      <br>
+      <% if(cabinet.brand.length > 0){ %>
+        <p>
+          <% cabinet.brand.forEach(function(brand){ %> 
+            <a style="color:gray"href="<%= brand.url %>" ><%= brand.name %></a>
+          <% }); %>
+        </p>
+      <% } %>
+        
+
+      <p>
+        <span class="badge badge-success badge-pill">
+          <%= "$" + cabinet.price.toLocaleString() + " ARS"%>
+        </span> </p>
+    </div>
+  </div>
+
+
+
+  <hr><br>
+
     <div class="row">
       <div class="col-md-4">
-        <h4 class="text-secondary">Brand:</h4>
-        <% if(cabinet.brand.length > 0){ %>
-          <ul class="list-group">
-            <% cabinet.brand.forEach(function(brand){ %>
-              <li class="list-group-item" style="background-color: #6c757d;">
-                <a href="<%= brand.url %>" class="text-white"><%= brand.name %></a>
-              </li>
-            <% }); %>
-          </ul>
-        <% } else { %>
-          <p class="text-danger">This cabinet doesn't have a brand</p>
-        <% } %>
+        
+        <h4 class="text-secondary">Price</h4>
+        <p class="text-white" style="background-color:  #6c757d; padding: 10px;"> <%= cabinet.price %></p>
+     
       </div>
       <div class="col-md-4">
         <h4 class="text-secondary">Dimension</h4>
-        <p class="text-white" style="background-color:  #6c757d; padding: 10px;"> <%= cabinet.dimension %></p>
+        <p class="text-white" style="background-color:  #6c757d; padding: 10px;"> <%= cabinet.dimension %> cm</p>
       </div>
       <div class="col-md-4">
         <h4 class="text-secondary">Type</h4>
@@ -46,25 +61,15 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-4">
-        <h4 class="text-secondary">Price</h4>
-        <p class="text-white" style="background-color:  #6c757d; padding: 10px;"> <%= cabinet.price %></p>
-    </div>
+      
   </div>
   <br>
-  <div class="row" style="margin-bottom: 20px">
-    <div class="col-md-5">
-        <br>
-        <a href="javascript:history.back()" class="btn btn-primary"> Go Back</a>
-    </div>
-    <div class="col-md-5">
-      <br>
-      <a href="<%= cabinet.url %>/delete" class="btn btn-danger">Delete</a>
-    </div>
-    <div class="col-md-2">
-      <br>
-      <a href="<%= cabinet.url %>/update" class="btn btn-primary" style="background: rgb(51, 51, 148)"bac>Update</a>
-    </div>
+  <div class="card-footer" style="margin-bottom: 20px">
+             
+    <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+    <a href="<%= cabinet.url %>/delete" class="btn btn-danger float-right">Delete</a>
+    <a href="<%= cabinet.url %>/update" class="btn btn-primary float-right" style="background: rgb(51, 51, 148)"bac>Update</a>
+
   </div>
 
 

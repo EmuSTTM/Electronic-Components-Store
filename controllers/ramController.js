@@ -40,7 +40,7 @@ exports.ram_detail = (req, res, next) => {
   // Todo sucedió correctamente
   res.render("ram/ram_detail",{
     title:"RAM Detail",
-    ramSchema: ramSchema,
+    ram: ramSchema,
   })
 })
 };

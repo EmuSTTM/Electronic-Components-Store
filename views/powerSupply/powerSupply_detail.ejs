@@ -1,57 +1,66 @@
 <%- include('../partials/header.ejs') %>
 
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-header bg-secondary text-white">
-            <h4 class="card-title text-dark" style="text-align: center;">Power Supply: <%= powerSupply.name %></h4>
+
+    <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <% if(powerSupply.image !== undefined){ %>
+              <img class="img-tumbnail" height= "360px" style="margin:20px"src="/images/<%= powerSupply.image %>" alt="<%= powerSupply.name %>">
+            <% }; %>
+          </div>
+          <div class="col-md-6">
+            <h1  style="margin-top: 60px;"><%= powerSupply.name %></h1>
+            <br>
+              <p>
+                  <a style="color:gray"href="<%= powerSupply.brand.url %>" ><%= powerSupply.brand.name %></a>
+              </p>
+            
+            <p>
+              <span class="badge badge-success badge-pill">
+                <%= "$" + powerSupply.price.toLocaleString() + " ARS"%>
+              </span> </p>
+          </div>
+      
+      
         </div>
-        <div class="card-body">
+        <hr><br>
+    
+       
             <div class="row">
-                <div class="col-md-4">
-                    <h5 class="card-subtitle mb-2 text-muted"> Brand:
-                        
-                                <% if(powerSupply_brand.length > 0){ %>
-                                
-                                    <% powerSupply_brand.forEach(function(brand){ %>
-                                        <a href="<%= brand.url %>" class="text-black"><%= brand.name %></a>
-                                    <% }); %>
-                                
-                                <% } else { %>
-                                <p class="text-danger">This powerSupply has no brand</p>
-                                <% } %>
-                    </h5>
-                </div>
-                <div class="col-md-4">
-                    <h5 class="card-subtitle mb-2 text-muted">Model: <%= powerSupply.model %></h5>
-                </div>
-                <div class="col-md-4">
-                    <h5 class="card-subtitle mb-2 text-muted">Price: $<%= powerSupply.price %></h5>
-                </div>
+                
+                    <div class="col-md-4">
+                        <h4 class="text-secondary">Model</h4>
+                        <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= powerSupply.model %></p>
+                    </div>
+                
+                
+                    <div class="col-md-4">
+                        <h4 class="text-secondary">Power</h4>
+                        <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= powerSupply.power %></p>
+                    </div>
+                
+                    
+                    <div class="col-md-4">
+                        <h4 class="text-secondary">Certifications</h4>
+                        <p class="text-white" style="background-color: #6c757d; padding: 10px;" ><%= powerSupply.certifications %></p>
+                    </div>
+                
+        
+            
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <h5 class="card-subtitle mb-2 text-muted">Power: <%= powerSupply.power %> W</h5>
-                </div>
-                <div class="col-md-4">
-                    <h5 class="card-subtitle mb-2 text-muted">Certifications: <%= powerSupply.certifications %></h5>
-                </div>
+            
+                
+                
             </div>
-            <div class="row" style="margin-bottom: 20px">
-                <div class="col-md-5">
-                    <br>
-                    <a href="javascript:history.back()" class="btn btn-primary"> Go Back</a>
-                </div>
-                <div class="col-md-5">
-                  <br>
-                  <a href="<%= powerSupply.url %>/delete" class="btn btn-danger">Delete</a>
-                </div>
-                <div class="col-md-2">
-                  <br>
-                  <a href="<%= powerSupply.url %>/update" class="btn btn-primary" style="background: rgb(51, 51, 148)"bac>Update</a>
-                </div>
-              </div>
-        </div>
-    </div>
+            <br>
+  <div class="card-footer" style="margin-bottom: 20px">
+             
+    <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+    <a href="<%= powerSupply.url %>/delete" class="btn btn-danger float-right">Delete</a>
+    <a href="<%= powerSupply.url %>/update" class="btn btn-primary float-right" style="background: rgb(51, 51, 148)"bac>Update</a>
+
+  </div>
 </div>
+
 
 <%- include('../partials/footer.ejs') %>

@@ -11,7 +11,7 @@ const fs = require("fs");
 
 // Display list of all cpus.
 exports.cpu_list = (req, res, next) => {
-    CPU.find({}, "name brand model core_count thread_count clock_speed socket price image")
+    CPU.find({}, "name brand model core_count thread_count clock_speed socket price image frecuency_ram")
       .sort({ name: 1 })
       .populate("brand")
       .exec(function (err, list_cpu) {

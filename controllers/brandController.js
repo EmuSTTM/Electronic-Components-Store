@@ -52,6 +52,12 @@ exports.brand_detail = (req, res, next) => {
     brand_storages(callback){
       Storage.find({ brand: { $elemMatch: { $eq: req.params.id } } }).exec(callback);
     },
+    brand_cpus(callback){
+      CPU.find({ brand: req.params.id   }).exec(callback);
+    },
+    brand_computers(callback){
+      Computer.find({ brand: req.params.id   }).exec(callback);
+    },
   },
   (err, results) => {
     if(err){
@@ -72,6 +78,8 @@ exports.brand_detail = (req, res, next) => {
       brand_motherboards : results.brand_motherboards,
       brand_powersupplies : results.brand_powersupplies,
       brand_rams : results.brand_rams,
+      brand_cpus : results.brand_cpus,
+      brand_computers : results.brand_computers,
       brand_storages : results.brand_storages,
     })
   })
@@ -217,10 +225,10 @@ exports.brand_delete_post = (req, res, next) => {
       Motherboard.find({ brand: { $elemMatch: { $eq: req.body.brandid } } }).exec(callback);
     },
     brand_cpus(callback){
-      CPU.find({ brand: { $elemMatch: { $eq:req.body.brandid } } }).exec(callback);
+      CPU.find({ brand: req.body.brandid  }).exec(callback);
     },
     brand_computers(callback){
-      Computer.find({ brand: { $elemMatch: { $eq:req.body.brandid } } }).exec(callback);
+      Computer.find({ brand: req.body.brandid }).exec(callback);
     },
     brand_powersupplies(callback){
       PowerSupply.find({ brand: { $elemMatch: { $eq: req.body.brandid } } }).exec(callback);

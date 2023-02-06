@@ -1,13 +1,30 @@
 <%- include('../partials/header.ejs') %>
 
 <div class="container">
-  <h1 class="text-center" style="color:gray;">cpu: <%= cpu.name %></h1>
-  <br>
   <div class="row">
-    <div class="col-md-4">
-      <h4 class="text-secondary">Brand</h4>
-      <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= cpu_brand.name %></p>
+    <div class="col-md-6">
+      <% if(cpu.image !== undefined){ %>
+        <img class="img-tumbnail" height= "360px" style="margin:20px"src="/images/<%= cpu.image %>" alt="<%= cpu.name %>">
+      <% }; %>
     </div>
+    <div class="col-md-6">
+      <h1  style="margin-top: 60px;"><%= cpu.name %></h1>
+      <br>
+        <p>
+            <a style="color:gray"href="<%= cpu.brand.url %>" ><%= cpu.brand.name %></a>
+        </p>
+      
+      <p>
+        <span class="badge badge-success badge-pill">
+          <%= "$" + cpu.price.toLocaleString() + " ARS"%>
+        </span> </p>
+    </div>
+
+
+  </div>
+  <hr><br>
+ 
+  <div class="row">
     <div class="col-md-4">
       <h4 class="text-secondary">Model</h4>
       <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= cpu.model %></p>
@@ -16,43 +33,35 @@
       <h4 class="text-secondary">Cores</h4>
       <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= cpu.core_count %></p>
     </div>
-  </div>
-  <div class="row">
     <div class="col-md-4">
       <h4 class="text-secondary">Threads</h4>
       <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= cpu.thread_count %></p>
     </div>
-    <div class="col-md-4">
-      <h4 class="text-secondary">Clock Speed</h4>
-      <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= cpu.clock_speed %></p>
-    </div>
   </div>
   <div class="row">
+
+    <div class="col-md-4">
+      <h4 class="text-secondary">Clock Speed</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= cpu.clock_speed %> MHz</p>
+    </div>
     <div class="col-md-4">
       <h4 class="text-secondary">Socket</h4>
       <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= cpu.socket %></p>
     </div>
     <div class="col-md-4">
-      <h4 class="text-secondary">Price</h4>
-      <p class="text-white" style="background-color: #6c757d; padding: 10px;">$ <%= cpu.price %></p>
+      <h4 class="text-secondary">Sopported RAM</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= cpu.frecuency_ram %> MHz</p>
     </div>
+
   </div>
   <br>
-  <div class="row" style="margin-bottom: 20px">
-    <div class="col-md-5">
-        <br>
-        <a href="javascript:history.back()" class="btn btn-primary"> Go Back</a>
-    </div>
-    <div class="col-md-5">
-      <br>
-      <a href="<%= cpu.url %>/delete" class="btn btn-danger">Delete</a>
-    </div>
-    <div class="col-md-2">
-      <br>
-      <a href="<%= cpu.url %>/update" class="btn btn-primary" style="background: rgb(51, 51, 148)"bac>Update</a>
-    </div>
+  <div class="card-footer" style="margin-bottom: 20px">
+             
+    <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+    <a href="<%= cpu.url %>/delete" class="btn btn-danger float-right">Delete</a>
+    <a href="<%= cpu.url %>/update" class="btn btn-primary float-right" style="background: rgb(51, 51, 148)"bac>Update</a>
+
   </div>
-</div>
 
 
 <%- include('../partials/footer.ejs') %>

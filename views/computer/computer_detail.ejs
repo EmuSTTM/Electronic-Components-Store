@@ -1,8 +1,32 @@
 <%- include('../partials/header.ejs') %>
 <div class="container">
-    <h1 class="text-center" style="color:gray;">computer: <%= computer.name %></h1>
-    <h4 class="text-center" style="color:rgb(185, 185, 185);">description <%= computer.description %></h4>
-    <br>
+
+  <div class="row">
+    <div class="col-md-6">
+      <% if(computer.image !== undefined){ %>
+        <img class="img-tumbnail" height= "360px" style="margin:20px"src="/images/<%= computer.image %>" alt="<%= computer.name %>">
+      <% }; %>
+    </div>
+    <div class="col-md-6">
+      <h1  style="margin-top: 60px;"><%= computer.name %></h1>
+      <br>
+        <p>
+            <a style="color:gray"href="<%= computer.brand.url %>" ><%= computer.brand.name %></a>
+        </p>
+     
+      <h4><%= computer.description %></h4>
+      
+      <br>
+      <p>
+        <span class="badge badge-success badge-pill">
+          <%= "$" + computer.price.toLocaleString() + " ARS"%>
+        </span> </p>
+    </div>
+
+
+  </div>
+  <hr><br>
+  
     <div class="row">
       <div class="col-md-4">
         <h4 class="text-secondary">Brand</h4>
@@ -48,27 +72,15 @@
           </ul>
         <% } %>
       </div>
-      <div class="col-md-4">
-        <h4 class="text-secondary">Price</h4>
-        <p  class="text-white" style="background-color:  #092309; padding: 10px;"> $ <%= computer.price %></p>
-      </div>
 
-     
+     </div>
     <br>
-    <div class="row" style="margin-bottom: 20px">
-      <div class="col-md-5">
-          <br>
-          <a href="javascript:history.back()" class="btn btn-primary"> Go Back</a>
-      </div>
-      <div class="col-md-5">
-        <br>
-        <a href="<%= computer.url %>/delete" class="btn btn-danger">Delete</a>
-      </div>
-      <div class="col-md-2">
-        <br>
-        <a href="<%= computer.url %>/update" class="btn btn-primary" style="background: rgb(51, 51, 148)"bac>Update</a>
-      </div>
+    <div class="card-footer" style="margin-bottom: 20px">
+             
+      <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+      <a href="<%= computer.url %>/delete" class="btn btn-danger float-right">Delete</a>
+      <a href="<%= computer.url %>/update" class="btn btn-primary float-right" style="background: rgb(51, 51, 148)"bac>Update</a>
+
     </div>
-  </div>
   
 <%- include('../partials/footer.ejs') %>

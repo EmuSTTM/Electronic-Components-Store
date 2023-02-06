@@ -1,23 +1,34 @@
 <%- include('../partials/header.ejs') %>
 
 <div class="container">
-  <h1 class="text-center" style="color:gray;">GPU: <%= gpu.name %></h1>
-  <br>
   <div class="row">
-    <div class="col-md-4">
-      <h4 class="text-secondary">Brand</h4>
-      <% if(gpu_brand.length > 0){ %>
-      <ul class="list-group" style="margin-bottom:10px;">
-        <% gpu_brand.forEach(function(brand){ %>
-        <li class="list-group-item" style="background-color: #6c757d; padding: 10px;">
-            <a href="<%= brand.url %>" class="text-white"><%= brand.name %></a>
-        </li>
-        <% }); %>
-      </ul>
-      <% } else { %>
-      <p class="text-danger">This GPU has no brand</p>
-      <% } %>
+    <div class="col-md-6">
+      <% if(gpu.image !== undefined){ %>
+        <img class="img-tumbnail" height= "360px" style="margin:20px"src="/images/<%= gpu.image %>" alt="<%= gpu.name %>">
+      <% }; %>
     </div>
+    <div class="col-md-6">
+      <h1  style="margin-top: 60px;"><%= gpu.name %></h1>
+      <br>
+        <p>
+          <% if(gpu_brand.length > 0){ %>
+            <% gpu_brand.forEach(function(brand){ %>
+                <a style="color:gray" href="<%= brand.url %>" class="text-black"><%= brand.name %></a>
+            <% }); %>
+        <% } %>
+        </p>
+      
+      <p>
+        <span class="badge badge-success badge-pill">
+          <%= "$" + gpu.price.toLocaleString() + " ARS"%>
+        </span> </p>
+    </div>
+
+
+  </div>
+  <hr><br>
+  <div class="row">
+  
     <div class="col-md-4">
       <h4 class="text-secondary">Model</h4>
       <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= gpu.model %></p>
@@ -26,6 +37,11 @@
       <h4 class="text-secondary">Memory</h4>
       <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= gpu.memory %></p>
     </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Stream Processors</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= gpu.stream_processors %></p>
+    </div>
+
   </div>
   <div class="row">
     <div class="col-md-4">
@@ -36,36 +52,21 @@
       <h4 class="text-secondary">Boost Clock</h4>
       <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= gpu.boost_clock %></p>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-4">
-      <h4 class="text-secondary">Stream Processors</h4>
-      <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= gpu.stream_processors %></p>
-    </div>
     <div class="col-md-4">
       <h4 class="text-secondary">TDP</h4>
       <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= gpu.tdp %> watts</p>
     </div>
-    <div class="col-md-4">
-      <h4 class="text-secondary">Price</h4>
-      <p class="text-white" style="background-color: #6c757d; padding: 10px;">$ <%= gpu.price %></p>
-    </div>
   </div>
+  
   <br>
-  <div class="row" style="margin-bottom: 20px">
-    <div class="col-md-5">
-        <br>
-        <a href="javascript:history.back()" class="btn btn-primary"> Go Back</a>
-    </div>
-    <div class="col-md-5">
-      <br>
-      <a href="<%= gpu.url %>/delete" class="btn btn-danger">Delete</a>
-    </div>
-    <div class="col-md-2">
-      <br>
-      <a href="<%= gpu.url %>/update" class="btn btn-primary" style="background: rgb(51, 51, 148)"bac>Update</a>
-    </div>
+  <div class="card-footer" style="margin-bottom: 20px">
+             
+    <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+    <a href="<%= gpu.url %>/delete" class="btn btn-danger float-right">Delete</a>
+    <a href="<%= gpu.url %>/update" class="btn btn-primary float-right" style="background: rgb(51, 51, 148)"bac>Update</a>
+
   </div>
+
 </div>
 
 

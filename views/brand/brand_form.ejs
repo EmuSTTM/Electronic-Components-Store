@@ -16,7 +16,14 @@
            %></textarea>
           <label for="image" style="font-size: 1.15rem;">Image</label>
           <p class="alert-danger">For the moment, you can have only one image for product. In the future, this functionality will be expanded</p>
-          <input id="image" type="file" multiple name="image" class="form-control-file"  required>
+
+          <% if (typeof brand !== 'undefined') {%>
+          <input id="image" type="file" multiple name="image" class="form-control-file" >
+          <% } else { %>
+            <input id="image" type="file" multiple name="image" class="form-control-file" required >
+          <% } %>
+
+
           <input id="last_image" name="last_image" value="<%= (typeof brand === 'undefined' ? '' : brand.image) %>" style="visibility:hidden" >
           <img src="<%= (typeof brand !== 'undefined' && typeof brand.toObject().image !== 'undefined') ? `/images/${brand.image}` : 'https://via.placeholder.com/200x200' %>" height="200" alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
         </div>

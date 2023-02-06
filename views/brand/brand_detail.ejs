@@ -2,45 +2,115 @@
 <%- include('../partials/header.ejs') %>
 
 <div class="container">
-  <h1 class="text-center" style="color:black;">Brand: <%= brand.name %></h1>
-  <br>
-  <% if(brand.image !== undefined){ %>
-    <img class="img-tumbnail" src="/images/<%= brand.image %>" alt="<%= brand.name %>">
-  <% }; %>
+  
+  
+
+
   <div class="row">
     <div class="col-md-6">
-      <h4 class="text-light bg-dark p-3">Cabinets</h4>
-      <% if(brand_cabinets.length > 0){ %>
-      <ul class="list-group">
-        <% brand_cabinets.forEach(function(cabinet){ %>
+      <% if(brand.image !== undefined){ %>
+        <img class="img-tumbnail" height= "400px"src="/images/<%= brand.image %>" alt="<%= brand.name %>">
+      <% }; %>
+    </div>
+    <div class="col-md-6">
+      <h1  style="margin-top: 60px;"><%= brand.name %></h1>
+      <br>
+      
+        <% if(brand.description !== undefined){ %>
+          <p> <%= brand.description %></p>
+        <% }; %>
+    
+      
+    </div>
+  </div>
+
+  <hr>
+  <h2 style="margin-left: 20px">Components: </h2>
+    <% if (brand_cabinets.length > 0 || 
+    brand_gpus.length > 0 ||
+    brand_motherboards.length > 0 ||
+    brand_powersupplies.length > 0 ||
+    brand_rams.length > 0 ||
+    brand_storages.length > 0 ||
+    brand_cpus.length > 0 ||
+    brand_computers.length > 0) { %>
+
+
+  
+  <div class="row" style="margin-top: 50px">
+    
+      
+      <% if(brand_computers.length > 0){ %>
+      <div class="col-md-6">
+        <h4 class="text-light bg-dark p-3">computers</h4>
+        <ul class="list-group">
+        <% brand_computers.forEach(function(cabinet){ %>
         <li class="list-group-item">
             <a href="<%= cabinet.url %>" class="text-dark"><%= cabinet.name %></a>
         </li>
         <% }); %>
       </ul>
-      <% } else { %>
-      <p class="text-danger">This brand has no cabinets</p>
+      </div>
       <% } %>
-    </div>
-    <div class="col-md-6">
-      <h4 class="text-light bg-dark p-3">GPUs</h4>
+    
+
+    
+      
       <% if(brand_gpus.length > 0){ %>
-      <ul class="list-group">
+      <div class="col-md-6">
+        <h4 class="text-light bg-dark p-3">GPUs</h4>
+        <ul class="list-group">
         <% brand_gpus.forEach(function(gpu){ %>
-        <li class="list-group-item">
+          <li class="list-group-item">
             <a href="<%= gpu.url %>" class="text-dark"><%= gpu.name %></a>
+          </li>
+        <% }); %>
+        </ul>
+      </div>
+      <% } %>
+    
+  </div>
+    <div class="row" style="margin-top: 50px">
+    
+      
+      <% if(brand_cabinets.length > 0){ %>
+      <div class="col-md-6">
+        <h4 class="text-light bg-dark p-3">Cabinets</h4>
+        <ul class="list-group">
+        <% brand_cabinets.forEach(function(computer){ %>
+        <li class="list-group-item">
+            <a href="<%= computer.url %>" class="text-dark"><%= computer.name %></a>
         </li>
         <% }); %>
       </ul>
-      <% } else { %>
-      <p class="text-danger">This brand has no GPUs</p>
+      </div>
       <% } %>
-    </div>
+    
+
+    
+      
+      <% if(brand_cpus.length > 0){ %>
+      <div class="col-md-6">
+        <h4 class="text-light bg-dark p-3">CPUs</h4>
+        <ul class="list-group">
+        <% brand_cpus.forEach(function(cpu){ %>
+          <li class="list-group-item">
+            <a href="<%= cpu.url %>" class="text-dark"><%= cpu.name %></a>
+          </li>
+        <% }); %>
+        </ul>
+      </div>
+      <% } %>
+    
   </div>
+
+
+
   <div class="row">
-    <div class="col-md-6">
-      <h4 class="text-light bg-dark p-3">Motherboards</h4>
+    
       <% if(brand_motherboards.length > 0){ %>
+        <div class="col-md-6" style="margin-top: 10px;">
+      <h4 class="text-light bg-dark p-3">Motherboards</h4>
       <ul class="list-group">
         <% brand_motherboards.forEach(function(motherboard){ %>
         <li class="list-group-item">
@@ -48,30 +118,36 @@
         </li>
         <% }); %>
       </ul>
-      <% } else { %>
-      <p class="text-danger">This brand has no motherboards</p>
+      </div>
       <% } %>
-    </div>
-    <div class="col-md-6">
-      <h4 class="text-light bg-dark p-3">Power Supplies</h4>
+   
+
+    
       <% if(brand_powersupplies.length > 0){ %>
-      <ul class="list-group">
+      <div class="col-md-6" style="margin-top: 10px;">
+        <h4 class="text-light bg-dark p-3" ">Power Supplies</h4>
+        <ul class="list-group">
         <% brand_powersupplies.forEach(function(powersupply){ %>
         <li class="list-group-item">
             <a href="<%= powersupply.url %>" class="text-dark"><%= powersupply.name %></a>
         </li>
         <% }); %>
         </ul>
-        <% } else { %>
-        <p class="text-danger">This brand has no power supplies</p>
+      </div>
         <% } %>
-        </div>
         
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <h4 class="text-light bg-dark p-3">RAMs</h4>
+        
+  </div>
+
+
+
+
+    <div class="row" style="margin-bottom:50px">
+
+      
               <% if(brand_rams.length > 0){ %>
+                <div class="col-md-6" style="margin-top: 10px;">
+                  <h4 class="text-light bg-dark p-3">RAMs</h4>
               <ul class="list-group">
                 <% brand_rams.forEach(function(ram){ %>
                 <li class="list-group-item">
@@ -79,13 +155,15 @@
                 </li>
                 <% }); %>
               </ul>
-              <% } else { %>
-              <p class="text-danger">This brand has no RAMs</p>
-              <% } %>
             </div>
-            <div class="col-md-6">
-              <h4 class="text-light bg-dark p-3">Storages</h4>
-              <% if(brand_storages.length > 0){ %>
+              <% } %>
+      
+
+
+      
+      <% if(brand_storages.length > 0){ %>
+                <div class="col-md-6" style="margin-top: 10px;">
+                  <h4 class="text-light bg-dark p-3">Storages</h4>
               <ul class="list-group">
                 <% brand_storages.forEach(function(storage){ %>
                 <li class="list-group-item">
@@ -93,24 +171,22 @@
                 </li>
                 <% }); %>
               </ul>
-              <% } else { %>
-              <p class="text-danger">This brand has no Storages</p>
+            </div>
               <% } %>
-            </div>
-          </div>
-          <div class="row" style="margin-bottom: 20px">
-            <div class="col-md-5">
-                <br>
-                <a href="javascript:history.back()" class="btn btn-primary"> Go Back</a>
-            </div>
-            <div class="col-md-5">
-              <br>
-              <a href="<%= brand.url %>/delete" class="btn btn-danger">Delete</a>
-            </div>
-            <div class="col-md-2">
-              <br>
-              <a href="<%= brand.url %>/update" class="btn btn-primary" style="background: rgb(51, 51, 148)"bac>Update</a>
-            </div>
+            
+      </div> 
+      <% } else { %>
+        <p>There are no products on the web yet</p>
+      <% } %>
+
+
+
+          <div class="card-footer" style="margin-bottom: 20px">
+             
+            <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+            <a href="<%= brand.url %>/delete" class="btn btn-danger float-right">Delete</a>
+            <a href="<%= brand.url %>/update" class="btn btn-primary float-right" style="background: rgb(51, 51, 148)"bac>Update</a>
+    
           </div>
 
         </div>
