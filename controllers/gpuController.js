@@ -1,5 +1,6 @@
 const GPU = require("../models/gpu");
 const Brand = require("../models/brand");
+const Computer = require("../models/computer");
 
 const async = require("async");
 const { body, validationResult } = require("express-validator");
@@ -174,43 +175,69 @@ exports.gpu_create_post = [
 
 // Display gpu delete form on GET.
 exports.gpu_delete_get = (req, res, next) => {
-  GPU.findById(req.params.id)
-    .exec((err, gpu) =>{
-      if(err){
+  async.parallel({
+    gpu(callback) {
+      GPU.findById(req.params.id).exec(callback)
+    },
+    gpu_computers(callback){
+      Computer.find({ gpu:  req.params.id }).exec(callback);
+    },
+  },
+  (err, results) => {
+      if(err) {
         return next(err);
       }
-      if(gpu == null){
+      if(results.gpu == null){
         res.redirect("/components/gpus")
       }
       res.render("gpu/gpu_delete", {
         title :"Remove gpu",
-        gpu : gpu,
+        gpu : results.gpu,
+        gpu_computers: results.gpu_computers,
       })
-    })
+    }
+  )
 };
 
 // Handle gpu delete on POST.
 exports.gpu_delete_post = (req, res, next) => {
-  GPU.findById(req.body.gpuid)
-  .exec((err, gpu) =>{
+  async.parallel({
+    gpu(callback) {
+      GPU.findById(req.body.gpuid).exec(callback)
+    },
+    gpu_computers(calblack){
+      Computer.find({ gpu: req.body.gpuid  }).exec(callback);
+    },
+  },
+  (err, results) => {
     if (err) {
       return next(err);
     }
-    if(gpu == null){
+
+    if(results.gpu == null) {
       res.redirect("/components/gpus")
     }
+
+    if(results.gpu_computers.length > 0 ){
+      res.render("gpu/gpu_delete", {
+        title :"Remove gpu",
+        gpu : results.gpu,
+        gpu_computers: results.gpu_computers,
+      })
+    }
+
     GPU.findByIdAndRemove(req.body.gpuid, (err) => {
       if (err) {
         return next(err);
       }
-      if(typeof gpu.image != undefined){
-        const ImageName = "public/images/" + gpu.image
+      if(typeof results.gpu.image != undefined){
+        const ImageName = "public/images/" + results.gpu.image
 
         if(fs.existsSync(ImageName)){
           fs.unlinkSync(ImageName);
-      }
-      }  
-      // Success - go to author list
+      }}
+
+      // Success - go to gpu list
       res.redirect("/components/gpus");
     })
   })

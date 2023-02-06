@@ -1,5 +1,6 @@
 const Cabinet = require("../models/cabinet");
 const Brand = require("../models/brand")
+const Computer = require("../models/computer")
 
 const fs = require("fs");
 const async = require("async")
@@ -149,37 +150,63 @@ exports.cabinet_create_post = [
 
 // Display Cabinet delete form on GET.
 exports.cabinet_delete_get = (req, res, next) => {
-  Cabinet.findById(req.params.id)
-    .exec((err, cabinet) =>{
-      if(err){
+  async.parallel({
+    cabinet(callback) {
+      Cabinet.findById(req.params.id).exec(callback)
+    },
+    cabinet_computers(callback){
+      Computer.find({ cabinet:  req.params.id }).exec(callback);
+    },
+  },
+  (err, results) => {
+      if(err) {
         return next(err);
       }
-      if(cabinet == null){
+      if(results.cabinet == null){
         res.redirect("/components/cabinets")
       }
       res.render("cabinet/cabinet_delete", {
         title :"Remove Cabinet",
-        cabinet : cabinet,
+        cabinet : results.cabinet,
+        cabinet_computers: results.cabinet_computers,
       })
-    })
+    }
+  )
 };
 
 // Handle Cabinet delete on POST.
 exports.cabinet_delete_post = (req, res, next) => {
-  Cabinet.findById(req.body.cabinetid)
-  .exec((err, cabinet) =>{
+  async.parallel({
+    cabinet(callback) {
+      Cabinet.findById(req.body.cabinetid).exec(callback)
+    },
+    cabinet_computers(calblack){
+      Computer.find({ cabinet: req.body.cabinetid  }).exec(callback);
+    },
+  },
+  (err, results) => {
     if (err) {
       return next(err);
     }
-    if(cabinet == null){
+
+    if(results.cabinet == null) {
       res.redirect("/components/cabinets")
     }
+
+    if(results.cabinet_computers.length > 0 ){
+      res.render("cabinet/cabinet_delete", {
+        title :"Remove Cabinet",
+        cabinet : results.cabinet,
+        cabinet_computers: results.cabinet_computers,
+      })
+    }
+
     Cabinet.findByIdAndRemove(req.body.cabinetid, (err) => {
       if (err) {
         return next(err);
       }
-      if(typeof cabinet.image != undefined){
-        const ImageName = "public/images/" + cabinet.image
+      if(typeof results.cabinet.image != undefined){
+        const ImageName = "public/images/" + results.cabinet.image
 
         if(fs.existsSync(ImageName)){
           fs.unlinkSync(ImageName);

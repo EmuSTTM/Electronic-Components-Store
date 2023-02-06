@@ -1,9 +1,12 @@
 const RAM = require("../models/ram");
+const Brand = require("../models/brand");
+const Computer = require("../models/computer");
+
 const async = require("async");
 const { body, validationResult } = require("express-validator");
 const fs = require("fs");
 
-const Brand = require("../models/brand");
+
 
 // Display list of all Ram. // brand model size speed type price
 exports.ram_list = function (req, res, next) {
@@ -162,43 +165,69 @@ exports.ram_create_post = [
 
 // Display ram delete form on GET.
 exports.ram_delete_get = (req, res, next) => {
-  RAM.findById(req.params.id)
-    .exec((err, ram) =>{
-      if(err){
+  async.parallel({
+    ram(callback) {
+      RAM.findById(req.params.id).exec(callback)
+    },
+    ram_computers(callback){
+      Computer.find({ ram:  req.params.id }).exec(callback);
+    },
+  },
+  (err, results) => {
+      if(err) {
         return next(err);
       }
-      if(ram == null){
+      if(results.ram == null){
         res.redirect("/components/rams")
       }
       res.render("ram/ram_delete", {
         title :"Remove ram",
-        ram : ram,
+        ram : results.ram,
+        ram_computers: results.ram_computers,
       })
-    })
+    }
+  )
 };
 
 // Handle ram delete on POST.
 exports.ram_delete_post = (req, res, next) => {
-  RAM.findById(req.body.ramid)
-  .exec((err, ram) =>{
+  async.parallel({
+    ram(callback) {
+      RAM.findById(req.body.ramid).exec(callback)
+    },
+    ram_computers(calblack){
+      Computer.find({ ram: req.body.ramid  }).exec(callback);
+    },
+  },
+  (err, results) => {
     if (err) {
       return next(err);
     }
-    if(ram == null){
+
+    if(results.ram == null) {
       res.redirect("/components/rams")
     }
+
+    if(results.ram_computers.length > 0 ){
+      res.render("ram/ram_delete", {
+        title :"Remove ram",
+        ram : results.ram,
+        ram_computers: results.ram_computers,
+      })
+    }
+
     RAM.findByIdAndRemove(req.body.ramid, (err) => {
       if (err) {
         return next(err);
       }
-      if(typeof ram.image != undefined){
-        const ImageName = "public/images/" + ram.image
+      if(typeof results.ram.image != undefined){
+        const ImageName = "public/images/" + results.ram.image
 
         if(fs.existsSync(ImageName)){
           fs.unlinkSync(ImageName);
-      }
-      }
-      // Success - go to author list
+      }}
+
+      // Success - go to ram list
       res.redirect("/components/rams");
     })
   })

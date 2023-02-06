@@ -1,9 +1,13 @@
 const PowerSupply = require("../models/powerSupply");
+const Brand = require("../models/brand");
+const Computer = require("../models/computer");
+
+
 const async = require("async");
 const { body, validationResult } = require("express-validator");
 const fs = require("fs");
 
-const Brand = require("../models/brand");
+
 
 
 // Display list of all PowerSupply.
@@ -133,7 +137,7 @@ exports.powerSupply_create_post = [
              if (err) {
                return next(err);
                }
-               // powerSupplysaved. Redirect to powerSupply detail page.
+               // powerSupply saved. Redirect to powerSupply detail page.
                res.redirect(powerSupply.url);
                });
            }
@@ -144,43 +148,69 @@ exports.powerSupply_create_post = [
 
 // Display powerSupply delete form on GET.
 exports.powerSupply_delete_get = (req, res, next) => {
-  PowerSupply.findById(req.params.id)
-    .exec((err, powerSupply) =>{
-      if(err){
+  async.parallel({
+    powerSupply(callback) {
+      PowerSupply.findById(req.params.id).exec(callback)
+    },
+    powerSupply_computers(callback){
+      Computer.find({ powerSupply:  req.params.id }).exec(callback);
+    },
+  },
+  (err, results) => {
+      if(err) {
         return next(err);
       }
-      if(powerSupply == null){
+      if(results.powerSupply == null){
         res.redirect("/components/powerSupplies")
       }
       res.render("powerSupply/powerSupply_delete", {
         title :"Remove powerSupply",
-        powerSupply : powerSupply,
+        powerSupply : results.powerSupply,
+        powerSupply_computers: results.powerSupply_computers,
       })
-    })
+    }
+  )
 };
 
 // Handle powerSupply delete on POST.
 exports.powerSupply_delete_post = (req, res, next) => {
-  PowerSupply.findById(req.body.powerSupplyid)
-  .exec((err, powerSupply) =>{
+  async.parallel({
+    powerSupply(callback) {
+      powerSupply.findById(req.body.powerSupplyid).exec(callback)
+    },
+    powerSupply_computers(calblack){
+      Computer.find({ powerSupply: req.body.powerSupplyid  }).exec(callback);
+    },
+  },
+  (err, results) => {
     if (err) {
       return next(err);
     }
-    if(powerSupply == null){
+
+    if(results.powerSupply == null) {
       res.redirect("/components/powerSupplies")
     }
-    PowerSupply.findByIdAndRemove(req.body.powerSupplyid, (err) => {
+
+    if(results.powerSupply_computers.length > 0 ){
+      res.render("powerSupply/powerSupply_delete", {
+        title :"Remove powerSupply",
+        powerSupply : results.powerSupply,
+        powerSupply_computers: results.powerSupply_computers,
+      })
+    }
+
+    powerSupply.findByIdAndRemove(req.body.powerSupplyid, (err) => {
       if (err) {
         return next(err);
       }
-      if(typeof powerSupply.image != undefined){
-        const ImageName = "public/images/" + powerSupply.image
+      if(typeof results.powerSupply.image != undefined){
+        const ImageName = "public/images/" + results.powerSupply.image
 
         if(fs.existsSync(ImageName)){
           fs.unlinkSync(ImageName);
-      }
-      }
-      // Success - go to author list
+      }}
+
+      // Success - go to powerSupply list
       res.redirect("/components/powerSupplies");
     })
   })

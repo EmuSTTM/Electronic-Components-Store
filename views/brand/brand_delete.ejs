@@ -5,13 +5,16 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
+                
                     <h3>Delete Brand <%= brand.name %> </h3>
-                    <% if (brand_cabinets.length || 
-                    brand_gpus.isLength  ||
-                    brand_motherboards.isLength ||
-                    brand_powersupplies.isLength ||
-                    brand_rams.isLength ||
-                    brand_storages.isLength ) { %>
+                    <% if (brand_cabinets.length > 0|| 
+                    brand_gpus.length  > 0||
+                    brand_motherboards.length > 0||
+                    brand_cpus.length  > 0||
+                    brand_computers.length > 0||
+                    brand_powersupplies.length > 0||
+                    brand_rams.length > 0||
+                    brand_storages.length > 0 ) { %>
                         <p><strong>Delete or update the following things before attempting to delete this brand.</strong></p>
                         
                             <div class="container">

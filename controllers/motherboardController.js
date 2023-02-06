@@ -1,5 +1,6 @@
 const Motherboard = require("../models/motherboard");
 const Brand = require("../models/brand");
+const Computer = require("../models/computer");
 
 
 const { body, validationResult } = require("express-validator");
@@ -156,43 +157,68 @@ exports.motherboard_create_post = [
 
 // Display motherboard delete form on GET.
 exports.motherboard_delete_get = (req, res, next) => {
-  Motherboard.findById(req.params.id)
-    .exec((err, motherboard) =>{
-      if(err){
+  async.parallel({
+    motherboard(callback) {
+      Motherboard.findById(req.params.id).exec(callback)
+    },
+    motherboard_computers(callback){
+      Computer.find({ motherboard:  req.params.id }).exec(callback);
+    },
+  },
+  (err, results) => {
+      if(err) {
         return next(err);
       }
-      if(motherboard == null){
+      if(results.motherboard == null){
         res.redirect("/components/motherboards")
       }
       res.render("motherboard/motherboard_delete", {
         title :"Remove motherboard",
-        motherboard : motherboard,
+        motherboard : results.motherboard,
+        motherboard_computers: results.motherboard_computers,
       })
-    })
+    }
+  )
 };
 
 // Handle motherboard delete on POST.
 exports.motherboard_delete_post = (req, res, next) => {
-  Motherboard.findById(req.body.motherboardid)
-  .exec((err, motherboard) =>{
+  async.parallel({
+    motherboard(callback) {
+      Motherboard.findById(req.body.motherboardid).exec(callback)
+    },
+    motherboard_computers(calblack){
+      Computer.find({ motherboard: req.body.motherboardid  }).exec(callback);
+    },
+  },
+  (err, results) => {
     if (err) {
       return next(err);
     }
-    if(motherboard == null){
+
+    if(results.motherboard == null) {
       res.redirect("/components/motherboards")
     }
+
+    if(results.motherboard_computers.length > 0 ){
+      res.render("motherboard/motherboard_delete", {
+        title :"Remove motherboard",
+        motherboard : results.motherboard,
+        motherboard_computers: results.motherboard_computers,
+      })
+    }
+
     Motherboard.findByIdAndRemove(req.body.motherboardid, (err) => {
       if (err) {
         return next(err);
       }
-
-      if(typeof motherboard.image != undefined){
-        const ImageName = "public/images/" + motherboard.image
+      if(typeof results.motherboard.image != undefined){
+        const ImageName = "public/images/" + results.motherboard.image
 
         if(fs.existsSync(ImageName)){
           fs.unlinkSync(ImageName);
-      }
-      }  
+      }}
+
       // Success - go to motherboard list
       res.redirect("/components/motherboards");
     })

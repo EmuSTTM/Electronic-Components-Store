@@ -1,9 +1,12 @@
 const Storage = require("../models/storage");
+const Brand = require("../models/brand");
+const Computer = require("../models/computer");
+
 const async = require("async");
 const { body, validationResult } = require("express-validator");
 const fs = require("fs");
 
-const Brand = require("../models/brand");
+
 
 // Display list of all Storage.
 exports.storage_list = function (req, res, next) {
@@ -142,43 +145,69 @@ exports.storage_create_post = [
 
 // Display storage delete form on GET.
 exports.storage_delete_get = (req, res, next) => {
-  Storage.findById(req.params.id)
-    .exec((err, storage) =>{
-      if(err){
+  async.parallel({
+    storage(callback) {
+      Storage.findById(req.params.id).exec(callback)
+    },
+    storage_computers(callback){
+      Computer.find({ storage:  req.params.id }).exec(callback);
+    },
+  },
+  (err, results) => {
+      if(err) {
         return next(err);
       }
-      if(storage == null){
+      if(results.storage == null){
         res.redirect("/components/storages")
       }
       res.render("storage/storage_delete", {
         title :"Remove storage",
-        storage : storage,
+        storage : results.storage,
+        storage_computers: results.storage_computers,
       })
-    })
+    }
+  )
 };
 
 // Handle storage delete on POST.
 exports.storage_delete_post = (req, res, next) => {
-  Storage.findById(req.body.storageid)
-  .exec((err, storage) =>{
+  async.parallel({
+    storage(callback) {
+      Storage.findById(req.body.storageid).exec(callback)
+    },
+    storage_computers(calblack){
+      Computer.find({ storage: req.body.storageid  }).exec(callback);
+    },
+  },
+  (err, results) => {
     if (err) {
       return next(err);
     }
-    if(storage == null){
+
+    if(results.storage == null) {
       res.redirect("/components/storages")
     }
+
+    if(results.storage_computers.length > 0 ){
+      res.render("storage/storage_delete", {
+        title :"Remove storage",
+        storage : results.storage,
+        storage_computers: results.storage_computers,
+      })
+    }
+
     Storage.findByIdAndRemove(req.body.storageid, (err) => {
       if (err) {
         return next(err);
       }
-      if(typeof storage.image != undefined){
-        const ImageName = "public/images/" + storage.image
+      if(typeof results.storage.image != undefined){
+        const ImageName = "public/images/" + results.storage.image
 
         if(fs.existsSync(ImageName)){
           fs.unlinkSync(ImageName);
-      }
-      }
-      // Success - go to author list
+      }}
+
+      // Success - go to storage list
       res.redirect("/components/storages");
     })
   })

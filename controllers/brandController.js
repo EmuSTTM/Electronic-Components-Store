@@ -5,6 +5,8 @@ const Motherboard = require("../models/motherboard");
 const PowerSupply =  require("../models/powerSupply");
 const RamSchema = require("../models/ram");
 const Storage = require("../models/storage");
+const Computer = require("../models/computer");
+const CPU = require("../models/cpu");
 
 const async = require("async");
 const {body, validationResult } = require("express-validator");
@@ -158,6 +160,12 @@ exports.brand_delete_get = (req, res, next) => {
     brand_rams(callback){
       RamSchema.find({ brand: { $elemMatch: { $eq: req.params.id } } }).exec(callback);
     },
+    brand_cpus(callback){
+      CPU.find({ brand: req.params.id  }).exec(callback);
+    },
+    brand_computers(callback){
+      Computer.find({ brand: req.params.id }).exec(callback);
+    },
     brand_storages(callback){
       Storage.find({ brand: { $elemMatch: { $eq: req.params.id } } }).exec(callback);
     },
@@ -169,12 +177,18 @@ exports.brand_delete_get = (req, res, next) => {
     if(results.brand == null){
       // No results
       res.redirect("/components/brands")
+      
     }
+
+    // console.log(results.brand_motherboards)
+    //   console.log(results.brand_gpus)
     res.render("brand/brand_delete", {
       title: "Delete Brand",
       brand: results.brand,
       brand_cabinets : results.brand_cabinets,
       brand_gpus : results.brand_gpus,
+      brand_cpus: results.brand_cpus,
+      brand_computers: results.brand_computers,
       brand_motherboards: results.brand_motherboards,
       brand_powersupplies : results.brand_powersupplies,
       brand_rams : results.brand_rams,
@@ -202,6 +216,12 @@ exports.brand_delete_post = (req, res, next) => {
     brand_motherboards(callback){
       Motherboard.find({ brand: { $elemMatch: { $eq: req.body.brandid } } }).exec(callback);
     },
+    brand_cpus(callback){
+      CPU.find({ brand: { $elemMatch: { $eq:req.body.brandid } } }).exec(callback);
+    },
+    brand_computers(callback){
+      Computer.find({ brand: { $elemMatch: { $eq:req.body.brandid } } }).exec(callback);
+    },
     brand_powersupplies(callback){
       PowerSupply.find({ brand: { $elemMatch: { $eq: req.body.brandid } } }).exec(callback);
     },
@@ -216,12 +236,12 @@ exports.brand_delete_post = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    if(results.brand_cabinets.isLength > 0 || 
-      results.brand_gpus.isLength > 0 ||
-      results.brand_motherboards.isLength > 0 ||
-      results.brand_powersupplies.isLength > 0 ||
-      results.brand_rams.isLength > 0 ||
-      results.brand_storages.isLength > 0){
+    if(results.brand_cabinets.length > 0 || 
+      results.brand_gpus.length > 0 ||
+      results.brand_motherboards.length > 0 ||
+      results.brand_powersupplies.length > 0 ||
+      results.brand_rams.length > 0 ||
+      results.brand_storages.length > 0){
 
         res.render("brand/brand_delete", {
           title: "Delete Brand",
@@ -231,6 +251,8 @@ exports.brand_delete_post = (req, res, next) => {
           brand_motherboards: results.brand_motherboards,
           brand_powersupplies : results.brand_powersupplies,
           brand_rams : results.brand_rams,
+          brand_computers : results.brand_computers,
+          brand_cpus: results.brand_cpus,
           brand_storages : results.brand_storages,
           
         });

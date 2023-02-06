@@ -1,6 +1,7 @@
 
 const CPU = require("../models/cpu");
 const Brand = require("../models/brand");
+const Computer = require("../models/computer");
 
 const { body, validationResult } = require("express-validator");
 const async = require("async");
@@ -134,46 +135,72 @@ exports.cpu_create_post = [
 
 // Display cpu delete form on GET.
 exports.cpu_delete_get = (req, res, next) => {
-     CPU.findById(req.params.id)
-      .exec((err, cpu) =>{
-        if(err){
-          return next(err);
-        }
-        if(cpu == null){
-          res.redirect("/components/cpus")
-        }
-        res.render("cpu/cpu_delete", {
-          title :"Remove cpu",
-          cpu : cpu,
-        })
+  async.parallel({
+    cpu(callback) {
+      CPU.findById(req.params.id).exec(callback)
+    },
+    cpu_computers(callback){
+      Computer.find({ cpu:  req.params.id }).exec(callback);
+    },
+  },
+  (err, results) => {
+      if(err) {
+        return next(err);
+      }
+      if(results.cpu == null){
+        res.redirect("/components/cpus")
+      }
+      res.render("cpu/cpu_delete", {
+        title :"Remove cpu",
+        cpu : results.cpu,
+        cpu_computers: results.cpu_computers,
       })
+    }
+  )
   };
 
 // Handle cpu delete on POST.
 exports.cpu_delete_post = (req, res, next) => {
-    CPU.findById(req.body.cpuid)
-    .exec((err, cpu) =>{
+  async.parallel({
+    cpu(callback) {
+      CPU.findById(req.body.cpuid).exec(callback)
+    },
+    cpu_computers(calblack){
+      Computer.find({ cpu: req.body.cpuid  }).exec(callback);
+    },
+  },
+  (err, results) => {
+    if (err) {
+      return next(err);
+    }
+
+    if(results.cpu == null) {
+      res.redirect("/components/cpus")
+    }
+
+    if(results.cpu_computers.length > 0 ){
+      res.render("cpu/cpu_delete", {
+        title :"Remove cpu",
+        cpu : results.cpu,
+        cpu_computers: results.cpu_computers,
+      })
+    }
+
+    CPU.findByIdAndRemove(req.body.cpuid, (err) => {
       if (err) {
         return next(err);
       }
-      if(cpu == null){
-        res.redirect("/components/cpus")
-      }
-      CPU.findByIdAndRemove(req.body.cpuid, (err) => {
-        if (err) {
-          return next(err);
-        }
-        if(typeof cpu.image != undefined){
-          const ImageName = "public/images/" + cpu.image
-  
-          if(fs.existsSync(ImageName)){
-            fs.unlinkSync(ImageName);
-        }
-        }  
-        // Success - go to author list
-        res.redirect("/components/cpus");
-      })
+      if(typeof results.cpu.image != undefined){
+        const ImageName = "public/images/" + results.cpu.image
+
+        if(fs.existsSync(ImageName)){
+          fs.unlinkSync(ImageName);
+      }}
+
+      // Success - go to cpu list
+      res.redirect("/components/cpus");
     })
+  })
   };
 
 // Display cpu update form on GET.
