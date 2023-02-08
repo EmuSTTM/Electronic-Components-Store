@@ -44,13 +44,37 @@ exports.computer_list = (req, res, next) => {
             return accumulator + currentValue.price;
           }, 0);
           
-          ;
-          if (computer.cabinet && computer.cpu && computer.gpu && computer.motherboard && computer.totalRam && computer.totalStorage && computer.powerSupply) {
-            computer.price = computer.cabinet.price + computer.cpu.price + computer.gpu.price + computer.motherboard.price + computer.totalRam + computer.totalStorage + computer.powerSupply.price;
+          // console.log(totalRam, totalStorage, computer.cabinet.price, computer.cpu.price,
+          //   computer.gpu.price, computer.motherboard.price, computer.powerSupply.price)
+
+
+
+
+          if (computer.cabinet && computer.cpu && computer.gpu && 
+            computer.motherboard && totalRam && totalStorage 
+            && computer.powerSupply) {
+            computer.price = computer.cabinet.price + computer.cpu.price +
+              computer.gpu.price + computer.motherboard.price +
+              totalRam + totalStorage +
+              computer.powerSupply.price;
+              // console.log(computer.price);
           }
-          console.log(typeof computer.price)
+
+        
+          // console.log(typeof computer.cabinet, typeof computer.cpu, typeof computer.gpu,
+          //   typeof computer.motherboard, typeof totalRam,
+          //   typeof totalStorage, typeof computer.powerSupply)
+         
+
+
+
+
+
+
+
+          // console.log(typeof computer.price)
           if (typeof computer.price == "undefined"){
-            computer.price = " Consultar en ";
+            computer.price = 000 ;
           
           }
           
@@ -98,12 +122,16 @@ exports.computer_detail = (req, res, next) => {
       }, 0);
 
 
-        if (computer.cabinet && computer.cpu && computer.gpu && computer.motherboard && computer.totalRam && computer.totalStorage && computer.powerSupply) {
-          computer.price = computer.cabinet.price + computer.cpu.price + computer.gpu.price + computer.motherboard.price + computer.totalRam + computer.totalStorage + computer.powerSupply.price;
+        if (computer.cabinet && computer.cpu && computer.gpu 
+          && computer.motherboard && totalRam 
+          && totalStorage && computer.powerSupply) {
+          computer.price = computer.cabinet.price + 
+          computer.cpu.price + computer.gpu.price + 
+          computer.motherboard.price + totalRam + totalStorage + computer.powerSupply.price;
         }
         console.log(typeof computer.price)
         if (typeof computer.price == "undefined"){
-          computer.price = " Consultar en ";
+          computer.price = 000;
         
         }
 

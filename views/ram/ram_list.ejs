@@ -19,7 +19,7 @@
               <%= ram_list[i].speed %> MHz <br>
               <%= ram_list[i].size %> GB<br>
               <span class="badge badge-success badge-pill">
-                <%= "$" + ram_list[i].price + " ARS"%>
+                <%= "$" + ram_list[i].price.toLocaleString() + " ARS"%>
               </span>
             </p>
             <a href="<%= ram_list[i].url %>" class="btn btn-primary">See More</a>

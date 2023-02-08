@@ -18,7 +18,7 @@
               <% } %> -
               <span class="badge badge-primary badge-pill"> <%= cabinet_list[i].type %> </span> <br>
               <span class="badge badge-success badge-pill">
-                <%= "$" + cabinet_list[i].price + " ARS"%>
+                <%= "$" + cabinet_list[i].price.toLocaleString() + " ARS"%>
               </span>
             </p>
             <a href="<%= cabinet_list[i].url %>" class="btn btn-primary">See More</a>

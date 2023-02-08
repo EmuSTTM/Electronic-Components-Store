@@ -19,7 +19,7 @@
               <%= storage_list[i].type %> <br>
               <%= storage_list[i].speed %> <br>
               <span class="badge badge-success badge-pill">
-                <%= "$" + storage_list[i].price + " ARS"%>
+                <%= "$" + storage_list[i].price.toLocaleString() + " ARS"%>
               </span>
             </p>
             <a href="<%= storage_list[i].url %>" class="btn btn-primary">See More</a>

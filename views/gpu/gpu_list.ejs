@@ -20,7 +20,7 @@
               Core clock: <%= gpu_list[i].core_clock %> <br>
               Memory: <%= gpu_list[i].memory %><br>
               <span class="badge badge-success badge-pill">
-                <%= "$" + gpu_list[i].price + " ARS"%>
+                <%= "$" + gpu_list[i].price.toLocaleString() + " ARS"%>
               </span>
             </p>
             <a href="<%= gpu_list[i].url %>" class="btn btn-primary">See More</a>

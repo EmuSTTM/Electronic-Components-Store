@@ -14,7 +14,7 @@
             <p class="card-text">
             <br> 
                <span class="badge badge-success badge-pill">
-                <%= "$" + computer_list[i].price + " ARS"%>
+                <%= "$" + Number(computer_list[i].price).toLocaleString() + " ARS"%>
               </span>
             </p>
             <a href="<%= computer_list[i].url %>" class="btn btn-primary">See More</a>

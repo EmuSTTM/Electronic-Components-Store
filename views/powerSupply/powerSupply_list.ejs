@@ -19,7 +19,7 @@
               <%= powerSupply_list[i].certifications %> <br>
               <%= powerSupply_list[i].power %> W <br>
               <span class="badge badge-success badge-pill">
-                <%= "$" + powerSupply_list[i].price + " ARS"%>
+                <%= "$" + powerSupply_list[i].price.toLocaleString() + " ARS"%>
               </span>
             </p>
             <a href="<%= powerSupply_list[i].url %>" class="btn btn-primary">See More</a>

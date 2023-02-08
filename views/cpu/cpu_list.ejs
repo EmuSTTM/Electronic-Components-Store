@@ -18,7 +18,7 @@
               - <%= cpu_list[i].core_count %> cores <br>
               - <%= cpu_list[i].thread_count %> threads<br>
               <span class="badge badge-success badge-pill">
-                <%= "$" + cpu_list[i].price + " ARS"%>
+                <%= "$" + cpu_list[i].price.toLocaleString() + " ARS"%>
               </span>
             </p>
             <a href="<%= cpu_list[i].url %>" class="btn btn-primary">See More</a>

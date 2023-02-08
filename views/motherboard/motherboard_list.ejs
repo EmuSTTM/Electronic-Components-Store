@@ -17,7 +17,7 @@
               <% } %> -
               <%= motherboard_list[i].chipset %> <br>
               <span class="badge badge-success badge-pill">
-                <%= "$" + motherboard_list[i].price + " ARS"%>
+                <%= "$" + motherboard_list[i].price.toLocaleString() + " ARS"%>
               </span>
             </p>
             <a href="<%= motherboard_list[i].url %>" class="btn btn-primary">See More</a>
