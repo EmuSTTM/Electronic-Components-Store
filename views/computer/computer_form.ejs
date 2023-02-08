@@ -1,6 +1,214 @@
 <%- include('../partials/header.ejs') %>
 
 
+
+
+<aside class="d-flex flex-column card card-body" style="align-items: center; margin:10px 0px">
+  <div class="row">
+    <div class="col-2">
+      <img id="ram" class="nav-link_computer" src="/static_images/ram.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+    </div>
+    <div class="col-2">
+      <img id="cpu" class="nav-link_computer" src="/static_images/cpu.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+    </div>
+    <div class="col-2">
+      <img id="storage" class="nav-link_computer" src="/static_images/storage.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+    </div>
+    <div class="col-2">
+      <img id="power" class="nav-link_computer" src="/static_images/power.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+    </div>
+    <div class="col-2">
+      <img id="mother" class="nav-link_computer" src="/static_images/mother.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+    </div>
+    <div class="col-2">
+      <img id="cabinet" class="nav-link_computer" src="/static_images/cabinet.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+    </div>
+  </div>
+</aside>
+
+<div class="product-container"></div>
+
+<script>
+function handleImageClick(img) {
+  let src = img.src.split('.');
+  let newSrc = src[0].endsWith('-active') ? src[0].slice(0, -7) + '.' + src[1] : src[0] + '-active.' + src[1];
+  let baseURL = window.location.origin;
+  src[0] = src[0].replace(baseURL, '');
+  newSrc = newSrc.replace(baseURL, '');
+  let images = document.querySelectorAll('.nav-link_computer');
+  for (let image of images) {
+    let currSrc = image.src.split('.');
+    currSrc[0] = currSrc[0].replace(baseURL, '');
+    if (currSrc[0].endsWith('-active')) {
+      currSrc[0] = currSrc[0].slice(0, -7);
+      image.src = baseURL + currSrc[0] + '.' + currSrc[1];
+      image.classList.remove("active");
+    }
+  }
+  img.src = baseURL + newSrc;
+  img.classList.add("active");
+  // Añade esta parte
+  let productContainer = document.querySelector('.product-container');
+  productContainer.innerHTML = '';
+  switch(img.id) {
+    case 'storage':
+    productContainer.innerHTML += `
+      <div class="row">
+      <% for (storage of storages) { %>
+        <div class="col-md-3 mb-3">
+          <div class="card h-100">
+
+            <img src="<%=  typeof storage.toObject().image !== 'undefined' ? '/images/' + storage.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= storage.name%>">
+            <div class="card-body">
+              <h5 class="card-title"> <a href="<%= storage.url %>"><%= storage.name %></a>  </h5> 
+              <p class="card-text">
+                <% for (var j = 0; j < storage.brand.length; j++) { %>
+                  <%= storage.brand[j].name %>
+                <% } %> -
+                <span class="badge badge-primary badge-pill"> <%= storage.type %> </span> <br>
+                <span class="badge badge-success badge-pill">
+                  <%= "$" + storage.price.toLocaleString() + " ARS"%>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+    <% } %>
+    </div>`;
+      break;
+    case 'ram':
+    productContainer.innerHTML += `
+      <div class="row">
+      <% for (ram of rams) { %>
+        <div class="col-md-3 mb-3">
+          <div class="card h-100">
+
+            <img src="<%=  typeof ram.toObject().image !== 'undefined' ? '/images/' + ram.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= ram.name%>">
+            <div class="card-body">
+              <h5 class="card-title"> <a href="<%= ram.url %>"><%= ram.name %></a>  </h5> 
+              <p class="card-text">
+                <% for (var j = 0; j < ram.brand.length; j++) { %>
+                  <%= ram.brand[j].name %>
+                <% } %> -
+                <span class="badge badge-primary badge-pill"> <%= ram.type %> </span> <br>
+                <span class="badge badge-success badge-pill">
+                  <%= "$" + ram.price.toLocaleString() + " ARS"%>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+    <% } %>
+    </div>`;
+      break;
+    case 'cpu':
+    productContainer.innerHTML += `
+      <div class="row">
+      <% for (cpu of cpus) { %>
+        <div class="col-md-3 mb-3">
+          <div class="card h-100">
+
+            <img src="<%=  typeof cpu.toObject().image !== 'undefined' ? '/images/' + cpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= cpu.name%>">
+            <div class="card-body">
+              <h5 class="card-title"> <a href="<%= cpu.url %>"><%= cpu.name %></a>  </h5> 
+              <p class="card-text">
+                  <%= cpu.core_count %> cores <br>
+                  <%= cpu.thread_count %> threads<br>
+                <span class="badge badge-success badge-pill">
+                  <%= "$" + cpu.price.toLocaleString() + " ARS"%>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+    <% } %>
+    </div>`;
+      break;
+    case 'power':
+    productContainer.innerHTML += `
+      <div class="row">
+      <% for (powerSupply of powerSupplies) { %>
+        <div class="col-md-3 mb-3">
+          <div class="card h-100">
+
+            <img src="<%=  typeof powerSupply.toObject().image !== 'undefined' ? '/images/' + powerSupply.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= powerSupply.name%>">
+            <div class="card-body">
+              <h5 class="card-title"> <a href="<%= powerSupply.url %>"><%= powerSupply.name %></a>  </h5> 
+              <p class="card-text">
+                <% for (var j = 0; j < powerSupply.brand.length; j++) { %>
+                  <%= powerSupply.brand[j].name %>
+                <% } %> -
+                <span class="badge badge-primary badge-pill"> <%= powerSupply.type %> </span> <br>
+                <span class="badge badge-success badge-pill">
+                  <%= "$" + powerSupply.price.toLocaleString() + " ARS"%>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+    <% } %>
+    </div>`;
+      break;
+    case 'mother':
+        productContainer.innerHTML += `
+      <div class="row">
+      <% for (motherboard of motherboards) { %>
+        <div class="col-md-3 mb-3">
+          <div class="card h-100">
+
+            <img src="<%=  typeof motherboard.toObject().image !== 'undefined' ? '/images/' + motherboard.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= motherboard.name%>">
+            <div class="card-body">
+              <h5 class="card-title"> <a href="<%= motherboard.url %>"><%= motherboard.name %></a>  </h5> 
+              <p class="card-text">
+                <% for (var j = 0; j < motherboard.brand.length; j++) { %>
+                  <%= motherboard.brand[j].name %>
+                <% } %> -
+                <span class="badge badge-primary badge-pill"> <%= motherboard.type %> </span> <br>
+                <span class="badge badge-success badge-pill">
+                  <%= "$" + motherboard.price.toLocaleString() + " ARS"%>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+    <% } %>
+    </div>`;
+      break;
+    case 'cabinet':
+      productContainer.innerHTML += `
+      <div class="row">
+      <% for (cabinet of cabinets) { %>
+        <div class="col-md-3 mb-3">
+          <div class="card h-100">
+
+            <img src="<%=  typeof cabinet.toObject().image !== 'undefined' ? '/images/' + cabinet.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= cabinet.name%>">
+            <div class="card-body">
+              <h5 class="card-title"> <a href="<%= cabinet.url %>"><%= cabinet.name %></a>  </h5> 
+              <p class="card-text">
+                <% for (var j = 0; j < cabinet.brand.length; j++) { %>
+                  <%= cabinet.brand[j].name %>
+                <% } %> -
+                <span class="badge badge-primary badge-pill"> <%= cabinet.type %> </span> <br>
+                <span class="badge badge-success badge-pill">
+                  <%= "$" + cabinet.price.toLocaleString() + " ARS"%>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+    <% } %>
+    </div>`;
+      break;
+    }
+  }
+
+
+</script>
+
+
+
+
+
 <form action="" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label for="name">Name</label>

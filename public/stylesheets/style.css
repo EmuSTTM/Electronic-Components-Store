@@ -3,3 +3,25 @@
   padding: 0;
   list-style: none;
 }
+
+
+.nav-item_computer {
+  display: inline-block;
+  border-right: 1px solid gray;
+  height: 50px;
+  line-height: 50px;
+  
+}
+
+.nav-item_computer:last-child {
+  border-right: none;
+}
+
+.nav-link_computer {
+  max-height: 61px;
+  margin: 0px 20px;
+  width: 100%;
+  height: 50px;
+}
+
+

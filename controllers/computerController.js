@@ -150,25 +150,25 @@ exports.computer_create_get = (req, res, next) => {
             Brand.find({ name: { $in: ["AMD", "Intel"] } }, callback)
           },
         cabinet(callback){
-          Cabinet.find(callback)
+          Cabinet.find(callback).populate('brand')
         },
         cpu(callback){
-          CPU.find(callback)
+          CPU.find(callback).populate('brand')
         },
         gpu(callback){
-          GPU.find(callback)
+          GPU.find(callback).populate('brand')
         },
         motherboard(callback){
-          Motherboard.find(callback)
+          Motherboard.find(callback).populate('brand')
         },
         ram(callback){
-          RAM.find(callback)
+          RAM.find(callback).populate('brand')
         },
         storage(callback){
-          Storage.find(callback)
+          Storage.find(callback).populate('brand')
         },
         powerSupply(callback){
-          PowerSupply.find(callback)
+          PowerSupply.find(callback).populate('brand')
         }, 
       },
       (err, results) =>{
