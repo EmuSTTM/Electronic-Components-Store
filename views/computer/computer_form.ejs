@@ -5,28 +5,31 @@
 
 <aside class="d-flex flex-column card card-body" style="align-items: center; margin:10px 0px">
   <div class="row">
-    <div class="col-2">
-      <img id="ram" class="nav-link_computer" src="/static_images/ram.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+    <div class="col-15">
+      <img id="ram_img" class="nav-link_computer" src="/static_images/ram.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
     </div>
-    <div class="col-2">
-      <img id="cpu" class="nav-link_computer" src="/static_images/cpu.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+    <div class="col-15">
+      <img id="cpu_img" class="nav-link_computer" src="/static_images/cpu.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
     </div>
-    <div class="col-2">
-      <img id="storage" class="nav-link_computer" src="/static_images/storage.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+    <div class="col-15">
+      <img id="gpu_img" class="nav-link_computer" src="/static_images/gpu.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
     </div>
-    <div class="col-2">
-      <img id="power" class="nav-link_computer" src="/static_images/power.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+    <div class="col-15">
+      <img id="storage_img" class="nav-link_computer" src="/static_images/storage.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
     </div>
-    <div class="col-2">
-      <img id="mother" class="nav-link_computer" src="/static_images/mother.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+    <div class="col-15">
+      <img id="power_img" class="nav-link_computer" src="/static_images/power.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
     </div>
-    <div class="col-2">
-      <img id="cabinet" class="nav-link_computer" src="/static_images/cabinet.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+    <div class="col-15">
+      <img id="mother_img" class="nav-link_computer" src="/static_images/mother.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+    </div>
+    <div class="col-15">
+      <img id="cabinet_img" class="nav-link_computer" src="/static_images/cabinet.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
     </div>
   </div>
 </aside>
 
-<div class="product-container"></div>
+<div class="product-container"></div> 
 
 <script>
 function handleImageClick(img) {
@@ -51,12 +54,12 @@ function handleImageClick(img) {
   let productContainer = document.querySelector('.product-container');
   productContainer.innerHTML = '';
   switch(img.id) {
-    case 'storage':
+    case 'storage_img':
     productContainer.innerHTML += `
       <div class="row">
       <% for (storage of storages) { %>
         <div class="col-md-3 mb-3">
-          <div class="card h-100">
+          <div class="card h-100" onclick="selectProduct('<%= JSON.stringify(storage) %>', 'storage');">
 
             <img src="<%=  typeof storage.toObject().image !== 'undefined' ? '/images/' + storage.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= storage.name%>">
             <div class="card-body">
@@ -76,12 +79,13 @@ function handleImageClick(img) {
     <% } %>
     </div>`;
       break;
-    case 'ram':
+    
+    case 'ram_img':
     productContainer.innerHTML += `
       <div class="row">
       <% for (ram of rams) { %>
         <div class="col-md-3 mb-3">
-          <div class="card h-100">
+          <div class="card h-100" onclick="selectProduct('<%= ram._id%>', 'ram');">
 
             <img src="<%=  typeof ram.toObject().image !== 'undefined' ? '/images/' + ram.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= ram.name%>">
             <div class="card-body">
@@ -101,12 +105,12 @@ function handleImageClick(img) {
     <% } %>
     </div>`;
       break;
-    case 'cpu':
+    case 'cpu_img':
     productContainer.innerHTML += `
       <div class="row">
       <% for (cpu of cpus) { %>
         <div class="col-md-3 mb-3">
-          <div class="card h-100">
+          <div class="card h-100" onclick="selectProduct('<%= cpu._id%>', 'cpu');">
 
             <img src="<%=  typeof cpu.toObject().image !== 'undefined' ? '/images/' + cpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= cpu.name%>">
             <div class="card-body">
@@ -124,12 +128,37 @@ function handleImageClick(img) {
     <% } %>
     </div>`;
       break;
-    case 'power':
+    case 'gpu_img':
+    productContainer.innerHTML += `
+      <div class="row">
+      <% for (gpu of gpus) { %>
+        <div class="col-md-3 mb-3">
+          <div class="card h-100" onclick="selectProduct('<%= gpu._id%>', 'gpu');">
+
+            <img src="<%=  typeof gpu.toObject().image !== 'undefined' ? '/images/' + gpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= gpu.name%>">
+            <div class="card-body">
+              <h5 class="card-title"> <a href="<%= gpu.url %>"><%= gpu.name %></a>  </h5> 
+              <p class="card-text">
+                <% for (var j = 0; j < gpu.brand.length; j++) { %>
+                  <%= gpu.brand[j].name %>
+                <% } %> -
+                Core clock: <%= gpu.core_clock %> <br>
+                  Memory: <%= gpu.memory %><br>
+                  <%= "$" + gpu.price.toLocaleString() + " ARS"%>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+    <% } %>
+    </div>`;
+      break;
+    case 'power_img':
     productContainer.innerHTML += `
       <div class="row">
       <% for (powerSupply of powerSupplies) { %>
         <div class="col-md-3 mb-3">
-          <div class="card h-100">
+          <div class="card h-100" onclick="selectProduct('<%= powerSupply._id%>', 'powerSupply');">
 
             <img src="<%=  typeof powerSupply.toObject().image !== 'undefined' ? '/images/' + powerSupply.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= powerSupply.name%>">
             <div class="card-body">
@@ -138,7 +167,8 @@ function handleImageClick(img) {
                 <% for (var j = 0; j < powerSupply.brand.length; j++) { %>
                   <%= powerSupply.brand[j].name %>
                 <% } %> -
-                <span class="badge badge-primary badge-pill"> <%= powerSupply.type %> </span> <br>
+                <%= powerSupply.certifications %> <br>
+                <%= powerSupply.power %> W <br>
                 <span class="badge badge-success badge-pill">
                   <%= "$" + powerSupply.price.toLocaleString() + " ARS"%>
                 </span>
@@ -149,12 +179,13 @@ function handleImageClick(img) {
     <% } %>
     </div>`;
       break;
-    case 'mother':
+    case 'mother_img':
         productContainer.innerHTML += `
       <div class="row">
       <% for (motherboard of motherboards) { %>
+      
         <div class="col-md-3 mb-3">
-          <div class="card h-100">
+          <div class="card h-100" onclick="selectProduct( <%= JSON.stringify(motherboard) %>, 'motherboard');">
 
             <img src="<%=  typeof motherboard.toObject().image !== 'undefined' ? '/images/' + motherboard.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= motherboard.name%>">
             <div class="card-body">
@@ -174,22 +205,24 @@ function handleImageClick(img) {
     <% } %>
     </div>`;
       break;
-    case 'cabinet':
+    case 'cabinet_img':
       productContainer.innerHTML += `
       <div class="row">
       <% for (cabinet of cabinets) { %>
         <div class="col-md-3 mb-3">
-          <div class="card h-100">
+          <div class="card h-100" onclick="selectProduct('<%= cabinet._id%>', 'cabinet');" >
 
-            <img src="<%=  typeof cabinet.toObject().image !== 'undefined' ? '/images/' + cabinet.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= cabinet.name%>">
-            <div class="card-body">
+            <img 
+            src="<%=  typeof cabinet.toObject().image !== 'undefined' ? '/images/' + cabinet.image : 'https://via.placeholder.com/300x200' %>" 
+            class="card-img-top" alt="<%= cabinet.name%>"  >
+            <div class="card-body" >
               <h5 class="card-title"> <a href="<%= cabinet.url %>"><%= cabinet.name %></a>  </h5> 
-              <p class="card-text">
+              <p class="card-text" >
                 <% for (var j = 0; j < cabinet.brand.length; j++) { %>
                   <%= cabinet.brand[j].name %>
                 <% } %> -
                 <span class="badge badge-primary badge-pill"> <%= cabinet.type %> </span> <br>
-                <span class="badge badge-success badge-pill">
+                <span class="badge badge-success badge-pill" >
                   <%= "$" + cabinet.price.toLocaleString() + " ARS"%>
                 </span>
               </p>
@@ -201,6 +234,105 @@ function handleImageClick(img) {
       break;
     }
   }
+
+  var socket_v2, socket_sata, maxRamSlot, maxStorageSlot;
+  maxRamSlot = 2;
+  socket_v2 = 1;
+  socket_sata = 4;
+  maxStorageSlot = 5;
+
+  var selectedRam = [];
+  var selectedStorage = [];
+
+  function selectProduct(product, type) {
+    
+    if (type == 'motherboard') {
+      if(product.ram_slots < selectedRam.length) {
+        console.log('Insuficientes ram slots ')
+        return;
+      }
+      socket_v2 = product.sockets_v2;
+      socket_sata = product.sockets_sata;
+      maxStorageSlot = socket_sata + socket_v2;
+      console.log(maxStorageSlot)
+      maxRamSlot = product.ram_slots;
+      console.log(product)
+
+      document.getElementById(type).value = product._id;
+      return;
+    }
+    if (type == 'ram') {
+      if (selectedRam.length <= maxRamSlot) {
+        selectedRam.push(product);
+        console.log(`RAM seleccionada: ${product}`);
+        console.log();
+        document.getElementById('rams').value = selectedRam.join(',');
+        
+      } else {
+        console.log('Has alcanzado el máximo de slots de RAM');
+      }
+      return;
+    }
+
+
+
+
+
+
+
+
+      if(type == 'storage') {
+        console.log(selectedStorage.length)
+        console.log(maxStorageSlot)
+        console.log(socket_sata)
+        console.log(socket_v2)
+        if (selectedStorage.length < maxStorageSlot){
+          // Conver the product in a object
+          product = JSON.parse(product);
+          
+
+          if(product.type == "HDD" || product.type == "SSD" || product.type == "SSHD"){
+            let StorageSATA = selectedStorage.filter(obj => obj.type === "HDD" 
+            || obj.type === "SSD" || obj.type === "SSHD") ;
+            if(StorageSATA.length  > socket_sata){
+              console.log('Has alcanzado el máximo de slots SATA');
+              return;
+            }
+            selectedStorage.push(product)
+            console.log('SATA añadido correctamente')
+          }
+          if(product.type == "NVMe"){
+            let StorageV2 = selectedStorage.filter(obj => obj.type === "NVMe");
+            if(StorageV2.length >= socket_v2){
+              console.log('Has alcanzado el máximo de slots NVMe');
+              return;
+            }
+            selectedStorage.push(product)
+            console.log('NVMe añadido correctamente')
+          }
+
+
+          let resultStorage = selectedStorage.map(obj => obj._id);
+          console.log(`Storages seleccionadas: ${resultStorage}`)
+          document.getElementById('storages').value = resultStorage.join(',');
+          return;
+        } else {
+          console.log('Haz alcanzado el límite de almacenamiento')
+          return;
+        }
+        
+      }
+
+
+
+
+
+
+    document.getElementById(type).value = product;
+    console.log("se ejecutó select product");
+  }
+
+
 
 
 </script>
@@ -232,90 +364,46 @@ function handleImageClick(img) {
             <% } %>   
         </select>
     </div>
+
+
     <div class="form-group">
-        <label for="cabinet">Cabinet</label>
-        <select class="form-control" name="cabinet" id="cabinet" required>
-          <% for (let cabinet of cabinets) { %>   
-            <option  id="<%= cabinet._id %>" value="<%= cabinet._id %>" <%= (typeof computer !== 'undefined' && cabinet.name === computer.cabinet.name) ? 'selected' : '' %>><%= cabinet.name %></option>
-          <% } %>   
-        </select>
-        <ul>
-            <% for (let cabinet of cabinets) { %>
-                <li><a target="_blank" href="<%= cabinet.url %>" class="cabinet-link"><%= cabinet.name %></a></li>
-              <% } %>
-        </ul>
-        
-      </div>
-      <div class="form-group">
-        <label for="cpu">CPU</label>
-        <select class="form-control" name="cpu" id="cpu" required>
-          <% for (let cpu of cpus) { %>   
-            <option  id="<%= cpu._id %>" value="<%= cpu._id %>" <%= (typeof computer !== 'undefined' && cpu.name === computer.cpu.name) ? 'selected' : '' %>><%= cpu.name %></option>
-          <% } %>   
-        </select>
-        <ul>
-            <% for (let cpu of cpus) { %>
-                <li><a target="_blank" href="<%= cpu.url %>" class="cpu-link"><%= cpu.name %></a></li>
-              <% } %>
-        </ul>
-        
-      </div>
-      <div class="form-group">
-        <label for="gpu">GPU</label>
-        <select class="form-control" name="gpu" id="gpu" required>
-          <% for (let gpu of gpus) { %>   
-            <option  id="<%= gpu._id %>" value="<%= gpu._id %>" <%= (typeof computer !== 'undefined' && gpu.name === computer.gpu.name) ? 'selected' : '' %>><%= gpu.name %></option>
-          <% } %>   
-        </select>
-        <ul>
-            <% for (let gpu of gpus) { %>
-                <li><a target="_blank" href="<%= gpu.url %>" class="gpu-link"><%= gpu.name %></a></li>
-              <% } %>
-        </ul>
-        
-      </div>
-      <div class="form-group">
-        <label for="motherboard">Motherboard</label>
-        <select class="form-control" name="motherboard" id="motherboard" required>
-          <% for (let motherboard of motherboards) { %>   
-            <option id="<%= motherboard._id %>" value="<%= motherboard._id %>" <%= (typeof computer !== 'undefined' && motherboard.name === computer.motherboard.name) ? 'selected' : '' %>><%= motherboard.name %></option>
-          <% } %>   
-        </select>
-        <ul>
-            <% for (let motherboard of motherboards) { %>
-                <li><a target="_blank" href="<%= motherboard.url %>" class="motherboard-link"><%= motherboard.name %></a></li>
-              <% } %>
-        </ul>
-      </div>
+      <label for="cabinet">Cabinet</label>
+      <input name="cabinet" id="cabinet" required>
+    </div>
+
+
+    <div class="form-group">
+      <label for="cpu">CPU</label>
+      <input name="cpu" id="cpu" required>
+    </div>
+
+
+    <div class="form-group">
+      <label for="gpu">GPU</label>
+      <input name="gpu" id="gpu" required>
+    </div>
+
+
+    <div class="form-group">
+      <label for="motherboard">Motherboard</label>
+      <input name="motherboard" id="motherboard" required>
+    </div>
 
       <div class="form-group">
         <label for="powerSupply">Power Supply</label>
-        <select class="form-control" name="powerSupply" id="powerSupply" required>
-          <% for (let powerSupply of powerSupplies) { %>   
-            <option  id="<%= powerSupply._id %>" value="<%= powerSupply._id %>" <%= (typeof computer !== 'undefined' && powerSupply.name === computer.powerSupply.name) ? 'selected' : '' %>><%= powerSupply.name %></option>
-          <% } %>   
-        </select>
-        <ul>
-            <% for (let powerSupply of powerSupplies) { %>
-                <li><a target="_blank" href="<%= powerSupply.url %>" class="powerSupply-link"><%= powerSupply.name %></a></li>
-              <% } %>
-        </ul>
+        <input name="powerSupply" id="powerSupply" required>
       </div>
 
       <div><br>
-        <label for="rams">Rams</label> <br>
-        <% for (let ram of rams) { %>
-            <input type="checkbox" name="rams" id="<%= ram._id %>" value="<%= ram._id %>" %>" <%= ram.checked ? 'checked' : '' %>>
-            <label for="<%= ram._id %>"> <%= ram.name %> </label> <br>
-        <% } %>
+        
+        <label for="rams">Rams</label>
+        <input name="rams" id="rams" required multiple>
       </div>
 
-      <div><br>
-        <label for="storages">Storages</label> <br>
-        <% for (let storage of storages) { %>
-            <input type="checkbox" name="storages" id="<%= storage._id %>" value="<%= storage._id %>" %>" <%= storage.checked ? 'checked' : '' %>>
-            <label for="<%= storage._id %>"> <%= storage.name %> </label> <br>
-        <% } %>
+      <div>
+        <label for="storages">Storages</label> 
+        <input name="storages" id="storages" required multiple>
+        
       </div>
       
     

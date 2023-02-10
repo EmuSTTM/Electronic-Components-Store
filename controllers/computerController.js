@@ -193,10 +193,15 @@ exports.computer_create_post = [
   (req, res, next) => {    
     // convert multiple parameters to arrays
     if (!Array.isArray(req.body.storages)) {
-      req.body.storages = typeof req.body.storages === "undefined" ? [] : [req.body.storages];
+      let storages = req.body.storages;
+      storages = storages.split(',');
+      req.body.storages = storages;
+      // req.body.storages = typeof req.body.storages === "undefined" ? [] : [req.body.storages];
       }
     if (!Array.isArray(req.body.rams)) {
-      req.body.rams = typeof req.body.rams === "undefined" ? [] : [req.body.rams];
+      let rams = req.body.rams;
+      rams = rams.split(',');
+      req.body.rams = rams;
       }
     
       next();
