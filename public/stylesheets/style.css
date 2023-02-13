@@ -24,4 +24,12 @@
   height: 50px;
 }
 
+.selected-product {
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  transform: translateY(-5px);
+}
 
+.card-product:hover {
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  transform: translateY(-5px);
+}

@@ -18,7 +18,7 @@
       <img id="storage_img" class="nav-link_computer" src="/static_images/storage.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
     </div>
     <div class="col-15">
-      <img id="power_img" class="nav-link_computer" src="/static_images/power.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+      <img id="powerSupply_img" class="nav-link_computer" src="/static_images/powerSupply.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
     </div>
     <div class="col-15">
       <img id="mother_img" class="nav-link_computer" src="/static_images/mother.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
@@ -29,15 +29,62 @@
   </div>
 </aside>
 
-<div class="product-container"></div> 
+<div class="product-container" id="product-container"></div> 
 
 <script>
+
+
+  var selectedProducts = []
+
+  // This fragment of code detect the change in the product container content
+  const productContainer = document.getElementById("product-container");
+
+  const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      if(mutation.addedNodes.length > 0) {
+        // console.log(mutation);
+        for(product of selectedProducts) {
+          
+          let selectedProduct = document.getElementById(product)
+          if(selectedProduct != null) {
+            console.log(selectedProduct)
+          // console.log(selectedProduct);
+          selectedProduct.classList.add("selected-product");
+          console.log('cacatuaObserver')
+          }
+          
+        };
+
+
+        }
+      })
+      
+    });
+
+  observer.observe(productContainer, {
+    childList: true,
+    
+  });
+
+
+
+
+
+
+
 function handleImageClick(img) {
+
+  // Manejamos el cambio de las imágenes
   let src = img.src.split('.');
-  let newSrc = src[0].endsWith('-active') ? src[0].slice(0, -7) + '.' + src[1] : src[0] + '-active.' + src[1];
+  
+  if (src[0].includes("static_images")){
+    let newSrc = src[0].endsWith('-active') ? src[0].slice(0, -7) + '.' + src[1] : src[0] + '-active.' + src[1];
   let baseURL = window.location.origin;
   src[0] = src[0].replace(baseURL, '');
   newSrc = newSrc.replace(baseURL, '');
+
+  
+
   let images = document.querySelectorAll('.nav-link_computer');
   for (let image of images) {
     let currSrc = image.src.split('.');
@@ -49,8 +96,22 @@ function handleImageClick(img) {
     }
   }
   img.src = baseURL + newSrc;
+  }
+  
   img.classList.add("active");
-  // Añade esta parte
+  let activeImage = document.getElementsByClassName('active')
+    console.log(activeImage.length)
+  if(activeImage.length > 2){
+    
+    console.log(activeImage)
+  }
+
+
+
+
+
+
+  // Aquí es cuando mostramos todos los productos
   let productContainer = document.querySelector('.product-container');
   productContainer.innerHTML = '';
   switch(img.id) {
@@ -59,7 +120,7 @@ function handleImageClick(img) {
       <div class="row">
       <% for (storage of storages) { %>
         <div class="col-md-3 mb-3">
-          <div class="card h-100" onclick="selectProduct('<%= JSON.stringify(storage) %>', 'storage');">
+          <div class="card    h-100" id="<%= storage._id %>" onclick="selectProduct(<%= JSON.stringify(storage) %>, 'storage');">
 
             <img src="<%=  typeof storage.toObject().image !== 'undefined' ? '/images/' + storage.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= storage.name%>">
             <div class="card-body">
@@ -85,7 +146,7 @@ function handleImageClick(img) {
       <div class="row">
       <% for (ram of rams) { %>
         <div class="col-md-3 mb-3">
-          <div class="card h-100" onclick="selectProduct('<%= ram._id%>', 'ram');">
+          <div class="card    h-100" id="<%= ram._id %>" onclick="selectProduct('<%= ram._id%>', 'ram');">
 
             <img src="<%=  typeof ram.toObject().image !== 'undefined' ? '/images/' + ram.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= ram.name%>">
             <div class="card-body">
@@ -109,8 +170,8 @@ function handleImageClick(img) {
     productContainer.innerHTML += `
       <div class="row">
       <% for (cpu of cpus) { %>
-        <div class="col-md-3 mb-3">
-          <div class="card h-100" onclick="selectProduct('<%= cpu._id%>', 'cpu');">
+        <div class="col-md-3 mb-3 " >
+          <div class="card h-100" id="<%= cpu._id %>" onclick="selectProduct(<%= JSON.stringify(cpu) %>, 'cpu');">
 
             <img src="<%=  typeof cpu.toObject().image !== 'undefined' ? '/images/' + cpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= cpu.name%>">
             <div class="card-body">
@@ -133,7 +194,7 @@ function handleImageClick(img) {
       <div class="row">
       <% for (gpu of gpus) { %>
         <div class="col-md-3 mb-3">
-          <div class="card h-100" onclick="selectProduct('<%= gpu._id%>', 'gpu');">
+          <div class="card  h-100 " id="<%= gpu._id %>" onclick="selectProduct(<%= JSON.stringify(gpu) %>, 'gpu');">
 
             <img src="<%=  typeof gpu.toObject().image !== 'undefined' ? '/images/' + gpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= gpu.name%>">
             <div class="card-body">
@@ -153,12 +214,12 @@ function handleImageClick(img) {
     <% } %>
     </div>`;
       break;
-    case 'power_img':
+    case 'powerSupply_img':
     productContainer.innerHTML += `
       <div class="row">
       <% for (powerSupply of powerSupplies) { %>
         <div class="col-md-3 mb-3">
-          <div class="card h-100" onclick="selectProduct('<%= powerSupply._id%>', 'powerSupply');">
+          <div class="card  h-100" id="<%= powerSupply._id %>" onclick="selectProduct(<%= JSON.stringify(powerSupply) %>, 'powerSupply');">
 
             <img src="<%=  typeof powerSupply.toObject().image !== 'undefined' ? '/images/' + powerSupply.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= powerSupply.name%>">
             <div class="card-body">
@@ -185,7 +246,7 @@ function handleImageClick(img) {
       <% for (motherboard of motherboards) { %>
       
         <div class="col-md-3 mb-3">
-          <div class="card h-100" onclick="selectProduct( <%= JSON.stringify(motherboard) %>, 'motherboard');">
+          <div class="card h-100" id="<%= motherboard._id %>" onclick="selectProduct( <%= JSON.stringify(motherboard) %>, 'motherboard');">
 
             <img src="<%=  typeof motherboard.toObject().image !== 'undefined' ? '/images/' + motherboard.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= motherboard.name%>">
             <div class="card-body">
@@ -209,8 +270,9 @@ function handleImageClick(img) {
       productContainer.innerHTML += `
       <div class="row">
       <% for (cabinet of cabinets) { %>
+        <% console.log(cabinet)%>
         <div class="col-md-3 mb-3">
-          <div class="card h-100" onclick="selectProduct('<%= cabinet._id%>', 'cabinet');" >
+          <div class="card h-100" id="<%= cabinet._id %>" onclick="selectProduct(<%= JSON.stringify(cabinet) %>, 'cabinet');" >
 
             <img 
             src="<%=  typeof cabinet.toObject().image !== 'undefined' ? '/images/' + cabinet.image : 'https://via.placeholder.com/300x200' %>" 
@@ -235,6 +297,9 @@ function handleImageClick(img) {
     }
   }
 
+
+
+   // Aquí manejamos el agregar los productos 
   var socket_v2, socket_sata, maxRamSlot, maxStorageSlot;
   maxRamSlot = 2;
   socket_v2 = 1;
@@ -245,6 +310,7 @@ function handleImageClick(img) {
   var selectedStorage = [];
 
   function selectProduct(product, type) {
+
     
     if (type == 'motherboard') {
       if(product.ram_slots < selectedRam.length) {
@@ -258,9 +324,40 @@ function handleImageClick(img) {
       maxRamSlot = product.ram_slots;
       console.log(product)
 
-      document.getElementById(type).value = product._id;
+      let img = document.getElementById(`mother_img`)
+
+
+      let selectedProduct = document.getElementById(product._id);
+    let currentSelection = document.getElementsByClassName("selected-product");
+    if (currentSelection.length > 0) {
+      currentSelection[0].classList.remove("selected-product");
+    }
+
+    if(selectedProduct.classList.contains("selected-product") || selectedProducts.includes(product._id)) {
+      console.log(selectedProduct)
+      selectedProduct.classList.remove("selected-product");
+      img.src = `/static_images/mother-active.png`
+      selectedProducts = selectedProducts.filter(item => item !== product._id);
+      console.log(selectedProducts)
+      console.log("se borró la clase ")
+      document.getElementById(type).value = ''
+    } else if (!selectedProduct.classList.contains("selected-product")) {
+        selectedProduct.classList.add("selected-product");
+        
+        img.src = selectedProduct.children[0].src
+        console.log("se creo la clase")
+        selectedProducts.push(product._id)
+        document.getElementById(type).value = product._id;
+    }
+
+      
       return;
     }
+
+
+
+
+
     if (type == 'ram') {
       if (selectedRam.length <= maxRamSlot) {
         selectedRam.push(product);
@@ -274,6 +371,8 @@ function handleImageClick(img) {
       return;
     }
 
+    
+
 
 
 
@@ -286,10 +385,10 @@ function handleImageClick(img) {
         console.log(maxStorageSlot)
         console.log(socket_sata)
         console.log(socket_v2)
+        
         if (selectedStorage.length < maxStorageSlot){
           // Conver the product in a object
-          product = JSON.parse(product);
-          
+   
 
           if(product.type == "HDD" || product.type == "SSD" || product.type == "SSHD"){
             let StorageSATA = selectedStorage.filter(obj => obj.type === "HDD" 
@@ -323,12 +422,51 @@ function handleImageClick(img) {
         
       }
 
+      //objeto
+
+      // console.log(product)
+      
 
 
+    let selectedProduct = document.getElementById(product._id);
+    let currentSelection = document.getElementsByClassName("selected-product");
 
+    
+      console.log(currentSelection)
+    // // Añade a los objetos seleccionados al objeto en cuestion, para que al actualizarse 
+    // // el contenedor, este siga seleccionado.
+    
+  
+    // console.log(selectedProduct)
+    // Si ya hay un producto seleccionado, quitar la clase de resaltado
+    if (currentSelection.length > 0) {
+      currentSelection[0].classList.remove("selected-product");
+    }
+    let img = document.getElementById(`${type}_img`)
 
+    if(selectedProduct.classList.contains("selected-product") || selectedProducts.includes(product._id)) {
+      console.log(selectedProduct)
+      selectedProduct.classList.remove("selected-product");
+      img.src = `/static_images/${type}-active.png`
+      selectedProducts = selectedProducts.filter(item => item !== product._id);
+      console.log(selectedProducts)
+      console.log("se borró la clase ")
+      document.getElementById(type).value = ''
+    } else if (!selectedProduct.classList.contains("selected-product")) {
+        selectedProduct.classList.add("selected-product");
+        
+        img.src = selectedProduct.children[0].src
+        console.log("se creo la clase")
+        selectedProducts.push(product._id)
+        document.getElementById(type).value = product._id;
+    }
 
-    document.getElementById(type).value = product;
+    
+    
+    
+    
+    // console.log(selectedProduct)
+    
     console.log("se ejecutó select product");
   }
 
