@@ -6,11 +6,15 @@
 <aside class="d-flex flex-column card card-body" style="align-items: center; margin:10px 0px">
   <div class="row">
     <div class="col-15">
-      <img id="ram_img" class="nav-link_computer" src="/static_images/ram.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
-    </div>
-    <div class="col-15">
       <img id="cpu_img" class="nav-link_computer" src="/static_images/cpu.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
     </div>
+    <div class="col-15">
+      <img id="mother_img" class="nav-link_computer" src="/static_images/mother.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+    </div>
+    <div class="col-15">
+      <img id="ram_img" class="nav-link_computer" src="/static_images/ram.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+    </div>
+    
     <div class="col-15">
       <img id="gpu_img" class="nav-link_computer" src="/static_images/gpu.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
     </div>
@@ -20,9 +24,7 @@
     <div class="col-15">
       <img id="powerSupply_img" class="nav-link_computer" src="/static_images/powerSupply.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
     </div>
-    <div class="col-15">
-      <img id="mother_img" class="nav-link_computer" src="/static_images/mother.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
-    </div>
+    
     <div class="col-15">
       <img id="cabinet_img" class="nav-link_computer" src="/static_images/cabinet.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
     </div>
@@ -35,6 +37,8 @@
 
 
   var selectedProducts = []
+  var selectedRam = [];
+  var selectedStorage = [];
 
   // This fragment of code detect the change in the product container content
   const productContainer = document.getElementById("product-container");
@@ -45,12 +49,46 @@
         // console.log(mutation);
         for(product of selectedProducts) {
           
+          
           let selectedProduct = document.getElementById(product)
           if(selectedProduct != null) {
             console.log(selectedProduct)
-          // console.log(selectedProduct);
-          selectedProduct.classList.add("selected-product");
-          console.log('cacatuaObserver')
+            if(selectedProduct.classList.contains('brand-img')){
+              selectedProduct.classList.add("selected-brand");
+              
+            }
+            
+            else {
+              selectedProduct.classList.add("selected-product");
+            }
+
+            if(selectedProduct.classList.contains('ram')){
+              let stock = document.getElementById(`stock-${product}`)
+
+            if(stock != null){
+              console.log("NO SOY UNDEFINED")
+              console.log(stock)
+              // const productCount = selectedRam.filter(item => item === product).length;
+              // console.log(productCount)
+              const productCount = selectedRam.filter(item => item === product).length;
+              console.log(productCount)
+              
+              
+              stock.innerHTML = `
+              <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary minus-btn" onclick="deleteProduct('${product}', 'ram', event);" type="button">-</button>
+              </div>
+              <span class="form-control quantity-text">${productCount}</span>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary plus-btn" type="button">+</button>
+              </div>
+            </div>
+              `
+            }
+            }
+            
+
           }
           
         };
@@ -120,7 +158,7 @@ function handleImageClick(img) {
       <div class="row">
       <% for (storage of storages) { %>
         <div class="col-md-3 mb-3">
-          <div class="card    h-100" id="<%= storage._id %>" onclick="selectProduct(<%= JSON.stringify(storage) %>, 'storage');">
+          <div class="card  product storage  h-100" id="<%= storage._id %>" onclick="selectProduct(<%= JSON.stringify(storage) %>, 'storage');">
 
             <img src="<%=  typeof storage.toObject().image !== 'undefined' ? '/images/' + storage.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= storage.name%>">
             <div class="card-body">
@@ -146,7 +184,7 @@ function handleImageClick(img) {
       <div class="row">
       <% for (ram of rams) { %>
         <div class="col-md-3 mb-3">
-          <div class="card    h-100" id="<%= ram._id %>" onclick="selectProduct('<%= ram._id%>', 'ram');">
+          <div class="card  product ram h-100" id="<%= ram._id %>" onclick="selectProduct(<%= JSON.stringify(ram) %>, 'ram');">
 
             <img src="<%=  typeof ram.toObject().image !== 'undefined' ? '/images/' + ram.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= ram.name%>">
             <div class="card-body">
@@ -155,10 +193,15 @@ function handleImageClick(img) {
                 <% for (var j = 0; j < ram.brand.length; j++) { %>
                   <%= ram.brand[j].name %>
                 <% } %> -
-                <span class="badge badge-primary badge-pill"> <%= ram.type %> </span> <br>
+                <span class="badge badge-primary badge-pill"> <%= ram.type %> </span> 
                 <span class="badge badge-success badge-pill">
                   <%= "$" + ram.price.toLocaleString() + " ARS"%>
-                </span>
+                  
+                </span> 
+                
+                <div id="stock-<%= ram._id %>"></div>
+                
+                
               </p>
             </div>
           </div>
@@ -166,12 +209,34 @@ function handleImageClick(img) {
     <% } %>
     </div>`;
       break;
-    case 'cpu_img':
+    case 'cpu_img': 
+
+
+
+
+
     productContainer.innerHTML += `
+      <% for (brand of brands){%>
+      <div class="row">
+        <% if(brand.name.toLowerCase() == "intel"){%>
+        <div class="col-md-3 card brand-img" id="<%= brand._id%>" 
+          onclick="selectProduct( <%= JSON.stringify(brand) %>, 'brand');">
+          <img alt="Intel" id="<%= brand._id%>" src="/static_images/intel.png">
+        </div>
+        <% } %>
+        <% if(brand.name.toLowerCase() == "amd"){%>
+        <div class="col-md-3 card brand-img" id="<%= brand._id%>"
+          onclick="selectProduct( <%= JSON.stringify(brand) %>, 'brand');">
+          <img alt="amd"  src="/static_images/amd.png"> 
+        </div>
+        <% } %>
+      </div>
+
+      <% } %>
       <div class="row">
       <% for (cpu of cpus) { %>
         <div class="col-md-3 mb-3 " >
-          <div class="card h-100" id="<%= cpu._id %>" onclick="selectProduct(<%= JSON.stringify(cpu) %>, 'cpu');">
+          <div class="card h-100 product" id="<%= cpu._id %>" onclick="selectProduct(<%= JSON.stringify(cpu) %>, 'cpu');">
 
             <img src="<%=  typeof cpu.toObject().image !== 'undefined' ? '/images/' + cpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= cpu.name%>">
             <div class="card-body">
@@ -194,7 +259,7 @@ function handleImageClick(img) {
       <div class="row">
       <% for (gpu of gpus) { %>
         <div class="col-md-3 mb-3">
-          <div class="card  h-100 " id="<%= gpu._id %>" onclick="selectProduct(<%= JSON.stringify(gpu) %>, 'gpu');">
+          <div class="card  h-100 product" id="<%= gpu._id %>" onclick="selectProduct(<%= JSON.stringify(gpu) %>, 'gpu');">
 
             <img src="<%=  typeof gpu.toObject().image !== 'undefined' ? '/images/' + gpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= gpu.name%>">
             <div class="card-body">
@@ -219,7 +284,7 @@ function handleImageClick(img) {
       <div class="row">
       <% for (powerSupply of powerSupplies) { %>
         <div class="col-md-3 mb-3">
-          <div class="card  h-100" id="<%= powerSupply._id %>" onclick="selectProduct(<%= JSON.stringify(powerSupply) %>, 'powerSupply');">
+          <div class="card  h-100 product" id="<%= powerSupply._id %>" onclick="selectProduct(<%= JSON.stringify(powerSupply) %>, 'powerSupply');">
 
             <img src="<%=  typeof powerSupply.toObject().image !== 'undefined' ? '/images/' + powerSupply.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= powerSupply.name%>">
             <div class="card-body">
@@ -246,7 +311,7 @@ function handleImageClick(img) {
       <% for (motherboard of motherboards) { %>
       
         <div class="col-md-3 mb-3">
-          <div class="card h-100" id="<%= motherboard._id %>" onclick="selectProduct( <%= JSON.stringify(motherboard) %>, 'motherboard');">
+          <div class="card h-100 product" id="<%= motherboard._id %>" onclick="selectProduct( <%= JSON.stringify(motherboard) %>, 'motherboard');">
 
             <img src="<%=  typeof motherboard.toObject().image !== 'undefined' ? '/images/' + motherboard.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= motherboard.name%>">
             <div class="card-body">
@@ -270,9 +335,9 @@ function handleImageClick(img) {
       productContainer.innerHTML += `
       <div class="row">
       <% for (cabinet of cabinets) { %>
-        <% console.log(cabinet)%>
+        
         <div class="col-md-3 mb-3">
-          <div class="card h-100" id="<%= cabinet._id %>" onclick="selectProduct(<%= JSON.stringify(cabinet) %>, 'cabinet');" >
+          <div class="card h-100 product" id="<%= cabinet._id %>" onclick="selectProduct(<%= JSON.stringify(cabinet) %>, 'cabinet');" >
 
             <img 
             src="<%=  typeof cabinet.toObject().image !== 'undefined' ? '/images/' + cabinet.image : 'https://via.placeholder.com/300x200' %>" 
@@ -306,8 +371,7 @@ function handleImageClick(img) {
   socket_sata = 4;
   maxStorageSlot = 5;
 
-  var selectedRam = [];
-  var selectedStorage = [];
+
 
   function selectProduct(product, type) {
 
@@ -327,9 +391,10 @@ function handleImageClick(img) {
       let img = document.getElementById(`mother_img`)
 
 
-      let selectedProduct = document.getElementById(product._id);
+    let selectedProduct = document.getElementById(product._id);
     let currentSelection = document.getElementsByClassName("selected-product");
     if (currentSelection.length > 0) {
+      selectedProducts = selectedProducts.filter(item => item != currentSelection[0].id);
       currentSelection[0].classList.remove("selected-product");
     }
 
@@ -359,17 +424,72 @@ function handleImageClick(img) {
 
 
     if (type == 'ram') {
-      if (selectedRam.length <= maxRamSlot) {
-        selectedRam.push(product);
-        console.log(`RAM seleccionada: ${product}`);
-        console.log();
-        document.getElementById('rams').value = selectedRam.join(',');
+      if (selectedRam.length < maxRamSlot) {
+        selectedRam.push(product._id);
+        console.log(`RAM seleccionada: ${product._id}`);
         
-      } else {
-        console.log('Has alcanzado el máximo de slots de RAM');
-      }
-      return;
-    }
+        document.getElementById('rams').value = selectedRam.join(',');
+        console.log(selectedRam)
+
+        
+        const productCount = selectedRam.filter(item => item === product._id).length;
+        console.log(productCount)
+        let stock= document.getElementById(`stock-${product._id}`) 
+        console.log(stock)
+        
+        stock.innerHTML = `
+        <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <button class="btn btn-outline-secondary minus-btn" onclick="deleteProduct('${product._id}', 'ram', event);" type="button">-</button>
+        </div>
+        <span class="form-control quantity-text">${productCount}</span>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary plus-btn" type="button">+</button>
+        </div>
+      </div>
+        `
+
+
+        let selectedProduct = document.getElementById(product._id);
+        let currentSelection = document.getElementsByClassName('selected-product');
+
+        
+          console.log(currentSelection)
+        // // Añade a los objetos seleccionados al objeto en cuestion, para que al actualizarse 
+        // // el contenedor, este siga seleccionado.
+        
+      
+        // console.log(selectedProduct)
+        // Si ya hay un producto seleccionado, quitar la clase de resaltado
+        if (currentSelection.length > 1) {
+          selectedProducts = selectedProducts.filter(item => item != currentSelection[0].id);
+          currentSelection[0].classList.remove("selected-product");
+        }
+        let img = document.getElementById(`${type}_img`)
+
+        if (!selectedProduct.classList.contains("selected-product")) {
+            selectedProduct.classList.add("selected-product");
+            selectedProducts.push(product._id)
+        }
+            img.src = selectedProduct.children[0].src
+            console.log("se creo la clase")
+            
+            document.getElementById('rams').value = selectedRam;
+       
+
+
+
+
+
+
+
+
+            
+          } else {
+            alert('Has alcanzado el máximo de slots de RAM');
+          }
+          return;
+        }
 
     
 
@@ -422,6 +542,34 @@ function handleImageClick(img) {
         
       }
 
+
+      if(type == "brand"){
+        console.log('se ejecuto el select del brand' + product.name)
+        let selectedProduct = document.getElementById(product._id);
+        let currentSelection = document.getElementsByClassName("selected-brand");
+        if (currentSelection.length > 0) {
+          selectedProducts = selectedProducts.filter(item => item != currentSelection[0].id);
+          currentSelection[0].classList.remove("selected-brand");
+        }
+
+          if(selectedProduct.classList.contains("selected-brand") || selectedProducts.includes(product._id)) {
+            console.log(selectedProduct)
+            selectedProduct.classList.remove("selected-brand");
+            selectedProducts = selectedProducts.filter(item => item != product._id);
+            console.log(selectedProducts)
+            console.log("se borró la clase ")
+            document.getElementById(type).value = ''
+          } else if (!selectedProduct.classList.contains("selected-brand")) {
+              selectedProduct.classList.add("selected-brand");
+              
+              
+              console.log("se creo la clase")
+              selectedProducts.push(product._id)
+              document.getElementById(type).value = product._id;
+          }
+        return;
+      }
+
       //objeto
 
       // console.log(product)
@@ -440,6 +588,7 @@ function handleImageClick(img) {
     // console.log(selectedProduct)
     // Si ya hay un producto seleccionado, quitar la clase de resaltado
     if (currentSelection.length > 0) {
+      selectedProducts = selectedProducts.filter(item => item != currentSelection[0].id);
       currentSelection[0].classList.remove("selected-product");
     }
     let img = document.getElementById(`${type}_img`)
@@ -472,6 +621,82 @@ function handleImageClick(img) {
 
 
 
+  // maxRamSlot = 2;
+  // socket_v2 = 1;
+  // socket_sata = 4;
+  // maxStorageSlot = 5;
+
+  // var selectedRam = [];
+  // var selectedStorage = [];
+
+
+  function deleteProduct(product, type, event){
+  //  if(type == "ram"){
+  //   console.log("Selected RAM PRE TODO: " +selectedRam)
+  //     const ramToRemove = selectedRam.indexOf(product._id);
+  //   if (ramToRemove !== -1) {
+  //     selectedRam.splice(ramToRemove, 1);
+  //   }
+  //   console.log("Selected RAM POST TODO: " + selectedRam)
+  //  }
+
+   let selectedProduct = document.getElementById(product);
+   let img = document.getElementById(`${type}_img`)
+   console.log("esta es la imagen" + img.src)
+
+  
+   if(type == "ram"){
+    
+    console.log("Selected RAM PRE TODO: " +selectedRam)
+    const ramToRemove = selectedRam.indexOf(product);
+    selectedRam.splice(ramToRemove, 1);
+    
+    console.log("Selected RAM POST TODO: " + selectedRam)
+    const productCount = selectedRam.filter(item => item === product).length;
+    let stock= document.getElementById(`stock-${product}`) 
+    console.log("stock: " + stock)
+   console.log("product count: " + productCount)
+   console.log(typeof productCount)
+    if(productCount == 0){
+      stock.innerHTML = ``
+    } else{
+      stock.innerHTML = `
+        <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <button class="btn btn-outline-secondary minus-btn" onclick="deleteProduct('${product}', 'ram', event);" type="button">-</button>
+        </div>
+        <span class="form-control quantity-text">${productCount}</span>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary plus-btn" type="button">+</button>
+        </div>
+      </div>
+        `
+    }
+    
+    if(!selectedRam.includes(product) || productCount == 0){
+      console.log("el productiñio es ")
+      console.log(selectedProduct)
+      selectedProduct.classList.remove("selected-product");
+      console.log(selectedProduct)
+      let currentSelection = document.getElementsByClassName("selected-product");
+      selectedProducts = selectedProducts.filter(item => item !== product);
+      if (currentSelection.length == 0 ){
+        img.src = `/static_images/${type}-active.png`
+      }
+      
+      
+   
+        
+        }
+        document.getElementById('rams').value = selectedRam;
+    event.stopPropagation()
+    return;
+   }
+   
+    console.log('se ejecuto delete')
+    event.stopPropagation()
+  }
+
 
 </script>
 
@@ -496,11 +721,8 @@ function handleImageClick(img) {
 
     <div class="form-group">
         <label for="brand">Brand</label>
-        <select class="form-control" name="brand" id="brand" required>
-            <% for (let brand of brands) { %>   
-                <option name="brand" id="<%= brand._id %>" value="<%= brand._id %>" %>" <%= typeof brand.checked != "undefined" && brand.checked ? 'checked' : '' %>> <%= brand.name %> </option> 
-            <% } %>   
-        </select>
+       
+      <input name="brand" id="brand" required>
     </div>
 
 
