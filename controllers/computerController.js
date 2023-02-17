@@ -256,10 +256,13 @@ exports.computer_create_post = [
     // Aquí debería hacer las verificaciones de los componentes 
     const compatibilityErrors = [];
 
-      
-      // Compatibilidades 
-        // Compatibilidades de marca
-        if (results.brand._id.toString() != results.cpu.brand.toString() || results.brand._id.toString() != results.motherboard.brand[0].toString()){
+  
+        let mother_brand_id = results.motherboard.brand.find(id => id.equals(results.brand._id));
+        console.log(results.motherboard.brand)
+        console.log(results.motherboard.brand[0])
+        console.log(mother_brand_id)
+        console.log(results.brand._id)
+        if (results.brand._id.toString() != results.cpu.brand.toString() || results.brand._id.toString() != mother_brand_id.toString()){
           compatibilityErrors.push("CPU or/and motherboard must be compatible with the brand ");
         }
         
@@ -346,25 +349,25 @@ exports.computer_create_post = [
               Brand.find({ name: { $in: ["AMD", "Intel"] } }, callback)
             },
           cpu(callback){
-            CPU.find(callback)
+            CPU.find(callback).populate('brand')
           },
           cabinet(callback){
-            Cabinet.find(callback)
+            Cabinet.find(callback).populate('brand')
           },
           gpu(callback){
-            GPU.find(callback)
+            GPU.find(callback).populate('brand')
           },
           motherboard(callback){
-            Motherboard.find(callback)
+            Motherboard.find(callback).populate('brand')
           },
           ram(callback){
-            RAM.find(callback)
+            RAM.find(callback).populate('brand')
           },
           storage(callback){
-            Storage.find(callback)
+            Storage.find(callback).populate('brand')
           },
           powerSupply(callback){
-            PowerSupply.find(callback)
+            PowerSupply.find(callback).populate('brand')
           }, 
         },
         (err, results) =>{
