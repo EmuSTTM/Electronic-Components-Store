@@ -87,6 +87,29 @@
               `
             }
             }
+            if(selectedProduct.classList.contains('storage')){
+              let stock = document.getElementById(`stock-${product}`)
+
+            if(stock != null){
+           
+            
+              const productCount = selectedStorage.filter(item => item._id === product).length;
+              console.log(productCount)
+              
+              
+              stock.innerHTML = `
+              <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary minus-btn" onclick="deleteProduct('${product}', 'ram', event);" type="button">-</button>
+              </div>
+              <span class="form-control quantity-text">${productCount}</span>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary plus-btn" type="button">+</button>
+              </div>
+            </div>
+              `
+            }
+            }
             
 
           }
@@ -155,6 +178,7 @@ function handleImageClick(img) {
   switch(img.id) {
     case 'storage_img':
     productContainer.innerHTML += `
+    <div id="storage-alert"></div>
       <div class="row">
       <% for (storage of storages) { %>
         <div class="col-md-3 mb-3">
@@ -172,6 +196,8 @@ function handleImageClick(img) {
                   <%= "$" + storage.price.toLocaleString() + " ARS"%>
                 </span>
               </p>
+                <div id="stock-<%=  storage._id %>"></div>
+             
             </div>
           </div>
         </div>
@@ -181,8 +207,10 @@ function handleImageClick(img) {
     
     case 'ram_img':
     productContainer.innerHTML += `
+    <div id="ram-alert"></div>
       <div class="row">
       <% for (ram of rams) { %>
+        
         <div class="col-md-3 mb-3">
           <div class="card  product ram h-100" id="<%= ram._id %>" onclick="selectProduct(<%= JSON.stringify(ram) %>, 'ram');">
 
@@ -198,11 +226,12 @@ function handleImageClick(img) {
                   <%= "$" + ram.price.toLocaleString() + " ARS"%>
                   
                 </span> 
-                
+              </p>
                 <div id="stock-<%= ram._id %>"></div>
                 
                 
-              </p>
+                
+              
             </div>
           </div>
         </div>
@@ -216,6 +245,7 @@ function handleImageClick(img) {
 
 
     productContainer.innerHTML += `
+    <div id="brand-alert"></div>
       <% for (brand of brands){%>
       <div class="row">
         <% if(brand.name.toLowerCase() == "intel"){%>
@@ -233,8 +263,10 @@ function handleImageClick(img) {
       </div>
 
       <% } %>
+      <div id="cpu-alert"></div>
       <div class="row">
       <% for (cpu of cpus) { %>
+        
         <div class="col-md-3 mb-3 " >
           <div class="card h-100 product" id="<%= cpu._id %>" onclick="selectProduct(<%= JSON.stringify(cpu) %>, 'cpu');">
 
@@ -307,6 +339,7 @@ function handleImageClick(img) {
       break;
     case 'mother_img':
         productContainer.innerHTML += `
+        <div id="motherboard-alert"></div>
       <div class="row">
       <% for (motherboard of motherboards) { %>
       
@@ -334,6 +367,7 @@ function handleImageClick(img) {
     case 'cabinet_img':
       productContainer.innerHTML += `
       <div class="row">
+      <div id="cabinet-alert"></div>
       <% for (cabinet of cabinets) { %>
         
         <div class="col-md-3 mb-3">
@@ -365,7 +399,9 @@ function handleImageClick(img) {
 
 
    // Aquí manejamos el agregar los productos 
-  var socket_v2, socket_sata, maxRamSlot, maxStorageSlot;
+  var socket_v2, socket_sata, maxRamSlot, maxStorageSlot, brand,
+  motherboard_brand, cpu_brand, socket_cpu, size_type;
+
   maxRamSlot = 2;
   socket_v2 = 1;
   socket_sata = 4;
@@ -378,7 +414,29 @@ function handleImageClick(img) {
     
     if (type == 'motherboard') {
       if(product.ram_slots < selectedRam.length) {
-        console.log('Insuficientes ram slots ')
+
+        let msgAlert = document.getElementById(`motherboard-alert`);
+        msgAlert.innerHTML += `<p class="alert alert-danger">Insuficientes ram slots. Seleccionaste más de 2 rams</p>`
+        return;
+      }
+      motherboard_brands = product.brand
+      // selectProduct(motherboard_brands.filter(obj => obj.name == "AMD" || obj.name == "Intel" )[0] ,'brand')
+      // console.log("brand de la mother ")
+      // console.log(motherboard_brands.filter(obj => obj.name == "AMD" || obj.name == "Intel" )[0])
+      motherboard_brand = motherboard_brands.filter(obj => obj.name == "AMD" || obj.name == "Intel" ).map(obj => obj.name).join('')
+   
+      if(brand != null && brand != motherboard_brand){
+        
+        let msgAlert = document.getElementById(`motherboard-alert`);
+        msgAlert.innerHTML += `<p class="alert alert-danger">La marca seleccionada debe ser ser igual para la motherboard</p>`
+        return;
+      }
+      
+      console.log("este es el socket cpu" + socket_cpu)
+      console.log("este es el socket mother" + product.socket)
+      if ( typeof socket_cpu != "undefined" && socket_cpu != product.socket){
+        let msgAlert = document.getElementById(`motherboard-alert`);
+        msgAlert.innerHTML += `<p class="alert alert-danger">La motherboard no es compatible con el procesador</p>`
         return;
       }
       socket_v2 = product.sockets_v2;
@@ -386,6 +444,18 @@ function handleImageClick(img) {
       maxStorageSlot = socket_sata + socket_v2;
       console.log(maxStorageSlot)
       maxRamSlot = product.ram_slots;
+      socket_cpu = product.socket;
+      size_type =  product.type;
+      console.log("este es el size type: " + size_type)
+      
+      // Accedemos a los brands del mother, hacemos enfasis en los de AMD e Intel, que son las empresas que crean los chipsets
+      // Luego, pasamos sólo la variable name, quedando así sólo una string
+      
+      
+      
+      
+      console.log("Este es el brand del motherboard : "+ motherboard_brand)
+      console.log(typeof motherboard_brand)
       console.log(product)
 
       let img = document.getElementById(`mother_img`)
@@ -424,15 +494,14 @@ function handleImageClick(img) {
 
 
     if (type == 'ram') {
+      
       if (selectedRam.length < maxRamSlot) {
         selectedRam.push(product._id);
         console.log(`RAM seleccionada: ${product._id}`);
-        
-        document.getElementById('rams').value = selectedRam.join(',');
-        console.log(selectedRam)
+      
 
         
-        const productCount = selectedRam.filter(item => item === product._id).length;
+        let productCount = selectedRam.filter(item => item === product._id).length;
         console.log(productCount)
         let stock= document.getElementById(`stock-${product._id}`) 
         console.log(stock)
@@ -458,8 +527,7 @@ function handleImageClick(img) {
         // // Añade a los objetos seleccionados al objeto en cuestion, para que al actualizarse 
         // // el contenedor, este siga seleccionado.
         
-      
-        // console.log(selectedProduct)
+    
         // Si ya hay un producto seleccionado, quitar la clase de resaltado
         if (currentSelection.length > 1) {
           selectedProducts = selectedProducts.filter(item => item != currentSelection[0].id);
@@ -467,38 +535,25 @@ function handleImageClick(img) {
         }
         let img = document.getElementById(`${type}_img`)
 
-        if (!selectedProduct.classList.contains("selected-product")) {
-            selectedProduct.classList.add("selected-product");
-            selectedProducts.push(product._id)
-        }
+          if (!selectedProduct.classList.contains("selected-product")) {
+              selectedProduct.classList.add("selected-product");
+              selectedProducts.push(product._id)
+          }
             img.src = selectedProduct.children[0].src
             console.log("se creo la clase")
             
             document.getElementById('rams').value = selectedRam;
-       
+  
+        } else {
+          let countRams = selectedRam.length;
+          let msgAlert = document.getElementById(`ram-alert`);
+          msgAlert.innerHTML = `<p class="alert alert-danger">La cantidad máxima de RAMs admitidas en la mother es de: ${countRams}</p>`
 
-
-
-
-
-
-
-
-            
-          } else {
-            alert('Has alcanzado el máximo de slots de RAM');
-          }
-          return;
         }
+          return;
+      }
 
     
-
-
-
-
-
-
-
 
       if(type == 'storage') {
         console.log(selectedStorage.length)
@@ -508,35 +563,84 @@ function handleImageClick(img) {
         
         if (selectedStorage.length < maxStorageSlot){
           // Conver the product in a object
-   
+          console.log("Storage seleccionado: " + product._id)
 
           if(product.type == "HDD" || product.type == "SSD" || product.type == "SSHD"){
-            let StorageSATA = selectedStorage.filter(obj => obj.type === "HDD" 
-            || obj.type === "SSD" || obj.type === "SSHD") ;
-            if(StorageSATA.length  > socket_sata){
-              console.log('Has alcanzado el máximo de slots SATA');
+            let StorageSATA = selectedStorage.filter(obj => obj.type === "HDD" || obj.type === "SSD" || obj.type === "SSHD").length ;
+            if(StorageSATA >= socket_sata){
+              
+              let msgAlert = document.getElementById(`storage-alert`);
+              msgAlert.innerHTML = `<p class="alert alert-danger">La cantidad máxima de entradas SATA en la mother son de: ${socket_sata}</p>`
               return;
             }
             selectedStorage.push(product)
             console.log('SATA añadido correctamente')
+            console.log("storagesata: " + StorageSATA)
           }
           if(product.type == "NVMe"){
             let StorageV2 = selectedStorage.filter(obj => obj.type === "NVMe");
             if(StorageV2.length >= socket_v2){
-              console.log('Has alcanzado el máximo de slots NVMe');
+              let msgAlert = document.getElementById(`storage-alert`);
+              msgAlert.innerHTML = `<p class="alert alert-danger">La cantidad máxima de entradas NVME V2 admitidas en la mother son de: ${socket_v2}</p>`
               return;
             }
             selectedStorage.push(product)
+            console.log("storage v2: " + typeof StorageV2)
             console.log('NVMe añadido correctamente')
           }
 
+          let productCount = selectedStorage.filter(item => item._id === product._id).length;
+          console.log(productCount)
+          let stock= document.getElementById(`stock-${product._id}`) 
+          console.log(stock)
+          
+          stock.innerHTML = `
+          <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <button class="btn btn-outline-secondary minus-btn" onclick="deleteProduct('${product._id}', 'storage', event);" type="button">-</button>
+          </div>
+          <span class="form-control quantity-text">${productCount}</span>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary plus-btn" type="button">+</button>
+          </div>
+        </div>
+        `
 
-          let resultStorage = selectedStorage.map(obj => obj._id);
+
+
+
+
+          
+
+
+          let selectedProduct = document.getElementById(product._id);
+          let currentSelection = document.getElementsByClassName('selected-product');
+
+        
+        
+    
+        // // Si ya hay un producto seleccionado, quitar la clase de resaltado
+        // if (currentSelection.length > 1) {
+        //   selectedProducts = selectedProducts.filter(item => item != currentSelection[0].id);
+        //   currentSelection[0].classList.remove("selected-product");
+        // }
+        let img = document.getElementById(`${type}_img`)
+
+          if (!selectedProduct.classList.contains("selected-product")) {
+              selectedProduct.classList.add("selected-product");
+              selectedProducts.push(product._id)
+          }
+            img.src = selectedProduct.children[0].src
+            console.log("se creo la clase")
+            
+            let resultStorage = selectedStorage.map(obj => obj._id);
           console.log(`Storages seleccionadas: ${resultStorage}`)
           document.getElementById('storages').value = resultStorage.join(',');
+  
           return;
         } else {
-          console.log('Haz alcanzado el límite de almacenamiento')
+            let msgAlert = document.getElementById(`storage-alert`);
+              msgAlert.innerHTML = `<p class="alert alert-danger">Limite de almacenamiento alcanzado. SATA:${socket_sata}, V2:${socket_v2}</p>`
           return;
         }
         
@@ -544,7 +648,18 @@ function handleImageClick(img) {
 
 
       if(type == "brand"){
-        console.log('se ejecuto el select del brand' + product.name)
+       
+        brand = product.name;
+        // if(typeof motherboard_brand == "undefined"){
+        //   motherboard_brand = brand;
+        // }
+        
+
+        console.log("mother_brand: " + motherboard_brand)
+        console.log(brand)
+        console.log(cpu_brand)
+        if((!cpu_brand && !motherboard_brand) || cpu_brand === brand || motherboard_brand === brand){
+          console.log('se ejecuto el select del brand' + product.name)
         let selectedProduct = document.getElementById(product._id);
         let currentSelection = document.getElementsByClassName("selected-brand");
         if (currentSelection.length > 0) {
@@ -566,13 +681,61 @@ function handleImageClick(img) {
               console.log("se creo la clase")
               selectedProducts.push(product._id)
               document.getElementById(type).value = product._id;
+             
+          } 
+        }else {
+            let msgAlert = document.getElementById(`brand-alert`);
+            msgAlert.innerHTML = `<p class="alert alert-danger">La marca debe coincidir con el motherboard y cpu</p>`
           }
+        
         return;
       }
 
-      //objeto
+      if( type == "cpu"){
+        cpu_brand = product.brand
+        console.log(cpu_brand)
+        cpu_brand = cpu_brand['name']
+        console.log(cpu_brand)
+        
+        selectProduct(product.brand ,'brand')
+        
+        if(typeof motherboard_brand == "undefined"){
+          socket_cpu = product.socket;
+        }
 
-      // console.log(product)
+        if ( typeof socket_cpu != "undefined" && socket_cpu != product.socket){
+        let msgAlert = document.getElementById(`cpu-alert`);
+        msgAlert.innerHTML = `<p class="alert alert-danger">La motherboard no es compatible con el procesador</p>`
+        return;
+      }
+        
+        if(brand != null && brand != cpu_brand){
+        
+        let msgAlert = document.getElementById(`cpu-alert`);
+        msgAlert.innerHTML = `<p class="alert alert-danger">La marca seleccionada debe ser ser igual para el cpu</p>`
+        return;
+      }
+
+    }
+
+    if (type == "cabinet") {
+      if(typeof size_type != "undefined" && (size_type == "ITX" && product.type != "ITX") ||
+      (size_type == "M-ATX" && product.type != "ATX")){
+        let msgAlert = document.getElementById(`cabinet-alert`);
+        msgAlert.innerHTML = `<p class="alert alert-danger">El tamaño del gabinete es insuficiente</p>`
+      }
+
+      // if(results.cabinet.type == "ITX" && results.motherboard.type != "ITX"){
+      //     compatibilityErrors.push( "Cabinet must be compatible with the motherboard" );
+      //   }
+      //   if(results.cabinet.type == "M-ATX" && results.motherboard.type == "ATX" ){
+      //     compatibilityErrors.push("Cabinet must be compatible with the motherboard" );
+      //   }
+
+
+
+      size_type =  product.type;
+    }
       
 
 
@@ -621,24 +784,14 @@ function handleImageClick(img) {
 
 
 
-  // maxRamSlot = 2;
-  // socket_v2 = 1;
-  // socket_sata = 4;
-  // maxStorageSlot = 5;
 
-  // var selectedRam = [];
-  // var selectedStorage = [];
+
+
+
+
 
 
   function deleteProduct(product, type, event){
-  //  if(type == "ram"){
-  //   console.log("Selected RAM PRE TODO: " +selectedRam)
-  //     const ramToRemove = selectedRam.indexOf(product._id);
-  //   if (ramToRemove !== -1) {
-  //     selectedRam.splice(ramToRemove, 1);
-  //   }
-  //   console.log("Selected RAM POST TODO: " + selectedRam)
-  //  }
 
    let selectedProduct = document.getElementById(product);
    let img = document.getElementById(`${type}_img`)
@@ -646,51 +799,95 @@ function handleImageClick(img) {
 
   
    if(type == "ram"){
-    
-    console.log("Selected RAM PRE TODO: " +selectedRam)
-    const ramToRemove = selectedRam.indexOf(product);
-    selectedRam.splice(ramToRemove, 1);
-    
-    console.log("Selected RAM POST TODO: " + selectedRam)
-    const productCount = selectedRam.filter(item => item === product).length;
-    let stock= document.getElementById(`stock-${product}`) 
-    console.log("stock: " + stock)
-   console.log("product count: " + productCount)
-   console.log(typeof productCount)
-    if(productCount == 0){
-      stock.innerHTML = ``
-    } else{
-      stock.innerHTML = `
-        <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <button class="btn btn-outline-secondary minus-btn" onclick="deleteProduct('${product}', 'ram', event);" type="button">-</button>
-        </div>
-        <span class="form-control quantity-text">${productCount}</span>
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary plus-btn" type="button">+</button>
-        </div>
-      </div>
-        `
-    }
-    
-    if(!selectedRam.includes(product) || productCount == 0){
-      console.log("el productiñio es ")
-      console.log(selectedProduct)
-      selectedProduct.classList.remove("selected-product");
-      console.log(selectedProduct)
-      let currentSelection = document.getElementsByClassName("selected-product");
-      selectedProducts = selectedProducts.filter(item => item !== product);
-      if (currentSelection.length == 0 ){
-        img.src = `/static_images/${type}-active.png`
-      }
-      
-      
-   
         
+        console.log("Selected RAM PRE TODO: " +selectedRam)
+        const ramToRemove = selectedRam.indexOf(product);
+        selectedRam.splice(ramToRemove, 1);
+        
+        console.log("Selected RAM POST TODO: " + selectedRam)
+        const productCount = selectedRam.filter(item => item === product).length;
+        let stock= document.getElementById(`stock-${product}`) 
+        console.log("stock: " + stock)
+      console.log("product count: " + productCount)
+      console.log(typeof productCount)
+        if(productCount == 0){
+          stock.innerHTML = ``
+        } else{
+          stock.innerHTML = `
+            <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <button class="btn btn-outline-secondary minus-btn" onclick="deleteProduct('${product}', 'ram', event);" type="button">-</button>
+            </div>
+            <span class="form-control quantity-text">${productCount}</span>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary plus-btn" type="button">+</button>
+            </div>
+          </div>
+            `
         }
-        document.getElementById('rams').value = selectedRam;
-    event.stopPropagation()
-    return;
+        
+        if(!selectedRam.includes(product) || productCount == 0){
+          console.log("el productiñio es ")
+          console.log(selectedProduct)
+          selectedProduct.classList.remove("selected-product");
+          console.log(selectedProduct)
+          let currentSelection = document.getElementsByClassName("selected-product");
+          selectedProducts = selectedProducts.filter(item => item !== product);
+          if (currentSelection.length == 0 ){
+            img.src = `/static_images/${type}-active.png`
+          }
+          }
+            document.getElementById('rams').value = selectedRam;
+        event.stopPropagation()
+        return;
+   }
+
+   if (type == "storage"){
+    // let resultStorage = selectedStorage.map(obj => obj._id);
+    console.log("Selected STORAGE PRE TODO: " +selectedStorage)
+        const storageToRemove = selectedStorage.indexOf(product);
+        selectedStorage.splice(storageToRemove, 1);
+        
+        console.log("Selected Storage POST TODO: " + selectedRam)
+        let resultStorage = selectedStorage.map(obj => obj._id);
+        const productCount = resultStorage.filter(item => item === product).length;
+        let stock= document.getElementById(`stock-${product}`) 
+        console.log("stock: " + stock)
+        console.log("product count: " + productCount)
+        // console.log(typeof productCount)
+        if(productCount == 0){
+            stock.innerHTML = ``
+          } else{
+            stock.innerHTML = `
+              <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary minus-btn" onclick="deleteProduct('${product}', 'storage', event);" type="button">-</button>
+              </div>
+              <span class="form-control quantity-text">${productCount}</span>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary plus-btn" type="button">+</button>
+              </div>
+            </div>
+              `
+          }
+          if(productCount == 0){
+          console.log("el productiñio es ")
+          console.log(selectedProduct)
+          selectedProduct.classList.remove("selected-product");
+          console.log(selectedProduct)
+          let currentSelection = document.getElementsByClassName("selected-product");
+          selectedProducts = selectedProducts.filter(item => item !== product);
+          if (currentSelection.length == 0 ){
+            img.src = `/static_images/${type}-active.png`
+          }
+          
+          }
+
+          // let resultStorage = selectedStorage.map(obj => obj._id);
+          console.log(`Storages seleccionadas: ${resultStorage}`)
+          document.getElementById('storages').value = resultStorage.join(',');
+          event.stopPropagation()
+          eturn;
    }
    
     console.log('se ejecuto delete')
