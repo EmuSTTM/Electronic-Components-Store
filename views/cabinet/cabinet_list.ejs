@@ -19,7 +19,7 @@
               <span class="badge badge-primary badge-pill"> <%= cabinet_list[i].type %> </span> <br>
               <span class="badge badge-success badge-pill">
                 <%= "$" + cabinet_list[i].price.toLocaleString() + " ARS"%>
-              </span>
+              </span> 
             </p>
             <a href="<%= cabinet_list[i].url %>" class="btn btn-primary">See More</a>
           </div>
@@ -34,4 +34,5 @@
   <% } %>
 </div>
 
-  <%- include('../partials/footer.ejs') %>
+
+<%- include('../partials/footer.ejs') %>

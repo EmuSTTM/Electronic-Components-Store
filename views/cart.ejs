@@ -1,0 +1,48 @@
+
+<%- include('./partials/header.ejs') %>
+
+
+<body>
+	<h1>Carrito de compras</h1>
+	<form>
+		<table>
+			<thead>
+				<tr>
+					<th>Producto</th>
+					<th>Cantidad</th>
+					<th>Precio unitario</th>
+					<th>Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Producto 1</td>
+					<td><input type="number" min="1" max="10" value="1"></td>
+					<td>$10.00</td>
+					<td>$10.00</td>
+				</tr>
+				<tr>
+					<td>Producto 2</td>
+					<td><input type="number" min="1" max="10" value="1"></td>
+					<td>$15.00</td>
+					<td>$15.00</td>
+				</tr>
+				<tr>
+					<td>Producto 3</td>
+					<td><input type="number" min="1" max="10" value="1"></td>
+					<td>$20.00</td>
+					<td>$20.00</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="3">Total:</td>
+					<td>$45.00</td>
+				</tr>
+			</tfoot>
+		</table>
+		<button type="submit">Comprar</button>
+	</form>
+</body>
+
+<%- include('./partials/footer.ejs') %>

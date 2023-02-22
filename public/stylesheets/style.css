@@ -92,3 +92,26 @@
 .plus-btn:hover {
   background-color: #f1f1f1;
 }
+
+
+
+#cart-button {
+  border: none;
+  
+  font-size: 30px;
+  background-color: white;
+  color: #a8a9ab;
+  padding: 10px 20px;
+  transition: all .3s;
+  right: 85px;
+}
+
+#cart-button:hover {
+  cursor: pointer;
+  color: #414141;
+}
+
+#cart-button:focus {
+  outline: none;
+}
+
