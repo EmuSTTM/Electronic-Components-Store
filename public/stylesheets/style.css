@@ -115,3 +115,12 @@
   outline: none;
 }
 
+
+.producto-en-carrito{
+  border : 1px solid #dfdfdf;
+  margin : 10px 20px 10px 0px;
+  border-radius: 5px;
+  align-items: center;
+  padding:0;
+}
+
