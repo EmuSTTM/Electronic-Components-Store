@@ -1,9 +1,7 @@
 
 const contenedorCarrito = document.getElementById("cart-container")
 const productos = document.getElementsByClassName("product-cart")
-// const cantidad = document.getElementById('cantidad')
-// const precioTotal = document.getElementById('precio-total')
-// const cantidadTotal = document.getElementById('cantidadTotal')
+
 
 let carrito = [];
 
