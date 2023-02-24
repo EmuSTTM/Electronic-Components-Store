@@ -6,6 +6,8 @@
     <% for (var i=0; i< powerSupply_list.length; i++) { %>
       <div class="col-md-3 mb-3">
         <div class="card h-100">
+          <% const prod = {name:powerSupply_list[i].name, id:powerSupply_list[i]._id, price: powerSupply_list[i].price, image:powerSupply_list[i].image  }%>
+
 
           <img src="<%=  typeof powerSupply_list[i].toObject().image !== 'undefined' ? '/images/' + powerSupply_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= powerSupply_list[i].name%>">
           <div class="card-body">
@@ -23,6 +25,7 @@
               </span>
             </p>
             <a href="<%= powerSupply_list[i].url %>" class="btn btn-primary">See More</a>
+            <button  value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add Cart</button>
           </div>
         </div>
       </div>

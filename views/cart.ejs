@@ -8,10 +8,89 @@
 		<div id="cart-container" class="row">
 
 		</div>
+
+		
+		<div id="no-products" class="row d-flex justify-content-center align-items-center" align="center"></div>
+		<div id ="container-totalPrice" class="row  py-3">
+			
+			<div class="col-md-7"></div>
+			<div class="col-md-5">
+			  <p id="total-price" class="text-right font-weight-bold">Precio TOTAL:<br> $0.00</p>
+			</div>
+		  </div>
+
 		<div class="text-center mt-4">
 			<button type="submit" class="btn btn-primary">Comprar</button>
 		</div>
 	</form>
 </div>
+	<script>
+		let cartContainer = document.getElementById('cart-container');
+		let noProducts = document.getElementById('no-products');
+		let containerTotalPrice = document.getElementById('container-totalPrice');
+
+		// Función para mostrar el mensaje de "No hay productos en el carrito"
+		function showNoProductsMessage() {
+		let messageElement = document.createElement('div');
+		messageElement.innerHTML = `<div class="alert alert-danger w-100 text-center">There are no products in the shopping cart</div>`;
+		noProducts.appendChild(messageElement);
+		containerTotalPrice.innerHTML = '';
+		}
+
+		// Función para ocultar el mensaje de "No hay productos en el carrito"
+		function hideNoProductsMessage() {
+		noProducts.innerHTML = '';
+		containerTotalPrice.innerHTML = `<div class="col-md-7"></div>
+			<div class="col-md-5">
+			  <p id="total-price" class="text-right font-weight-bold">Precio TOTAL:<br> $0.00</p>
+			</div>`
+		
+		
+
+		}
+
+		// Observador de mutaciones en el elemento cartContainer
+		let observer = new MutationObserver((mutations) => {
+		let cartChildren = cartContainer.children;
+		
+		if (cartChildren.length === 0) {
+			showNoProductsMessage();
+		} else {
+			hideNoProductsMessage();
+			updateTotalPrice();
+		}
+		});
+
+		// Configuración del observador
+		let config = { childList: true };
+
+		// Empieza a observar el elemento cartContainer
+		observer.observe(cartContainer, config);
+
+
+		function updateTotalPrice() {
+				
+				let totalPrice = 0;
+				
+				for (let i = 0; i < cartContainer.children.length; i++) {
+					let priceElement = cartContainer.children[i].querySelector('div.col-2 > p');
+					let quantityElement = cartContainer.children[i].querySelector('div.col-3 > div > span.quantity-text');
+					
+					if (priceElement && quantityElement) {
+					let price = parseFloat(priceElement.textContent.replace('$', '').replace(/\./g, ''));
+					let quantity = parseInt(quantityElement.textContent);
+					
+					totalPrice += price;
+					}
+				}
+				
+				let totalPriceElement = document.getElementById('total-price');
+				totalPriceElement.textContent = `Precio TOTAL:\n$${totalPrice.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+				}
+
+				
+				window.addEventListener('load', updateTotalPrice);
+	</script>
+
 
 <%- include('./partials/footer.ejs') %>

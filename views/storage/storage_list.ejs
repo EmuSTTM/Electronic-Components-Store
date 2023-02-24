@@ -5,7 +5,8 @@
   <div class="row">
     <% for (var i=0; i< storage_list.length; i++) { %>
       <div class="col-md-3 mb-3">
-        <div class="card h-100 product" id="<%= storage_list[i]._id%>" >
+        <div class="card h-100 product-cart" id="<%= storage_list[i]._id%>" >
+          <% const prod = {name:storage_list[i].name, id:storage_list[i]._id, price: storage_list[i].price, image:storage_list[i].image  }%>
 
           <img src="<%=  typeof storage_list[i].toObject().image !== 'undefined' ? '/images/' + storage_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= storage_list[i].name%>">
           <div class="card-body">
@@ -23,6 +24,7 @@
               </span>
             </p>
             <a href="<%= storage_list[i].url %>" class="btn btn-primary">See More</a>
+            <button  value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add Cart</button>
           </div>
         </div>
       </div>

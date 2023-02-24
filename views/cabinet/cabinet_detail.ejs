@@ -2,6 +2,7 @@
 
 <div class="container">
   <div class="row">
+     <% const prod = {name:cabinet.name, id:cabinet._id, price: cabinet.price, image:cabinet.image  }%>
     <div class="col-md-6">
       <% if(cabinet.image !== undefined){ %>
         <img class="img-tumbnail" height= "360px" style="margin:20px"src="/images/<%= cabinet.image %>" alt="<%= cabinet.name %>">
@@ -16,6 +17,7 @@
             <a style="color:gray"href="<%= brand.url %>" ><%= brand.name %></a>
           <% }); %>
         </p>
+        
       <% } %>
         
 
@@ -23,6 +25,8 @@
         <span class="badge badge-success badge-pill">
           <%= "$" + cabinet.price.toLocaleString() + " ARS"%>
         </span> </p>
+        <button  value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add to cart</button>
+      
     </div>
   </div>
 

@@ -22,6 +22,9 @@
             <span class="badge badge-success badge-pill">
               <%= "$" + motherboard.price.toLocaleString() + " ARS"%>
             </span> </p>
+
+            <% const prod = {name:motherboard.name, id:motherboard._id, price: motherboard.price, image:motherboard.image  }%>
+        <button  value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add to cart</button>
         </div>
     
     
@@ -38,7 +41,7 @@
             <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= motherboard.type %></p>
         </div>
         <div class="col-md-4">
-            <h4 class="text-secondary">Socket CPU</h4>
+            <h4 class="text-secondary">Socket motherboard</h4>
             <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= motherboard.socket %></p>
         </div>
 </div>

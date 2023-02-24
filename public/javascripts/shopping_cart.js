@@ -1,6 +1,6 @@
 
 const contenedorCarrito = document.getElementById("cart-container")
-const productos = document.getElementsByClassName("product")
+const productos = document.getElementsByClassName("product-cart")
 // const cantidad = document.getElementById('cantidad')
 // const precioTotal = document.getElementById('precio-total')
 // const cantidadTotal = document.getElementById('cantidadTotal')
@@ -85,7 +85,7 @@ if(productos.length != 0){
    // Cargamos el estilo que va a tener cada elemento del carrito en el carrito 
    carrito.forEach(prod => {
        const div = document.createElement("DIV");
-       div.classList.add("row", "producto-en-carrito");
+       div.classList.add("row", "producto-en-carrito", "w-100");
 
         let priceOfProduct = prod.price * prod.cantidad
   div.innerHTML = `
@@ -100,12 +100,12 @@ if(productos.length != 0){
                 <div class="col-3" >
                         <div class="input-group mb-3" style="border:1px solid #dfdfdf; border-radius: 3px; ">
                             <div class="input-group-prepend">
-                                <button id="minus-btn"class="btn btn-outline-secondary minus-btn"  type="button">-</button>
+                                <button id="minus-btn-${prod.id}"class="btn btn-outline-secondary minus-btn"  type="button">-</button>
                             </div>
                             <span class="form-control quantity-text">${prod.cantidad}</span>
                             <div class="input-group-append">
                             
-                                <button id="plus-btn" class="btn btn-outline-secondary plus-btn"  type="button">+</button>
+                                <button id="plus-btn-${prod.id}" class="btn btn-outline-secondary plus-btn"  type="button">+</button>
                             </div>
                         </div>
                 </div>
@@ -117,12 +117,12 @@ if(productos.length != 0){
             // agregarAlCarrito(${JSON.stringify(prod)})
        contenedorCarrito.appendChild(div)
 
-       let plusButton = document.getElementById('plus-btn');
+       let plusButton = document.getElementById(`plus-btn-${prod.id}`);
        plusButton.addEventListener('click', () =>{
         agregarAlCarrito(prod)
        })
 
-       let minusButton = document.getElementById('minus-btn');
+       let minusButton = document.getElementById(`minus-btn-${prod.id}`);
        minusButton.addEventListener('click', () =>{
         eliminarDelCarrito(prod.id)
        });

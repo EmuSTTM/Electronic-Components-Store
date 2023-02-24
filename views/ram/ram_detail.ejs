@@ -22,6 +22,9 @@
             <span class="badge badge-success badge-pill">
               <%= "$" + ram.price.toLocaleString() + " ARS"%>
             </span> </p>
+
+            <% const prod = {name:ram.name, id:ram._id, price: ram.price, image:ram.image  }%>
+        <button  value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add to cart</button>
         </div>
     
     

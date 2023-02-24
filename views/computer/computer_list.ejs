@@ -7,7 +7,8 @@
     <% for (var i=0; i< computer_list.length; i++) { %>
       <div class="col-md-4 mb-3">
         <div class="card h-100">
-
+          <% const prod = {name:computer_list[i].name, id:computer_list[i]._id, price: computer_list[i].price, image:computer_list[i].image  }%>
+    
           <img src="<%=  typeof computer_list[i].toObject().image !== 'undefined' ? '/images/' + computer_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= computer_list[i].name%>">
           <div class="card-body">
             <h5 class="card-title"> <a href="<%= computer_list[i].url %>"><%= computer_list[i].name %></a>  </h5> 
@@ -17,7 +18,9 @@
                 <%= "$" + Number(computer_list[i].price).toLocaleString() + " ARS"%>
               </span>
             </p>
+            
             <a href="<%= computer_list[i].url %>" class="btn btn-primary">See More</a>
+            <button  value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add Cart</button>
           </div>
         </div>
       </div>
