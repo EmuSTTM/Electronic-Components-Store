@@ -1,0 +1,65 @@
+<%- include('../partials/minimalist_header.ejs') %>
+
+<div class="card" style="width: 500px;margin: 20px auto;">
+    <h5 class="card-header" style="font-size: 1.25rem; text-align: center;">
+      <%= title %>
+    </h5>
+    
+    <div class="card-body">
+      <form id="form" action="" method="POST">
+        <div class="form-group">
+          <label for="name" style="font-size: 1.15rem;">Name</label>
+          <input type="text" value="<%= (typeof user === 'undefined' ? '' : user.name) %>"
+            class="form-control" id="name" name="name" placeholder="Enter your name" required>
+        </div>
+        <div class="form-group">
+          <label for="email" style="font-size: 1.15rem;">Email</label>
+          <input type="email" value="<%= (typeof user === 'undefined' ? '' : user.email) %>"
+            class="form-control" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label for="password" style="font-size: 1.15rem;">Password</label>
+          <input type="password" value=""
+            class="form-control" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword" style="font-size: 1.15rem;">Confirm Password</label>
+          <input type="password" value=""
+            class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+        </div>
+        <div class="form-group">
+          <label for="rol" style="font-size: 1.15rem;">Role</label>
+          <select class="form-control" id="rol" name="rol" required>
+            <option value="">-- Select a role --</option>
+            <option value="vendedor" <%= (typeof user !== 'undefined' && user.role === 'vendedor') ? 'selected' : '' %>>Vendedor</option>
+            <option value="comprador" <%= (typeof user !== 'undefined' && user.role === 'comprador') ? 'selected' : '' %>>Comprador</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary d-flex mx-auto mt-3" style="margin-bottom: 10px;">Submit</button>
+      </form>
+    </div>
+  </div>
+  <% if(typeof errors !== 'undefined'){ %>
+    <% console.log(errors)%>
+    <% errors.forEach(function(error) { %>
+      <div class="alert alert-danger">
+        <%= error.msg %>
+      </div>
+    <% }); %>
+  <% } %>
+
+
+  
+  <% if(typeof message !== 'undefined'){ %>
+    
+      <div class="alert alert-danger">
+        <%= message %>
+      </div>
+    
+  <% } %>
+  
+
+
+
+
+<%- include('../partials/footer.ejs') %>

@@ -22,8 +22,9 @@ exports.user_list = function (req, res, next) {
 
   // Display user create form on GET.
 exports.user_create_get = (req, res, next) => {
-      res.render("user/singup", {
-        title:"singup",
+      res.render("user/signup", {
+        title:"signup",
+        
         })
   };
 
@@ -34,7 +35,7 @@ exports.user_create_get = (req, res, next) => {
     body("name", "user name is required").trim().isLength({ min: 1 }).escape(),
 
     // Validaciones para el campo de correo electrónico
-    body('correo')
+    body('email')
     .isEmail().withMessage('El correo electrónico debe ser válido')
     .normalizeEmail(),
 
@@ -42,6 +43,8 @@ exports.user_create_get = (req, res, next) => {
     body('password')
     .isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres')
     .matches(/\d/).withMessage('La contraseña debe contener al menos un número'),
+
+    body('confirmPassword', "Confirm the password").trim().isLength({ min: 1 }).escape(),
 
     // Validaciones para el campo de rol
     body('rol')
@@ -57,20 +60,31 @@ exports.user_create_get = (req, res, next) => {
             rol: req.body.rol,
         })
 
-        if(!errors.isEmpty()){
-            res.render("user/singup", {
-                title:"singup",
+        // Validamos que las contraseñas sean las mismas
+        if(req.body.confirmPassword !== req.body.password) {
+            const noEqualPassword = "The passwords are not equal"
+            res.render("user/signup", {
+                title:"signup",
                 user,
-                errors,
+                message: noEqualPassword
+                }) 
+        }
+
+        if(!errors.isEmpty()){
+            res.render("user/signup", {
+                title:"signup",
+                user,
+                errors : errors.errors
                 })
             return;
+
         } else {
             User.findOne({ name : req.body.name}).exec((err, found_user) => {
                 if (err) return next(err);
 
                 if(found_user){
-                    res.render("user/singup", {
-                        title:"singup",
+                    res.render("user/signup", {
+                        title:"signup",
                         user,
                         message: "username already exist"
                         })
@@ -78,7 +92,7 @@ exports.user_create_get = (req, res, next) => {
                     user.save((err)=>{
                         if (err) return next(err);
                         // Almacenamos en el localstorage la información del usuario
-                        localStorage.setItem('user',JSON.stringify(user))
+                        req.session.user = user; // Store the user object in the session
                         res.redirect("/");
 
                         
@@ -102,44 +116,36 @@ exports.user_login_get = (req, res, next) => {
 
 
 exports.user_login_post = [
-    body("name", "user name is required").trim().isLength({ min: 1 }).escape(),
+  body("name", "User name is required").trim().isLength({ min: 1 }).escape(),
+  body('password')
+    .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long')
+    .matches(/\d/).withMessage('Password must contain at least one number'),
+  (req, res, next) => {
+    const errors = validationResult(req);
 
-    body('password')
-    .isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres')
-    .matches(/\d/).withMessage('La contraseña debe contener al menos un número'),
-    (req,res,next) =>{
-                const errors = validationResult(req)
-        
-                const user = new User({
-                    name : req.body.name,
-                    password : req.body.password,
-                })
-        
-                if(!errors.isEmpty()){
-                    res.render("user/login", {
-                        title:"login",
-                        user,
-                        errors,
-                        })
-                    return;
-                } else {
-                    User.findOne({ name : req.body.name, password: req.body.password}).exec((err, found_user) => {
-                        if (err) return next(err);
-        
-                        if(found_user){
-                            if (err) return next(err);
-                            localStorage.setItem('user',JSON.stringify(user));
-                            res.redirect("/");
-                        } else { 
-                            res.render("user/login", {
-                                title:"login",
-                                user,
-                                message: "username or password is incorrect"
-                            })
-                        }
-                    })
-                }
-            }
+    if (!errors.isEmpty()) {
+      res.render("user/login", {
+        title: "Login",
+        user: req.body,
+        errors: errors.array()
+      });
+      return;
+    }
 
+    User.findOne({ name: req.body.name, password: req.body.password }).exec((err, found_user) => {
+      if (err) return next(err);
+
+      if (found_user) {
+        req.session.user = found_user; // Store the user object in the session
+        res.redirect("/");
+      } else {
+        res.render("user/login", {
+          title: "Login",
+          user: req.body,
+          message: "Username or password is incorrect"
+        });
+      }
+    });
+  }
 ]
 

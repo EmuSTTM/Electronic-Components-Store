@@ -4,6 +4,11 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+// Necesario para el incio de sesión de los usuarios
+const session = require('express-session');
+const MongoStore = require('connect-mongo')
+
+
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -29,6 +34,28 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function() {
   console.log("Connection to MongoDB established successfully");
 });
+
+
+// Crear instancia de MongoStore y pasarla como parámetro en app.use(session({...}))
+
+const store = new MongoStore({
+  mongoUrl: 'mongodb://127.0.0.1:27017/ECS-users',
+  mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+  collectionName: 'sessions',
+  ttl: 24 * 60 * 60 // time to live in seconds
+});
+
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: true,
+  store: store
+}));
+
+//asdas
+
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

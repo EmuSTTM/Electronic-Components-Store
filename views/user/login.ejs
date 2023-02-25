@@ -1,0 +1,44 @@
+<%- include('../partials/minimalist_header.ejs') %>
+
+
+<div class="card" style="width: 500px;margin: 20px auto;">
+    <h5 class="card-header" style="font-size: 1.25rem; text-align: center;">
+      <%= title %>
+    </h5>
+    <div class="card-body">
+      <form id="form" action="" method="POST">
+        <div class="form-group">
+          <label for="name" style="font-size: 1.15rem;">Name</label>
+          <input type="text" value="<%= (typeof user === 'undefined' ? '' : user.name) %>"
+            class="form-control" id="name" name="name" placeholder="Enter your name" required>
+        </div>
+        <div class="form-group">
+          <label for="password" style="font-size: 1.15rem;">Password</label>
+          <input type="password" value=""
+            class="form-control" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+    
+        
+        <button type="submit" class="btn btn-primary d-flex mx-auto mt-3" style="margin-bottom: 10px;">Submit</button>
+      </form>
+    </div>
+  </div>
+  <% if (typeof errors !== 'undefined') { %>
+    <% const errorsArray = Array.isArray(errors) ? errors : [errors]; %>
+    <% errorsArray.forEach(function(error) { %>
+      <div class="alert alert-danger">
+        <%= error.msg %>
+      </div>
+    <% }); %>
+    <% } %>
+
+  <% if(typeof message !== 'undefined'){ %>
+    
+      <div class="alert alert-danger">
+        <%= message %>
+      </div>
+    
+  <% } %>
+
+
+<%- include('../partials/footer.ejs') %>
