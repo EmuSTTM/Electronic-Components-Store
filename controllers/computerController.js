@@ -183,6 +183,7 @@ exports.computer_create_get = (req, res, next) => {
         rams: results.ram,
         storages: results.storage,
         powerSupplies: results.powerSupply,
+        session: req.session,
 
       })
     })

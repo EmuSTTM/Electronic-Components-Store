@@ -2,6 +2,7 @@
 
 
 
+<p>Bienvenido <%= session.user.name %>! Nuestro <%= session.user.rol%></p>
 
 <aside class="d-flex flex-column card card-body" style="align-items: center; margin:10px 0px">
   <div class="row">
@@ -181,6 +182,7 @@ switch(img.id) {
   <div id="storage-alert"></div>
     <div class="row">
     <% for (storage of storages) { %>
+      <% let prod = {name:storage.name, id:storage._id, price: storage.price, image:storage.image  }%>
       <div class="col-md-3 mb-3">
         <div class="card  product storage  h-100" id="<%= storage._id %>" onclick="selectProduct(<%= JSON.stringify(storage) %>, 'storage');">
 
@@ -197,7 +199,7 @@ switch(img.id) {
               </span>
             </p>
               <div id="stock-<%=  storage._id %>"></div>
-           
+              <button  value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add Cart</button>
           </div>
         </div>
       </div>
@@ -291,8 +293,9 @@ switch(img.id) {
   productContainer.innerHTML += `
     <div class="row">
     <% for (gpu of gpus) { %>
+      <% let prod = {name:gpu.name, id:gpu._id, price: gpu.price, image:gpu.image  }%>
       <div class="col-md-3 mb-3">
-        <div class="card  h-100 product" id="<%= gpu._id %>" onclick="selectProduct(<%= JSON.stringify(gpu) %>, 'gpu');">
+        <div class="card  h-100 product" id="<%= gpu._id %>" onclick="selectProduct(<%= JSON.stringify(gpu) %>, 'gpu', <%= JSON.stringify(prod) %>);">
 
           <img src="<%=  typeof gpu.toObject().image !== 'undefined' ? '/images/' + gpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= gpu.name%>">
           <div class="card-body">
@@ -304,6 +307,7 @@ switch(img.id) {
               Core clock: <%= gpu.core_clock %> <br>
                 Memory: <%= gpu.memory %><br>
                 <%= "$" + gpu.price.toLocaleString() + " ARS"%>
+                <button  onclick="agregarAlCarrito(<%= JSON.stringify(prod) %>)" value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add Cart</button>
               </span>
             </p>
           </div>
@@ -411,7 +415,7 @@ maxStorageSlot = 5;
 
 
 
-function selectProduct(product, type) {
+function selectProduct(product, type, cart_prod) {
 
   
   if (type == 'motherboard') {
@@ -656,7 +660,7 @@ function selectProduct(product, type) {
 
 
 
-
+  
 
         
 
@@ -694,6 +698,7 @@ function selectProduct(product, type) {
       
     }
 
+    
 
     if(type == "brand"){
       let msgAlert = document.getElementById(`brand-alert`);
@@ -791,11 +796,29 @@ function selectProduct(product, type) {
 
     size_type =  product.type;
   }
+
+  if (type == "gpu"){
+        console.log("el producto es magnificamente un gpu ")
+        let cartArray = document.getElementById("cart_array")
     
+        if (cartArray.value === null || cartArray.value === undefined || cartArray.value === "") {
+      cartArray.value = [JSON.stringify(cart_prod)];
+    } else {
+      cartArray.value = cartArray.value.split(','); // convierte la cadena en un array
+      cartArray.value.push(JSON.stringify(cart_prod)); // agrega el nuevo valor al final del array
+    }
+
+    console.log(cart_prod)
+    console.log(cartArray.value)
+        console.log(cartArray)
+        console.log(cartArray.value)
+        console.log("cartArray.value")
+        console.log(cartArray.value)
+      }
 
 
   let selectedProduct = document.getElementById(product._id);
-  console.log("este es el selectProduct: ")
+  console.log("este es el selectProduct: admitidas")
   console.log(selectedProduct)
   let currentSelection = document.getElementsByClassName("selected-product");
 
@@ -1036,6 +1059,11 @@ function deleteProduct(product, type, event){
           <div class="text-center">
             <button type="submit" class="btn btn-primary">Submit</button>
           </div>
+        </form>
+        <form action="#otra ruta" method="post" enctype="multipart/form-data">
+          <input id="cart_array" type="text" required >
+          <button  value="" type="submit">
+
         </form>
       </div>
     </div><br>

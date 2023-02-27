@@ -38,7 +38,7 @@ agregarAlCarrito = (product) =>{
             }
         })
     } else {
-        
+        product.cantidad = 1;
         carrito.push(product)
     }
 
