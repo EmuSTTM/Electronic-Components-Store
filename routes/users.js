@@ -16,6 +16,14 @@ router.get('/signup', user_controller.user_create_get )
 router.post('/signup', user_controller.user_create_post)
 
 
+router.get('/logout', function(req, res){
+  req.session.destroy(function (err) {
+    if (err) throw err;
+    const lastUrl = req.header('Referer') || '/';
+    res.redirect(lastUrl);
+  });
+});
+
 router.get('/login', user_controller.user_login_get )
 router.post('/login', user_controller.user_login_post)
 

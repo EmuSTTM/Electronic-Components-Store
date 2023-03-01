@@ -20,7 +20,7 @@ exports.powerSupply_list = function (req, res, next) {
           return next(err);
         }
         //Successful, so render
-        res.render("powerSupply/powerSupply_list", { title: "PowerSupply List", powerSupply_list: list_powerSupply });
+        res.render("powerSupply/powerSupply_list", { title: "PowerSupply List",session: req.session, powerSupply_list: list_powerSupply });
       });
   };
 // El campo name es requerido y debe ser una cadena de caracteres
@@ -49,7 +49,7 @@ exports.powerSupply_detail = (req, res, next) => {
     // Todo sucedió correctamente
     res.render("powerSupply/powerSupply_detail",{
       title:"Power Supply Detail",
-      powerSupply: powerSupply,
+      powerSupply: powerSupply,session: req.session,
       powerSupply_brand: powerSupply.brand,
     })
   })
@@ -62,7 +62,7 @@ exports.powerSupply_create_get = (req, res, next) => {
       return next(err);
     }
     res.render("powerSupply/powerSupply_form", {
-      title:"Add powerSupply",
+      title:"Add powerSupply",session: req.session,
       brands: brands,
     })
   })
@@ -116,7 +116,7 @@ exports.powerSupply_create_post = [
          }
          res.render("powerSupply/powerSupply_form", {
            title:"Add powerSupply",
-           brands: brands,
+           brands: brands,session: req.session,
            powerSupply,
            errors: errors.array(),
          })
@@ -165,7 +165,7 @@ exports.powerSupply_delete_get = (req, res, next) => {
       }
       res.render("powerSupply/powerSupply_delete", {
         title :"Remove powerSupply",
-        powerSupply : results.powerSupply,
+        powerSupply : results.powerSupply,session: req.session,
         powerSupply_computers: results.powerSupply_computers,
       })
     }
@@ -194,7 +194,7 @@ exports.powerSupply_delete_post = (req, res, next) => {
     if(results.powerSupply_computers.length > 0 ){
       res.render("powerSupply/powerSupply_delete", {
         title :"Remove powerSupply",
-        powerSupply : results.powerSupply,
+        powerSupply : results.powerSupply,session: req.session,
         powerSupply_computers: results.powerSupply_computers,
       })
     }
@@ -247,7 +247,7 @@ exports.powerSupply_update_get = (req, res, next) => {
     }
     res.render("powerSupply/powerSupply_form", {
       title :"Update powerSupply",
-      powerSupply: results.powerSupply,
+      powerSupply: results.powerSupply,session: req.session,
       brands: results.powerSupply_brands
     })
   })
@@ -341,7 +341,7 @@ body("price", "powerSupply price is required").trim().isLength({ min: 1 }).escap
       }}
       res.render("powerSupply/powerSupply_form", {
         title :"Update powerSupply",
-        powerSupply: results.powerSupply,
+        powerSupply: results.powerSupply,session: req.session,
         brands: results.powerSupply_brands,
         powerSupply,
         errors: errors.array(),

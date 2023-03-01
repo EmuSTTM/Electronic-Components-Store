@@ -80,7 +80,20 @@ agregarAlCarrito = (product) =>{
                         }
                     }
                     }
-                
+                    let armado = {name:"Armado de PC", id:00000, 
+                    price: 1500, image:"/static_images/armado_new.jpg", cantidad: 1  }
+                   
+                    
+
+                    let productoEncontrado = carrito.find(item => item.id=== 00000);
+                    
+                    if (productoEncontrado) {
+                      productoEncontrado.cantidad++;
+                    } else {
+                      carrito.push(armado);
+                    }
+                    
+                    
                     contadorCarrito.innerText = carrito.length;
                     localStorage.setItem("carrito", JSON.stringify(carrito));
                     if (window.location.href.includes("/cart")) {
@@ -88,6 +101,8 @@ agregarAlCarrito = (product) =>{
                     }
                     return;
                 }
+
+
     if (product.cpu){
         console.log("Efectivamente es una orden de computadora. Pero incompleta")
         return;
@@ -155,9 +170,10 @@ if(productos.length != 0){
        div.classList.add("row", "producto-en-carrito", "w-100");
 
         let priceOfProduct = prod.price * prod.cantidad
-  div.innerHTML = `
+        if(prod.id == 00000){
+            div.innerHTML = `
                 <div class="col-2">
-                    <img src="/images/${prod.image}" class="img-fluid" style="max-height: 100px; padding: 5px;">
+                    <img src="${prod.image}" class="img-fluid" style="max-height: 100px; padding: 5px;">
                 </div>
 
                 <div class="col-5">
@@ -166,28 +182,58 @@ if(productos.length != 0){
 
                 <div class="col-3" >
                         <div class="input-group mb-3" style="border:1px solid #dfdfdf; border-radius: 3px; ">
-                            <div class="input-group-prepend">
-                                <button id="minus-btn-${prod.id}"class="btn btn-outline-secondary minus-btn"  type="button">-</button>
-                            </div>
-                            <span class="form-control quantity-text">${prod.cantidad}</span>
-                            <div class="input-group-append">
-                            
-                                <button id="plus-btn-${prod.id}" class="btn btn-outline-secondary plus-btn"  type="button">+</button>
-                            </div>
-                        </div>
+                    <div class="input-group-prepend">
+                        <button id="minus-btn-${prod.id}"class="btn btn-outline-secondary minus-btn"  type="button">-</button>
+                    </div>
+                    <span class="form-control quantity-text">${prod.cantidad}</span>
+                    <div class="input-group-append">
+                    
+                        <button class="btn btn-outline-secondary plus-btn" style="color:red" type="button">+</button>
+                    </div>
+                    </div>
                 </div>
                 
                 <div class="col-2">
                 <p style="color:#4675b9">$ ${priceOfProduct.toLocaleString()}</p>
                 </div>
-            `;
+        `
+        } else { div.innerHTML = `
+        <div class="col-2">
+            <img src="/images/${prod.image}" class="img-fluid" style="max-height: 100px; padding: 5px;">
+        </div>
+
+        <div class="col-5">
+            <p>${prod.name}</p>
+        </div>
+
+        <div class="col-3" >
+                <div class="input-group mb-3" style="border:1px solid #dfdfdf; border-radius: 3px; ">
+                    <div class="input-group-prepend">
+                        <button id="minus-btn-${prod.id}"class="btn btn-outline-secondary minus-btn"  type="button">-</button>
+                    </div>
+                    <span class="form-control quantity-text">${prod.cantidad}</span>
+                    <div class="input-group-append">
+                    
+                        <button id="plus-btn-${prod.id}" class="btn btn-outline-secondary plus-btn"  type="button">+</button>
+                    </div>
+                </div>
+        </div>
+        
+        <div class="col-2">
+        <p style="color:#4675b9">$ ${priceOfProduct.toLocaleString()}</p>
+        </div>
+    `;}
+ 
             // agregarAlCarrito(${JSON.stringify(prod)})
        contenedorCarrito.appendChild(div)
 
        let plusButton = document.getElementById(`plus-btn-${prod.id}`);
-       plusButton.addEventListener('click', () =>{
-        agregarAlCarrito(prod)
-       })
+       if(plusButton){
+        plusButton.addEventListener('click', () =>{
+            agregarAlCarrito(prod)
+           })
+       }
+       
 
        let minusButton = document.getElementById(`minus-btn-${prod.id}`);
        minusButton.addEventListener('click', () =>{

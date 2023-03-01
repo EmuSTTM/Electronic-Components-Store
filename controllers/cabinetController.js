@@ -16,7 +16,7 @@ exports.cabinet_list = function (req, res, next) {
           return next(err);
         }
         //Successful, so render
-        res.render("cabinet/cabinet_list", { title: "Cabinet List", cabinet_list: list_cabinet });
+        res.render("cabinet/cabinet_list", { title: "Cabinet List", cabinet_list: list_cabinet,session: req.session, });
       });
   };
 
@@ -36,6 +36,7 @@ exports.cabinet_list = function (req, res, next) {
               res.render("cabinet/cabinet_detail", {
                   title: "Cabinet Detail",
                   cabinet: cabinet,
+                  session: req.session,
               });
           });
   };
@@ -48,7 +49,7 @@ exports.cabinet_create_get = (req, res, next) => {
       }
       res.render("cabinet/cabinet_form", {
         title:"Add Cabinet",
-        brands: brands,
+        brands: brands,session: req.session,
       })
     })
 };
@@ -110,7 +111,7 @@ exports.cabinet_create_post = [
             title:"Add Cabinet",
             brands: brands,
             cabinet,
-            errors: errors.array(),
+            errors: errors.array(),session: req.session,
           })
         })
         return;
@@ -168,7 +169,7 @@ exports.cabinet_delete_get = (req, res, next) => {
       res.render("cabinet/cabinet_delete", {
         title :"Remove Cabinet",
         cabinet : results.cabinet,
-        cabinet_computers: results.cabinet_computers,
+        cabinet_computers: results.cabinet_computers,session: req.session,
       })
     }
   )
@@ -197,7 +198,7 @@ exports.cabinet_delete_post = (req, res, next) => {
       res.render("cabinet/cabinet_delete", {
         title :"Remove Cabinet",
         cabinet : results.cabinet,
-        cabinet_computers: results.cabinet_computers,
+        cabinet_computers: results.cabinet_computers,session: req.session,
       })
     }
 
@@ -251,7 +252,7 @@ exports.cabinet_update_get = (req, res, next) => {
     res.render("cabinet/cabinet_form", {
       title :"Update cabinet",
       cabinet: results.cabinet,
-      brands: results.cabinet_brands
+      brands: results.cabinet_brands,session: req.session,
     })
   })
 
@@ -351,7 +352,7 @@ exports.cabinet_update_post = [
         cabinet: results.cabinet,
         brands: results.cabinet_brands,
         cabinet,
-        errors: errors.array(),
+        errors: errors.array(),session: req.session,
       })
     })
       return;

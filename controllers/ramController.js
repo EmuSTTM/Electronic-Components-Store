@@ -18,7 +18,7 @@ exports.ram_list = function (req, res, next) {
           return next(err);
         }
         //Successful, so render
-        res.render("ram/ram_list", { title: "Ram List", ram_list: list_ram });
+        res.render("ram/ram_list", { title: "Ram List", session: req.session,ram_list: list_ram });
       });
   };
 
@@ -39,7 +39,7 @@ exports.ram_detail = (req, res, next) => {
   }
   // Todo sucedió correctamente
   res.render("ram/ram_detail",{
-    title:"RAM Detail",
+    title:"RAM Detail",session: req.session,
     ram: ramSchema,
   })
 })
@@ -75,7 +75,7 @@ exports.ram_create_get = (req, res, next) => {
       return next(err);
     }
     res.render("ram/ram_form", {
-      title:"Add Ram",
+      title:"Add Ram",session: req.session,
       brands: brands,
     })
   })
@@ -133,7 +133,7 @@ exports.ram_create_post = [
          }
          res.render("ram/ram_form", {
            title:"Add ram",
-           brands: brands,
+           brands: brands,session: req.session,
            ram,
            errors: errors.array(),
          })
@@ -182,7 +182,7 @@ exports.ram_delete_get = (req, res, next) => {
       }
       res.render("ram/ram_delete", {
         title :"Remove ram",
-        ram : results.ram,
+        ram : results.ram,session: req.session,
         ram_computers: results.ram_computers,
       })
     }
@@ -211,7 +211,7 @@ exports.ram_delete_post = (req, res, next) => {
     if(results.ram_computers.length > 0 ){
       res.render("ram/ram_delete", {
         title :"Remove ram",
-        ram : results.ram,
+        ram : results.ram,session: req.session,
         ram_computers: results.ram_computers,
       })
     }
@@ -264,7 +264,7 @@ exports.ram_update_get = (req, res, next) => {
     }
     res.render("ram/ram_form", {
       title :"Update ram",
-      ram: results.ram,
+      ram: results.ram,session: req.session,
       brands: results.ram_brands
     })
   })
@@ -361,7 +361,7 @@ exports.ram_update_post = [
       }}
       res.render("ram/ram_form", {
         title :"Update ram",
-        ram: results.ram,
+        ram: results.ram,session: req.session,
         brands: results.ram_brands,
         ram,
         errors: errors.array(),

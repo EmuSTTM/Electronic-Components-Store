@@ -22,7 +22,7 @@ exports.brand_list = function (req, res, next) {
           return next(err);
         }
         //Successful, so render
-        res.render("brand/brand_list", { title: "Brand List", brand_list: list_brand });
+        res.render("brand/brand_list", { title: "Brand List", brand_list: list_brand,session: req.session, });
       });
   };
   
@@ -81,13 +81,14 @@ exports.brand_detail = (req, res, next) => {
       brand_cpus : results.brand_cpus,
       brand_computers : results.brand_computers,
       brand_storages : results.brand_storages,
+      session: req.session,
     })
   })
 };
 
 // Display Brand create form on GET.
 exports.brand_create_get = (req, res, next) => {
-  res.render("brand/brand_form", {title: "Add Brand"});
+  res.render("brand/brand_form", {title: "Add Brand",session: req.session,});
 };
 
 // Handle Brand create on POST.
@@ -119,6 +120,7 @@ exports.brand_create_post = [
         title: "Create Brand",
         brand,
         errors: errors.array(),
+        session: req.session,
       });
       return;
     } else {
@@ -201,6 +203,7 @@ exports.brand_delete_get = (req, res, next) => {
       brand_powersupplies : results.brand_powersupplies,
       brand_rams : results.brand_rams,
       brand_storages : results.brand_storages,
+      session: req.session,
       
     })
   })
@@ -262,6 +265,7 @@ exports.brand_delete_post = (req, res, next) => {
           brand_computers : results.brand_computers,
           brand_cpus: results.brand_cpus,
           brand_storages : results.brand_storages,
+          session: req.session,
           
         });
         return
@@ -302,6 +306,7 @@ exports.brand_update_get = (req, res, next) => {
     res.render("brand/brand_form", {
     title :"Update Brand",
     brand: brand,
+    session: req.session,
   })
   })
 };
@@ -348,7 +353,8 @@ exports.brand_update_post = [
         res.render("brand/brand_form", {
         title :"Update Brand",
         brand: brand,
-        errors: errors.array()
+        errors: errors.array(),
+        session: req.session,
       })
       })
       return;

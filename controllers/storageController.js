@@ -18,7 +18,7 @@ exports.storage_list = function (req, res, next) {
           return next(err);
         }
         //Successful, so render
-        res.render("storage/storage_list", { title: "Storage List", storage_list: list_storage });
+        res.render("storage/storage_list", { title: "Storage List",session: req.session, storage_list: list_storage });
       });
   };
 
@@ -46,7 +46,7 @@ exports.storage_detail = (req, res) => {
   }
   // Todo sucedió correctamente
   res.render("storage/storage_detail",{
-    title:"Storage Detail",
+    title:"Storage Detail",session: req.session,
     storage: storage,
   })
 })
@@ -59,7 +59,7 @@ exports.storage_create_get = (req, res, next) => {
       return next(err);
     }
     res.render("storage/storage_form", {
-      title:"Add storage",
+      title:"Add storage",session: req.session,
       brands: brands,
     })
   })
@@ -112,7 +112,7 @@ exports.storage_create_post = [
            return next(err);
          }
          res.render("storage/storage_form", {
-           title:"Add storage",
+           title:"Add storage",session: req.session,
            brands: brands,
            storage,
            errors: errors.array(),
@@ -162,7 +162,7 @@ exports.storage_delete_get = (req, res, next) => {
       }
       res.render("storage/storage_delete", {
         title :"Remove storage",
-        storage : results.storage,
+        storage : results.storage,session: req.session,
         storage_computers: results.storage_computers,
       })
     }
@@ -190,7 +190,7 @@ exports.storage_delete_post = (req, res, next) => {
 
     if(results.storage_computers.length > 0 ){
       res.render("storage/storage_delete", {
-        title :"Remove storage",
+        title :"Remove storage",session: req.session,
         storage : results.storage,
         storage_computers: results.storage_computers,
       })
@@ -244,7 +244,7 @@ exports.storage_update_get = (req, res, next) => {
     }
     res.render("storage/storage_form", {
       title :"Update storage",
-      storage: results.storage,
+      storage: results.storage,session: req.session,
       brands: results.storage_brands
     })
   })
@@ -338,7 +338,7 @@ exports.storage_update_post = [
       }}
       res.render("storage/storage_form", {
         title :"Update storage",
-        storage: results.storage,
+        storage: results.storage,session: req.session,
         brands: results.storage_brands,
         storage,
         errors: errors.array(),

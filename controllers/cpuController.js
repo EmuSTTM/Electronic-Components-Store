@@ -19,7 +19,7 @@ exports.cpu_list = (req, res, next) => {
           return next(err);
         }
         //Successful, so render
-        res.render("cpu/cpu_list", { title: "CPU List", cpu_list: list_cpu });
+        res.render("cpu/cpu_list", { title: "CPU List", cpu_list: list_cpu,session: req.session, });
       });
 }
 
@@ -43,7 +43,7 @@ exports.cpu_detail = (req, res, next) => {
       res.render("cpu/cpu_detail",{
         title:"cpu Detail",
         cpu:cpu,
-        cpu_brand: cpu.brand,
+        cpu_brand: cpu.brand,session: req.session,
       })
     })
   };
@@ -56,7 +56,7 @@ exports.cpu_detail = (req, res, next) => {
       }
       res.render("cpu/cpu_form", {
         title:"Add cpu",
-        brands: brands,
+        brands: brands,session: req.session,
       })
     })
   };
@@ -103,7 +103,7 @@ exports.cpu_create_post = [
              title:"Add cpu",
              brands: brands,
              cpu,
-             errors: errors.array(),
+             errors: errors.array(),session: req.session,
            })
          })
          return;
@@ -153,7 +153,7 @@ exports.cpu_delete_get = (req, res, next) => {
       res.render("cpu/cpu_delete", {
         title :"Remove cpu",
         cpu : results.cpu,
-        cpu_computers: results.cpu_computers,
+        cpu_computers: results.cpu_computers,session: req.session,
       })
     }
   )
@@ -182,7 +182,7 @@ exports.cpu_delete_post = (req, res, next) => {
       res.render("cpu/cpu_delete", {
         title :"Remove cpu",
         cpu : results.cpu,
-        cpu_computers: results.cpu_computers,
+        cpu_computers: results.cpu_computers,session: req.session,
       })
     }
 
@@ -232,7 +232,7 @@ exports.cpu_update_get = (req, res, next) => {
       }
       res.render("cpu/cpu_form", {
         title :"Update cpu",
-        cpu: results.cpu,
+        cpu: results.cpu,session: req.session,
         brands: results.cpu_brands
       })
   })
@@ -311,7 +311,7 @@ exports.cpu_update_post = [
         res.render("cpu/cpu_form", {
           title :"Update cpu",
           cpu: results.cpu,
-          brands: results.cpu_brands,
+          brands: results.cpu_brands,session: req.session,
           cpu,
           errors: errors.array(),
         })

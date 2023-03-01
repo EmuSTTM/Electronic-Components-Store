@@ -18,7 +18,9 @@ exports.motherboard_list = function (req, res, next) {
           return next(err);
         }
         //Successful, so render
-        res.render("motherboard/motherboard_list", { title: "Motherboard List", motherboard_list: list_motherboard });
+        res.render("motherboard/motherboard_list", { title: "Motherboard List",
+        session: req.session,
+         motherboard_list: list_motherboard });
       });
   };
 
@@ -48,7 +50,7 @@ exports.motherboard_detail = (req, res, next) => {
       // Successful, so render
       res.render("motherboard/motherboard_detail", {
           title: "Motherboard Detail",
-          motherboard: motherboard,
+          motherboard: motherboard,session: req.session,
           motherboard_brand: motherboard.brand,
       });
   });
@@ -65,7 +67,7 @@ exports.motherboard_create_get = (req, res, next) => {
       return next(err);
     }
     res.render("motherboard/motherboard_form", {
-      title:"Add Motherboard",
+      title:"Add Motherboard",session: req.session,
       brands: brands,
     })
   })
@@ -125,7 +127,7 @@ exports.motherboard_create_post = [
           res.render("motherboard/motherboard_form", {
             title:"Add Motherboard",
             brands: brands,
-            motherboard,
+            motherboard,session: req.session,
             errors: errors.array(),
           })
         })
@@ -174,7 +176,7 @@ exports.motherboard_delete_get = (req, res, next) => {
       }
       res.render("motherboard/motherboard_delete", {
         title :"Remove motherboard",
-        motherboard : results.motherboard,
+        motherboard : results.motherboard,session: req.session,
         motherboard_computers: results.motherboard_computers,
       })
     }
@@ -203,7 +205,7 @@ exports.motherboard_delete_post = (req, res, next) => {
     if(results.motherboard_computers.length > 0 ){
       res.render("motherboard/motherboard_delete", {
         title :"Remove motherboard",
-        motherboard : results.motherboard,
+        motherboard : results.motherboard,session: req.session,
         motherboard_computers: results.motherboard_computers,
       })
     }
@@ -257,7 +259,7 @@ exports.motherboard_update_get = (req, res, next) => {
     
     res.render("motherboard/motherboard_form", {
       title :"Update motherboard",
-      motherboard: results.motherboard,
+      motherboard: results.motherboard,session: req.session,
       brands: results.motherboard_brands
     })
   })
@@ -355,7 +357,7 @@ exports.motherboard_update_post = [
       }}
       res.render("motherboard/motherboard_form", {
         title :"Update motherboard",
-        motherboard: results.motherboard,
+        motherboard: results.motherboard,session: req.session,
         brands: results.motherboard_brands,
         motherboard,
         errors: errors.array(),

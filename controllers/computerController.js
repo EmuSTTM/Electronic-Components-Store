@@ -84,7 +84,7 @@ exports.computer_list = (req, res, next) => {
         });
         
         //Successful, so render
-        res.render("computer/computer_list", { title: "Computer List", computer_list: computedComputers });
+        res.render("computer/computer_list", { title: "Computer List", computer_list: computedComputers,session: req.session, });
       });
 }
 
@@ -139,6 +139,7 @@ exports.computer_detail = (req, res, next) => {
       res.render("computer/computer_detail",{
         title:"Computer Detail",
         computer:computer,
+        session: req.session,
       })
     })
   };
@@ -386,6 +387,7 @@ exports.computer_create_post = [
           computer: computer,
           errors: errors.array(),
           errors_compatibility: compatibilityErrors,
+          session: req.session,
   
         })
       })
@@ -428,6 +430,7 @@ exports.computer_delete_get = (req, res, next) => {
       res.render("computer/computer_delete", {
         title :"Remove computer",
         computer : computer,
+        session: req.session,
       })
     })
 };
@@ -461,7 +464,7 @@ exports.computer_delete_post = (req, res, next) => {
 
 // Display Computer update form on GET.
 exports.computer_update_get = (req, res, next) => {
-    res.render("computer/computer_form", {title:"PC Build Update"})
+    res.render("computer/computer_form", {title:"PC Build Update",session: req.session,})
 }
 
 // Display Computer update form on POST.

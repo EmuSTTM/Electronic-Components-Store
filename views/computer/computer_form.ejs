@@ -2,7 +2,6 @@
 
 
 
-<p>Bienvenido <%= session.user.name %>! Nuestro <%= session.user.rol%></p>
 
 <aside class="d-flex flex-column card card-body" style="align-items: center; margin:10px 0px">
   <div class="row">
@@ -1002,9 +1001,10 @@ function deleteProduct(product, type, event){
     
 
   
-     
+    
     <div class="card">
       <div class="card-header">
+        <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor"){ %>
         <h5 class="card-title">Detalles para publicación</h5>
       </div>
       <div class="card-body">
@@ -1023,6 +1023,10 @@ function deleteProduct(product, type, event){
             <input type="file" multiple name="image" required id="image" class="form-control-file">
           </div>
 
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+          <% } %>
           <div style="display:none;">
             <div class="form-group">
               <label for="brand">Brand</label>
@@ -1072,13 +1076,14 @@ function deleteProduct(product, type, event){
 
 
 
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
+          
         </form>
         <form  id="form-cart" action="cart" method="post" enctype="multipart/form-data">
-          <input id="cart_array" name="cart_array" type="text" required >
-          <button  id="add-cart-button" class="btn btn-primary" type="submit">Add Cart</button>
+          <input style="display:none;" id="cart_array" name="cart_array" type="text" required >
+          <div class="text-center">
+            <button  id="add-cart-button" class="btn btn-primary" type="submit">Add Cart</button>
+          </div>
+          
         </form> 
 
         <script>
@@ -1094,7 +1099,7 @@ function deleteProduct(product, type, event){
 
           if (!cpu.value || !powerSupply.value || !rams.value || !storages.value || !cabinet.value || !motherboard.value) {
             event.preventDefault();
-            alert("Por favor, elije tu cpu, fuente de poder, ram, almacenamiento, gabinete y motherboard para continuar");
+            alert("Por favor, agregue/seleccione todos los componentes");
             return;
           }
 

@@ -98,7 +98,7 @@
 #cart-button {
   border: none;
   
-  font-size: 30px;
+  font-size: 25px;
   background-color: white;
   color: #a8a9ab;
   padding: 10px 20px;
@@ -116,11 +116,63 @@
 }
 
 
-.producto-en-carrito{
-  border : 1px solid #dfdfdf;
-  margin : 10px 0px 10px 0px;
-  border-radius: 5px;
-  align-items: center;
-  padding:0;
-}
+  /* Estilo para el botón principal */
+  .dropbtn {
+    background-color: #f2f2f2;
+    color: black;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Estilo para el contenedor de la lista desplegable */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    background-color: none;
+  }
 
+  .dropbtn:focus {
+    outline:none;
+  }
+
+  .dropbtn{
+    background-color: transparent;
+  }
+  
+  /* Estilo para el contenido de la lista desplegable */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    top: 38px;
+    width: 100%;
+    max-width: 200px; /* Define un ancho máximo para la lista */
+    overflow: auto;
+    text-align: center;
+    
+  }
+  
+  /* Cambia el color de fondo del contenedor de la lista desplegable al pasar el ratón por encima */
+  .dropdown:hover .dropdown-content {
+    display: block;
+    background-color: transparent;
+  }
+  
+  /* Estilo para los elementos de la lista */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Cambia el color de fondo de los elementos de la lista al pasar el ratón por encima */
+  .dropdown-content a:hover {
+    color: red;
+  }
+
+  .dropdown-content a:focus {
+    background-color:transparent;
+  }

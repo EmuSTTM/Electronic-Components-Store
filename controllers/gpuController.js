@@ -17,7 +17,7 @@ exports.gpu_list = function (req, res, next) {
           return next(err);
         }
         //Successful, so render
-        res.render("gpu/gpu_list", { title: "GPU List", gpu_list: list_gpu });
+        res.render("gpu/gpu_list", { title: "GPU List",session: req.session, gpu_list: list_gpu });
       });
   };
 // name: nombre de la tarjeta gráfica
@@ -65,7 +65,7 @@ exports.gpu_detail = (req, res, next) => {
     // Todo sucedió correctamente
     res.render("gpu/gpu_detail",{
       title:"GPU Detail",
-      gpu:gpu,
+      gpu:gpu,session: req.session,
       gpu_brand: gpu.brand,
     })
   })
@@ -79,7 +79,7 @@ exports.gpu_create_get = (req, res, next) => {
     }
     res.render("gpu/gpu_form", {
       title:"Add gpu",
-      brands: brands,
+      brands: brands,session: req.session,
     })
   })
 };
@@ -143,7 +143,7 @@ exports.gpu_create_post = [
           res.render("gpu/gpu_form", {
             title:"Add GPU",
             brands: brands,
-            gpu,
+            gpu,session: req.session,
             errors: errors.array(),
           })
         })
@@ -192,7 +192,7 @@ exports.gpu_delete_get = (req, res, next) => {
       }
       res.render("gpu/gpu_delete", {
         title :"Remove gpu",
-        gpu : results.gpu,
+        gpu : results.gpu,session: req.session,
         gpu_computers: results.gpu_computers,
       })
     }
@@ -221,7 +221,7 @@ exports.gpu_delete_post = (req, res, next) => {
     if(results.gpu_computers.length > 0 ){
       res.render("gpu/gpu_delete", {
         title :"Remove gpu",
-        gpu : results.gpu,
+        gpu : results.gpu,session: req.session,
         gpu_computers: results.gpu_computers,
       })
     }
@@ -273,7 +273,7 @@ exports.gpu_update_get = (req, res, next) => {
       }
     }
     res.render("gpu/gpu_form", {
-      title :"Update gpu",
+      title :"Update gpu",session: req.session,
       gpu: results.gpu,
       brands: results.gpu_brands
     })
@@ -391,7 +391,7 @@ exports.gpu_update_post = [
       }}
       
       res.render("gpu/gpu_form", {
-        title :"Update gpu",
+        title :"Update gpu",session: req.session,
         gpu: results.gpu,
         brands: results.gpu_brands,
         gpu,

@@ -43,7 +43,7 @@ exports.index = (req, res) => {
       },
       (err, results) => {
         res.render("index", {
-          title: "ECS Components",
+          title: "ECS Components",session: req.session,
           error: err,
           data: results,
         });
