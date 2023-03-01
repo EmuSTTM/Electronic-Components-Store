@@ -184,7 +184,7 @@ switch(img.id) {
     <% for (storage of storages) { %>
       <% let prod = {name:storage.name, id:storage._id, price: storage.price, image:storage.image  }%>
       <div class="col-md-3 mb-3">
-        <div class="card  product storage  h-100" id="<%= storage._id %>" onclick="selectProduct(<%= JSON.stringify(storage) %>, 'storage');">
+        <div class="card  product storage  h-100" id="<%= storage._id %>" onclick="selectProduct(<%= JSON.stringify(storage) %>, 'storage', <%= JSON.stringify(prod) %>);">
 
           <img src="<%=  typeof storage.toObject().image !== 'undefined' ? '/images/' + storage.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= storage.name%>">
           <div class="card-body">
@@ -199,7 +199,7 @@ switch(img.id) {
               </span>
             </p>
               <div id="stock-<%=  storage._id %>"></div>
-              <button  value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add Cart</button>
+              
           </div>
         </div>
       </div>
@@ -213,9 +213,9 @@ switch(img.id) {
   <p>Es recomendable que todas las rams sean del mismo modelo.</p>
     <div class="row">
     <% for (ram of rams) { %>
-      
+      <% let prod = {name:ram.name, id:ram._id, price: ram.price, image:ram.image  }%>
       <div class="col-md-3 mb-3">
-        <div class="card  product ram h-100" id="<%= ram._id %>" onclick="selectProduct(<%= JSON.stringify(ram) %>, 'ram');">
+        <div class="card  product ram h-100" id="<%= ram._id %>" onclick="selectProduct(<%= JSON.stringify(ram) %>, 'ram', <%= JSON.stringify(prod) %>);">
 
           <img src="<%=  typeof ram.toObject().image !== 'undefined' ? '/images/' + ram.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= ram.name%>">
           <div class="card-body">
@@ -269,9 +269,9 @@ switch(img.id) {
     <div id="cpu-alert"></div>
     <div class="row">
     <% for (cpu of cpus) { %>
-      
+      <% let prod = {name:cpu.name, id:cpu._id, price: cpu.price, image:cpu.image  }%>
       <div class="col-md-3 mb-3 " >
-        <div class="card h-100 product" id="<%= cpu._id %>" onclick="selectProduct(<%= JSON.stringify(cpu) %>, 'cpu');">
+        <div class="card h-100 product" id="<%= cpu._id %>" onclick="selectProduct(<%= JSON.stringify(cpu) %>, 'cpu', <%= JSON.stringify(prod) %>);">
 
           <img src="<%=  typeof cpu.toObject().image !== 'undefined' ? '/images/' + cpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= cpu.name%>">
           <div class="card-body">
@@ -307,7 +307,7 @@ switch(img.id) {
               Core clock: <%= gpu.core_clock %> <br>
                 Memory: <%= gpu.memory %><br>
                 <%= "$" + gpu.price.toLocaleString() + " ARS"%>
-                <button  onclick="agregarAlCarrito(<%= JSON.stringify(prod) %>)" value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add Cart</button>
+                
               </span>
             </p>
           </div>
@@ -320,8 +320,9 @@ switch(img.id) {
   productContainer.innerHTML += `
     <div class="row">
     <% for (powerSupply of powerSupplies) { %>
+      <% let prod = {name:powerSupply.name, id:powerSupply._id, price: powerSupply.price, image:powerSupply.image  }%>
       <div class="col-md-3 mb-3">
-        <div class="card  h-100 product" id="<%= powerSupply._id %>" onclick="selectProduct(<%= JSON.stringify(powerSupply) %>, 'powerSupply');">
+        <div class="card  h-100 product" id="<%= powerSupply._id %>" onclick="selectProduct(<%= JSON.stringify(powerSupply) %>, 'powerSupply', <%= JSON.stringify(prod) %>);">
 
           <img src="<%=  typeof powerSupply.toObject().image !== 'undefined' ? '/images/' + powerSupply.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= powerSupply.name%>">
           <div class="card-body">
@@ -347,9 +348,9 @@ switch(img.id) {
       <div id="motherboard-alert"></div>
     <div class="row">
     <% for (motherboard of motherboards) { %>
-    
+      <% let prod = {name:motherboard.name, id:motherboard._id, price: motherboard.price, image:motherboard.image  }%>
       <div class="col-md-3 mb-3">
-        <div class="card h-100 product" id="<%= motherboard._id %>" onclick="selectProduct( <%= JSON.stringify(motherboard) %>, 'motherboard');">
+        <div class="card h-100 product" id="<%= motherboard._id %>" onclick="selectProduct( <%= JSON.stringify(motherboard) %>, 'motherboard', <%= JSON.stringify(prod) %>);");">
 
           <img src="<%=  typeof motherboard.toObject().image !== 'undefined' ? '/images/' + motherboard.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= motherboard.name%>">
           <div class="card-body">
@@ -374,9 +375,9 @@ switch(img.id) {
     <div class="row">
     <div id="cabinet-alert"></div>
     <% for (cabinet of cabinets) { %>
-      
+      <% let prod = {name:cabinet.name, id:cabinet._id, price: cabinet.price, image:cabinet.image  }%>
       <div class="col-md-3 mb-3">
-        <div class="card h-100 product" id="<%= cabinet._id %>" onclick="selectProduct(<%= JSON.stringify(cabinet) %>, 'cabinet');" >
+        <div class="card h-100 product" id="<%= cabinet._id %>" onclick="selectProduct(<%= JSON.stringify(cabinet) %>, 'cabinet', <%= JSON.stringify(prod) %>);" >
 
           <img 
           src="<%=  typeof cabinet.toObject().image !== 'undefined' ? '/images/' + cabinet.image : 'https://via.placeholder.com/300x200' %>" 
@@ -412,6 +413,16 @@ maxRamSlot = 2;
 socket_v2 = 1;
 socket_sata = 4;
 maxStorageSlot = 5;
+
+let cartProducts = {
+  cpu : undefined,
+  motherbord : undefined,
+  gpu: "",
+  powerSupply : undefined,
+  cabinet : undefined,
+  storages: [],
+  rams : [],
+};
 
 
 
@@ -505,6 +516,10 @@ function selectProduct(product, type, cart_prod) {
   } else if (!selectedProduct.classList.contains("selected-product")) {
       selectedProduct.classList.add("selected-product");
       
+      let cartArray = document.getElementById("cart_array");
+      cartProducts[type] = cart_prod;
+      cartArray.value = JSON.stringify(cartProducts);
+
       img.src = selectedProduct.children[0].src
       console.log("se creo la clase")
       selectedProducts.push(product._id)
@@ -548,7 +563,9 @@ function selectProduct(product, type, cart_prod) {
 
       selectedRam.push(product._id);
       console.log(`RAM seleccionada: ${product._id}`);
-    
+      let cartArray = document.getElementById("cart_array");
+      cartProducts['rams'].push(cart_prod)
+      cartArray.value = JSON.stringify(cartProducts);
 
       
       let productCount = selectedRam.filter(item => item === product._id).length;
@@ -606,10 +623,7 @@ function selectProduct(product, type, cart_prod) {
   
 
     if(type == 'storage') {
-      // console.log(selectedStorage.length)
-      // console.log(maxStorageSlot)
-      // console.log(socket_sata)
-      // console.log(socket_v2)
+
       let msgAlert = document.getElementById(`storage-alert`);
       msgAlert.innerHTML = ``
 
@@ -626,6 +640,10 @@ function selectProduct(product, type, cart_prod) {
             return;
           }
           selectedStorage.push(product)
+                    
+          let cartArray = document.getElementById("cart_array");
+          cartProducts['storages'].push(cart_prod)
+          cartArray.value = JSON.stringify(cartProducts);
           console.log('SATA añadido correctamente')
           console.log("storagesata: " + StorageSATA)
         }
@@ -636,6 +654,9 @@ function selectProduct(product, type, cart_prod) {
             msgAlert.innerHTML = `<p class="alert alert-danger">La cantidad máxima de entradas NVME V2 admitidas en la mother son de: ${socket_v2}</p>`
             return;
           }
+          let cartArray = document.getElementById("cart_array");
+          cartProducts['storages'].push(cart_prod)
+          cartArray.value = JSON.stringify(cartProducts);
           selectedStorage.push(product)
           console.log("storage v2: " + typeof StorageV2)
           console.log('NVMe añadido correctamente')
@@ -783,39 +804,15 @@ function selectProduct(product, type, cart_prod) {
     (size_type == "M-ATX" && product.type != "ATX")){
       let msgAlert = document.getElementById(`cabinet-alert`);
       msgAlert.innerHTML = `<p class="alert alert-danger">El tamaño del gabinete es insuficiente</p>`
+      return;
     }
-
-    // if(results.cabinet.type == "ITX" && results.motherboard.type != "ITX"){
-    //     compatibilityErrors.push( "Cabinet must be compatible with the motherboard" );
-    //   }
-    //   if(results.cabinet.type == "M-ATX" && results.motherboard.type == "ATX" ){
-    //     compatibilityErrors.push("Cabinet must be compatible with the motherboard" );
-    //   }
-
-
-
     size_type =  product.type;
   }
 
-  if (type == "gpu"){
-        console.log("el producto es magnificamente un gpu ")
-        let cartArray = document.getElementById("cart_array")
-    
-        if (cartArray.value === null || cartArray.value === undefined || cartArray.value === "") {
-      cartArray.value = [JSON.stringify(cart_prod)];
-    } else {
-      cartArray.value = cartArray.value.split(','); // convierte la cadena en un array
-      cartArray.value.push(JSON.stringify(cart_prod)); // agrega el nuevo valor al final del array
-    }
 
-    console.log(cart_prod)
-    console.log(cartArray.value)
-        console.log(cartArray)
-        console.log(cartArray.value)
-        console.log("cartArray.value")
-        console.log(cartArray.value)
-      }
-
+let cartArray = document.getElementById("cart_array");
+cartProducts[type] = cart_prod;
+cartArray.value = JSON.stringify(cartProducts);
 
   let selectedProduct = document.getElementById(product._id);
   console.log("este es el selectProduct: admitidas")
@@ -883,8 +880,18 @@ function deleteProduct(product, type, event){
       console.log("Selected RAM PRE TODO: " +selectedRam)
       const ramToRemove = selectedRam.indexOf(product);
       selectedRam.splice(ramToRemove, 1);
+
+
+
+
+      let cartArray = document.getElementById("cart_array");
+      const index = cartProducts['rams'].findIndex(objeto => objeto.id === product);
+          if (index !== -1) {
+            cartProducts['rams'].splice(index, 1);
+          }
+      cartArray.value = JSON.stringify(cartProducts);
       
-      console.log("Selected RAM POST TODO: " + selectedRam)
+
       const productCount = selectedRam.filter(item => item === product).length;
       let stock= document.getElementById(`stock-${product}`) 
       console.log("stock: " + stock)
@@ -928,6 +935,14 @@ function deleteProduct(product, type, event){
       const storageToRemove = selectedStorage.indexOf(product);
       selectedStorage.splice(storageToRemove, 1);
       
+      let cartArray = document.getElementById("cart_array");
+      const index = cartProducts['storages'].findIndex(objeto => objeto.id === product);
+          if (index !== -1) {
+            cartProducts['storages'].splice(index, 1);
+          }
+      cartArray.value = JSON.stringify(cartProducts);
+
+
       console.log("Selected Storage POST TODO: " + selectedRam)
       let resultStorage = selectedStorage.map(obj => obj._id);
       const productCount = resultStorage.filter(item => item === product).length;
@@ -967,12 +982,13 @@ function deleteProduct(product, type, event){
         console.log(`Storages seleccionadas: ${resultStorage}`)
         document.getElementById('storages').value = resultStorage.join(',');
         event.stopPropagation()
-        eturn;
+        return;
  }
  
   console.log('se ejecuto delete')
   event.stopPropagation()
 }
+
 
 
 
@@ -992,7 +1008,7 @@ function deleteProduct(product, type, event){
         <h5 class="card-title">Detalles para publicación</h5>
       </div>
       <div class="card-body">
-        <form action="" method="post" enctype="multipart/form-data">
+        <form action="" id="computer-form" method="post" enctype="multipart/form-data">
           <div class="form-group">
             <label for="name">Name</label>
             <input type="text" class="form-control" name="name" id="name" value="<%= (typeof computer === 'undefined' ? '' : computer.name) %>" required>
@@ -1060,11 +1076,34 @@ function deleteProduct(product, type, event){
             <button type="submit" class="btn btn-primary">Submit</button>
           </div>
         </form>
-        <form action="#otra ruta" method="post" enctype="multipart/form-data">
-          <input id="cart_array" type="text" required >
-          <button  value="" type="submit">
+        <form  id="form-cart" action="cart" method="post" enctype="multipart/form-data">
+          <input id="cart_array" name="cart_array" type="text" required >
+          <button  id="add-cart-button" class="btn btn-primary" type="submit">Add Cart</button>
+        </form> 
 
-        </form>
+        <script>
+        
+        const miFormulario = document.getElementById("form-cart");
+        miFormulario.addEventListener("submit", function(event) {
+          const cpu = document.getElementById("cpu");
+          const powerSupply = document.getElementById("powerSupply");
+          const rams = document.getElementById("rams");
+          const storages = document.getElementById("storages");
+          const cabinet = document.getElementById("cabinet");
+          const motherboard = document.getElementById("motherboard");
+
+          if (!cpu.value || !powerSupply.value || !rams.value || !storages.value || !cabinet.value || !motherboard.value) {
+            event.preventDefault();
+            alert("Por favor, elije tu cpu, fuente de poder, ram, almacenamiento, gabinete y motherboard para continuar");
+            return;
+          }
+
+          agregarAlCarrito(JSON.stringify(cartProducts))
+        });
+
+        </script>
+
+
       </div>
     </div><br>
     

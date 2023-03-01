@@ -10,6 +10,7 @@ const upload = require("../middlewares/uploadImage");
 router.get('/', index_controller.index);
 
 router.get('/cart', cart_controller.index);
+router.post('/cart', cart_controller.cart_computer);
 // router.post('/cart', cart_controller.buy);
 
 router.get("/pcBuild", computer_controller.computer_create_get);

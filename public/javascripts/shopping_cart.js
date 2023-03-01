@@ -1,4 +1,5 @@
 
+
 const contenedorCarrito = document.getElementById("cart-container")
 const productos = document.getElementsByClassName("product-cart")
 
@@ -26,6 +27,74 @@ agregarAlCarrito = (product) =>{
             // .some() Comprueba si al menos un eleemento del Array cumple con la condicion    
            //implementada por la función proporcionada. Devuelve true o false;
         
+    // Corroboramos si el producto se trata de una orden de armado de computadora
+
+    if (typeof product === "string"){
+        product = JSON.parse(product)
+    }
+    console.log(product)
+    console.log(product.cpu)
+
+                if (
+                    product.cpu &&
+                    product.cabinet &&
+                    product.powerSupply &&
+                    product.motherboard &&
+                    Array.isArray(product.rams) && // verificamos si es un array
+                    product.rams.length !== 0 &&
+                    Array.isArray(product.storages) && // verificamos si es un array
+                    product.storages.length !== 0
+                ) {
+                    console.log("Efectivamente es una orden de computadora. Pero completa");
+                
+                    for (let key in product) {
+                    if (typeof product[key] === "object" && product[key] !== null) {
+                        if (Array.isArray(product[key])) { // verificamos si es un array
+                        for (let item of product[key]) { // iteramos sobre cada elemento del array
+                            const existe = carrito.some(prod => prod.id === item.id);
+                            if (existe) {
+                            carrito = carrito.map(prod => {
+                                if (prod.id === item.id) {
+                                prod.cantidad++;
+                                }
+                                return prod;
+                            });
+                            } else {
+                            item.cantidad = 1;
+                            carrito.push(item);
+                            }
+                        }
+                        } else { // si no es un array, asumimos que es un objeto normal
+                        const existe = carrito.some(prod => prod.id === product[key].id);
+                        if (existe) {
+                            carrito = carrito.map(prod => {
+                            if (prod.id === product[key].id) {
+                                prod.cantidad++;
+                            }
+                            return prod;
+                            });
+                        } else {
+                            product[key].cantidad = 1;
+                            carrito.push(product[key]);
+                        }
+                        }
+                    }
+                    }
+                
+                    contadorCarrito.innerText = carrito.length;
+                    localStorage.setItem("carrito", JSON.stringify(carrito));
+                    if (window.location.href.includes("/cart")) {
+                    actualizarCarrito();
+                    }
+                    return;
+                }
+    if (product.cpu){
+        console.log("Efectivamente es una orden de computadora. Pero incompleta")
+        return;
+    }
+
+
+    // De no ser una orden de armado de computadora, se procesa con normalidad 
     const existe = carrito.some(prod => prod.id === product.id);
 
     if(existe){
