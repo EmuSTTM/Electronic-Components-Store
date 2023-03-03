@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const brandSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -6,11 +6,10 @@ const brandSchema = new mongoose.Schema({
   description: { type: String },
 });
 
+brandSchema.virtual("url").get(function () {
+  return `/components/brand/${this._id}`;
+});
 
-brandSchema.virtual('url').get(function() {
-  return `/components/brand/${this._id}`
-})
-
-const Brand = mongoose.model('Brand', brandSchema);
+const Brand = mongoose.model("Brand", brandSchema);
 
 module.exports = Brand;

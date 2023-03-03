@@ -1,4 +1,3 @@
-
 const Brand = require("../models/brand");
 const Cabinet = require("../models/cabinet");
 const CPU = require("../models/cpu");
@@ -11,17 +10,14 @@ const Computer = require("../models/computer");
 
 const { body, validationResult } = require("express-validator");
 
-
 const async = require("async");
 const fs = require("fs");
 
 exports.index = function (req, res, next) {
-    // res.send('Está hecho el carrito nashe')
-    res.render('cart', {title:"Shopping Cart",session: req.session,})
-
+  // res.send('Está hecho el carrito nashe')
+  res.render("cart", { title: "Shopping Cart", session: req.session });
 };
 
-
 exports.cart_computer = function (req, res, next) {
-    res.render('cart', {title:"Shopping Cart",session: req.session,})
-}
+  res.render("cart", { title: "Shopping Cart", session: req.session });
+};

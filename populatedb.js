@@ -10,22 +10,22 @@ if (!userArgs[0].startsWith('mongodb')) {
     return
 }
 */
-var async = require('async');
-const Brand = require('./models/brand');
-const Cabinet = require('./models/cabinet');
-const GPU = require('./models/GPU');
+var async = require("async");
+const Brand = require("./models/brand");
+const Cabinet = require("./models/cabinet");
+const GPU = require("./models/GPU");
 // const Motherboard = require('./models/motherboard');
 // const PowerSupply = require('./models/powerSupply');
 // const RAM = require('./models/RAM');
 // const Storage = require('./models/storage')
 
-var mongoose = require('mongoose');
-mongoose.set('strictQuery', false);
+var mongoose = require("mongoose");
+mongoose.set("strictQuery", false);
 var mongoDB = userArgs[0];
-mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 var brands = [];
 var cabinets = [];
@@ -35,75 +35,93 @@ var GPUs = [];
 // var RAMs = [];
 // var Storages = [];
 
-
 // Function to create a Brand
-function brandCreate(name, cb){
-    let brand = new Brand({name: name});
-    
-    brand.save(function (err) {
-        if (err) {
-          cb(err, null);
-          return;
-        }
-        console.log('New Brand: ' + brand);
-        brands.push(brand)
-        cb(null, brand);
-    });
+function brandCreate(name, cb) {
+  let brand = new Brand({ name: name });
+
+  brand.save(function (err) {
+    if (err) {
+      cb(err, null);
+      return;
+    }
+    console.log("New Brand: " + brand);
+    brands.push(brand);
+    cb(null, brand);
+  });
 }
 
 // Function to create a Cabinet
-function cabinetCreate(name, brand, dimension, type, bay_5_25, bay_3_5, bay_2_5, price, cb){
-    cabinetdetail = {
-        name: name,
-        dimension: dimension,
-        type: type,
-        bay_5_25: bay_5_25,
-        bay_3_5: bay_3_5,
-        bay_2_5: bay_2_5,
-        price: price,
+function cabinetCreate(
+  name,
+  brand,
+  dimension,
+  type,
+  bay_5_25,
+  bay_3_5,
+  bay_2_5,
+  price,
+  cb
+) {
+  cabinetdetail = {
+    name: name,
+    dimension: dimension,
+    type: type,
+    bay_5_25: bay_5_25,
+    bay_3_5: bay_3_5,
+    bay_2_5: bay_2_5,
+    price: price,
+  };
+  if (brand != false) cabinetdetail.brand = brand;
+
+  let cabinet = new Cabinet(cabinetdetail);
+  cabinet.save(function (err) {
+    if (err) {
+      cb(err, null);
+      return;
     }
-    if(brand != false) cabinetdetail.brand = brand;
-
-    let cabinet = new Cabinet(cabinetdetail);
-    cabinet.save(function(err){
-        if(err){
-            cb(err, null);
-            return
-        }
-        console.log('New Cabinet: ' + cabinet);
-        cabinets.push(cabinet);
-        cb(null, cabinet)
-
-    })
+    console.log("New Cabinet: " + cabinet);
+    cabinets.push(cabinet);
+    cb(null, cabinet);
+  });
 }
 
-function gpuCreate(name, brand, model, memory, memory_type, core_clock, boost_clock, stream_processors, tdp, price, cb){
-    gpudetail = {
-        name:name,
-        model:model,
-        memory:memory,
-        memory_type: memory_type,
-        core_clock: core_clock,
-        boost_clock: boost_clock,
-        stream_processors: stream_processors,
-        tdp: tdp,
-        price: price,
+function gpuCreate(
+  name,
+  brand,
+  model,
+  memory,
+  memory_type,
+  core_clock,
+  boost_clock,
+  stream_processors,
+  tdp,
+  price,
+  cb
+) {
+  gpudetail = {
+    name: name,
+    model: model,
+    memory: memory,
+    memory_type: memory_type,
+    core_clock: core_clock,
+    boost_clock: boost_clock,
+    stream_processors: stream_processors,
+    tdp: tdp,
+    price: price,
+  };
+  if (brand != false) gpudetail.brand = brand;
+
+  let gpu = new GPU(gpudetail);
+  gpu.save(function (err) {
+    if (err) {
+      cb(err, null);
+      return;
     }
-    if(brand != false) gpudetail.brand = brand;
-
-    let gpu = new GPU(gpudetail);
-    gpu.save(function(err){
-        if(err){
-            cb(err, null);
-            return
-        };
-        console.log('New GPU' + gpu);
-        GPUs.push(gpu);
-        cb(null, gpu);
-
-    });
+    console.log("New GPU" + gpu);
+    GPUs.push(gpu);
+    cb(null, gpu);
+  });
 }
-
 
 // name: nombre de la tarjeta gráfica
 // brand: marca de la tarjeta gráfica, se refiere a un objeto de la colección "Brand" mediante su ObjectId.
@@ -131,60 +149,117 @@ const newGPU = new GPU({
 });
 */
 
-
-
-function createBrands(cb){
-    async.series([ // Este va con async series en lugar de parallel, porque necesitamos que se ejecuten en orden
-        function(callback){
-            brandCreate('AMD', callback)
-        },
-        function(callback){
-            brandCreate('ASUS', callback)
-        },
-        function(callback){
-            brandCreate('Asrock', callback)
-        },
-        function(callback){
-            brandCreate('Gygabyte', callback)
-        },
-        function(callback){
-            brandCreate('Intel', callback)
-        },
-        function(callback){
-            brandCreate('NVIDIA', callback)
-        }
+function createBrands(cb) {
+  async.series(
+    [
+      // Este va con async series en lugar de parallel, porque necesitamos que se ejecuten en orden
+      function (callback) {
+        brandCreate("AMD", callback);
+      },
+      function (callback) {
+        brandCreate("ASUS", callback);
+      },
+      function (callback) {
+        brandCreate("Asrock", callback);
+      },
+      function (callback) {
+        brandCreate("Gygabyte", callback);
+      },
+      function (callback) {
+        brandCreate("Intel", callback);
+      },
+      function (callback) {
+        brandCreate("NVIDIA", callback);
+      },
     ],
-    // optional callback 
-    cb)
+    // optional callback
+    cb
+  );
 }
 
-function createCabinets(cb){
-    async.parallel([
-        function(callback){
-            cabinetCreate('Cabinet Sentey F10 RGB M-ATX', [brands[2],], '20x40x60 cm', 'ATX', 1, 0, 1, 18450, callback)
-        },
-        function(callback){
-            cabinetCreate('Cabinet Jalatec JT-LX72 RGB', [brands[1]], '20x43x37 cm', 'ATX', 0, 2, 4, 19500, callback)
-        },
-        function(callback){
-            cabinetCreate('Cabinet Antex NX400 ARGB', [brands[1],], '23x46x42', 'ATX', 0, 2, 5, 19800, callback)
-        }
+function createCabinets(cb) {
+  async.parallel(
+    [
+      function (callback) {
+        cabinetCreate(
+          "Cabinet Sentey F10 RGB M-ATX",
+          [brands[2]],
+          "20x40x60 cm",
+          "ATX",
+          1,
+          0,
+          1,
+          18450,
+          callback
+        );
+      },
+      function (callback) {
+        cabinetCreate(
+          "Cabinet Jalatec JT-LX72 RGB",
+          [brands[1]],
+          "20x43x37 cm",
+          "ATX",
+          0,
+          2,
+          4,
+          19500,
+          callback
+        );
+      },
+      function (callback) {
+        cabinetCreate(
+          "Cabinet Antex NX400 ARGB",
+          [brands[1]],
+          "23x46x42",
+          "ATX",
+          0,
+          2,
+          5,
+          19800,
+          callback
+        );
+      },
     ],
-    cb)
+    cb
+  );
 }
 
-function createGPUs(cb){
-    async.parallel([
-        function(callback){
-            gpuCreate('GPU XFX RADEON RX 6600 XT', [brands[0],], 'RX 6600 XT', '8 GB', 'GDDR6', '2586 MHz', 
-            '16000 MHz', 2048, 160, 140850, callback)
-        },
-        function(callback){
-            gpuCreate('GPU ASUS RADEON RX 6900 XT', [brands[0], brands[1],], 'RX 6900 XT', '16 GB', 'GDDR6',
-            '2365 MHz', '16000 MHz', 5120, 380, 513700, callback)
-        }, 
+function createGPUs(cb) {
+  async.parallel(
+    [
+      function (callback) {
+        gpuCreate(
+          "GPU XFX RADEON RX 6600 XT",
+          [brands[0]],
+          "RX 6600 XT",
+          "8 GB",
+          "GDDR6",
+          "2586 MHz",
+          "16000 MHz",
+          2048,
+          160,
+          140850,
+          callback
+        );
+      },
+      function (callback) {
+        gpuCreate(
+          "GPU ASUS RADEON RX 6900 XT",
+          [brands[0], brands[1]],
+          "RX 6900 XT",
+          "16 GB",
+          "GDDR6",
+          "2365 MHz",
+          "16000 MHz",
+          5120,
+          380,
+          513700,
+          callback
+        );
+      },
     ],
-    cb)
+    cb
+  );
 }
 /* 
 const newGPU = new GPU({
@@ -201,17 +276,14 @@ const newGPU = new GPU({
 });
 */
 
-async.series([
-    createBrands,
-    createCabinets,
-    createGPUs
-],
-function(err, results){
-    if(err){
-        console.log('FINALL ERR: ' + err);
+async.series(
+  [createBrands, createCabinets, createGPUs],
+  function (err, results) {
+    if (err) {
+      console.log("FINALL ERR: " + err);
+    } else {
+      console.log("Resultados agregados correctamente");
     }
-    else {
-        console.log('Resultados agregados correctamente');
-    }
-    mongoose.connection.close()
-})
+    mongoose.connection.close();
+  }
+);

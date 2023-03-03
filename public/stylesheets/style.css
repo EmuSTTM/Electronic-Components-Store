@@ -4,13 +4,11 @@
   list-style: none;
 }
 
-
 .nav-item_computer {
   display: inline-block;
   border-right: 1px solid gray;
   height: 50px;
   line-height: 50px;
-  
 }
 
 .nav-item_computer:last-child {
@@ -25,12 +23,12 @@
 }
 
 .selected-product {
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   transform: translateY(-5px);
 }
 
 .product:hover {
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   transform: translateY(-5px);
 }
 
@@ -38,32 +36,31 @@
   max-height: 50px;
   width: auto;
   object-fit: contain;
-  padding:13px 20px;
+  padding: 13px 20px;
 }
 
-.brand-img{
-  margin:10px 17px;
+.brand-img {
+  margin: 10px 17px;
 }
 
-.brand-img:hover{
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+.brand-img:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   transform: translateY(-5px);
 }
 
 .selected-brand {
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   transform: translateY(-5px);
 }
-
 
 .input-group {
   width: 132px;
   margin: 0 auto;
   border: 1px solid #ced4da;
-  display: flex; align-items: center; justify-content: center;
-  padding:0;
-  
-  ;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
 
 .quantity-text {
@@ -72,20 +69,19 @@
   align-items: center;
   width: 100%;
   text-align: center;
-  font-size: 18px; border: none;
-
+  font-size: 18px;
+  border: none;
 }
 
 .minus-btn,
 .plus-btn {
-
   padding: 14px 14px;
   font-size: 1.7em;
   border: none;
   background-color: transparent;
 }
-.minus-btn{
-  font-size:1.8em;
+.minus-btn {
+  font-size: 1.8em;
 }
 
 .minus-btn:hover,
@@ -93,16 +89,14 @@
   background-color: #f1f1f1;
 }
 
-
-
 #cart-button {
   border: none;
-  
+
   font-size: 25px;
   background-color: white;
   color: #a8a9ab;
   padding: 10px 20px;
-  transition: all .3s;
+  transition: all 0.3s;
   right: 85px;
 }
 
@@ -115,65 +109,63 @@
   outline: none;
 }
 
+/* Estilo para el botón principal */
+.dropbtn {
+  background-color: #f2f2f2;
+  color: black;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
 
-  /* Estilo para el botón principal */
-  .dropbtn {
-    background-color: #f2f2f2;
-    color: black;
-    padding: 12px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  /* Estilo para el contenedor de la lista desplegable */
-  .dropdown {
-    position: relative;
-    display: inline-block;
-    background-color: none;
-  }
+/* Estilo para el contenedor de la lista desplegable */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  background-color: none;
+}
 
-  .dropbtn:focus {
-    outline:none;
-  }
+.dropbtn:focus {
+  outline: none;
+}
 
-  .dropbtn{
-    background-color: transparent;
-  }
-  
-  /* Estilo para el contenido de la lista desplegable */
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    z-index: 1;
-    top: 38px;
-    width: 100%;
-    max-width: 200px; /* Define un ancho máximo para la lista */
-    overflow: auto;
-    text-align: center;
-    
-  }
-  
-  /* Cambia el color de fondo del contenedor de la lista desplegable al pasar el ratón por encima */
-  .dropdown:hover .dropdown-content {
-    display: block;
-    background-color: transparent;
-  }
-  
-  /* Estilo para los elementos de la lista */
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-  
-  /* Cambia el color de fondo de los elementos de la lista al pasar el ratón por encima */
-  .dropdown-content a:hover {
-    color: red;
-    background-color: transparent;;
-  }
+.dropbtn {
+  background-color: transparent;
+}
 
-  .dropdown-content a:focus {
-    background-color:transparent;
-  }
+/* Estilo para el contenido de la lista desplegable */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  top: 38px;
+  width: 100%;
+  max-width: 200px; /* Define un ancho máximo para la lista */
+  overflow: auto;
+  text-align: center;
+}
+
+/* Cambia el color de fondo del contenedor de la lista desplegable al pasar el ratón por encima */
+.dropdown:hover .dropdown-content {
+  display: block;
+  background-color: transparent;
+}
+
+/* Estilo para los elementos de la lista */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Cambia el color de fondo de los elementos de la lista al pasar el ratón por encima */
+.dropdown-content a:hover {
+  color: red;
+  background-color: transparent;
+}
+
+.dropdown-content a:focus {
+  background-color: transparent;
+}
