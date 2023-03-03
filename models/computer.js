@@ -63,7 +63,7 @@ const computerSchema = new mongoose.Schema({
 });
 
 computerSchema.virtual('url').get(function() {
-    return `/computers/computer/${this._id}`
+    return `/computers/${this._id}`
   })
 
 const Computer = mongoose.model('Computer', computerSchema);

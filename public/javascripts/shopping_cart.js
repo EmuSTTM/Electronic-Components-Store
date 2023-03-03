@@ -8,19 +8,11 @@ let carrito = [];
 
 const contadorCarrito = document.getElementById('cart-count')
 
-console.log("este es el cart-container:  " + contenedorCarrito )
-console.log(contenedorCarrito)
 
-console.log("puso al final todo jejeejejejejej")
-console.log(productos)
-console.log(productos.length)
-// console.log(productos[0].value)
-console.log(typeof productos)
 
 
 // 3 PASO: Agregar al carrito
 agregarAlCarrito = (product) =>{
-    console.log("se ejecuto el agregar carrito! wowowowwowWOWOWOWWOWO")
     // Agregamos una validacion primero, para corroborar que si el carrito está
     // aumente la cantidad, en vez de agregar un nuevo recuadro del producto
 
@@ -32,8 +24,6 @@ agregarAlCarrito = (product) =>{
     if (typeof product === "string"){
         product = JSON.parse(product)
     }
-    console.log(product)
-    console.log(product.cpu)
 
                 if (
                     product.cpu &&
@@ -45,7 +35,6 @@ agregarAlCarrito = (product) =>{
                     Array.isArray(product.storages) && // verificamos si es un array
                     product.storages.length !== 0
                 ) {
-                    console.log("Efectivamente es una orden de computadora. Pero completa");
                 
                     for (let key in product) {
                     if (typeof product[key] === "object" && product[key] !== null) {
@@ -102,13 +91,6 @@ agregarAlCarrito = (product) =>{
                     return;
                 }
 
-
-    if (product.cpu){
-        console.log("Efectivamente es una orden de computadora. Pero incompleta")
-        return;
-    }
-
-
     // De no ser una orden de armado de computadora, se procesa con normalidad 
     const existe = carrito.some(prod => prod.id === product.id);
 
@@ -141,15 +123,12 @@ agregarAlCarrito = (product) =>{
 
 if(productos.length != 0){
     for (let i = 0; i < productos.length; i++) {
-        productos[i].addEventListener('click', function() {
-          console.log("se ejecutò el addEvenetListener!!! OWOWWOWOWOWOWO")
-          
+        productos[i].addEventListener('click', function() {      
           
           let product = JSON.parse(productos[i].value)
           product.cantidad = 1;
           agregarAlCarrito(product)
-          console.log(carrito)
-          console.log(product)
+
         });
       }
 }
@@ -158,7 +137,6 @@ if(productos.length != 0){
 
 
   const actualizarCarrito = () =>{
-    console.log("se ejecuto el actualizar ")
     contenedorCarrito.innerHTML = "";
 
    // Tambien recordemos que estas funciones del carrito debemos añadirlo al modal,
@@ -263,7 +241,6 @@ if(productos.length != 0){
 
 // Esto es para que el carrito pueda acceder a la información del LocalStorage
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('se ejecuto el DOMContentLoaded')
     if (localStorage.getItem('carrito')){
         carrito = JSON.parse(localStorage.getItem('carrito'))
         contadorCarrito.innerText = carrito.length
@@ -294,10 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // 5 PASO : Eliminar del carrito. Esto se podría mejorar con el mismo if else que existe en agregar carrito.
 const eliminarDelCarrito = prodId =>{
 
-    console.log(carrito)
-    console.log(carrito.length)
     const item = carrito.find(prod => prod.id === prodId)
-    console.log(item)
     if(item.cantidad == 1){
 
         const indice = carrito.indexOf(item) //Buscamos el index del item en carrito

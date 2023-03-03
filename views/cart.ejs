@@ -18,13 +18,44 @@
 			  <p id="total-price" class="text-right font-weight-bold">Precio TOTAL:<br> $0.00</p>
 			</div>
 		  </div>
+		  <% if (typeof session != "undefined" && typeof session.user != "undefined" ) { %> 
+			<div class="text-center mt-4">
+				<button id="cart-submit" type="submit" class="btn btn-primary">Comprar</button>
+			</div>
+			
 
-		<div class="text-center mt-4">
-			<button type="submit" class="btn btn-primary">Comprar</button>
-		</div>
+			<% } else { %>
+
+				<div class="text-center mt-4">
+					<button id="cart-not-submit" type="submit" class="btn btn-primary">Comprar</button>
+				</div>
+
+
+			<% }%>
+
+		
 	</form>
 </div>
 	<script>
+
+		if (document.getElementById("cart-submit")){
+		document.getElementById("cart-submit").addEventListener("click", function(){
+			alert("Este Ecommerce es ficticio, por lo que no se pueden hacer compras reales 😉")
+		})
+		}
+	
+		if(document.getElementById("cart-not-submit")){
+			document.getElementById("cart-not-submit").addEventListener("click", function(){
+		alert("Debes registrarte antes de efectuar compras")
+		})
+		}
+		
+
+
+
+
+
+
 		let cartContainer = document.getElementById('cart-container');
 		let noProducts = document.getElementById('no-products');
 		let containerTotalPrice = document.getElementById('container-totalPrice');
@@ -35,15 +66,18 @@
 		messageElement.innerHTML = `<div class="alert alert-danger w-100 text-center">There are no products in the shopping cart</div>`;
 		noProducts.appendChild(messageElement);
 		containerTotalPrice.innerHTML = '';
+		document.querySelector("button[type=submit]").style.display = "none"
 		}
 
 		// Función para ocultar el mensaje de "No hay productos en el carrito"
 		function hideNoProductsMessage() {
+			document.querySelector("button[type=submit]").style.display = ""
 		noProducts.innerHTML = '';
 		containerTotalPrice.innerHTML = `<div class="col-md-7"></div>
 			<div class="col-md-5">
 			  <p id="total-price" class="text-right font-weight-bold">Precio TOTAL:<br> $0.00</p>
 			</div>`
+
 		
 		
 
@@ -85,8 +119,11 @@
 				}
 				
 				let totalPriceElement = document.getElementById('total-price');
-				totalPriceElement.textContent = `Precio TOTAL:\n$${totalPrice.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+				if(totalPriceElement){
+					totalPriceElement.textContent = `Precio TOTAL:\n$${totalPrice.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
 				}
+				}
+				
 
 				
 				window.addEventListener('load', updateTotalPrice);

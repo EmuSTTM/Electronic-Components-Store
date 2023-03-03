@@ -46,13 +46,11 @@ const productContainer = document.getElementById("product-container");
 const observer = new MutationObserver(function(mutations) {
   mutations.forEach(function(mutation) {
     if(mutation.addedNodes.length > 0) {
-      // console.log(mutation);
       for(product of selectedProducts) {
         
         
         let selectedProduct = document.getElementById(product)
         if(selectedProduct != null) {
-          console.log(selectedProduct)
           if(selectedProduct.classList.contains('brand-img')){
             selectedProduct.classList.add("selected-brand");
             
@@ -66,12 +64,9 @@ const observer = new MutationObserver(function(mutations) {
             let stock = document.getElementById(`stock-${product}`)
 
           if(stock != null){
-            console.log("NO SOY UNDEFINED")
-            console.log(stock)
-            // const productCount = selectedRam.filter(item => item === product).length;
-            // console.log(productCount)
+
             const productCount = selectedRam.filter(item => item === product).length;
-            console.log(productCount)
+
             
             
             stock.innerHTML = `
@@ -94,7 +89,7 @@ const observer = new MutationObserver(function(mutations) {
          
           
             const productCount = selectedStorage.filter(item => item._id === product).length;
-            console.log(productCount)
+
             
             
             stock.innerHTML = `
@@ -161,10 +156,10 @@ img.src = baseURL + newSrc;
 
 img.classList.add("active");
 let activeImage = document.getElementsByClassName('active')
-  console.log(activeImage.length)
+
 if(activeImage.length > 2){
   
-  console.log(activeImage)
+
 }
 
 
@@ -443,9 +438,7 @@ function selectProduct(product, type, cart_prod) {
       return;
     }
     motherboard_brands = product.brand
-    // selectProduct(motherboard_brands.filter(obj => obj.name == "AMD" || obj.name == "Intel" )[0] ,'brand')
-    // console.log("brand de la mother ")
-    // console.log(motherboard_brands.filter(obj => obj.name == "AMD" || obj.name == "Intel" )[0])
+
     motherboard_brand = motherboard_brands.filter(obj => obj.name == "AMD" || obj.name == "Intel" ).map(obj => obj.name).join('')
  
     if(brand != null && brand != motherboard_brand){
@@ -1081,15 +1074,25 @@ function deleteProduct(product, type, event){
         <form  id="form-cart" action="cart" method="post" enctype="multipart/form-data">
           <input style="display:none;" id="cart_array" name="cart_array" type="text" required >
           <div class="text-center">
-            <button  id="add-cart-button" class="btn btn-primary" type="submit">Add Cart</button>
+            <button style="margin:10px" id="add-cart-button" class="btn btn-primary" type="submit">Add Cart</button>
           </div>
           
         </form> 
 
         <script>
         
-        const miFormulario = document.getElementById("form-cart");
-        miFormulario.addEventListener("submit", function(event) {
+        document.getElementById("add-cart-button").addEventListener("click",function() {
+          if (!cpu.value || !powerSupply.value || !rams.value || !storages.value || !cabinet.value || !motherboard.value) {
+            event.preventDefault();
+            alert("Por favor, agregue/seleccione todos los componentes");
+            return;
+          }
+        })
+
+
+
+
+        document.getElementById("form-cart").addEventListener("submit", function(event) {
           const cpu = document.getElementById("cpu");
           const powerSupply = document.getElementById("powerSupply");
           const rams = document.getElementById("rams");

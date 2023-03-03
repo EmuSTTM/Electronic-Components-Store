@@ -308,7 +308,7 @@ exports.computer_create_post = [
         const sizes = results.rams.map(obj => obj.size);
         const uniqueSize = new Set(sizes);
 
-        if (uniqueSize.speed > 1) {
+        if (uniqueSize.size > 1) {
           compatibilityErrors.push("It's recommended that the rams have the same size")
         }
 
@@ -464,12 +464,336 @@ exports.computer_delete_post = (req, res, next) => {
 
 // Display Computer update form on GET.
 exports.computer_update_get = (req, res, next) => {
-    res.render("computer/computer_form", {title:"PC Build Update",session: req.session,})
-}
+  async.parallel({
+    computer(callback){
+      Computer.findById(req.params.id)
+      .populate("brand")
+      .populate("cabinet")
+      .populate("cpu")
+      .populate("gpu")
+      .populate("motherboard")
+      .populate("powerSupply")
+      .populate("ram")
+      .populate("storage")
+      .exec(callback)
+    },
+      brands(callback){
+          Brand.find({ name: { $in: ["AMD", "Intel"] } }, callback)
+        },
+      cabinet(callback){
+        Cabinet.find(callback).populate('brand')
+      },
+      cpu(callback){
+        CPU.find(callback).populate('brand')
+      },
+      gpu(callback){
+        GPU.find(callback).populate('brand')
+      },
+      motherboard(callback){
+        Motherboard.find(callback).populate('brand')
+      },
+      ram(callback){
+        RAM.find(callback).populate('brand')
+      },
+      storage(callback){
+        Storage.find(callback).populate('brand')
+      },
+      powerSupply(callback){
+        PowerSupply.find(callback).populate('brand')
+      }, 
+    },
+    (err, results) =>{
 
+    res.render("computer/computer_update", {
+      title:"Update Computer",
+      brands: results.brands,
+      cabinets: results.cabinet,
+      cpus: results.cpu,
+      gpus: results.gpu,
+      motherboards: results.motherboard,
+      rams: results.ram,
+      storages: results.storage,
+      powerSupplies: results.powerSupply,
+      computer: results.computer,
+      session: req.session,
+      
+
+    })
+  })
+};
 // Display Computer update form on POST.
-exports.computer_update_post = (req, res, next) => {
-    res.send('Not implemented yet: computer update POST')
-}
+exports.computer_update_post = [
+  (req, res, next) => {
+    
+    // convert multiple parameters to arrays
+    if (typeof req.body.storage0 !== "undefined") {
+      if (typeof req.body.storage1 !== "undefined") {
+        req.body.storages = [req.body.storage0, req.body.storage1];
+      } else {
+        req.body.storages = [req.body.storage0];
+      }
+    }
 
+    if (typeof req.body.ram0 !== "undefined") {
+      if (typeof req.body.ram1 !== "undefined") {
+        req.body.rams = [req.body.ram0, req.body.ram1];
+      } else {
+        req.body.rams = [req.body.ram0];
+      }
+    } else {
+      req.body.rams = [];
+    }
+
+    if (!Array.isArray(req.body.rams)) {
+      req.body.rams = typeof req.body.rams === "undefined" ? [] : [req.body.rams];
+    }
+    if (!Array.isArray(req.body.storages)) {
+      req.body.storages =
+        typeof req.body.storages === "undefined" ? [] : [req.body.storages];
+    }
+    console.log(req.body.brand)
+    console.log(req.params.id)
+    console.log(req.body.cpu)
+    console.log(req.body.name)
+    next();
+  },
+  
+  body("brand", "Brand is required").trim().isLength({ min: 1 }).escape(),
+  body("cabinet", "Cabinet is required").trim().isLength({ min: 1 }).escape(),
+  body("cpu", "CPU is required").trim().isLength({ min: 1 }).escape(),
+  body("motherboard", "Motherboard is required")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("powerSupply", "PowerSupply is required")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("rams.*", "RAMs are required").trim().isLength({ min: 1 }).escape(),
+  body("storages.*", "Storages are required")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  (req, res, next) => {
+    // we need to search all the components to check the compatibility
+    async.parallel(
+      {
+        brand(callback) {
+          Brand.findById(req.body.brand, callback);
+        },
+        cabinet(callback) {
+          Cabinet.findById(req.body.cabinet, callback);
+        },
+        cpu(callback) {
+          CPU.findById(req.body.cpu, callback);
+        },
+        gpu(callback) {
+          GPU.findById(req.body.gpu, callback);
+        },
+        motherboard(callback) {
+          Motherboard.findById(req.body.motherboard, callback);
+        },
+        rams(callback) {
+          RAM.find({ _id: { $in: req.body.rams } }, callback);
+        },
+        storages(callback) {
+          Storage.find({ _id: { $in: req.body.storages } }, callback);
+        },
+        powerSupply(callback) {
+          PowerSupply.findById(req.body.powerSupply, callback);
+        },
+      },
+  (err, results) =>{
+    if (err) {
+      return next(err);
+    }
+
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+
+
+    // Aquí debería hacer las verificaciones de los componentes 
+    const compatibilityErrors = [];
+        
+        let mother_brand_id = results.motherboard.brand.find((id) =>
+          id.equals(results.brand._id)
+        );
+
+
+            if (!mother_brand_id) {
+          compatibilityErrors.push(
+            `The brand of the motherboard (${results.motherboard.brand.name}) is not compatible 
+            with the selected CPU brand (${results.brand.name}).`
+          );
+        }
+        
+    
+
+        // Compatibilidad del socket 
+        if(results.motherboard.socket != results.cpu.socket){
+          compatibilityErrors.push("Motherboard must be compatible with the CPU" );
+        }   
+        
+        // Compatibilidad del gabinete con la motherboard
+        if(results.cabinet.type == "ITX" && results.motherboard.type != "ITX"){
+          compatibilityErrors.push( "Cabinet must be compatible with the motherboard" );
+        }
+        if(results.cabinet.type == "M-ATX" && results.motherboard.type == "ATX" ){
+          compatibilityErrors.push("Cabinet must be compatible with the motherboard" );
+        }
+
+        // Compatibilidad de la RAM a la mother
+        for (let ram of results.rams){
+          if(ram.speed > results.motherboard.frecuency_ram){
+            compatibilityErrors.push( "RAM speed must be compatible with the motherboard frecuency" );
+          }
+          if(ram.type != results.motherboard.socket_ram){
+            compatibilityErrors.push("RAM type must be compatible with the motherboard socket" );
+          }
+        }
+        
+
+        // Agregar validaciones de frecuencias entre las RAMS y de peso
+        const speeds = results.rams.map(obj => obj.speed);
+        const uniqueSpeed = new Set(speeds);
+
+        if (uniqueSpeed.speed > 1) {
+          compatibilityErrors.push("It's recommended that the rams have the same frequency")
+        }
+
+        const sizes = results.rams.map(obj => obj.size);
+        const uniqueSize = new Set(sizes);
+
+        if (uniqueSize.size > 1) {
+          compatibilityErrors.push("It's recommended that the rams have the same size")
+        }
+
+
+
+        // Agregar validación de que no se agreguen más rams que las que soporta la mother
+        if(results.motherboard.ram_slots < req.body.rams.length){
+          compatibilityErrors.push( "The motherboard can't have that many RAMS")
+        }
+
+
+
+        // Agregar validaciones si la mother tiene entradas V2 y SSD sufientes. 
+
+      const computer = new Computer({
+        name: req.body.name,
+        description: req.body.description,
+        brand: results.brand,
+        cabinet: results.cabinet,
+        cpu: results.cpu,
+        gpu: results.gpu,
+        motherboard: results.motherboard,
+        ram: results.rams,
+        storage: results.storages,
+        powerSupply: results.powerSupply,
+        _id: req.params.id,
+      })
+  
+      if (typeof req.body.description != "undefined") {
+        computer.description = req.body.description;
+      }
+
+      if (typeof req.file !== 'undefined') {
+        computer.image = req.file.filename;
+      } else {
+        computer.image = req.body.last_image;
+      }
+      console.log(computer)
+
+      if (!errors.isEmpty() || compatibilityErrors.length != 0) {
+        async.parallel({
+          computer(callback){
+            Computer.findById(req.params.id)
+            .populate("brand")
+            .populate("cabinet")
+            .populate("cpu")
+            .populate("gpu")
+            .populate("motherboard")
+            .populate("powerSupply")
+            .populate("ram")
+            .populate("storage")
+            .exec(callback)
+          },
+            brands(callback){
+                Brand.find({ name: { $in: ["AMD", "Intel"] } }, callback)
+              },
+            cabinet(callback){
+              Cabinet.find(callback).populate('brand')
+            },
+            cpu(callback){
+              CPU.find(callback).populate('brand')
+            },
+            gpu(callback){
+              GPU.find(callback).populate('brand')
+            },
+            motherboard(callback){
+              Motherboard.find(callback).populate('brand')
+            },
+            ram(callback){
+              RAM.find(callback).populate('brand')
+            },
+            storage(callback){
+              Storage.find(callback).populate('brand')
+            },
+            powerSupply(callback){
+              PowerSupply.find(callback).populate('brand')
+            }, 
+          },
+          (err, results) =>{
+
+            if(typeof results.computer.image != undefined && typeof req.file != 'undefined'){
+              const ImageName = "public/images/" + results.computer.image;
+      
+              if(fs.existsSync(ImageName)){
+                fs.unlinkSync(ImageName);
+            }}
+      
+          res.render("computer/computer_update", {
+            title:"Update Computer",
+            brands: results.brands,
+            cabinets: results.cabinet,
+            cpus: results.cpu,
+            gpus: results.gpu,
+            motherboards: results.motherboard,
+            rams: results.ram,
+            storages: results.storage,
+            powerSupplies: results.powerSupply,
+            computer: results.computer,
+            session: req.session,
+            
+            
+      
+          })
+        })
+        return;
+      }  else {
+        // Data from form is valid.
+       // Check if ram with same name already exists.
+       Computer.findById(req.params.id, (err, found_computer) => {
+        if (err) {
+            return next(err);
+        }
+
+        if(typeof found_computer.image != undefined && typeof req.file != 'undefined'){
+          const ImageName = "public/images/" + found_computer.image;
+  
+          if(fs.existsSync(ImageName)){
+            fs.unlinkSync(ImageName);
+        }}
+      })
+
+      Computer.findByIdAndUpdate(req.params.id, computer, {},(err, thecomputer) => {
+        if (err) return next(err);
+        res.redirect(thecomputer.url)
+      })
+
+        };
+
+      })
+    }]
 

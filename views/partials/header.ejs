@@ -5,13 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- CSS de Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+UvYjZEQlb6UksX6UksX6UkswzUgYwv" crossorigin="anonymous">
 
-    <!-- JavaScript de Bootstrap (jQuery debe estar primero) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+UvYjZEQlb6UksX6UksX6UkswzUgYwv" crossorigin="anonymous"></script>
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.5.2/lux/bootstrap.min.css">
     <link rel="stylesheet" href="/stylesheets/style.css" type="text/css">
@@ -102,6 +97,7 @@
             </li>
             <li class="nav-item">
               <hr>
+              <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/pcBuild">Create Computer</a>
@@ -130,6 +126,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="/components/storage/create">Create Storage</a>
             </li>
+            <% } %>
           </ul>
         </div>
         <div class="col-sm-10">

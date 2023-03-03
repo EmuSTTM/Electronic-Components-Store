@@ -64,9 +64,10 @@
   <div class="card-footer" style="margin-bottom: 20px">
              
     <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+    <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
     <a href="<%= gpu.url %>/delete" class="btn btn-danger float-right">Delete</a>
     <a href="<%= gpu.url %>/update" class="btn btn-primary float-right" style="background: rgb(51, 51, 148)"bac>Update</a>
-
+      <% } %>
   </div>
 
 </div>

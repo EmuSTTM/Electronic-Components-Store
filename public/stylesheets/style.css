@@ -171,6 +171,7 @@
   /* Cambia el color de fondo de los elementos de la lista al pasar el ratón por encima */
   .dropdown-content a:hover {
     color: red;
+    background-color: transparent;;
   }
 
   .dropdown-content a:focus {
