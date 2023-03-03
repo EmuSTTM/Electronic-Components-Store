@@ -2,7 +2,7 @@ const Brand = require("../models/brand");
 const Cabinet = require("../models/cabinet");
 const GPU = require("../models/gpu");
 const Motherboard = require("../models/motherboard");
-const PowerSupply = require("../models/powerSupply");
+const PowerSupply = require("../models/power-supply");
 const RamSchema = require("../models/ram");
 const Storage = require("../models/storage");
 const Computer = require("../models/computer");
@@ -215,8 +215,6 @@ exports.brand_delete_get = (req, res, next) => {
         res.redirect("/components/brands");
       }
 
-      // console.log(results.brand_motherboards)
-      //   console.log(results.brand_gpus)
       res.render("brand/brand_delete", {
         title: "Delete Brand",
         brand: results.brand,
@@ -236,9 +234,12 @@ exports.brand_delete_get = (req, res, next) => {
 
 // Handle Brand delete on POST.
 exports.brand_delete_post = (req, res, next) => {
-  // Aquí utilizamos el parámetro "body.brandid" para evitar bugs, ya que si
-  // alguien intenta cambiar la url, no podrá eliminar otro brand. Ya que acá no comprobamos
-  // si el brand existe como si hacemos en el get
+  /* 
+  Aquí utilizamos el parámetro "body.brandid" para evitar bugs, ya que si
+  alguien intenta cambiar la url, no podrá eliminar otro brand. Ya que acá no comprobamos
+  si el brand existe como si hacemos en el get
+  */
+
   async.parallel(
     {
       brand(callback) {

@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 
-const user_controller = require("../controllers/userController");
+const userController = require("../controllers/user_controller");
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
@@ -12,8 +12,8 @@ router.get("/cool", function (req, res, next) {
   res.send("You are so cool!");
 });
 
-router.get("/signup", user_controller.user_create_get);
-router.post("/signup", user_controller.user_create_post);
+router.get("/signup", userController.user_create_get);
+router.post("/signup", userController.user_create_post);
 
 router.get("/logout", function (req, res) {
   req.session.destroy(function (err) {
@@ -23,7 +23,7 @@ router.get("/logout", function (req, res) {
   });
 });
 
-router.get("/login", user_controller.user_login_get);
-router.post("/login", user_controller.user_login_post);
+router.get("/login", userController.user_login_get);
+router.post("/login", userController.user_login_post);
 
 module.exports = router;

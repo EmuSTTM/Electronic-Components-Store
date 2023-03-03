@@ -1,4 +1,4 @@
-const PowerSupply = require("../models/powerSupply");
+const PowerSupply = require("../models/power-supply");
 const Brand = require("../models/brand");
 const Computer = require("../models/computer");
 
