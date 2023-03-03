@@ -1,111 +1,100 @@
-
-
-
-
-
-
 <%- include('../partials/header.ejs') %>
 
 <div class="card" style="width: 650px;margin: 20px auto;">
-    <h5 class="card-header" style="font-size: 1.25rem; text-align: center;">
-      <%= title %>
-    </h5>
-    <div class="card-body">
-      <form id="form" action="" method="POST" enctype="multipart/form-data">
-        <div class="form-group">
-          <label for="name" style="font-size: 1.15rem;">Name</label>
-          <input type="text" value="<%= (typeof ram === 'undefined' ? '' : ram.name) %>"
-            class="form-control" id="name" name="name" placeholder="Enter  RAM name" required>
+  <h5 class="card-header" style="font-size: 1.25rem; text-align: center;">
+    <%= title %>
+  </h5>
+  <div class="card-body">
+    <form id="form" action="" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="name" style="font-size: 1.15rem;">Name</label>
+        <input type="text" value="<%= (typeof ram === 'undefined' ? '' : ram.name) %>" class="form-control" id="name" name="name" placeholder="Enter  RAM name" required>
       </div>
-        
+
 
       <div class="row">
         <div class="col-6">
 
 
-            <div class="form-group">
-                <label for="model">Model</label>
-                <input type="text" value="<%= (typeof ram === 'undefined' ? '' : ram.model) %>" class="form-control" name="model" id="model" required>
-            </div>
-            <div class="form-group">
-                <label for="size">Memory Size</label>
-                <input type="number" value="<%= (typeof ram === 'undefined' ? '' : ram.size) %>" class="form-control" name="size" id="size" min="0" required>
-            </div>
+          <div class="form-group">
+            <label for="model">Model</label>
+            <input type="text" value="<%= (typeof ram === 'undefined' ? '' : ram.model) %>" class="form-control" name="model" id="model" required>
+          </div>
+          <div class="form-group">
+            <label for="size">Memory Size</label>
+            <input type="number" value="<%= (typeof ram === 'undefined' ? '' : ram.size) %>" class="form-control" name="size" id="size" min="0" required>
+          </div>
 
         </div>
         <div class="col-6">
 
-            <div class="form-group">
-                <label for="speed">Speed RAM</label>
-                <input type="number" value="<%= (typeof ram === 'undefined' ? '' : ram.speed) %>" class="form-control" name="speed" id="speed" min="0" required>
-            </div>
-            <div class="form-group">
-                <label for="type">Type</label>
-                <select class="form-control" name="type" id="type" required>
-                    
-                    <option <%= (typeof ram !== 'undefined' && "DDR3" === ram.type ? 'selected' : '') %> value="DDR3">DDR3</option>
-                    <option <%= (typeof ram !== 'undefined' && "DDR4" === ram.type ? 'selected' : '') %> value="DDR4">DDR4</option>
-                    <option <%= (typeof ram !== 'undefined' && "DDR5" === ram.type ? 'selected' : '') %> value="DDR5">DDR5</option>
-        
-                  </select>
-            </div>
+          <div class="form-group">
+            <label for="speed">Speed RAM</label>
+            <input type="number" value="<%= (typeof ram === 'undefined' ? '' : ram.speed) %>" class="form-control" name="speed" id="speed" min="0" required>
+          </div>
+          <div class="form-group">
+            <label for="type">Type</label>
+            <select class="form-control" name="type" id="type" required>
 
-            <div class="form-group">
-                <label for="price">Price</label>
-                <input type="number" value="<%= (typeof ram === 'undefined' ? '' : ram.price) %>" class="form-control" name="price" id="price" min="0" required>
-            </div>
-            
+              <option <%= (typeof ram !== 'undefined' && "DDR3" === ram.type ? 'selected' : '') %> value="DDR3">DDR3</option>
+              <option <%= (typeof ram !== 'undefined' && "DDR4" === ram.type ? 'selected' : '') %> value="DDR4">DDR4</option>
+              <option <%= (typeof ram !== 'undefined' && "DDR5" === ram.type ? 'selected' : '') %> value="DDR5">DDR5</option>
+
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" value="<%= (typeof ram === 'undefined' ? '' : ram.price) %>" class="form-control" name="price" id="price" min="0" required>
+          </div>
+
         </div>
       </div>
-     
+
       <div class="form-group">
         <label for="brand" style="font-size: 1.25rem; text-align: center;">Brand </label>
-          <div>
-            <% for (let brand of brands) { %>
-                  <input  type="checkbox" name="brand" id="<%= brand._id %>" 
-                  value="<%= brand._id %>" %>" <%= brand.checked ? 'checked' : '' %>>
-                  <label style="font-size: 0.8rem;" for="<%= brand._id %>"> <%= brand.name %> </label> 
-              <% } %>
-      </div>
-      <div class="form-group">
+        <div>
+          <% for (let brand of brands) { %>
+          <input type="checkbox" name="brand" id="<%= brand._id %>" value="<%= brand._id %>" %>" <%= brand.checked ? 'checked' : '' %>>
+          <label style="font-size: 0.8rem;" for="<%= brand._id %>"> <%= brand.name %> </label>
+          <% } %>
+        </div>
+        <div class="form-group">
           <label for="image" style="font-size: 1.15rem;">Image</label>
           <p class="alert-danger">For the moment, you can have only one image for product. In the future, this functionality will be expanded</p>
-          <input id="image" type="file" multiple name="image" class="form-control-file"  <%= typeof ram != 'undefined' ? '' : 'required' %> >
-          <input id="last_image" name="last_image" value="<%= (typeof ram === 'undefined' ? '' : ram.image) %>" style="visibility:hidden" >
+          <input id="image" type="file" multiple name="image" class="form-control-file" <%= typeof ram != 'undefined' ? '' : 'required' %>>
+          <input id="last_image" name="last_image" value="<%= (typeof ram === 'undefined' ? '' : ram.image) %>" style="visibility:hidden">
           <img src="<%= (typeof ram !== 'undefined' && typeof ram.toObject().image !== 'undefined') 
-          ? `/images/${ram.image}` : 'https://via.placeholder.com/300x250' %>" height="250" 
-          alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
+          ? `/images/${ram.image}` : 'https://via.placeholder.com/300x250' %>" height="250" alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
         </div>
-      </form>
-      <button  type="submit" 
-      class="btn btn-primary d-flex mx-auto mt-3" style="margin-bottom: 10px;">Submit</button>
-    </div>
+    </form>
+    <button type="submit" class="btn btn-primary d-flex mx-auto mt-3" style="margin-bottom: 10px;">Submit</button>
+  </div>
 
 
 </div>
 <% if(typeof errors !== 'undefined'){ %>
-    <% errors.forEach(function(error) { %>
-        <div class="alert alert-danger">
-            <%= error.msg %>
-        </div>
-    <% }); %>
+<% errors.forEach(function(error) { %>
+<div class="alert alert-danger">
+  <%= error.msg %>
+</div>
+<% }); %>
 <% } %>
 <script>
-function previewFile() {
-  var preview = document.getElementById("preview");
-  var file = document.querySelector("input[type=file]").files[0];
-  var reader = new FileReader();
+  function previewFile() {
+    var preview = document.getElementById("preview");
+    var file = document.querySelector("input[type=file]").files[0];
+    var reader = new FileReader();
 
-  reader.addEventListener("load", function () {
-    preview.src = reader.result;
-  }, false);
+    reader.addEventListener("load", function() {
+      preview.src = reader.result;
+    }, false);
 
-  if (file) {
-    reader.readAsDataURL(file);
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   }
-}
 
-document.querySelector("input[type=file]").addEventListener("change", previewFile);
+  document.querySelector("input[type=file]").addEventListener("change", previewFile);
 </script>
 <%- include('../partials/footer.ejs') %>
-

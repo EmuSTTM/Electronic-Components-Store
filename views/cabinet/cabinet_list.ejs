@@ -1,55 +1,65 @@
 <%- include('../partials/header.ejs') %>
 
+<div class="container">
+  <h1 class="text-center my-5"><%= title %></h1>
 
-<div class="container" >
-  <h1 class="text-center my-5"> <%= title %> </h1>
-
-  <div class="row" >
+  <div class="row">
     <% for (var i=0; i< cabinet_list.length; i++) { %>
-      <div class="col-md-3 mb-3" >
-        <div class="card h-100">
-          <% const prod = {name:cabinet_list[i].name, id:cabinet_list[i]._id, price: cabinet_list[i].price, image:cabinet_list[i].image  }%>
-          
-          <img src="<%=  typeof cabinet_list[i].toObject().image !== 'undefined' ? '/images/' + cabinet_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= cabinet_list[i].name%>">
-          <div class="card-body">
-            <h5 class="card-title"> <a href="<%= cabinet_list[i].url %>"><%= cabinet_list[i].name %></a>  </h5> 
-            <p class="card-text">
-              <% for (var j = 0; j < cabinet_list[i].brand.length; j++) { %>
-                <%= cabinet_list[i].brand[j].name %>
-              <% } %> -
-              <span class="badge badge-primary badge-pill"> <%= cabinet_list[i].type %> </span> <br>
-              <span class="badge badge-success badge-pill">
-                <%= "$" + cabinet_list[i].price.toLocaleString() + " ARS"%>
-              </span> 
-            </p>
-            <a href="<%= cabinet_list[i].url %>" class="btn btn-primary">See More</a>
-            <button  value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add Cart</button>
-          </div>
+    <div class="col-md-3 mb-3">
+      <div class="card h-100">
+        <% const prod = {name:cabinet_list[i].name, id:cabinet_list[i]._id,
+        price: cabinet_list[i].price, image:cabinet_list[i].image }%>
+
+        <img
+          src="<%=  typeof cabinet_list[i].toObject().image !== 'undefined' ? '/images/' + cabinet_list[i].image : 'https://via.placeholder.com/300x200' %>"
+          class="card-img-top"
+          alt="<%= cabinet_list[i].name%>"
+        />
+        <div class="card-body">
+          <h5 class="card-title">
+            <a href="<%= cabinet_list[i].url %>"><%= cabinet_list[i].name %></a>
+          </h5>
+          <p class="card-text">
+            <% for (var j = 0; j < cabinet_list[i].brand.length; j++) { %> <%=
+            cabinet_list[i].brand[j].name %> <% } %> -
+            <span class="badge badge-primary badge-pill">
+              <%= cabinet_list[i].type %>
+            </span>
+            <br />
+            <span class="badge badge-success badge-pill">
+              <%= "$" + cabinet_list[i].price.toLocaleString() + " ARS"%>
+            </span>
+          </p>
+          <a href="<%= cabinet_list[i].url %>" class="btn btn-primary"
+            >See More</a
+          >
+          <button
+            value="<%= JSON.stringify(prod)%>"
+            class="btn btn-primary product-cart"
+          >
+            Add Cart
+          </button>
         </div>
       </div>
+    </div>
     <% } %>
   </div>
   <% if(cabinet_list.length === 0) { %>
-    <div class="text-center my-5">
-      <h3> There are no cabinets.</h3>
-    </div>
+  <div class="text-center my-5">
+    <h3>There are no cabinets.</h3>
+  </div>
   <% } %>
 </div>
-
 
 <script>
   // const carrito = require('/javascripts/shopping_cart.js')
 
-
   function addProduct(product) {
-    console.log("hola hola hola hola hola hola hola hola hola")
-    const producto = JSON.parse(product)
-    console.log(producto)
-    carrito.agregarAlCarrito(producto._id)
+    console.log("hola hola hola hola hola hola hola hola hola");
+    const producto = JSON.parse(product);
+    console.log(producto);
+    carrito.agregarAlCarrito(producto._id);
   }
-
-
 </script>
-
 
 <%- include('../partials/footer.ejs') %>

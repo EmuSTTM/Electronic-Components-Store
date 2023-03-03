@@ -4,33 +4,34 @@
   <div class="row">
     <div class="col-md-6">
       <% if(gpu.image !== undefined){ %>
-        <img class="img-tumbnail" height= "360px" style="margin:20px"src="/images/<%= gpu.image %>" alt="<%= gpu.name %>">
+      <img class="img-tumbnail" height="360px" style="margin:20px" src="/images/<%= gpu.image %>" alt="<%= gpu.name %>">
       <% }; %>
     </div>
     <div class="col-md-6">
-      <h1  style="margin-top: 60px;"><%= gpu.name %></h1>
+      <h1 style="margin-top: 60px;"><%= gpu.name %></h1>
       <br>
-        <p>
-          <% if(gpu_brand.length > 0){ %>
-            <% gpu_brand.forEach(function(brand){ %>
-                <a style="color:gray" href="<%= brand.url %>" class="text-black"><%= brand.name %></a>
-            <% }); %>
+      <p>
+        <% if(gpu_brand.length > 0){ %>
+        <% gpu_brand.forEach(function(brand){ %>
+        <a style="color:gray" href="<%= brand.url %>" class="text-black"><%= brand.name %></a>
+        <% }); %>
         <% } %>
-        </p>
-      
+      </p>
+
       <p>
         <span class="badge badge-success badge-pill">
           <%= "$" + gpu.price.toLocaleString() + " ARS"%>
-        </span> </p>
-        <% const prod = {name:gpu.name, id:gpu._id, price: gpu.price, image:gpu.image  }%>
-        <button  value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add to cart</button>
+        </span>
+      </p>
+      <% const prod = {name:gpu.name, id:gpu._id, price: gpu.price, image:gpu.image  }%>
+      <button value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add to cart</button>
     </div>
 
 
   </div>
   <hr><br>
   <div class="row">
-  
+
     <div class="col-md-4">
       <h4 class="text-secondary">Model</h4>
       <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= gpu.model %></p>
@@ -59,15 +60,15 @@
       <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= gpu.tdp %> watts</p>
     </div>
   </div>
-  
+
   <br>
   <div class="card-footer" style="margin-bottom: 20px">
-             
+
     <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
     <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
     <a href="<%= gpu.url %>/delete" class="btn btn-danger float-right">Delete</a>
-    <a href="<%= gpu.url %>/update" class="btn btn-primary float-right" style="background: rgb(51, 51, 148)"bac>Update</a>
-      <% } %>
+    <a href="<%= gpu.url %>/update" class="btn btn-primary float-right" style="background: rgb(51, 51, 148)" bac>Update</a>
+    <% } %>
   </div>
 
 </div>

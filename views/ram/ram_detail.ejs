@@ -1,40 +1,41 @@
 <%- include('../partials/header.ejs') %>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-6">
-          <% if(ram.image !== undefined){ %>
-            <img class="img-tumbnail" height= "360px" style="margin:20px"src="/images/<%= ram.image %>" alt="<%= ram.name %>">
-          <% }; %>
-        </div>
-        <div class="col-md-6">
-          <h1  style="margin-top: 60px;"><%= ram.name %></h1>
-          <br>
-            <p>
-              <% if(ram.brand.length > 0){ %>
-                <% ram.brand.forEach(function(brand){ %>
-                    <a style="color:gray" href="<%= brand.url %>" class="text-black"><%= brand.name %></a>
-                <% }); %>
-            <% } %>
-            </p>
-          
-          <p>
-            <span class="badge badge-success badge-pill">
-              <%= "$" + ram.price.toLocaleString() + " ARS"%>
-            </span> </p>
+  <div class="row">
+    <div class="col-md-6">
+      <% if(ram.image !== undefined){ %>
+      <img class="img-tumbnail" height="360px" style="margin:20px" src="/images/<%= ram.image %>" alt="<%= ram.name %>">
+      <% }; %>
+    </div>
+    <div class="col-md-6">
+      <h1 style="margin-top: 60px;"><%= ram.name %></h1>
+      <br>
+      <p>
+        <% if(ram.brand.length > 0){ %>
+        <% ram.brand.forEach(function(brand){ %>
+        <a style="color:gray" href="<%= brand.url %>" class="text-black"><%= brand.name %></a>
+        <% }); %>
+        <% } %>
+      </p>
 
-            <% const prod = {name:ram.name, id:ram._id, price: ram.price, image:ram.image  }%>
-        <button  value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add to cart</button>
-        </div>
-    
-    
-      </div>
-      <hr><br>
-    
-    <div class="row">
-        <div class="col-md-4">
-            <h4 class="text-secondary">Brand</h4>
-            <p class="text-white" style="background-color: #6c757d; padding: 10px;"">
+      <p>
+        <span class="badge badge-success badge-pill">
+          <%= "$" + ram.price.toLocaleString() + " ARS"%>
+        </span>
+      </p>
+
+      <% const prod = {name:ram.name, id:ram._id, price: ram.price, image:ram.image  }%>
+      <button value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add to cart</button>
+    </div>
+
+
+  </div>
+  <hr><br>
+
+  <div class="row">
+    <div class="col-md-4">
+      <h4 class="text-secondary">Brand</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"">
                 <% for (var j=0; j< ram.brand.length; j++) { %>
                     <%= ram.brand[j].name %>
                     <% if (j != ram.brand.length -1) { %>
@@ -43,47 +44,47 @@
                 <% } %>
             </p>
         </div>
-        <div class="col-md-4">
-            <h4 class="text-secondary">Model</h4>
-            <p class="text-white" style="background-color: #6c757d; padding: 10px;">
-                <%= ram.model %>
-            </p>
-        </div>
-        <div class="col-md-4">
-            <h4 class="text-secondary">Size</h4>
-            <p class="text-white" style="background-color: #6c757d; padding: 10px;">
-                <%= ram.size %>
-            </p>
-        </div>
+        <div class=" col-md-4">
+      <h4 class="text-secondary">Model</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;">
+        <%= ram.model %>
+      </p>
     </div>
-    <div class="row">
-        <div class="col-md-4">
-            <h4 class="text-secondary">Memory Type</h4>
-            <p class="text-white" style="background-color: #6c757d; padding: 10px;">
-                <%= ram.type %>
-            </p>
-        </div>
-        <div class="col-md-4">
-            <h4 class="text-secondary">Speed</h4>
-            <p class="text-white" style="background-color: #6c757d; padding: 10px;">
-                <%= ram.speed %> MHz
-            </p>
-        </div>
-        <div class="col-md-4">
-            <h4 class="text-secondary">Price</h4>
-            <p class="text-white" style="background-color: #6c757d; padding: 10px;" >
-                <%= ram.price %>
-            </p>
-        </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Size</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;">
+        <%= ram.size %>
+      </p>
     </div>
-    <div class="card-footer" style="margin-bottom: 20px">
-             
-        <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
-        <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
-        <a href="<%= ram.url %>/delete" class="btn btn-danger float-right">Delete</a>
-        <a href="<%= ram.url %>/update" class="btn btn-primary float-right" style="background: rgb(51, 51, 148)"bac>Update</a>
-        <% } %>
-      </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <h4 class="text-secondary">Memory Type</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;">
+        <%= ram.type %>
+      </p>
+    </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Speed</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;">
+        <%= ram.speed %> MHz
+      </p>
+    </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Price</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;">
+        <%= ram.price %>
+      </p>
+    </div>
+  </div>
+  <div class="card-footer" style="margin-bottom: 20px">
+
+    <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+    <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
+    <a href="<%= ram.url %>/delete" class="btn btn-danger float-right">Delete</a>
+    <a href="<%= ram.url %>/update" class="btn btn-primary float-right" style="background: rgb(51, 51, 148)" bac>Update</a>
+    <% } %>
+  </div>
 </div>
 
 <%- include('../partials/footer.ejs') %>

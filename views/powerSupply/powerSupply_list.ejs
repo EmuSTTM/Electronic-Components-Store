@@ -1,40 +1,53 @@
 <%- include('../partials/header.ejs') %>
 <div class="container">
-  <h1 class="text-center my-5"> <%= title %> </h1>
+  <h1 class="text-center my-5"><%= title %></h1>
 
   <div class="row">
     <% for (var i=0; i< powerSupply_list.length; i++) { %>
-      <div class="col-md-3 mb-3">
-        <div class="card h-100">
-          <% const prod = {name:powerSupply_list[i].name, id:powerSupply_list[i]._id, price: powerSupply_list[i].price, image:powerSupply_list[i].image  }%>
+    <div class="col-md-3 mb-3">
+      <div class="card h-100">
+        <% const prod = {name:powerSupply_list[i].name,
+        id:powerSupply_list[i]._id, price: powerSupply_list[i].price,
+        image:powerSupply_list[i].image }%>
 
-
-          <img src="<%=  typeof powerSupply_list[i].toObject().image !== 'undefined' ? '/images/' + powerSupply_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= powerSupply_list[i].name%>">
-          <div class="card-body">
-            <h5 class="card-title"> <a href="<%= powerSupply_list[i].url %>"><%= powerSupply_list[i].name %></a>  </h5> 
-            <p class="card-text">
-              <% for (var j = 0; j < powerSupply_list[i].brand.length; j++) { %>
-                <%= powerSupply_list[i].brand[j].name %>
-              <% } %>
-             
-              
-              <%= powerSupply_list[i].certifications %> <br>
-              <%= powerSupply_list[i].power %> W <br>
-              <span class="badge badge-success badge-pill">
-                <%= "$" + powerSupply_list[i].price.toLocaleString() + " ARS"%>
-              </span>
-            </p>
-            <a href="<%= powerSupply_list[i].url %>" class="btn btn-primary">See More</a>
-            <button  value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add Cart</button>
-          </div>
+        <img
+          src="<%=  typeof powerSupply_list[i].toObject().image !== 'undefined' ? '/images/' + powerSupply_list[i].image : 'https://via.placeholder.com/300x200' %>"
+          class="card-img-top"
+          alt="<%= powerSupply_list[i].name%>"
+        />
+        <div class="card-body">
+          <h5 class="card-title">
+            <a href="<%= powerSupply_list[i].url %>"
+              ><%= powerSupply_list[i].name %></a
+            >
+          </h5>
+          <p class="card-text">
+            <% for (var j = 0; j < powerSupply_list[i].brand.length; j++) { %>
+            <%= powerSupply_list[i].brand[j].name %> <% } %> <%=
+            powerSupply_list[i].certifications %> <br />
+            <%= powerSupply_list[i].power %> W <br />
+            <span class="badge badge-success badge-pill">
+              <%= "$" + powerSupply_list[i].price.toLocaleString() + " ARS"%>
+            </span>
+          </p>
+          <a href="<%= powerSupply_list[i].url %>" class="btn btn-primary"
+            >See More</a
+          >
+          <button
+            value="<%= JSON.stringify(prod)%>"
+            class="btn btn-primary product-cart"
+          >
+            Add Cart
+          </button>
         </div>
       </div>
+    </div>
     <% } %>
   </div>
   <% if(powerSupply_list.length === 0) { %>
-    <div class="text-center my-5">
-      <h3> There are no powerSupplys.</h3>
-    </div>
+  <div class="text-center my-5">
+    <h3>There are no powerSupplys.</h3>
+  </div>
   <% } %>
 </div>
 <%- include('../partials/footer.ejs') %>

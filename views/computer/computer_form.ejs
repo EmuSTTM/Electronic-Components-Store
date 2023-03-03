@@ -3,73 +3,76 @@
 
 
 
-<aside class="d-flex flex-column card card-body" style="align-items: center; margin:10px 0px">
-  <div class="row">
-    <div class="col-15">
-      <img id="cpu_img" class="nav-link_computer" src="/static_images/cpu.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+  <aside class="d-flex flex-column card card-body" style="align-items: center; margin:10px 0px">
+    <div class="row">
+      <div class="col-15">
+        <img id="cpu_img" class="nav-link_computer" src="/static_images/cpu.png" onclick="handleImageClick(this)"
+          style="width: 66px; height: 59px;">
+      </div>
+      <div class="col-15">
+        <img id="mother_img" class="nav-link_computer" src="/static_images/mother.png" onclick="handleImageClick(this)"
+          style="width: 66px; height: 59px;">
+      </div>
+      <div class="col-15">
+        <img id="ram_img" class="nav-link_computer" src="/static_images/ram.png" onclick="handleImageClick(this)"
+          style="width: 66px; height: 59px;">
+      </div>
+
+      <div class="col-15">
+        <img id="gpu_img" class="nav-link_computer" src="/static_images/gpu.png" onclick="handleImageClick(this)"
+          style="width: 66px; height: 59px;">
+      </div>
+      <div class="col-15">
+        <img id="storage_img" class="nav-link_computer" src="/static_images/storage.png"
+          onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+      </div>
+      <div class="col-15">
+        <img id="powerSupply_img" class="nav-link_computer" src="/static_images/powerSupply.png"
+          onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+      </div>
+
+      <div class="col-15">
+        <img id="cabinet_img" class="nav-link_computer" src="/static_images/cabinet.png"
+          onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
+      </div>
     </div>
-    <div class="col-15">
-      <img id="mother_img" class="nav-link_computer" src="/static_images/mother.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
-    </div>
-    <div class="col-15">
-      <img id="ram_img" class="nav-link_computer" src="/static_images/ram.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
-    </div>
-    
-    <div class="col-15">
-      <img id="gpu_img" class="nav-link_computer" src="/static_images/gpu.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
-    </div>
-    <div class="col-15">
-      <img id="storage_img" class="nav-link_computer" src="/static_images/storage.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
-    </div>
-    <div class="col-15">
-      <img id="powerSupply_img" class="nav-link_computer" src="/static_images/powerSupply.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
-    </div>
-    
-    <div class="col-15">
-      <img id="cabinet_img" class="nav-link_computer" src="/static_images/cabinet.png" onclick="handleImageClick(this)" style="width: 66px; height: 59px;">
-    </div>
-  </div>
-</aside>
+  </aside>
 
-<div class="product-container" id="product-container"></div> 
+  <div class="product-container" id="product-container"></div>
 
-<script>
+  <script>
+    var selectedProducts = []
+    var selectedRam = [];
+    var selectedStorage = [];
+
+    // This fragment of code detect the change in the product container content
+    const productContainer = document.getElementById("product-container");
+
+    const observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        if (mutation.addedNodes.length > 0) {
+          for (product of selectedProducts) {
 
 
-var selectedProducts = []
-var selectedRam = [];
-var selectedStorage = [];
+            let selectedProduct = document.getElementById(product)
+            if (selectedProduct != null) {
+              if (selectedProduct.classList.contains('brand-img')) {
+                selectedProduct.classList.add("selected-brand");
 
-// This fragment of code detect the change in the product container content
-const productContainer = document.getElementById("product-container");
+              } else {
+                selectedProduct.classList.add("selected-product");
+              }
 
-const observer = new MutationObserver(function(mutations) {
-  mutations.forEach(function(mutation) {
-    if(mutation.addedNodes.length > 0) {
-      for(product of selectedProducts) {
-        
-        
-        let selectedProduct = document.getElementById(product)
-        if(selectedProduct != null) {
-          if(selectedProduct.classList.contains('brand-img')){
-            selectedProduct.classList.add("selected-brand");
-            
-          }
-          
-          else {
-            selectedProduct.classList.add("selected-product");
-          }
+              if (selectedProduct.classList.contains('ram')) {
+                let stock = document.getElementById(`stock-${product}`)
 
-          if(selectedProduct.classList.contains('ram')){
-            let stock = document.getElementById(`stock-${product}`)
+                if (stock != null) {
 
-          if(stock != null){
+                  const productCount = selectedRam.filter(item => item === product).length;
 
-            const productCount = selectedRam.filter(item => item === product).length;
 
-            
-            
-            stock.innerHTML = `
+
+                  stock.innerHTML = `
             <div class="input-group mb-3">
             <div class="input-group-prepend">
               <button class="btn btn-outline-secondary minus-btn" onclick="deleteProduct('${product}', 'ram', event);" type="button">-</button>
@@ -80,19 +83,19 @@ const observer = new MutationObserver(function(mutations) {
             </div>
           </div>
             `
-          }
-          }
-          if(selectedProduct.classList.contains('storage')){
-            let stock = document.getElementById(`stock-${product}`)
+                }
+              }
+              if (selectedProduct.classList.contains('storage')) {
+                let stock = document.getElementById(`stock-${product}`)
 
-          if(stock != null){
-         
-          
-            const productCount = selectedStorage.filter(item => item._id === product).length;
+                if (stock != null) {
 
-            
-            
-            stock.innerHTML = `
+
+                  const productCount = selectedStorage.filter(item => item._id === product).length;
+
+
+
+                  stock.innerHTML = `
             <div class="input-group mb-3">
             <div class="input-group-prepend">
               <button class="btn btn-outline-secondary minus-btn" onclick="deleteProduct('${product}', 'ram', event);" type="button">-</button>
@@ -103,76 +106,71 @@ const observer = new MutationObserver(function(mutations) {
             </div>
           </div>
             `
-          }
-          }
-          
+                }
+              }
+
+
+            }
+
+          };
+
 
         }
-        
-      };
+      })
+
+    });
+
+    observer.observe(productContainer, {
+      childList: true,
+
+    });
+
+
+
+
+    function handleImageClick(img) {
+
+      // Manejamos el cambio de las imágenes
+      let src = img.src.split('.');
+
+      if (src[0].includes("static_images")) {
+        let newSrc = src[0].endsWith('-active') ? src[0].slice(0, -7) + '.' + src[1] : src[0] + '-active.' + src[1];
+        let baseURL = window.location.origin;
+        src[0] = src[0].replace(baseURL, '');
+        newSrc = newSrc.replace(baseURL, '');
+
+
+
+        let images = document.querySelectorAll('.nav-link_computer');
+        for (let image of images) {
+          let currSrc = image.src.split('.');
+          currSrc[0] = currSrc[0].replace(baseURL, '');
+          if (currSrc[0].endsWith('-active')) {
+            currSrc[0] = currSrc[0].slice(0, -7);
+            image.src = baseURL + currSrc[0] + '.' + currSrc[1];
+            image.classList.remove("active");
+          }
+        }
+        img.src = baseURL + newSrc;
+      }
+
+      img.classList.add("active");
+      let activeImage = document.getElementsByClassName('active')
+
+      if (activeImage.length > 2) {
 
 
       }
-    })
-    
-  });
-
-observer.observe(productContainer, {
-  childList: true,
-  
-});
 
 
 
 
-
-
-
-function handleImageClick(img) {
-
-// Manejamos el cambio de las imágenes
-let src = img.src.split('.');
-
-if (src[0].includes("static_images")){
-  let newSrc = src[0].endsWith('-active') ? src[0].slice(0, -7) + '.' + src[1] : src[0] + '-active.' + src[1];
-let baseURL = window.location.origin;
-src[0] = src[0].replace(baseURL, '');
-newSrc = newSrc.replace(baseURL, '');
-
-
-
-let images = document.querySelectorAll('.nav-link_computer');
-for (let image of images) {
-  let currSrc = image.src.split('.');
-  currSrc[0] = currSrc[0].replace(baseURL, '');
-  if (currSrc[0].endsWith('-active')) {
-    currSrc[0] = currSrc[0].slice(0, -7);
-    image.src = baseURL + currSrc[0] + '.' + currSrc[1];
-    image.classList.remove("active");
-  }
-}
-img.src = baseURL + newSrc;
-}
-
-img.classList.add("active");
-let activeImage = document.getElementsByClassName('active')
-
-if(activeImage.length > 2){
-  
-
-}
-
-
-
-
-
-
-// Aquí es cuando mostramos todos los productos
-let productContainer = document.querySelector('.product-container');
-productContainer.innerHTML = '';
-switch(img.id) {
-  case 'storage_img':
-  productContainer.innerHTML += `
+      // Aquí es cuando mostramos todos los productos
+      let productContainer = document.querySelector('.product-container');
+      productContainer.innerHTML = '';
+      switch (img.id) {
+        case 'storage_img':
+          productContainer.innerHTML += `
   <div id="storage-alert"></div>
     <div class="row">
     <% for (storage of storages) { %>
@@ -199,10 +197,10 @@ switch(img.id) {
       </div>
   <% } %>
   </div>`;
-    break;
-  
-  case 'ram_img':
-  productContainer.innerHTML += `
+          break;
+
+        case 'ram_img':
+          productContainer.innerHTML += `
   <div id="ram-alert"></div>
   <p>Es recomendable que todas las rams sean del mismo modelo.</p>
     <div class="row">
@@ -234,14 +232,13 @@ switch(img.id) {
       </div>
   <% } %>
   </div>`;
-    break;
-  case 'cpu_img': 
+          break;
+        case 'cpu_img':
 
 
 
 
-
-  productContainer.innerHTML += `
+          productContainer.innerHTML += `
   <div id="brand-alert"></div>
     <% for (brand of brands){%>
     <div class="row">
@@ -282,9 +279,9 @@ switch(img.id) {
       </div>
   <% } %>
   </div>`;
-    break;
-  case 'gpu_img':
-  productContainer.innerHTML += `
+          break;
+        case 'gpu_img':
+          productContainer.innerHTML += `
     <div class="row">
     <% for (gpu of gpus) { %>
       <% let prod = {name:gpu.name, id:gpu._id, price: gpu.price, image:gpu.image  }%>
@@ -309,9 +306,9 @@ switch(img.id) {
       </div>
   <% } %>
   </div>`;
-    break;
-  case 'powerSupply_img':
-  productContainer.innerHTML += `
+          break;
+        case 'powerSupply_img':
+          productContainer.innerHTML += `
     <div class="row">
     <% for (powerSupply of powerSupplies) { %>
       <% let prod = {name:powerSupply.name, id:powerSupply._id, price: powerSupply.price, image:powerSupply.image  }%>
@@ -336,9 +333,9 @@ switch(img.id) {
       </div>
   <% } %>
   </div>`;
-    break;
-  case 'mother_img':
-      productContainer.innerHTML += `
+          break;
+        case 'mother_img':
+          productContainer.innerHTML += `
       <div id="motherboard-alert"></div>
     <div class="row">
     <% for (motherboard of motherboards) { %>
@@ -363,9 +360,9 @@ switch(img.id) {
       </div>
   <% } %>
   </div>`;
-    break;
-  case 'cabinet_img':
-    productContainer.innerHTML += `
+          break;
+        case 'cabinet_img':
+          productContainer.innerHTML += `
     <div class="row">
     <div id="cabinet-alert"></div>
     <% for (cabinet of cabinets) { %>
@@ -392,182 +389,181 @@ switch(img.id) {
       </div>
   <% } %>
   </div>`;
-    break;
-  }
-}
-
-
-
- // Aquí manejamos el agregar los productos 
-var socket_v2, socket_sata, maxRamSlot, maxStorageSlot, brand,
-motherboard_brand, cpu_brand, socket_cpu, size_type,frecuency_ram,
-ram_type;
-
-maxRamSlot = 2;
-socket_v2 = 1;
-socket_sata = 4;
-maxStorageSlot = 5;
-
-let cartProducts = {
-  cpu : undefined,
-  motherbord : undefined,
-  gpu: "",
-  powerSupply : undefined,
-  cabinet : undefined,
-  storages: [],
-  rams : [],
-};
-
-
-
-function selectProduct(product, type, cart_prod) {
-
-  
-  if (type == 'motherboard') {
-    let msgAlert = document.getElementById(`motherboard-alert`);
-      msgAlert.innerHTML = ``
-    if(product.ram_slots < selectedRam.length) {
-
-      let msgAlert = document.getElementById(`motherboard-alert`);
-      msgAlert.innerHTML += `<p class="alert alert-danger">Insuficientes ram slots. Seleccionaste más de 2 rams</p>`
-      return;
-    }
-    if ( typeof socket_cpu != "undefined" && socket_cpu != product.socket){
-      let msgAlert = document.getElementById(`motherboard-alert`);
-      msgAlert.innerHTML += `<p class="alert alert-danger">La motherboard no es compatible con el procesador</p>`
-      return;
-    }
-    motherboard_brands = product.brand
-
-    motherboard_brand = motherboard_brands.filter(obj => obj.name == "AMD" || obj.name == "Intel" ).map(obj => obj.name).join('')
- 
-    if(brand != null && brand != motherboard_brand){
-      
-      let msgAlert = document.getElementById(`motherboard-alert`);
-      msgAlert.innerHTML += `<p class="alert alert-danger">La marca seleccionada debe ser ser igual para la motherboard</p>`
-      return;
-    }
-    
-    
-    
-    console.log("este es el socket cpu" + socket_cpu)
-    console.log("este es el socket mother" + product.socket)
-    
-
-
-    // Estos apartados de la RAM deberían estar hechos en un array. Ya que al ser una variable, sólo 
-    // analizará la última RAM añadida. PERO NO TODAS.
-    if(typeof frecuency_ram != 'undefined' && frecuency_ram > product.frecuency_ram){
-        let msgAlert = document.getElementById(`ram-alert`);
-        msgAlert.innerHTML = `<p class="alert alert-danger">La frecuencia de envío de datos de la RAM es demasiado alta. Es recomendable cambiarla.</p>`
-        return;
+          break;
       }
+    }
 
-      if(typeof ram_type != 'undefined' && ram_type != product.socket_ram){
+
+
+    // Aquí manejamos el agregar los productos 
+    var socket_v2, socket_sata, maxRamSlot, maxStorageSlot, brand,
+      motherboard_brand, cpu_brand, socket_cpu, size_type, frecuency_ram,
+      ram_type;
+
+    maxRamSlot = 2;
+    socket_v2 = 1;
+    socket_sata = 4;
+    maxStorageSlot = 5;
+
+    let cartProducts = {
+      cpu: undefined,
+      motherbord: undefined,
+      gpu: "",
+      powerSupply: undefined,
+      cabinet: undefined,
+      storages: [],
+      rams: [],
+    };
+
+
+
+    function selectProduct(product, type, cart_prod) {
+
+
+      if (type == 'motherboard') {
         let msgAlert = document.getElementById(`motherboard-alert`);
-        msgAlert.innerHTML = `<p class="alert alert-danger">El socket de la ram no es compatible con la motherboard</p>`
+        msgAlert.innerHTML = ``
+        if (product.ram_slots < selectedRam.length) {
+
+          let msgAlert = document.getElementById(`motherboard-alert`);
+          msgAlert.innerHTML += `<p class="alert alert-danger">Insuficientes ram slots. Seleccionaste más de 2 rams</p>`
+          return;
+        }
+        if (typeof socket_cpu != "undefined" && socket_cpu != product.socket) {
+          let msgAlert = document.getElementById(`motherboard-alert`);
+          msgAlert.innerHTML += `<p class="alert alert-danger">La motherboard no es compatible con el procesador</p>`
+          return;
+        }
+        motherboard_brands = product.brand
+
+        motherboard_brand = motherboard_brands.filter(obj => obj.name == "AMD" || obj.name == "Intel").map(obj => obj.name).join('')
+
+        if (brand != null && brand != motherboard_brand) {
+
+          let msgAlert = document.getElementById(`motherboard-alert`);
+          msgAlert.innerHTML += `<p class="alert alert-danger">La marca seleccionada debe ser ser igual para la motherboard</p>`
+          return;
+        }
+
+
+
+        console.log("este es el socket cpu" + socket_cpu)
+        console.log("este es el socket mother" + product.socket)
+
+
+
+        // Estos apartados de la RAM deberían estar hechos en un array. Ya que al ser una variable, sólo 
+        // analizará la última RAM añadida. PERO NO TODAS.
+        if (typeof frecuency_ram != 'undefined' && frecuency_ram > product.frecuency_ram) {
+          let msgAlert = document.getElementById(`ram-alert`);
+          msgAlert.innerHTML = `<p class="alert alert-danger">La frecuencia de envío de datos de la RAM es demasiado alta. Es recomendable cambiarla.</p>`
+          return;
+        }
+
+        if (typeof ram_type != 'undefined' && ram_type != product.socket_ram) {
+          let msgAlert = document.getElementById(`motherboard-alert`);
+          msgAlert.innerHTML = `<p class="alert alert-danger">El socket de la ram no es compatible con la motherboard</p>`
+          return;
+        }
+        socket_v2 = product.sockets_v2;
+        socket_sata = product.sockets_sata;
+        maxStorageSlot = socket_sata + socket_v2;
+        console.log(maxStorageSlot)
+        maxRamSlot = product.ram_slots;
+        socket_cpu = product.socket;
+        size_type = product.type;
+        frecuency_ram = product.frecuency_ram;
+        ram_type = product.socket_ram;
+        console.log("este es el ram type: " + ram_type)
+
+        // Accedemos a los brands del mother, hacemos enfasis en los de AMD e Intel, que son las empresas que crean los chipsets
+        // Luego, pasamos sólo la variable name, quedando así sólo una string
+
+
+
+
+        console.log("Este es el brand del motherboard : " + motherboard_brand)
+        console.log(typeof motherboard_brand)
+        console.log(product)
+
+        let img = document.getElementById(`mother_img`)
+
+
+        let selectedProduct = document.getElementById(product._id);
+        let currentSelection = document.getElementsByClassName("selected-product");
+        if (currentSelection.length > 0) {
+          selectedProducts = selectedProducts.filter(item => item != currentSelection[0].id);
+          currentSelection[0].classList.remove("selected-product");
+        }
+
+        if (selectedProduct.classList.contains("selected-product") || selectedProducts.includes(product._id)) {
+          console.log(selectedProduct)
+          selectedProduct.classList.remove("selected-product");
+          img.src = `/static_images/mother-active.png`
+          selectedProducts = selectedProducts.filter(item => item !== product._id);
+          console.log(selectedProducts)
+          console.log("se borró la clase ")
+          document.getElementById(type).value = ''
+        } else if (!selectedProduct.classList.contains("selected-product")) {
+          selectedProduct.classList.add("selected-product");
+
+          let cartArray = document.getElementById("cart_array");
+          cartProducts[type] = cart_prod;
+          cartArray.value = JSON.stringify(cartProducts);
+
+          img.src = selectedProduct.children[0].src
+          console.log("se creo la clase")
+          selectedProducts.push(product._id)
+          document.getElementById(type).value = product._id;
+        }
+
+
         return;
       }
-    socket_v2 = product.sockets_v2;
-    socket_sata = product.sockets_sata;
-    maxStorageSlot = socket_sata + socket_v2;
-    console.log(maxStorageSlot)
-    maxRamSlot = product.ram_slots;
-    socket_cpu = product.socket;
-    size_type =  product.type;
-    frecuency_ram = product.frecuency_ram;
-    ram_type = product.socket_ram;
-    console.log("este es el ram type: " +  ram_type)
-    
-    // Accedemos a los brands del mother, hacemos enfasis en los de AMD e Intel, que son las empresas que crean los chipsets
-    // Luego, pasamos sólo la variable name, quedando así sólo una string
-    
-    
-    
-    
-    console.log("Este es el brand del motherboard : "+ motherboard_brand)
-    console.log(typeof motherboard_brand)
-    console.log(product)
-
-    let img = document.getElementById(`mother_img`)
-
-
-  let selectedProduct = document.getElementById(product._id);
-  let currentSelection = document.getElementsByClassName("selected-product");
-  if (currentSelection.length > 0) {
-    selectedProducts = selectedProducts.filter(item => item != currentSelection[0].id);
-    currentSelection[0].classList.remove("selected-product");
-  }
-
-  if(selectedProduct.classList.contains("selected-product") || selectedProducts.includes(product._id)) {
-    console.log(selectedProduct)
-    selectedProduct.classList.remove("selected-product");
-    img.src = `/static_images/mother-active.png`
-    selectedProducts = selectedProducts.filter(item => item !== product._id);
-    console.log(selectedProducts)
-    console.log("se borró la clase ")
-    document.getElementById(type).value = ''
-  } else if (!selectedProduct.classList.contains("selected-product")) {
-      selectedProduct.classList.add("selected-product");
-      
-      let cartArray = document.getElementById("cart_array");
-      cartProducts[type] = cart_prod;
-      cartArray.value = JSON.stringify(cartProducts);
-
-      img.src = selectedProduct.children[0].src
-      console.log("se creo la clase")
-      selectedProducts.push(product._id)
-      document.getElementById(type).value = product._id;
-  }
-
-    
-    return;
-  }
 
 
 
 
+      if (type == 'ram') {
 
-  if (type == 'ram') {
-    
-    if (selectedRam.length < maxRamSlot) {
-      let msgAlert = document.getElementById(`ram-alert`);
-      msgAlert.innerHTML = ``
+        if (selectedRam.length < maxRamSlot) {
+          let msgAlert = document.getElementById(`ram-alert`);
+          msgAlert.innerHTML = ``
 
-      if(typeof frecuency_ram != 'undefined' && frecuency_ram < product.speed){
-        let msgAlert = document.getElementById(`ram-alert`);
-        msgAlert.innerHTML = `<p class="alert alert-danger">La frecuencia de envío de datos de esta RAM es demasiado para la mother. Es recomendable cambiarla.</p>`
-        return;
-      }
-      
-      if(typeof ram_type != 'undefined' && ram_type != product.type){
-        let msgAlert = document.getElementById(`ram-alert`);
-        msgAlert.innerHTML = `<p class="alert alert-danger">El socket de la ram no es compatible con la motherboard</p>`
-        return;
-      }
+          if (typeof frecuency_ram != 'undefined' && frecuency_ram < product.speed) {
+            let msgAlert = document.getElementById(`ram-alert`);
+            msgAlert.innerHTML = `<p class="alert alert-danger">La frecuencia de envío de datos de esta RAM es demasiado para la mother. Es recomendable cambiarla.</p>`
+            return;
+          }
 
-
-      frecuency_ram = product.speed;
-      ram_type = product.type;
-      // if(ram.speed > results.motherboard.frecuency_ram){
-      //     compatibilityErrors.push( "RAM speed must be compatible with the motherboard frecuency" );
-      //   }
+          if (typeof ram_type != 'undefined' && ram_type != product.type) {
+            let msgAlert = document.getElementById(`ram-alert`);
+            msgAlert.innerHTML = `<p class="alert alert-danger">El socket de la ram no es compatible con la motherboard</p>`
+            return;
+          }
 
 
+          frecuency_ram = product.speed;
+          ram_type = product.type;
+          // if(ram.speed > results.motherboard.frecuency_ram){
+          //     compatibilityErrors.push( "RAM speed must be compatible with the motherboard frecuency" );
+          //   }
 
-      selectedRam.push(product._id);
-      console.log(`RAM seleccionada: ${product._id}`);
-      let cartArray = document.getElementById("cart_array");
-      cartProducts['rams'].push(cart_prod)
-      cartArray.value = JSON.stringify(cartProducts);
 
-      
-      let productCount = selectedRam.filter(item => item === product._id).length;
-      console.log(productCount)
-      let stock= document.getElementById(`stock-${product._id}`) 
-      console.log(stock)
-      
-      stock.innerHTML = `
+
+          selectedRam.push(product._id);
+          console.log(`RAM seleccionada: ${product._id}`);
+          let cartArray = document.getElementById("cart_array");
+          cartProducts['rams'].push(cart_prod)
+          cartArray.value = JSON.stringify(cartProducts);
+
+
+          let productCount = selectedRam.filter(item => item === product._id).length;
+          console.log(productCount)
+          let stock = document.getElementById(`stock-${product._id}`)
+          console.log(stock)
+
+          stock.innerHTML = `
       <div class="input-group mb-3">
       <div class="input-group-prepend">
         <button class="btn btn-outline-secondary minus-btn" onclick="deleteProduct('${product._id}', 'ram', event);" type="button">-</button>
@@ -580,88 +576,88 @@ function selectProduct(product, type, cart_prod) {
       `
 
 
-      let selectedProduct = document.getElementById(product._id);
-      let currentSelection = document.getElementsByClassName('selected-product');
+          let selectedProduct = document.getElementById(product._id);
+          let currentSelection = document.getElementsByClassName('selected-product');
 
-      
-        console.log(currentSelection)
-      // // Añade a los objetos seleccionados al objeto en cuestion, para que al actualizarse 
-      // // el contenedor, este siga seleccionado.
-      
-  
-      // Si ya hay un producto seleccionado, quitar la clase de resaltado
-      if (currentSelection.length > 1) {
-        selectedProducts = selectedProducts.filter(item => item != currentSelection[0].id);
-        currentSelection[0].classList.remove("selected-product");
-      }
-      let img = document.getElementById(`${type}_img`)
 
-        if (!selectedProduct.classList.contains("selected-product")) {
+          console.log(currentSelection)
+          // // Añade a los objetos seleccionados al objeto en cuestion, para que al actualizarse 
+          // // el contenedor, este siga seleccionado.
+
+
+          // Si ya hay un producto seleccionado, quitar la clase de resaltado
+          if (currentSelection.length > 1) {
+            selectedProducts = selectedProducts.filter(item => item != currentSelection[0].id);
+            currentSelection[0].classList.remove("selected-product");
+          }
+          let img = document.getElementById(`${type}_img`)
+
+          if (!selectedProduct.classList.contains("selected-product")) {
             selectedProduct.classList.add("selected-product");
             selectedProducts.push(product._id)
-        }
+          }
           img.src = selectedProduct.children[0].src
           console.log("se creo la clase")
-          
+
           document.getElementById('rams').value = selectedRam;
 
-      } else {
-        let countRams = selectedRam.length;
-        let msgAlert = document.getElementById(`ram-alert`);
-        msgAlert.innerHTML = `<p class="alert alert-danger">La cantidad máxima de RAMs admitidas en la mother es de: ${countRams}</p>`
+        } else {
+          let countRams = selectedRam.length;
+          let msgAlert = document.getElementById(`ram-alert`);
+          msgAlert.innerHTML = `<p class="alert alert-danger">La cantidad máxima de RAMs admitidas en la mother es de: ${countRams}</p>`
 
-      }
+        }
         return;
-    }
+      }
 
-  
 
-    if(type == 'storage') {
 
-      let msgAlert = document.getElementById(`storage-alert`);
-      msgAlert.innerHTML = ``
+      if (type == 'storage') {
 
-      if (selectedStorage.length < maxStorageSlot){
-        // Conver the product in a object
-        console.log("Storage seleccionado: " + product._id)
+        let msgAlert = document.getElementById(`storage-alert`);
+        msgAlert.innerHTML = ``
 
-        if(product.type == "HDD" || product.type == "SSD" || product.type == "SSHD"){
-          let StorageSATA = selectedStorage.filter(obj => obj.type === "HDD" || obj.type === "SSD" || obj.type === "SSHD").length ;
-          if(StorageSATA >= socket_sata){
-            
-            let msgAlert = document.getElementById(`storage-alert`);
-            msgAlert.innerHTML = `<p class="alert alert-danger">La cantidad máxima de entradas SATA en la mother son de: ${socket_sata}</p>`
-            return;
+        if (selectedStorage.length < maxStorageSlot) {
+          // Conver the product in a object
+          console.log("Storage seleccionado: " + product._id)
+
+          if (product.type == "HDD" || product.type == "SSD" || product.type == "SSHD") {
+            let StorageSATA = selectedStorage.filter(obj => obj.type === "HDD" || obj.type === "SSD" || obj.type === "SSHD").length;
+            if (StorageSATA >= socket_sata) {
+
+              let msgAlert = document.getElementById(`storage-alert`);
+              msgAlert.innerHTML = `<p class="alert alert-danger">La cantidad máxima de entradas SATA en la mother son de: ${socket_sata}</p>`
+              return;
+            }
+            selectedStorage.push(product)
+
+            let cartArray = document.getElementById("cart_array");
+            cartProducts['storages'].push(cart_prod)
+            cartArray.value = JSON.stringify(cartProducts);
+            console.log('SATA añadido correctamente')
+            console.log("storagesata: " + StorageSATA)
           }
-          selectedStorage.push(product)
-                    
-          let cartArray = document.getElementById("cart_array");
-          cartProducts['storages'].push(cart_prod)
-          cartArray.value = JSON.stringify(cartProducts);
-          console.log('SATA añadido correctamente')
-          console.log("storagesata: " + StorageSATA)
-        }
-        if(product.type == "NVMe"){
-          let StorageV2 = selectedStorage.filter(obj => obj.type === "NVMe");
-          if(StorageV2.length >= socket_v2){
-            let msgAlert = document.getElementById(`storage-alert`);
-            msgAlert.innerHTML = `<p class="alert alert-danger">La cantidad máxima de entradas NVME V2 admitidas en la mother son de: ${socket_v2}</p>`
-            return;
+          if (product.type == "NVMe") {
+            let StorageV2 = selectedStorage.filter(obj => obj.type === "NVMe");
+            if (StorageV2.length >= socket_v2) {
+              let msgAlert = document.getElementById(`storage-alert`);
+              msgAlert.innerHTML = `<p class="alert alert-danger">La cantidad máxima de entradas NVME V2 admitidas en la mother son de: ${socket_v2}</p>`
+              return;
+            }
+            let cartArray = document.getElementById("cart_array");
+            cartProducts['storages'].push(cart_prod)
+            cartArray.value = JSON.stringify(cartProducts);
+            selectedStorage.push(product)
+            console.log("storage v2: " + typeof StorageV2)
+            console.log('NVMe añadido correctamente')
           }
-          let cartArray = document.getElementById("cart_array");
-          cartProducts['storages'].push(cart_prod)
-          cartArray.value = JSON.stringify(cartProducts);
-          selectedStorage.push(product)
-          console.log("storage v2: " + typeof StorageV2)
-          console.log('NVMe añadido correctamente')
-        }
 
-        let productCount = selectedStorage.filter(item => item._id === product._id).length;
-        console.log(productCount)
-        let stock= document.getElementById(`stock-${product._id}`) 
-        console.log(stock)
-        
-        stock.innerHTML = `
+          let productCount = selectedStorage.filter(item => item._id === product._id).length;
+          console.log(productCount)
+          let stock = document.getElementById(`stock-${product._id}`)
+          console.log(stock)
+
+          stock.innerHTML = `
         <div class="input-group mb-3">
         <div class="input-group-prepend">
           <button class="btn btn-outline-secondary minus-btn" onclick="deleteProduct('${product._id}', 'storage', event);" type="button">-</button>
@@ -675,226 +671,215 @@ function selectProduct(product, type, cart_prod) {
 
 
 
-  
 
-        
+          let selectedProduct = document.getElementById(product._id);
+          let currentSelection = document.getElementsByClassName('selected-product');
 
 
-        let selectedProduct = document.getElementById(product._id);
-        let currentSelection = document.getElementsByClassName('selected-product');
 
-      
-      
-  
-      // // Si ya hay un producto seleccionado, quitar la clase de resaltado
-      // if (currentSelection.length > 1) {
-      //   selectedProducts = selectedProducts.filter(item => item != currentSelection[0].id);
-      //   currentSelection[0].classList.remove("selected-product");
-      // }
-      let img = document.getElementById(`${type}_img`)
 
-        if (!selectedProduct.classList.contains("selected-product")) {
+          // // Si ya hay un producto seleccionado, quitar la clase de resaltado
+          // if (currentSelection.length > 1) {
+          //   selectedProducts = selectedProducts.filter(item => item != currentSelection[0].id);
+          //   currentSelection[0].classList.remove("selected-product");
+          // }
+          let img = document.getElementById(`${type}_img`)
+
+          if (!selectedProduct.classList.contains("selected-product")) {
             selectedProduct.classList.add("selected-product");
             selectedProducts.push(product._id)
-        }
+          }
           img.src = selectedProduct.children[0].src
           console.log("se creo la clase")
-          
+
           let resultStorage = selectedStorage.map(obj => obj._id);
-        console.log(`Storages seleccionadas: ${resultStorage}`)
-        document.getElementById('storages').value = resultStorage.join(',');
+          console.log(`Storages seleccionadas: ${resultStorage}`)
+          document.getElementById('storages').value = resultStorage.join(',');
 
-        return;
-      } else {
+          return;
+        } else {
           let msgAlert = document.getElementById(`storage-alert`);
-            msgAlert.innerHTML = `<p class="alert alert-danger">Limite de almacenamiento alcanzado. SATA:${socket_sata}, V2:${socket_v2}</p>`
-        return;
-      }
-      
-    }
+          msgAlert.innerHTML = `<p class="alert alert-danger">Limite de almacenamiento alcanzado. SATA:${socket_sata}, V2:${socket_v2}</p>`
+          return;
+        }
 
-    
-
-    if(type == "brand"){
-      let msgAlert = document.getElementById(`brand-alert`);
-      msgAlert.innerHTML = ``
-      brand = product.name;
-      // if(typeof motherboard_brand == "undefined"){
-      //   motherboard_brand = brand;
-      // }
-      
-
-      console.log("mother_brand: " + motherboard_brand)
-      console.log(brand)
-      console.log(cpu_brand)
-      if((!cpu_brand && !motherboard_brand) || cpu_brand === brand || motherboard_brand === brand){
-        console.log('se ejecuto el select del brand' + product.name)
-      let selectedProduct = document.getElementById(product._id);
-      console.log("Este es el select Product del brand")
-      
-
-      let currentSelection = document.getElementsByClassName("selected-brand");
-      if (currentSelection.length > 0) {
-        selectedProducts = selectedProducts.filter(item => item != currentSelection[0].id);
-        currentSelection[0].classList.remove("selected-brand");
       }
 
-        if(selectedProduct.classList.contains("selected-brand") || selectedProducts.includes(product._id)) {
-          console.log(selectedProduct)
-          selectedProduct.classList.remove("selected-brand");
-          selectedProducts = selectedProducts.filter(item => item != product._id);
-          console.log(selectedProducts)
-          console.log("se borró la clase ")
-          document.getElementById(type).value = ''
-        } else if (!selectedProduct.classList.contains("selected-brand")) {
+
+
+      if (type == "brand") {
+        let msgAlert = document.getElementById(`brand-alert`);
+        msgAlert.innerHTML = ``
+        brand = product.name;
+        // if(typeof motherboard_brand == "undefined"){
+        //   motherboard_brand = brand;
+        // }
+
+
+        console.log("mother_brand: " + motherboard_brand)
+        console.log(brand)
+        console.log(cpu_brand)
+        if ((!cpu_brand && !motherboard_brand) || cpu_brand === brand || motherboard_brand === brand) {
+          console.log('se ejecuto el select del brand' + product.name)
+          let selectedProduct = document.getElementById(product._id);
+          console.log("Este es el select Product del brand")
+
+
+          let currentSelection = document.getElementsByClassName("selected-brand");
+          if (currentSelection.length > 0) {
+            selectedProducts = selectedProducts.filter(item => item != currentSelection[0].id);
+            currentSelection[0].classList.remove("selected-brand");
+          }
+
+          if (selectedProduct.classList.contains("selected-brand") || selectedProducts.includes(product._id)) {
+            console.log(selectedProduct)
+            selectedProduct.classList.remove("selected-brand");
+            selectedProducts = selectedProducts.filter(item => item != product._id);
+            console.log(selectedProducts)
+            console.log("se borró la clase ")
+            document.getElementById(type).value = ''
+          } else if (!selectedProduct.classList.contains("selected-brand")) {
             selectedProduct.classList.add("selected-brand");
-            
-            
+
+
             console.log("se creo la clase")
             selectedProducts.push(product._id)
             document.getElementById(type).value = product._id;
-           
-        } 
-      }else {
+
+          }
+        } else {
           let msgAlert = document.getElementById(`brand-alert`);
           msgAlert.innerHTML = `<p class="alert alert-danger">La marca debe coincidir con el motherboard y cpu</p>`
         }
-      
-      return;
-    }
 
-    if( type == "cpu"){
-      let msgAlert = document.getElementById(`cpu-alert`);
-      msgAlert.innerHTML = ``
-      cpu_brand = product.brand
-      console.log(cpu_brand)
-      cpu_brand = cpu_brand['name']
-      console.log(cpu_brand)
-      
-      console.log("ahora se va ejecutar el brand")
-      selectProduct(product.brand ,'brand')
-      
-      if(typeof motherboard_brand == "undefined"){
-        socket_cpu = product.socket;
+        return;
       }
 
-      if ( typeof socket_cpu != "undefined" && socket_cpu != product.socket){
-      let msgAlert = document.getElementById(`cpu-alert`);
-      msgAlert.innerHTML = `<p class="alert alert-danger">La motherboard no es compatible con el procesador</p>`
-      return;
-    }
-      
-      if(brand != null && brand != cpu_brand){
-      
-      let msgAlert = document.getElementById(`cpu-alert`);
-      msgAlert.innerHTML = `<p class="alert alert-danger">La marca seleccionada debe ser ser igual para el cpu</p>`
-      return;
-    }
+      if (type == "cpu") {
+        let msgAlert = document.getElementById(`cpu-alert`);
+        msgAlert.innerHTML = ``
+        cpu_brand = product.brand
+        console.log(cpu_brand)
+        cpu_brand = cpu_brand['name']
+        console.log(cpu_brand)
 
-  }
+        console.log("ahora se va ejecutar el brand")
+        selectProduct(product.brand, 'brand')
 
-  if (type == "cabinet") {
-    if(typeof size_type != "undefined" && (size_type == "ITX" && product.type != "ITX") ||
-    (size_type == "M-ATX" && product.type != "ATX")){
-      let msgAlert = document.getElementById(`cabinet-alert`);
-      msgAlert.innerHTML = `<p class="alert alert-danger">El tamaño del gabinete es insuficiente</p>`
-      return;
-    }
-    size_type =  product.type;
-  }
+        if (typeof motherboard_brand == "undefined") {
+          socket_cpu = product.socket;
+        }
 
+        if (typeof socket_cpu != "undefined" && socket_cpu != product.socket) {
+          let msgAlert = document.getElementById(`cpu-alert`);
+          msgAlert.innerHTML = `<p class="alert alert-danger">La motherboard no es compatible con el procesador</p>`
+          return;
+        }
 
-let cartArray = document.getElementById("cart_array");
-cartProducts[type] = cart_prod;
-cartArray.value = JSON.stringify(cartProducts);
+        if (brand != null && brand != cpu_brand) {
 
-  let selectedProduct = document.getElementById(product._id);
-  console.log("este es el selectProduct: admitidas")
-  console.log(selectedProduct)
-  let currentSelection = document.getElementsByClassName("selected-product");
+          let msgAlert = document.getElementById(`cpu-alert`);
+          msgAlert.innerHTML = `<p class="alert alert-danger">La marca seleccionada debe ser ser igual para el cpu</p>`
+          return;
+        }
 
-  
-    console.log(currentSelection)
-  // // Añade a los objetos seleccionados al objeto en cuestion, para que al actualizarse 
-  // // el contenedor, este siga seleccionado.
-  
+      }
 
-  // console.log(selectedProduct)
-  // Si ya hay un producto seleccionado, quitar la clase de resaltado
-  if (currentSelection.length > 0) {
-    selectedProducts = selectedProducts.filter(item => item != currentSelection[0].id);
-    currentSelection[0].classList.remove("selected-product");
-  }
-  let img = document.getElementById(`${type}_img`)
-
-  if(selectedProduct.classList.contains("selected-product") || selectedProducts.includes(product._id)) {
-    console.log(selectedProduct)
-    selectedProduct.classList.remove("selected-product");
-    img.src = `/static_images/${type}-active.png`
-    selectedProducts = selectedProducts.filter(item => item !== product._id);
-    console.log(selectedProducts)
-    console.log("se borró la clase ")
-    document.getElementById(type).value = ''
-  } else if (!selectedProduct.classList.contains("selected-product")) {
-      selectedProduct.classList.add("selected-product");
-      
-      img.src = selectedProduct.children[0].src
-      console.log("se creo la clase")
-      selectedProducts.push(product._id)
-      document.getElementById(type).value = product._id;
-  }
-
-  
-  
-  
-  
-  // console.log(selectedProduct)
-  
-  console.log("se ejecutó select product");
-}
-
-
-
-
-
-
-
-
-
-
-function deleteProduct(product, type, event){
-
- let selectedProduct = document.getElementById(product);
- let img = document.getElementById(`${type}_img`)
- console.log("esta es la imagen" + img.src)
-
-
- if(type == "ram"){
-      
-      console.log("Selected RAM PRE TODO: " +selectedRam)
-      const ramToRemove = selectedRam.indexOf(product);
-      selectedRam.splice(ramToRemove, 1);
-
-
+      if (type == "cabinet") {
+        if (typeof size_type != "undefined" && (size_type == "ITX" && product.type != "ITX") ||
+          (size_type == "M-ATX" && product.type != "ATX")) {
+          let msgAlert = document.getElementById(`cabinet-alert`);
+          msgAlert.innerHTML = `<p class="alert alert-danger">El tamaño del gabinete es insuficiente</p>`
+          return;
+        }
+        size_type = product.type;
+      }
 
 
       let cartArray = document.getElementById("cart_array");
-      const index = cartProducts['rams'].findIndex(objeto => objeto.id === product);
-          if (index !== -1) {
-            cartProducts['rams'].splice(index, 1);
-          }
+      cartProducts[type] = cart_prod;
       cartArray.value = JSON.stringify(cartProducts);
-      
 
-      const productCount = selectedRam.filter(item => item === product).length;
-      let stock= document.getElementById(`stock-${product}`) 
-      console.log("stock: " + stock)
-    console.log("product count: " + productCount)
-    console.log(typeof productCount)
-      if(productCount == 0){
-        stock.innerHTML = ``
-      } else{
-        stock.innerHTML = `
+      let selectedProduct = document.getElementById(product._id);
+      console.log("este es el selectProduct: admitidas")
+      console.log(selectedProduct)
+      let currentSelection = document.getElementsByClassName("selected-product");
+
+
+      console.log(currentSelection)
+      // // Añade a los objetos seleccionados al objeto en cuestion, para que al actualizarse 
+      // // el contenedor, este siga seleccionado.
+
+
+      // console.log(selectedProduct)
+      // Si ya hay un producto seleccionado, quitar la clase de resaltado
+      if (currentSelection.length > 0) {
+        selectedProducts = selectedProducts.filter(item => item != currentSelection[0].id);
+        currentSelection[0].classList.remove("selected-product");
+      }
+      let img = document.getElementById(`${type}_img`)
+
+      if (selectedProduct.classList.contains("selected-product") || selectedProducts.includes(product._id)) {
+        console.log(selectedProduct)
+        selectedProduct.classList.remove("selected-product");
+        img.src = `/static_images/${type}-active.png`
+        selectedProducts = selectedProducts.filter(item => item !== product._id);
+        console.log(selectedProducts)
+        console.log("se borró la clase ")
+        document.getElementById(type).value = ''
+      } else if (!selectedProduct.classList.contains("selected-product")) {
+        selectedProduct.classList.add("selected-product");
+
+        img.src = selectedProduct.children[0].src
+        console.log("se creo la clase")
+        selectedProducts.push(product._id)
+        document.getElementById(type).value = product._id;
+      }
+
+
+
+
+      // console.log(selectedProduct)
+
+      console.log("se ejecutó select product");
+    }
+
+
+
+
+    function deleteProduct(product, type, event) {
+
+      let selectedProduct = document.getElementById(product);
+      let img = document.getElementById(`${type}_img`)
+      console.log("esta es la imagen" + img.src)
+
+
+      if (type == "ram") {
+
+        console.log("Selected RAM PRE TODO: " + selectedRam)
+        const ramToRemove = selectedRam.indexOf(product);
+        selectedRam.splice(ramToRemove, 1);
+
+
+
+
+        let cartArray = document.getElementById("cart_array");
+        const index = cartProducts['rams'].findIndex(objeto => objeto.id === product);
+        if (index !== -1) {
+          cartProducts['rams'].splice(index, 1);
+        }
+        cartArray.value = JSON.stringify(cartProducts);
+
+
+        const productCount = selectedRam.filter(item => item === product).length;
+        let stock = document.getElementById(`stock-${product}`)
+        console.log("stock: " + stock)
+        console.log("product count: " + productCount)
+        console.log(typeof productCount)
+        if (productCount == 0) {
+          stock.innerHTML = ``
+        } else {
+          stock.innerHTML = `
           <div class="input-group mb-3">
           <div class="input-group-prepend">
             <button class="btn btn-outline-secondary minus-btn" onclick="deleteProduct('${product}', 'ram', event);" type="button">-</button>
@@ -905,48 +890,48 @@ function deleteProduct(product, type, event){
           </div>
         </div>
           `
-      }
-      
-      if(!selectedRam.includes(product) || productCount == 0){
-        console.log("el productiñio es ")
-        console.log(selectedProduct)
-        selectedProduct.classList.remove("selected-product");
-        console.log(selectedProduct)
-        let currentSelection = document.getElementsByClassName("selected-product");
-        selectedProducts = selectedProducts.filter(item => item !== product);
-        if (currentSelection.length == 0 ){
-          img.src = `/static_images/${type}-active.png`
         }
-        }
-          document.getElementById('rams').value = selectedRam;
-      event.stopPropagation()
-      return;
- }
 
- if (type == "storage"){
-  // let resultStorage = selectedStorage.map(obj => obj._id);
-  console.log("Selected STORAGE PRE TODO: " +selectedStorage)
-      const storageToRemove = selectedStorage.indexOf(product);
-      selectedStorage.splice(storageToRemove, 1);
-      
-      let cartArray = document.getElementById("cart_array");
-      const index = cartProducts['storages'].findIndex(objeto => objeto.id === product);
-          if (index !== -1) {
-            cartProducts['storages'].splice(index, 1);
+        if (!selectedRam.includes(product) || productCount == 0) {
+          console.log("el productiñio es ")
+          console.log(selectedProduct)
+          selectedProduct.classList.remove("selected-product");
+          console.log(selectedProduct)
+          let currentSelection = document.getElementsByClassName("selected-product");
+          selectedProducts = selectedProducts.filter(item => item !== product);
+          if (currentSelection.length == 0) {
+            img.src = `/static_images/${type}-active.png`
           }
-      cartArray.value = JSON.stringify(cartProducts);
+        }
+        document.getElementById('rams').value = selectedRam;
+        event.stopPropagation()
+        return;
+      }
+
+      if (type == "storage") {
+        // let resultStorage = selectedStorage.map(obj => obj._id);
+        console.log("Selected STORAGE PRE TODO: " + selectedStorage)
+        const storageToRemove = selectedStorage.indexOf(product);
+        selectedStorage.splice(storageToRemove, 1);
+
+        let cartArray = document.getElementById("cart_array");
+        const index = cartProducts['storages'].findIndex(objeto => objeto.id === product);
+        if (index !== -1) {
+          cartProducts['storages'].splice(index, 1);
+        }
+        cartArray.value = JSON.stringify(cartProducts);
 
 
-      console.log("Selected Storage POST TODO: " + selectedRam)
-      let resultStorage = selectedStorage.map(obj => obj._id);
-      const productCount = resultStorage.filter(item => item === product).length;
-      let stock= document.getElementById(`stock-${product}`) 
-      console.log("stock: " + stock)
-      console.log("product count: " + productCount)
-      // console.log(typeof productCount)
-      if(productCount == 0){
+        console.log("Selected Storage POST TODO: " + selectedRam)
+        let resultStorage = selectedStorage.map(obj => obj._id);
+        const productCount = resultStorage.filter(item => item === product).length;
+        let stock = document.getElementById(`stock-${product}`)
+        console.log("stock: " + stock)
+        console.log("product count: " + productCount)
+        // console.log(typeof productCount)
+        if (productCount == 0) {
           stock.innerHTML = ``
-        } else{
+        } else {
           stock.innerHTML = `
             <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -959,17 +944,17 @@ function deleteProduct(product, type, event){
           </div>
             `
         }
-        if(productCount == 0){
-        console.log("el productiñio es ")
-        console.log(selectedProduct)
-        selectedProduct.classList.remove("selected-product");
-        console.log(selectedProduct)
-        let currentSelection = document.getElementsByClassName("selected-product");
-        selectedProducts = selectedProducts.filter(item => item !== product);
-        if (currentSelection.length == 0 ){
-          img.src = `/static_images/${type}-active.png`
-        }
-        
+        if (productCount == 0) {
+          console.log("el productiñio es ")
+          console.log(selectedProduct)
+          selectedProduct.classList.remove("selected-product");
+          console.log(selectedProduct)
+          let currentSelection = document.getElementsByClassName("selected-product");
+          selectedProducts = selectedProducts.filter(item => item !== product);
+          if (currentSelection.length == 0) {
+            img.src = `/static_images/${type}-active.png`
+          }
+
         }
 
         // let resultStorage = selectedStorage.map(obj => obj._id);
@@ -977,113 +962,106 @@ function deleteProduct(product, type, event){
         document.getElementById('storages').value = resultStorage.join(',');
         event.stopPropagation()
         return;
- }
- 
-  console.log('se ejecuto delete')
-  event.stopPropagation()
-}
+      }
 
-
-
-
-</script>
-
+      console.log('se ejecuto delete')
+      event.stopPropagation()
+    }
+  </script>
 
 
 
 
 
-    
-
-  
-    
-    <div class="card">
-      <div class="card-header">
-        <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor"){ %>
+  <div class="card">
+    <div class="card-header">
+      <% if (typeof session !="undefined" && typeof session.user !="undefined" && session.user.rol=="vendedor" ){ %>
         <h5 class="card-title">Detalles para publicación</h5>
-      </div>
-      <div class="card-body">
-        <form action="" id="computer-form" method="post" enctype="multipart/form-data">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" name="name" id="name" value="<%= (typeof computer === 'undefined' ? '' : computer.name) %>" required>
-          </div>
-          <div class="form-group">
-            <label for="description">Description (optional)</label>
-            <textarea name="description" id="description" class="form-control" rows="3" placeholder="Write your description"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="image">Image</label>
-            <p class="alert alert-danger">For the moment, you can have only one image for product. In the future, this functionality will be expanded</p>
-            <input type="file" multiple name="image" required id="image" class="form-control-file">
-          </div>
+    </div>
+    <div class="card-body">
+      <form action="" id="computer-form" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" name="name" id="name"
+            value="<%= (typeof computer === 'undefined' ? '' : computer.name) %>" required>
+        </div>
+        <div class="form-group">
+          <label for="description">Description (optional)</label>
+          <textarea name="description" id="description" class="form-control" rows="3"
+            placeholder="Write your description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="image">Image</label>
+          <p class="alert alert-danger">For the moment, you can have only one image for product. In the future, this
+            functionality will be expanded</p>
+          <input type="file" multiple name="image" required id="image" class="form-control-file">
+        </div>
 
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
-          <% } %>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        <% } %>
           <div style="display:none;">
             <div class="form-group">
               <label for="brand">Brand</label>
-             
-            <input name="brand" id="brand" required>
-          </div>
+
+              <input name="brand" id="brand" required>
+            </div>
             <div class="form-group">
               <label for="cabinet">Cabinet</label>
               <input name="cabinet" id="cabinet" required>
             </div>
-        
-        
+
+
             <div class="form-group">
               <label for="cpu">CPU</label>
               <input name="cpu" id="cpu" required>
             </div>
-        
-        
+
+
             <div class="form-group">
               <label for="gpu">GPU</label>
               <input name="gpu" id="gpu" required>
             </div>
-        
-        
+
+
             <div class="form-group">
               <label for="motherboard">Motherboard</label>
               <input name="motherboard" id="motherboard" required>
             </div>
-        
-              <div class="form-group">
-                <label for="powerSupply">Power Supply</label>
-                <input name="powerSupply" id="powerSupply" required>
-              </div>
-        
-              <div><br>
-                
-                <label for="rams">Rams</label>
-                <input name="rams" id="rams" required multiple>
-              </div>
-        
-              <div>
-                <label for="storages">Storages</label> 
-                <input name="storages" id="storages" required multiple>
-                
-              </div>
+
+            <div class="form-group">
+              <label for="powerSupply">Power Supply</label>
+              <input name="powerSupply" id="powerSupply" required>
             </div>
 
+            <div><br>
 
+              <label for="rams">Rams</label>
+              <input name="rams" id="rams" required multiple>
+            </div>
 
-          
-        </form>
-        <form  id="form-cart" action="cart" method="post" enctype="multipart/form-data">
-          <input style="display:none;" id="cart_array" name="cart_array" type="text" required >
-          <div class="text-center">
-            <button style="margin:10px" id="add-cart-button" class="btn btn-primary" type="submit">Add Cart</button>
+            <div>
+              <label for="storages">Storages</label>
+              <input name="storages" id="storages" required multiple>
+
+            </div>
           </div>
-          
-        </form> 
 
-        <script>
-        
-        document.getElementById("add-cart-button").addEventListener("click",function() {
+
+
+
+      </form>
+      <form id="form-cart" action="cart" method="post" enctype="multipart/form-data">
+        <input style="display:none;" id="cart_array" name="cart_array" type="text" required>
+        <div class="text-center">
+          <button style="margin:10px" id="add-cart-button" class="btn btn-primary" type="submit">Add Cart</button>
+        </div>
+
+      </form>
+
+      <script>
+        document.getElementById("add-cart-button").addEventListener("click", function () {
           if (!cpu.value || !powerSupply.value || !rams.value || !storages.value || !cabinet.value || !motherboard.value) {
             event.preventDefault();
             alert("Por favor, agregue/seleccione todos los componentes");
@@ -1094,7 +1072,7 @@ function deleteProduct(product, type, event){
 
 
 
-        document.getElementById("form-cart").addEventListener("submit", function(event) {
+        document.getElementById("form-cart").addEventListener("submit", function (event) {
           const cpu = document.getElementById("cpu");
           const powerSupply = document.getElementById("powerSupply");
           const rams = document.getElementById("rams");
@@ -1110,39 +1088,33 @@ function deleteProduct(product, type, event){
 
           agregarAlCarrito(JSON.stringify(cartProducts))
         });
-
-        </script>
-
-
-      </div>
-    </div><br>
-    
-      
-    
+      </script>
 
 
-    
-   
+    </div>
+  </div><br>
 
-    
 
-<% if(typeof errors !== 'undefined'){ %>
+
+
+
+  <% if(typeof errors !=='undefined' ){ %>
     <% errors.forEach(function(error) { %>
-        <div class="alert alert-danger">
-            <%= error.msg %>
-        </div>
-    <% }); %>
-<% } %>
-<% if(typeof errors_compatibility !== 'undefined'){ %>
-    <% for (let error of errors_compatibility) { %>
-        <div class="alert alert-danger">
-            <%= error %>
-        </div>
-    <% }; %>
-<% } %>
+      <div class="alert alert-danger">
+        <%= error.msg %>
+      </div>
+      <% }); %>
+        <% } %>
+          <% if(typeof errors_compatibility !=='undefined' ){ %>
+            <% for (let error of errors_compatibility) { %>
+              <div class="alert alert-danger">
+                <%= error %>
+              </div>
+              <% }; %>
+                <% } %>
 
-</div>
-</div>
-</div>
+                  </div>
+                  </div>
+                  </div>
 
-<%- include('../partials/footer.ejs') %>
+                  <%- include('../partials/footer.ejs') %>

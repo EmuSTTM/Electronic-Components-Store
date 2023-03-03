@@ -1,133 +1,134 @@
-
 <%- include('./partials/header.ejs') %>
 
-
 <div class="container">
-	<h2 class="text-center my-4">Shopping Cart</h2>
-	<form>
-		<div id="cart-container" class="row">
+  <h2 class="text-center my-4">Shopping Cart</h2>
+  <form>
+    <div id="cart-container" class="row"></div>
 
-		</div>
+    <div
+      id="no-products"
+      class="row d-flex justify-content-center align-items-center"
+      align="center"
+    ></div>
+    <div id="container-totalPrice" class="row py-3">
+      <div class="col-md-7"></div>
+      <div class="col-md-5">
+        <p id="total-price" class="text-right font-weight-bold">
+          Precio TOTAL:<br />
+          $0.00
+        </p>
+      </div>
+    </div>
+    <% if (typeof session != "undefined" && typeof session.user != "undefined" )
+    { %>
+    <div class="text-center mt-4">
+      <button id="cart-submit" type="submit" class="btn btn-primary">
+        Comprar
+      </button>
+    </div>
 
-		
-		<div id="no-products" class="row d-flex justify-content-center align-items-center" align="center"></div>
-		<div id ="container-totalPrice" class="row  py-3">
-			
-			<div class="col-md-7"></div>
-			<div class="col-md-5">
-			  <p id="total-price" class="text-right font-weight-bold">Precio TOTAL:<br> $0.00</p>
-			</div>
-		  </div>
-		  <% if (typeof session != "undefined" && typeof session.user != "undefined" ) { %> 
-			<div class="text-center mt-4">
-				<button id="cart-submit" type="submit" class="btn btn-primary">Comprar</button>
-			</div>
-			
+    <% } else { %>
 
-			<% } else { %>
+    <div class="text-center mt-4">
+      <button id="cart-not-submit" type="submit" class="btn btn-primary">
+        Comprar
+      </button>
+    </div>
 
-				<div class="text-center mt-4">
-					<button id="cart-not-submit" type="submit" class="btn btn-primary">Comprar</button>
-				</div>
-
-
-			<% }%>
-
-		
-	</form>
+    <% }%>
+  </form>
 </div>
-	<script>
+<script>
+  if (document.getElementById("cart-submit")) {
+    document
+      .getElementById("cart-submit")
+      .addEventListener("click", function () {
+        alert(
+          "Este Ecommerce es ficticio, por lo que no se pueden hacer compras reales 😉"
+        );
+      });
+  }
 
-		if (document.getElementById("cart-submit")){
-		document.getElementById("cart-submit").addEventListener("click", function(){
-			alert("Este Ecommerce es ficticio, por lo que no se pueden hacer compras reales 😉")
-		})
-		}
-	
-		if(document.getElementById("cart-not-submit")){
-			document.getElementById("cart-not-submit").addEventListener("click", function(){
-		alert("Debes registrarte antes de efectuar compras")
-		})
-		}
-		
+  if (document.getElementById("cart-not-submit")) {
+    document
+      .getElementById("cart-not-submit")
+      .addEventListener("click", function () {
+        alert("Debes registrarte antes de efectuar compras");
+      });
+  }
 
+  let cartContainer = document.getElementById("cart-container");
+  let noProducts = document.getElementById("no-products");
+  let containerTotalPrice = document.getElementById("container-totalPrice");
 
+  // Función para mostrar el mensaje de "No hay productos en el carrito"
+  function showNoProductsMessage() {
+    let messageElement = document.createElement("div");
+    messageElement.innerHTML = `<div class="alert alert-danger w-100 text-center">There are no products in the shopping cart</div>`;
+    noProducts.appendChild(messageElement);
+    containerTotalPrice.innerHTML = "";
+    document.querySelector("button[type=submit]").style.display = "none";
+  }
 
-
-
-
-		let cartContainer = document.getElementById('cart-container');
-		let noProducts = document.getElementById('no-products');
-		let containerTotalPrice = document.getElementById('container-totalPrice');
-
-		// Función para mostrar el mensaje de "No hay productos en el carrito"
-		function showNoProductsMessage() {
-		let messageElement = document.createElement('div');
-		messageElement.innerHTML = `<div class="alert alert-danger w-100 text-center">There are no products in the shopping cart</div>`;
-		noProducts.appendChild(messageElement);
-		containerTotalPrice.innerHTML = '';
-		document.querySelector("button[type=submit]").style.display = "none"
-		}
-
-		// Función para ocultar el mensaje de "No hay productos en el carrito"
-		function hideNoProductsMessage() {
-			document.querySelector("button[type=submit]").style.display = ""
-		noProducts.innerHTML = '';
-		containerTotalPrice.innerHTML = `<div class="col-md-7"></div>
+  // Función para ocultar el mensaje de "No hay productos en el carrito"
+  function hideNoProductsMessage() {
+    document.querySelector("button[type=submit]").style.display = "";
+    noProducts.innerHTML = "";
+    containerTotalPrice.innerHTML = `<div class="col-md-7"></div>
 			<div class="col-md-5">
 			  <p id="total-price" class="text-right font-weight-bold">Precio TOTAL:<br> $0.00</p>
-			</div>`
+			</div>`;
+  }
 
-		
-		
+  // Observador de mutaciones en el elemento cartContainer
+  let observer = new MutationObserver((mutations) => {
+    let cartChildren = cartContainer.children;
 
-		}
+    if (cartChildren.length === 0) {
+      showNoProductsMessage();
+    } else {
+      hideNoProductsMessage();
+      updateTotalPrice();
+    }
+  });
 
-		// Observador de mutaciones en el elemento cartContainer
-		let observer = new MutationObserver((mutations) => {
-		let cartChildren = cartContainer.children;
-		
-		if (cartChildren.length === 0) {
-			showNoProductsMessage();
-		} else {
-			hideNoProductsMessage();
-			updateTotalPrice();
-		}
-		});
+  // Configuración del observador
+  let config = {
+    childList: true,
+  };
 
-		// Configuración del observador
-		let config = { childList: true };
+  // Empieza a observar el elemento cartContainer
+  observer.observe(cartContainer, config);
 
-		// Empieza a observar el elemento cartContainer
-		observer.observe(cartContainer, config);
+  function updateTotalPrice() {
+    let totalPrice = 0;
 
+    for (let i = 0; i < cartContainer.children.length; i++) {
+      let priceElement =
+        cartContainer.children[i].querySelector("div.col-2 > p");
+      let quantityElement = cartContainer.children[i].querySelector(
+        "div.col-3 > div > span.quantity-text"
+      );
 
-		function updateTotalPrice() {
-				
-				let totalPrice = 0;
-				
-				for (let i = 0; i < cartContainer.children.length; i++) {
-					let priceElement = cartContainer.children[i].querySelector('div.col-2 > p');
-					let quantityElement = cartContainer.children[i].querySelector('div.col-3 > div > span.quantity-text');
-					
-					if (priceElement && quantityElement) {
-					let price = parseFloat(priceElement.textContent.replace('$', '').replace(/\./g, ''));
-					let quantity = parseInt(quantityElement.textContent);
-					
-					totalPrice += price;
-					}
-				}
-				
-				let totalPriceElement = document.getElementById('total-price');
-				if(totalPriceElement){
-					totalPriceElement.textContent = `Precio TOTAL:\n$${totalPrice.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
-				}
-				}
-				
+      if (priceElement && quantityElement) {
+        let price = parseFloat(
+          priceElement.textContent.replace("$", "").replace(/\./g, "")
+        );
+        let quantity = parseInt(quantityElement.textContent);
 
-				
-				window.addEventListener('load', updateTotalPrice);
-	</script>
+        totalPrice += price;
+      }
+    }
 
+    let totalPriceElement = document.getElementById("total-price");
+    if (totalPriceElement) {
+      totalPriceElement.textContent = `Precio TOTAL:\n$${totalPrice
+        .toFixed(0)
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+    }
+  }
+
+  window.addEventListener("load", updateTotalPrice);
+</script>
 
 <%- include('./partials/footer.ejs') %>

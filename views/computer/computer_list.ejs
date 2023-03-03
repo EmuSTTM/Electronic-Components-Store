@@ -5,31 +5,31 @@
 
   <div class="row">
     <% for (var i=0; i< computer_list.length; i++) { %>
-      <div class="col-md-4 mb-3">
-        <div class="card h-100">
-          <% const prod = {name:computer_list[i].name, id:computer_list[i]._id, price: computer_list[i].price, image:computer_list[i].image  }%>
-    
-          <img src="<%=  typeof computer_list[i].toObject().image !== 'undefined' ? '/images/' + computer_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= computer_list[i].name%>">
-          <div class="card-body">
-            <h5 class="card-title"> <a href="<%= computer_list[i].url %>"><%= computer_list[i].name %></a>  </h5> 
-            <p class="card-text">
-            <br> 
-               <span class="badge badge-success badge-pill">
-                <%= "$" + Number(computer_list[i].price).toLocaleString() + " ARS"%>
-              </span>
-            </p>
-            
-            <a href="<%= computer_list[i].url %>" class="btn btn-primary">See More</a>
-            <button  value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add Cart</button>
-          </div>
+    <div class="col-md-4 mb-3">
+      <div class="card h-100">
+        <% const prod = {name:computer_list[i].name, id:computer_list[i]._id, price: computer_list[i].price, image:computer_list[i].image  }%>
+
+        <img src="<%=  typeof computer_list[i].toObject().image !== 'undefined' ? '/images/' + computer_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= computer_list[i].name%>">
+        <div class="card-body">
+          <h5 class="card-title"> <a href="<%= computer_list[i].url %>"><%= computer_list[i].name %></a> </h5>
+          <p class="card-text">
+            <br>
+            <span class="badge badge-success badge-pill">
+              <%= "$" + Number(computer_list[i].price).toLocaleString() + " ARS"%>
+            </span>
+          </p>
+
+          <a href="<%= computer_list[i].url %>" class="btn btn-primary">See More</a>
+          <button value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add Cart</button>
         </div>
       </div>
+    </div>
     <% } %>
   </div>
   <% if(computer_list.length === 0) { %>
-    <div class="text-center my-5">
-      <h3> There are no computers.</h3>
-    </div>
+  <div class="text-center my-5">
+    <h3> There are no computers.</h3>
+  </div>
   <% } %>
 </div>
 

@@ -2,80 +2,106 @@
 
 <div class="container">
   <div class="row">
-     <% const prod = {name:cabinet.name, id:cabinet._id, price: cabinet.price, image:cabinet.image  }%>
+    <% const prod = {name:cabinet.name, id:cabinet._id, price: cabinet.price,
+    image:cabinet.image }%>
     <div class="col-md-6">
       <% if(cabinet.image !== undefined){ %>
-        <img class="img-tumbnail" height= "360px" style="margin:20px"src="/images/<%= cabinet.image %>" alt="<%= cabinet.name %>">
+      <img
+        class="img-tumbnail"
+        height="360px"
+        style="margin: 20px"
+        src="/images/<%= cabinet.image %>"
+        alt="<%= cabinet.name %>"
+      />
       <% }; %>
     </div>
     <div class="col-md-6">
-      <h1  style="margin-top: 60px;"><%= cabinet.name %></h1>
-      <br>
+      <h1 style="margin-top: 60px"><%= cabinet.name %></h1>
+      <br />
       <% if(cabinet.brand.length > 0){ %>
-        <p>
-          <% cabinet.brand.forEach(function(brand){ %> 
-            <a style="color:gray"href="<%= brand.url %>" ><%= brand.name %></a>
-          <% }); %>
-        </p>
-        
+      <p>
+        <% cabinet.brand.forEach(function(brand){ %>
+        <a style="color: gray" href="<%= brand.url %>"><%= brand.name %></a>
+        <% }); %>
+      </p>
+
       <% } %>
-        
 
       <p>
         <span class="badge badge-success badge-pill">
           <%= "$" + cabinet.price.toLocaleString() + " ARS"%>
-        </span> </p>
-        <button  value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add to cart</button>
-      
+        </span>
+      </p>
+      <button
+        value="<%= JSON.stringify(prod)%>"
+        class="btn btn-primary product-cart"
+      >
+        Add to cart
+      </button>
     </div>
   </div>
 
+  <hr />
+  <br />
 
-
-  <hr><br>
-
-    <div class="row">
-      <div class="col-md-4">
-        
-        <h4 class="text-secondary">Price</h4>
-        <p class="text-white" style="background-color:  #6c757d; padding: 10px;"> <%= cabinet.price %></p>
-     
-      </div>
-      <div class="col-md-4">
-        <h4 class="text-secondary">Dimension</h4>
-        <p class="text-white" style="background-color:  #6c757d; padding: 10px;"> <%= cabinet.dimension %> cm</p>
-      </div>
-      <div class="col-md-4">
-        <h4 class="text-secondary">Type</h4>
-        <p class="text-white" style="background-color:  #6c757d; padding: 10px;"> <%= cabinet.type %></p>
-      </div>
+  <div class="row">
+    <div class="col-md-4">
+      <h4 class="text-secondary">Price</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px">
+        <%= cabinet.price %>
+      </p>
     </div>
-    <div class="row">
-      <div class="col-md-4">
-        <h4 class="text-secondary">Bay 5.25</h4>
-        <p class="text-white" style="background-color:  #6c757d; padding: 10px;"> <%= cabinet.bay_5_25 %></p>
-      </div>
-      <div class="col-md-4">
-        <h4 class="text-secondary">Bay 3.5</h4>
-        <p class="text-white" style="background-color:  #6c757d; padding: 10px;"> <%= cabinet.bay_3_5 %></p>
-      </div>
-      <div class="col-md-4">
-        <h4 class="text-secondary">Bay 2.5</h4>
-        <p class="text-white" style="background-color: #6c757d; padding: 10px;"> <%= cabinet.bay_2_5 %></p>
-      </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Dimension</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px">
+        <%= cabinet.dimension %> cm
+      </p>
     </div>
-    <div class="row">
-      
+    <div class="col-md-4">
+      <h4 class="text-secondary">Type</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px">
+        <%= cabinet.type %>
+      </p>
+    </div>
   </div>
-  <br>
+  <div class="row">
+    <div class="col-md-4">
+      <h4 class="text-secondary">Bay 5.25</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px">
+        <%= cabinet.bay_5_25 %>
+      </p>
+    </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Bay 3.5</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px">
+        <%= cabinet.bay_3_5 %>
+      </p>
+    </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Bay 2.5</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px">
+        <%= cabinet.bay_2_5 %>
+      </p>
+    </div>
+  </div>
+  <div class="row"></div>
+  <br />
   <div class="card-footer" style="margin-bottom: 20px">
-             
     <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
-    <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
-    <a href="<%= cabinet.url %>/delete" class="btn btn-danger float-right">Delete</a>
-    <a href="<%= cabinet.url %>/update" class="btn btn-primary float-right" style="background: rgb(51, 51, 148)"bac>Update</a>
-      <% } %>
+    <% if (typeof session != "undefined" && typeof session.user != "undefined"
+    && session.user.rol == "vendedor") { %>
+    <a href="<%= cabinet.url %>/delete" class="btn btn-danger float-right"
+      >Delete</a
+    >
+    <a
+      href="<%= cabinet.url %>/update"
+      class="btn btn-primary float-right"
+      style="background: rgb(51, 51, 148)"
+      bac
+      >Update</a
+    >
+    <% } %>
   </div>
 
-
-<%- include('../partials/footer.ejs') %>
+  <%- include('../partials/footer.ejs') %>
+</div>

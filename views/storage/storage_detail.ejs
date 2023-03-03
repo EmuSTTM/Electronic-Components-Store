@@ -4,67 +4,67 @@
   <div class="row">
     <div class="col-md-6">
       <% if(storage.image !== undefined){ %>
-        <img class="img-tumbnail" height= "360px" style="margin:20px"src="/images/<%= storage.image %>" alt="<%= storage.name %>">
+      <img class="img-tumbnail" height="360px" style="margin:20px" src="/images/<%= storage.image %>" alt="<%= storage.name %>">
       <% }; %>
     </div>
     <div class="col-md-6">
-      <h1  style="margin-top: 60px;"><%= storage.name %></h1>
+      <h1 style="margin-top: 60px;"><%= storage.name %></h1>
       <br>
-        <p>
-            <a style="color:gray"href="<%= storage.brand.url %>" ><%= storage.brand.name %></a>
-        </p>
-      
+      <p>
+        <a style="color:gray" href="<%= storage.brand.url %>"><%= storage.brand.name %></a>
+      </p>
+
       <p>
         <span class="badge badge-success badge-pill">
           <%= "$" + storage.price.toLocaleString() + " ARS"%>
-        </span> </p>
+        </span>
+      </p>
 
-        <% const prod = {name:storage.name, id:storage._id, price: storage.price, image:storage.image  }%>
-        <button  value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add to cart</button>
+      <% const prod = {name:storage.name, id:storage._id, price: storage.price, image:storage.image  }%>
+      <button value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add to cart</button>
     </div>
 
 
   </div>
   <hr><br>
-    
-          <div class="row">
-            <div class="col-md-4">
-              <h4 class="text-secondary">Type</h4>
-              <p class="text-white" style="background-color: #6c757d; padding: 10px;" >
-                  <%= storage.type %>
-              </p>
-            </div>
 
-              <div class="col-md-4">
-                <h4 class="text-secondary">Speed</h4>
-                <p class="text-white" style="background-color: #6c757d; padding: 10px;" >
-                    <%= storage.speed %>
-                </p>
-              </div>
-
-              <div class="col-md-4">
-                <h4 class="text-secondary">Capacity</h4>
-                <p class="text-white" style="background-color: #6c757d; padding: 10px;" >
-                    <%= storage.capacity %>
-                </p>
-              </div>
-            
-
-          </div>
-          
-          <div style="margin-bottom: 20px" class="card-footer">
-            <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
-
-            <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
-            <a href="<%= storage.url %>/delete" class="btn btn-danger float-right">Delete</a>
-            <a href="<%= storage.url %>/update" class="btn btn-primary float-right" style="background: rgb(51, 51, 148)"bac>Update</a>
-              <% } %>
-          
-          </div>
-        </div>
-      </div>
+  <div class="row">
+    <div class="col-md-4">
+      <h4 class="text-secondary">Type</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;">
+        <%= storage.type %>
+      </p>
     </div>
+
+    <div class="col-md-4">
+      <h4 class="text-secondary">Speed</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;">
+        <%= storage.speed %>
+      </p>
+    </div>
+
+    <div class="col-md-4">
+      <h4 class="text-secondary">Capacity</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;">
+        <%= storage.capacity %>
+      </p>
+    </div>
+
+
   </div>
-  
-  <%- include('../partials/footer.ejs') %>
-  
+
+  <div style="margin-bottom: 20px" class="card-footer">
+    <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+
+    <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
+    <a href="<%= storage.url %>/delete" class="btn btn-danger float-right">Delete</a>
+    <a href="<%= storage.url %>/update" class="btn btn-primary float-right" style="background: rgb(51, 51, 148)" bac>Update</a>
+    <% } %>
+
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+<%- include('../partials/footer.ejs') %>

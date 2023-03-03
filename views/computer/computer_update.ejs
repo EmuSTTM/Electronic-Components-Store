@@ -1,158 +1,156 @@
 <%- include('../partials/header.ejs') %>
 <div class="card" style="width: 650px; margin: 20px auto;">
-    <h5 class="card-header" style="font-size: 1.25rem; text-align: center;">
-      <%= title %>
-    </h5>
-    <div class="card-body">
-<form id="form" action="" method="POST" enctype="multipart/form-data">
+  <h5 class="card-header" style="font-size: 1.25rem; text-align: center;">
+    <%= title %>
+  </h5>
+  <div class="card-body">
+    <form id="form" action="" method="POST" enctype="multipart/form-data">
 
-  <p class="alert-danger">Este formulario es útil, pero por el momento tiene mucho que mejorar. Por falta de tiempo decidí dejarlo así. 
-    Actualizar los storages o las rams es conveniente hacerlo en PCBuild en lugar de en computer update. Gracias por entender 😊</p>
-    <div class="form-group">
-      <label for="name">Name</label>
-      <input type="text" class="form-control" name="name" id="name" value="<%= (typeof computer === 'undefined' ? '' : computer.name) %>" required>
-    </div>
+      <p class="alert-danger">Este formulario es útil, pero por el momento tiene mucho que mejorar. Por falta de tiempo decidí dejarlo así.
+        Actualizar los storages o las rams es conveniente hacerlo en PCBuild en lugar de en computer update. Gracias por entender 😊</p>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" id="name" value="<%= (typeof computer === 'undefined' ? '' : computer.name) %>" required>
+      </div>
       <div class="form-group">
         <label for="description">Description (optional)</label>
         <textarea name="description" value="<%= (typeof computer === 'undefined' ? '' : computer.description) %>" id="description" class="form-control" rows="3" placeholder="Write your description"></textarea>
-      </div> 
-    <div class="row">
-      <div class="col-6">
-        <div class="form-group">
-                      <label for="brand">Brand:</label>
-                      <select class="form-control" id="brand" name="brand">
-                        <% brands.forEach(function(brand) { %>
-                          <option value="<%= brand._id %>" <% if (computer.brand.equals(brand._id)) { %>selected<% } %>><%= brand.name %></option>
-                        <% }); %>
-                      </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="cabinet">Cabinet:</label><br>
-                    <select class="form-control" id="cabinet" name="cabinet">
-                      <% cabinets.forEach(function(cabinet) { %>
-                        <option value="<%= cabinet._id %>" <% if (computer.cabinet.equals(cabinet._id)) { %>selected<% } %>><%= cabinet.name %></option>
-                      <% }); %>
-                    </select>
-                </div>
-                  
-                <div class="form-group">
-                  <label for="gpu">GPU:</label><br>
-                  <select class="form-control" id="gpu" name="gpu">
-                    <% gpus.forEach(function(gpu) { %>
-                      <option value="<%= gpu._id %>" <% if (computer.gpu.equals(gpu._id)) { %>selected<% } %>><%= gpu.name %></option>
-                    <% }); %>
-                  </select>
-              </div>
-
       </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label for="brand">Brand:</label>
+            <select class="form-control" id="brand" name="brand">
+              <% brands.forEach(function(brand) { %>
+              <option value="<%= brand._id %>" <% if (computer.brand.equals(brand._id)) { %>selected<% } %>><%= brand.name %></option>
+              <% }); %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="cabinet">Cabinet:</label><br>
+            <select class="form-control" id="cabinet" name="cabinet">
+              <% cabinets.forEach(function(cabinet) { %>
+              <option value="<%= cabinet._id %>" <% if (computer.cabinet.equals(cabinet._id)) { %>selected<% } %>><%= cabinet.name %></option>
+              <% }); %>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="gpu">GPU:</label><br>
+            <select class="form-control" id="gpu" name="gpu">
+              <% gpus.forEach(function(gpu) { %>
+              <option value="<%= gpu._id %>" <% if (computer.gpu.equals(gpu._id)) { %>selected<% } %>><%= gpu.name %></option>
+              <% }); %>
+            </select>
+          </div>
+
+        </div>
 
 
-          <div class="col-6">
-  
-            <div class="form-group">
-              <label for="cpu">CPU:</label><br>
-              <select class="form-control" id="cpu" name="cpu">
-                <% cpus.forEach(function(cpu) { %>
-                  <option value="<%= cpu._id %>" <% if (computer.cpu.equals(cpu._id)) { %>selected<% } %>><%= cpu.name %></option>
-                <% }); %>
-              </select>
+        <div class="col-6">
+
+          <div class="form-group">
+            <label for="cpu">CPU:</label><br>
+            <select class="form-control" id="cpu" name="cpu">
+              <% cpus.forEach(function(cpu) { %>
+              <option value="<%= cpu._id %>" <% if (computer.cpu.equals(cpu._id)) { %>selected<% } %>><%= cpu.name %></option>
+              <% }); %>
+            </select>
           </div>
           <div class="form-group">
             <label for="motherboard">Motherboard:</label><br>
             <select class="form-control" id="motherboard" name="motherboard">
               <% motherboards.forEach(function(motherboard) { %>
-                <option value="<%= motherboard._id %>" <% if (computer.motherboard.equals(motherboard._id)) { %>selected<% } %>><%= motherboard.name %></option>
+              <option value="<%= motherboard._id %>" <% if (computer.motherboard.equals(motherboard._id)) { %>selected<% } %>><%= motherboard.name %></option>
               <% }); %>
             </select>
-        </div>
-
-        <div class="form-group">
-
-          <label for="powerSupply">Power Supply:</label><br>
-          <select class="form-control" id="powerSupply" name="powerSupply">
-            <% powerSupplies.forEach(function(powerSupply) { %>
-              <option value="<%= powerSupply._id %>" <% if (computer.powerSupply.equals(powerSupply._id)) { %>selected<% } %>><%= powerSupply.name %></option>
-            <% }); %>
-          </select>
-      </div>
           </div>
-    </div>
 
-    <div class="form-group">
+          <div class="form-group">
+
+            <label for="powerSupply">Power Supply:</label><br>
+            <select class="form-control" id="powerSupply" name="powerSupply">
+              <% powerSupplies.forEach(function(powerSupply) { %>
+              <option value="<%= powerSupply._id %>" <% if (computer.powerSupply.equals(powerSupply._id)) { %>selected<% } %>><%= powerSupply.name %></option>
+              <% }); %>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
         <label for="rams">RAMs:</label><br>
         <% if(typeof computer !== 'undefined') {%>
-            <% for (var i = 0; i < computer.ram.length; i++) { %>
-                <select class="form-control" id="ram<%= i%>" name="ram<%= i%>">
-                <% rams.forEach(function(ram) { %>
-                    <option value="<%= ram._id %>" <% if (computer.ram.some(function(computerRam) { return computerRam.equals(ram._id) })) { %>selected<% } %>><%= ram.name %></option>
-                <% }); %>
-                  </select>
-        
-                <% } %>
-           
+        <% for (var i = 0; i < computer.ram.length; i++) { %>
+        <select class="form-control" id="ram<%= i%>" name="ram<%= i%>">
+          <% rams.forEach(function(ram) { %>
+          <option value="<%= ram._id %>" <% if (computer.ram.some(function(computerRam) { return computerRam.equals(ram._id) })) { %>selected<% } %>><%= ram.name %></option>
+          <% }); %>
+        </select>
 
-                <% } else { %>
-                <select class="form-control" id="rams" name="rams">
-                <% rams.forEach(function(ram) { %>
-                    <option value="<%= ram._id %>" <% if (computer.ram.some(function(computerRam) { return computerRam.equals(ram._id) })) { %>selected<% } %>><%= ram.name %></option>
-                <% }); %>
-                </select>
+        <% } %>
 
-                <% } %>   
-    </div>
 
-    <div class="form-group">
+        <% } else { %>
+        <select class="form-control" id="rams" name="rams">
+          <% rams.forEach(function(ram) { %>
+          <option value="<%= ram._id %>" <% if (computer.ram.some(function(computerRam) { return computerRam.equals(ram._id) })) { %>selected<% } %>><%= ram.name %></option>
+          <% }); %>
+        </select>
+
+        <% } %>
+      </div>
+
+      <div class="form-group">
         <label for="storages">Storages:</label><br>
         <% if(typeof computer !== 'undefined') {%>
-            <% for (var i = 0; i < computer.storage.length; i++) { %>
-                <select class="form-control"  id="storage<%= i%>" name="storage<%= i%>">
-                <% storages.forEach(function(storage) { %>
-                    <option value="<%= storage._id %>" <% if (computer.storage.some(function(computerStorage) { return computerStorage.equals(storage._id) })) { %>selected<% } %>><%= storage.name %></option>
-                <% }); %>
-                  </select><br><br>
-        
-                <% } %>
-           
+        <% for (var i = 0; i < computer.storage.length; i++) { %>
+        <select class="form-control" id="storage<%= i%>" name="storage<%= i%>">
+          <% storages.forEach(function(storage) { %>
+          <option value="<%= storage._id %>" <% if (computer.storage.some(function(computerStorage) { return computerStorage.equals(storage._id) })) { %>selected<% } %>><%= storage.name %></option>
+          <% }); %>
+        </select><br><br>
 
-                <% } else { %>
-                <select class="form-control" id="storages" name="storages">
-                <% storages.forEach(function(storage) { %>
-                    <option value="<%= storage._id %>" <% if (computer.storage.some(function(computerStorage) { return computerStorage.equals(storage._id) })) { %>selected<% } %>><%= storage.name %></option>
-                <% }); %>
-                </select>
+        <% } %>
 
-                <% } %> 
-    </div>
-<div class="form-group">
-    <label for="image" style="font-size: 1.15rem;">Image</label>
-    <p class="alert-danger">For the moment, you can have only one image for product. In the future, this functionality will be expanded</p>
-    <input id="image" type="file" multiple name="image" class="form-control-file" >
-    <input id="last_image" name="last_image" value="<%= (typeof computer === 'undefined' ? '' : computer.image) %>" style="visibility:hidden" >
-    <img src="<%= (typeof computer !== 'undefined' && typeof computer.toObject().image !== 'undefined') 
-    ? `/images/${computer.image}` : 'https://via.placeholder.com/300x250' %>" height="250" 
-    alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
+
+        <% } else { %>
+        <select class="form-control" id="storages" name="storages">
+          <% storages.forEach(function(storage) { %>
+          <option value="<%= storage._id %>" <% if (computer.storage.some(function(computerStorage) { return computerStorage.equals(storage._id) })) { %>selected<% } %>><%= storage.name %></option>
+          <% }); %>
+        </select>
+
+        <% } %>
+      </div>
+      <div class="form-group">
+        <label for="image" style="font-size: 1.15rem;">Image</label>
+        <p class="alert-danger">For the moment, you can have only one image for product. In the future, this functionality will be expanded</p>
+        <input id="image" type="file" multiple name="image" class="form-control-file">
+        <input id="last_image" name="last_image" value="<%= (typeof computer === 'undefined' ? '' : computer.image) %>" style="visibility:hidden">
+        <img src="<%= (typeof computer !== 'undefined' && typeof computer.toObject().image !== 'undefined') 
+    ? `/images/${computer.image}` : 'https://via.placeholder.com/300x250' %>" height="250" alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
+      </div>
+
+
+      <button type="submit" class="btn btn-primary d-flex mx-auto mt-3" style="margin-bottom: 10px;">Actualizar</button>
+
+    </form>
   </div>
+  <script>
+    function previewFile() {
+      var preview = document.getElementById("preview");
+      var file = document.querySelector("input[type=file]").files[0];
+      var reader = new FileReader();
 
+      reader.addEventListener("load", function() {
+        preview.src = reader.result;
+      }, false);
 
-  <button  type="submit" 
-  class="btn btn-primary d-flex mx-auto mt-3" style="margin-bottom: 10px;">Actualizar</button>
-
-</form>
-</div>
-<script>
-function previewFile() {
-    var preview = document.getElementById("preview");
-    var file = document.querySelector("input[type=file]").files[0];
-    var reader = new FileReader();
-  
-    reader.addEventListener("load", function () {
-      preview.src = reader.result;
-    }, false);
-  
-    if (file) {
-      reader.readAsDataURL(file);
+      if (file) {
+        reader.readAsDataURL(file);
+      }
     }
-  }
-  document.querySelector("input[type=file]").addEventListener("change", previewFile);
+    document.querySelector("input[type=file]").addEventListener("change", previewFile);
   </script>
-<%- include('../partials/footer.ejs') %>
+  <%- include('../partials/footer.ejs') %>

@@ -1,104 +1,105 @@
 <%- include('../partials/header.ejs') %>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-6">
-          <% if(motherboard.image !== undefined){ %>
-            <img class="img-tumbnail" height= "360px" style="margin:20px"src="/images/<%= motherboard.image %>" alt="<%= motherboard.name %>">
-          <% }; %>
-        </div>
-        <div class="col-md-6">
-          <h1  style="margin-top: 60px;"><%= motherboard.name %></h1>
-          <br>
-            <p>
-              <% if(motherboard_brand.length > 0){ %>
-                <% motherboard_brand.forEach(function(brand){ %>
-                    <a style="color:gray" href="<%= brand.url %>" class="text-black"><%= brand.name %></a>
-                <% }); %>
-            <% } %>
-            </p>
-          
-          <p>
-            <span class="badge badge-success badge-pill">
-              <%= "$" + motherboard.price.toLocaleString() + " ARS"%>
-            </span> </p>
+  <div class="row">
+    <div class="col-md-6">
+      <% if(motherboard.image !== undefined){ %>
+      <img class="img-tumbnail" height="360px" style="margin:20px" src="/images/<%= motherboard.image %>" alt="<%= motherboard.name %>">
+      <% }; %>
+    </div>
+    <div class="col-md-6">
+      <h1 style="margin-top: 60px;"><%= motherboard.name %></h1>
+      <br>
+      <p>
+        <% if(motherboard_brand.length > 0){ %>
+        <% motherboard_brand.forEach(function(brand){ %>
+        <a style="color:gray" href="<%= brand.url %>" class="text-black"><%= brand.name %></a>
+        <% }); %>
+        <% } %>
+      </p>
 
-            <% const prod = {name:motherboard.name, id:motherboard._id, price: motherboard.price, image:motherboard.image  }%>
-        <button  value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add to cart</button>
-        </div>
-    
-    
-      </div>
-      <hr><br>
-    <div class="row">
+      <p>
+        <span class="badge badge-success badge-pill">
+          <%= "$" + motherboard.price.toLocaleString() + " ARS"%>
+        </span>
+      </p>
 
-        <div class="col-md-4">
-            <h4 class="text-secondary">Chipset</h4>
-            <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= motherboard.chipset %></p>
-        </div>
-        <div class="col-md-4">
-            <h4 class="text-secondary">Type</h4>
-            <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= motherboard.type %></p>
-        </div>
-        <div class="col-md-4">
-            <h4 class="text-secondary">Socket motherboard</h4>
-            <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= motherboard.socket %></p>
-        </div>
+      <% const prod = {name:motherboard.name, id:motherboard._id, price: motherboard.price, image:motherboard.image  }%>
+      <button value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add to cart</button>
+    </div>
+
+
+  </div>
+  <hr><br>
+  <div class="row">
+
+    <div class="col-md-4">
+      <h4 class="text-secondary">Chipset</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= motherboard.chipset %></p>
+    </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Type</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= motherboard.type %></p>
+    </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Socket motherboard</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= motherboard.socket %></p>
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col-md-4">
+      <h4 class="text-secondary">RAM Slots</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= motherboard.ram_slots %></p>
+    </div>
+
+    <div class="col-md-4">
+      <h4 class="text-secondary">Max RAM</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= motherboard.ramSlots %> GB</p>
+    </div>
+
+    <div class="col-md-4">
+      <h4 class="text-secondary">RAM Socket</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= motherboard.socket_ram %> GB</p>
+    </div>
+  </div>
+
+
+
+  <div class="row">
+    <div class="col-md-4">
+      <h4 class="text-secondary">MAX Frecuen RAM</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= motherboard.frecuency_ram %></p>
+    </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Sockets NVMe</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= motherboard.sockets_v2 %></p>
+    </div>
+    <div class="col-md-4">
+      <h4 class="text-secondary">Sockets SATA</h4>
+      <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= motherboard.sockets_sata %></p>
+    </div>
+
+
+  </div>
+
+
+
 </div>
-<div class="row">
-    
-    <div class="col-md-4">
-        <h4 class="text-secondary">RAM Slots</h4>
-        <p class="text-white" style="background-color: #6c757d; padding: 10px;" ><%= motherboard.ram_slots %></p>
-    </div>
 
-    <div class="col-md-4">
-        <h4 class="text-secondary">Max RAM</h4>
-        <p class="text-white" style="background-color: #6c757d; padding: 10px;" ><%= motherboard.ramSlots %> GB</p>
-    </div>
 
-    <div class="col-md-4">
-        <h4 class="text-secondary">RAM Socket</h4>
-        <p class="text-white" style="background-color: #6c757d; padding: 10px;" ><%= motherboard.socket_ram %> GB</p>
-    </div>
+
+
+<div class="card-footer" style="margin-bottom: 20px">
+
+  <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+  <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
+  <a href="<%= motherboard.url %>/delete" class="btn btn-danger float-right">Delete</a>
+  <a href="<%= motherboard.url %>/update" class="btn btn-primary float-right" style="background: rgb(51, 51, 148)" bac>Update</a>
+  <% } %>
+</div>
+</div>
+</div>
 </div>
 
-
-
-<div class="row">
-    <div class="col-md-4">
-        <h4 class="text-secondary">MAX Frecuen RAM</h4>
-        <p class="text-white" style="background-color: #6c757d; padding: 10px;" ><%= motherboard.frecuency_ram %></p>
-    </div>
-    <div class="col-md-4">
-        <h4 class="text-secondary">Sockets NVMe</h4>
-        <p class="text-white" style="background-color: #6c757d; padding: 10px;" ><%= motherboard.sockets_v2 %></p>
-    </div>
-    <div class="col-md-4">
-        <h4 class="text-secondary">Sockets SATA</h4>
-        <p class="text-white" style="background-color: #6c757d; padding: 10px;" ><%= motherboard.sockets_sata %></p>
-    </div>
-
-
-</div>
-
-
-
-</div>
-
-
-
-                    
-            <div class="card-footer" style="margin-bottom: 20px">
-             
-                <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
-                <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
-                <a href="<%= motherboard.url %>/delete" class="btn btn-danger float-right">Delete</a>
-                <a href="<%= motherboard.url %>/update" class="btn btn-primary float-right" style="background: rgb(51, 51, 148)"bac>Update</a>
-            <% } %>
-              </div>
-      </div>
-    </div>
-</div>
-      
 <%- include('../partials/footer.ejs') %>

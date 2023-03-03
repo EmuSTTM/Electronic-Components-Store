@@ -1,134 +1,133 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<head>
+  <title><%= title %></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
 
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.5.2/lux/bootstrap.min.css">
-    <link rel="stylesheet" href="/stylesheets/style.css" type="text/css">
-    <script src="https://kit.fontawesome.com/13e89618ce.js" crossorigin="anonymous"></script>
-    <script defer src="/javascripts/shopping_cart.js"></script>
-  </head>
-  
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="/">Electronic Computer Store</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse row" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link <%= (option == 'components') ? 'active' : '' %>" href="/components">Components</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link <%= (option == 'computers') ? 'active' : '' %>" href="/computers">Computers</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link <%= (option == 'pcBuild') ? 'active' : '' %>" href="/pcBuild">PC Build</a>
-          </li>
-        </ul>
-        <div class="col-sm-4 " >
-          
-            <% if (typeof session != "undefined" && typeof session.user != "undefined") { %>
-              
-              <div class="dropdown">
-                <button class="dropbtn  dropdown-toggle"><%= session.user.name %></button>
-                <div class="dropdown-content">
-                  <a class="dropdown-item" href="/users/logout">Log Out</a>
-                </div>
-              </div>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.5.2/lux/bootstrap.min.css">
+  <link rel="stylesheet" href="/stylesheets/style.css" type="text/css">
+  <script src="https://kit.fontawesome.com/13e89618ce.js" crossorigin="anonymous"></script>
+  <script defer src="/javascripts/shopping_cart.js"></script>
+</head>
 
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">Electronic Computer Store</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse row" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link <%= (option == 'components') ? 'active' : '' %>" href="/components">Components</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link <%= (option == 'computers') ? 'active' : '' %>" href="/computers">Computers</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link <%= (option == 'pcBuild') ? 'active' : '' %>" href="/pcBuild">PC Build</a>
+        </li>
+      </ul>
+      <div class="col-sm-4 ">
 
-              
-            <% } else { %>
-              
-                
-                <div>
-                  <a  href="/users/login">Log in</a>
-                </div>
-              
+        <% if (typeof session != "undefined" && typeof session.user != "undefined") { %>
 
-
-            <% } %>
-            
-          
+        <div class="dropdown">
+          <button class="dropbtn  dropdown-toggle"><%= session.user.name %></button>
+          <div class="dropdown-content">
+            <a class="dropdown-item" href="/users/logout">Log Out</a>
+          </div>
         </div>
-        <a href="/cart" id="cart-button"><i class="fa-solid fa-cart-shopping "></i><span id="cart-count">0</span></a>
+
+
+
+        <% } else { %>
+
+
+        <div>
+          <a href="/users/login">Log in</a>
+        </div>
+
+
+
+        <% } %>
+
+
       </div>
-    </nav>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-2">
-          <ul class="nav flex-column sidebar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/computers" >Computers</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/brands">Brands</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/cabinets">Cabinets</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/cpus">CPUs</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/gpus">GPUs</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/motherboards">Motherboards</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/powerSupplies">PowerSupplies</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/rams">Rams</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/storages">Storages</a>
-            </li>
-            <li class="nav-item">
-              <hr>
-              <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/pcBuild">Create Computer</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/brand/create">Create Brand</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/cabinet/create">Create Cabinet</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/cpu/create">Create CPU</a>
+      <a href="/cart" id="cart-button"><i class="fa-solid fa-cart-shopping "></i><span id="cart-count">0</span></a>
+    </div>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-2">
+        <ul class="nav flex-column sidebar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
           </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/components/gpu/create">Create GPU</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/components/motherboard/create">Create Motherboard</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/components/powersupply/create">Create PowerSupply</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/components/ram/create">Create Ram</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/components/storage/create">Create Storage</a>
-            </li>
-            <% } %>
-          </ul>
-        </div>
-        <div class="col-sm-10">
-
-            
+          <li class="nav-item">
+            <a class="nav-link" href="/computers">Computers</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/components/brands">Brands</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/components/cabinets">Cabinets</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/components/cpus">CPUs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/components/gpus">GPUs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/components/motherboards">Motherboards</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/components/powerSupplies">PowerSupplies</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/components/rams">Rams</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/components/storages">Storages</a>
+          </li>
+          <li class="nav-item">
+            <hr>
+            <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/pcBuild">Create Computer</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/components/brand/create">Create Brand</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/components/cabinet/create">Create Cabinet</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/components/cpu/create">Create CPU</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/components/gpu/create">Create GPU</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/components/motherboard/create">Create Motherboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/components/powersupply/create">Create PowerSupply</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/components/ram/create">Create Ram</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/components/storage/create">Create Storage</a>
+          </li>
+          <% } %>
+        </ul>
+      </div>
+      <div class="col-sm-10">

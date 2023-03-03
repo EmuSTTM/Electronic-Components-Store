@@ -1,78 +1,80 @@
-
-
 <%- include('./partials/header.ejs') %>
 
 <div class="container my-5">
   <h1 class="text-center"><%= title %></h1>
-  <p class="text-center">Welcome to Electronic Components Store, here you will find all the components you need!
-    
+  <p class="text-center">
+    Welcome to Electronic Components Store, here you will find all the
+    components you need!
   </p>
 
-
   <% if (error) { %>
-    <p class="text-center text-danger">Error getting dynamic content.</p>
+  <p class="text-center text-danger">Error getting dynamic content.</p>
   <% } else { %>
-    <p class="text-center"> ECS has the following record counts:</p>
-    <div class="row">
-      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title"><a href="/computers">Computers</a></h5>
-            <p class="card-text"><%= data.computer_count %></p>
-          </div>
+  <p class="text-center">ECS has the following record counts:</p>
+  <div class="row">
+    <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title"><a href="/computers">Computers</a></h5>
+          <p class="card-text"><%= data.computer_count %></p>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title"><a href="/components/brands">Brands</a></h5>
-            <p class="card-text"><%= data.brand_count %></p>
-          </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title"><a href="/components/brands">Brands</a></h5>
+          <p class="card-text"><%= data.brand_count %></p>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title"><a href="/components/cabinets">Cabinets</a></h5>
-            <p class="card-text"><%= data.cabinet_count %></p>
-          </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">
+            <a href="/components/cabinets">Cabinets</a>
+          </h5>
+          <p class="card-text"><%= data.cabinet_count %></p>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title"><a href="/components/gpus">GPUs</a></h5>
-            <p class="card-text"><%= data.gpu_count %></p>
-          </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title"><a href="/components/gpus">GPUs</a></h5>
+          <p class="card-text"><%= data.gpu_count %></p>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title"><a href="/components/motherboards">Motherboards</a></h5>
-            <p class="card-text"><%= data.motherboard_count %></p>
-          </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">
+            <a href="/components/motherboards">Motherboards</a>
+          </h5>
+          <p class="card-text"><%= data.motherboard_count %></p>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title"><a href="/components/powerSupplies">Power Supplies</a></h5>
-            <p class="card-text"><%= data.power_supply_count %></p>
-          </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">
+            <a href="/components/powerSupplies">Power Supplies</a>
+          </h5>
+          <p class="card-text"><%= data.power_supply_count %></p>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title"><a href="/components/cpus">CPUS</a></h5>
-            <p class="card-text"><%= data.cpu_count %></p>
-          </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title"><a href="/components/cpus">CPUS</a></h5>
+          <p class="card-text"><%= data.cpu_count %></p>
         </div>
       </div>
-      
+    </div>
 
-    <% } %>
-           
-
-<%- include('./partials/footer.ejs') %>
+    <% } %> <%- include('./partials/footer.ejs') %>
+  </div>
+</div>

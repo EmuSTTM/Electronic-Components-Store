@@ -1,55 +1,70 @@
 <%- include('../partials/header.ejs') %>
 
-<div class="container" style="margin: 10px 0;">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Delete cpu <%= cpu.name %> </h3>
-                    <% if (cpu_computers.length > 0) { %>
-                        <p><strong>Delete or update the following computers before attempting to delete this brand.</strong></p>
-                        
-                            <div class="container">
-                            <br>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h4 class="text-light bg-dark p-3">Computers</h4>
-                                
-                                    <ul class="list-group">
-                                        <% cpu_computers.forEach(function(computer){ %>
-                                        <li class="list-group-item">
-                                            <a href="<%= computer.url %>" class="text-dark"><%= computer.name %></a>
-                                        </li>
-                                        <% }); %>
-                                    </ul>
-                                </div> 
-                            </div>
-                           
-                                    
+<div class="container" style="margin: 10px 0">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3>Delete cpu <%= cpu.name %></h3>
+          <% if (cpu_computers.length > 0) { %>
+          <p>
+            <strong
+              >Delete or update the following computers before attempting to
+              delete this brand.</strong
+            >
+          </p>
 
-                    <% } else { %>
-                    <div class="card-body">
-                        <p>Are you sure you want to delete the following cpu?</p>
-                        <h4><%= cpu.name %></h4>
-                        <form action="" method="post">
-                            <input type="hidden" name="cpuid" value="<%= cpu._id %>" required>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                                <a href="/components/cpus" class="btn btn-secondary">Cancel</a>
-                            </div>
-                        </form>
-                    </div>
-                    <% } %>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <br>
-                            <a href="javascript:history.back()" class="btn btn-primary">Go Back</a>
-                        </div>
-                    </div>
-                </div>
+          <div class="container">
+            <br />
+            <div class="row">
+              <div class="col-md-6">
+                <h4 class="text-light bg-dark p-3">Computers</h4>
+
+                <ul class="list-group">
+                  <% cpu_computers.forEach(function(computer){ %>
+                  <li class="list-group-item">
+                    <a href="<%= computer.url %>" class="text-dark"
+                      ><%= computer.name %></a
+                    >
+                  </li>
+                  <% }); %>
+                </ul>
+              </div>
             </div>
-        </div>
-    </div>
-</div>
 
-<%- include('../partials/footer.ejs') %>
+            <% } else { %>
+            <div class="card-body">
+              <p>Are you sure you want to delete the following cpu?</p>
+              <h4><%= cpu.name %></h4>
+              <form action="" method="post">
+                <input
+                  type="hidden"
+                  name="cpuid"
+                  value="<%= cpu._id %>"
+                  required
+                />
+                <div class="form-group">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                  <a href="/components/cpus" class="btn btn-secondary"
+                    >Cancel</a
+                  >
+                </div>
+              </form>
+            </div>
+            <% } %>
+            <div class="row">
+              <div class="col-md-12">
+                <br />
+                <a href="javascript:history.back()" class="btn btn-primary"
+                  >Go Back</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../partials/footer.ejs') %>
+</div>

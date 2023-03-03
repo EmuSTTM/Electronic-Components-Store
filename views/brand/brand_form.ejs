@@ -1,62 +1,107 @@
 <%- include('../partials/header.ejs') %>
 
-<div class="card" style="width: 500px;margin: 20px auto;">
-    <h5 class="card-header" style="font-size: 1.25rem; text-align: center;">
-      <%= title %>
-    </h5>
-    <div class="card-body">
-      <form id="form" action="" method="POST" enctype="multipart/form-data">
-        <div class="form-group">
-          <label for="name" style="font-size: 1.15rem;">Name</label>
-          <input type="text" value="<%= (typeof brand === 'undefined' ? '' : brand.name) %>"
-            class="form-control" id="name" name="name" placeholder="Enter brand name" required>
-          <textarea  rows="3" class="form-control" id="description" name="description" 
-          placeholder="Enter a optional brand description" style="resize: none;margin-top:10px" 
-          required><%= (typeof brand === 'undefined' || typeof brand.description === 'undefined' ? '' : brand.description)
-           %></textarea>
-          <label for="image" style="font-size: 1.15rem;">Image</label>
-          <p class="alert-danger">For the moment, you can have only one image for product. In the future, this functionality will be expanded</p>
+<div class="card" style="width: 500px; margin: 20px auto">
+  <h5 class="card-header" style="font-size: 1.25rem; text-align: center">
+    <%= title %>
+  </h5>
+  <div class="card-body">
+    <form id="form" action="" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="name" style="font-size: 1.15rem">Name</label>
+        <input
+          type="text"
+          value="<%= (typeof brand === 'undefined' ? '' : brand.name) %>"
+          class="form-control"
+          id="name"
+          name="name"
+          placeholder="Enter brand name"
+          required
+        />
+        <textarea
+          rows="3"
+          class="form-control"
+          id="description"
+          name="description"
+          placeholder="Enter a optional brand description"
+          style="resize: none; margin-top: 10px"
+          required
+        >
+<%= (typeof brand === 'undefined' || typeof brand.description === 'undefined' 
+? '' : brand.description)%></textarea
+        >
+        <label for="image" style="font-size: 1.15rem">Image</label>
+        <p class="alert-danger">
+          For the moment, you can have only one image for product. In the
+          future, this functionality will be expanded
+        </p>
 
-          <% if (typeof brand !== 'undefined') {%>
-          <input id="image" type="file" multiple name="image" class="form-control-file" >
-          <% } else { %>
-            <input id="image" type="file" multiple name="image" class="form-control-file" required >
-          <% } %>
+        <% if (typeof brand !=='undefined' ) {%>
+        <input
+          id="image"
+          type="file"
+          multiple
+          name="image"
+          class="form-control-file"
+        />
+        <% } else { %>
+        <input
+          id="image"
+          type="file"
+          multiple
+          name="image"
+          class="form-control-file"
+          required
+        />
+        <% } %>
 
-
-          <input id="last_image" name="last_image" value="<%= (typeof brand === 'undefined' ? '' : brand.image) %>" style="visibility:hidden" >
-          <img src="<%= (typeof brand !== 'undefined' && typeof brand.toObject().image !== 'undefined') ? `/images/${brand.image}` : 'https://via.placeholder.com/200x200' %>" height="200" alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
-        </div>
-        <button  type="submit" class="btn btn-primary d-flex mx-auto mt-3" style="margin-bottom: 10px;">Submit</button>
-      </form>
-      
-    </div>
-
-    
-    
-</div>
-<% if(typeof errors !== 'undefined'){ %>
-  <% errors.forEach(function(error) { %>
-      <div class="alert alert-danger">
-          <%= error.msg %>
+        <input
+          id="last_image"
+          name="last_image"
+          value="<%= (typeof brand === 'undefined' ? '' : brand.image) %>"
+          style="visibility: hidden"
+        />
+        <img
+          src="<%= (typeof brand !== 'undefined' && typeof brand.toObject().image !== 'undefined') ? `/images/${brand.image}` : 'https://via.placeholder.com/200x200' %>"
+          height="200"
+          alt="Image preview..."
+          id="preview"
+          style="margin: 20px auto; display: block"
+        />
       </div>
-  <% }); %>
-<% } %>
+      <button
+        type="submit"
+        class="btn btn-primary d-flex mx-auto mt-3"
+        style="margin-bottom: 10px"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</div>
+<% if(typeof errors !=='undefined' ){ %> <% errors.forEach(function(error) { %>
+<div class="alert alert-danger"><%= error.msg %></div>
+<% }); %> <% } %>
 <script>
-function previewFile() {
-  var preview = document.getElementById("preview");
-  var file = document.querySelector("input[type=file]").files[0];
-  var reader = new FileReader();
+  function previewFile() {
+    var preview = document.getElementById("preview");
+    var file = document.querySelector("input[type=file]").files[0];
+    var reader = new FileReader();
 
-  reader.addEventListener("load", function () {
-    preview.src = reader.result;
-  }, false);
+    reader.addEventListener(
+      "load",
+      function () {
+        preview.src = reader.result;
+      },
+      false
+    );
 
-  if (file) {
-    reader.readAsDataURL(file);
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   }
-}
 
-document.querySelector("input[type=file]").addEventListener("change", previewFile);
+  document
+    .querySelector("input[type=file]")
+    .addEventListener("change", previewFile);
 </script>
 <%- include('../partials/footer.ejs') %>
