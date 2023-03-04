@@ -61,7 +61,7 @@
         </div>
         <div class="form-group">
           <label for="image" style="font-size: 1.15rem;">Image</label>
-          <p class="alert-danger">For the moment, you can have only one image for product. In the future, this functionality will be expanded</p>
+          <p class="alert-danger">Por el momento, solamente se puede añadir una imagen del producto. En el futuro esta función será expandida  🥴</p>
           <input id="image" type="file" multiple name="image" class="form-control-file" <%= typeof ram != 'undefined' ? '' : 'required' %>>
           <input id="last_image" name="last_image" value="<%= (typeof ram === 'undefined' ? '' : ram.image) %>" style="visibility:hidden">
           <img src="<%= (typeof ram !== 'undefined' && typeof ram.toObject().image !== 'undefined') 

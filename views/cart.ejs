@@ -39,12 +39,31 @@
   </form>
 </div>
 <script>
+
+
+  let cartContainer = document.getElementById("cart-container");
+  let noProducts = document.getElementById("no-products");
+  let containerTotalPrice = document.getElementById("container-totalPrice");
+  console.log(cartContainer.innerHTML.length)
+
+  document.addEventListener("DOMContentLoaded", function(event) {
+  if(cartContainer.innerHTML.length != undefined){
+  console.log(cartContainer)
+  let messageElement = document.createElement("div");
+  messageElement.innerHTML = `<div class="alert alert-danger w-100 
+    text-center">There are no products in the shopping cart</div>`;
+  noProducts.appendChild(messageElement);
+  containerTotalPrice.innerHTML = "";
+  document.querySelector("button[type=submit]").style.display = "none";
+  }
+  });
+
   if (document.getElementById("cart-submit")) {
     document
       .getElementById("cart-submit")
       .addEventListener("click", function () {
         alert(
-          "Este Ecommerce es ficticio, por lo que no se pueden hacer compras reales 😉"
+          `Este Ecommerce es ficticio, por lo que no se pueden hacer compras reales 😉`
         );
       });
   }
@@ -57,14 +76,13 @@
       });
   }
 
-  let cartContainer = document.getElementById("cart-container");
-  let noProducts = document.getElementById("no-products");
-  let containerTotalPrice = document.getElementById("container-totalPrice");
+ 
 
   // Función para mostrar el mensaje de "No hay productos en el carrito"
   function showNoProductsMessage() {
     let messageElement = document.createElement("div");
-    messageElement.innerHTML = `<div class="alert alert-danger w-100 text-center">There are no products in the shopping cart</div>`;
+    messageElement.innerHTML = `<div class="alert alert-danger w-100 
+    text-center">There are no products in the shopping cart</div>`;
     noProducts.appendChild(messageElement);
     containerTotalPrice.innerHTML = "";
     document.querySelector("button[type=submit]").style.display = "none";
@@ -76,7 +94,8 @@
     noProducts.innerHTML = "";
     containerTotalPrice.innerHTML = `<div class="col-md-7"></div>
 			<div class="col-md-5">
-			  <p id="total-price" class="text-right font-weight-bold">Precio TOTAL:<br> $0.00</p>
+			  <p id="total-price" class="text-right font-weight-bold">
+          Precio TOTAL:<br> $0.00</p>
 			</div>`;
   }
 

@@ -312,7 +312,6 @@ exports.cabinet_update_post = [
     .isLength({ min: 1 })
     .escape(),
 
-  // Process check().not().isEmpty().withMessage('Cabinet image is required'),request after validation and sanitization.
   (req, res, next) => {
     // Extract the validation errors from a request.
     const errors = validationResult(req);

@@ -348,7 +348,7 @@ exports.cpu_update_post = [
             typeof cpu.image != "undefined" &&
             typeof req.file != "undefined"
           ) {
-            console.log(typeof req.file);
+            
             const ImageName = "public/images/" + results.cpu.image;
 
             if (fs.existsSync(ImageName)) {

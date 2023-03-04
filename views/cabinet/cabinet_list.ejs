@@ -51,15 +51,5 @@
   <% } %>
 </div>
 
-<script>
-  // const carrito = require('/javascripts/shopping_cart.js')
-
-  function addProduct(product) {
-    console.log("hola hola hola hola hola hola hola hola hola");
-    const producto = JSON.parse(product);
-    console.log(producto);
-    carrito.agregarAlCarrito(producto._id);
-  }
-</script>
 
 <%- include('../partials/footer.ejs') %>

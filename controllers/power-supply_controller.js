@@ -8,7 +8,7 @@ const fs = require("fs");
 
 // Display list of all PowerSupply.
 exports.powerSupply_list = function (req, res, next) {
-  PowerSupply.find({}, "name brand model power certifications price image")
+  PowerSupply.find({}, "name brand model power certification price image")
     .sort({ name: 1 })
     .populate("brand")
     .exec(function (err, list_powerSupply) {
@@ -27,7 +27,7 @@ exports.powerSupply_list = function (req, res, next) {
 // El campo brand es una clave foranea hacia el esquema Brand, es requerido
 // El campo model es requerido y debe ser una cadena de caracteres
 // El campo power es requerido, debe ser un número y debe ser mayor a 0
-// El campo certifications es un arreglo de strings, con una lista de valores posibles y su valor default.
+// El campo certification es un arreglo de strings, con una lista de valores posibles y su valor default.
 // El campo price es requerido, debe ser un número y debe ser mayor a 0
 
 // Display detail page for a specific PowerSupply.
@@ -89,8 +89,8 @@ exports.powerSupply_create_post = [
   body("model", "model is required").trim().isLength({ min: 1 }).escape(),
   // Validate and sanitize the power field.
   body("power", "Power is required").trim().isLength({ min: 1 }).escape(),
-  // Validate and sanitize the certifications field.
-  body("certifications", "Certification is required")
+  // Validate and sanitize the certification field.
+  body("certification", "Certification is required")
     .trim()
     .isLength({ min: 3 })
     .escape(),
@@ -110,7 +110,7 @@ exports.powerSupply_create_post = [
       brand: req.body.brand,
       model: req.body.model,
       power: req.body.power,
-      certifications: req.body.certifications,
+      certification: req.body.certification,
       price: req.body.price,
       image: req.file.filename,
     });
@@ -291,8 +291,8 @@ exports.powerSupply_update_post = [
   body("model", "model is required").trim().isLength({ min: 1 }).escape(),
   // Validate and sanitize the power field.
   body("power", "Power is required").trim().isLength({ min: 1 }).escape(),
-  // Validate and sanitize the certifications field.
-  body("certifications", "Certification is required")
+  // Validate and sanitize the certification field.
+  body("certification", "Certification is required")
     .trim()
     .isLength({ min: 3 })
     .escape(),
@@ -313,7 +313,7 @@ exports.powerSupply_update_post = [
       brand: req.body.brand,
       model: req.body.model,
       power: req.body.power,
-      certifications: req.body.certifications,
+      certification: req.body.certification,
       price: req.body.price,
       _id: req.params.id,
     });

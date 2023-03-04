@@ -30,14 +30,14 @@
         <div class="col-6">
 
           <div class="form-group">
-            <label for="certifications">Certifications</label>
-            <select class="form-control" name="certifications" id="certifications" required>
+            <label for="certification">Certifications</label>
+            <select class="form-control" name="certification" id="certification" required>
               <%= (typeof cpu !== 'undefined' && "AM5" === cpu.socket) ? 'selected' : '' %>
-              <option <%= (typeof powerSupply !== 'undefined' && "80+ Bronze" == powerSupply.certifications ? 'selected' : '') %> value="80+ Bronze">80+ Bronze</option>
-              <option <%= (typeof powerSupply !== 'undefined' && "80+ Silver" == powerSupply.certifications ? 'selected' : '') %> value="80+ Silver">80+ Silver</option>
-              <option <%= (typeof powerSupply !== 'undefined' && "80+ Gold" == powerSupply.certifications ? 'selected' : '') %> value="80+ Gold">80+ Gold</option>
-              <option <%= (typeof powerSupply !== 'undefined' && "80+ Platinum" == powerSupply.certifications ? 'selected' : '') %> value="80+ Platinum">80+ Platinum</option>
-              <option <%= (typeof powerSupply !== 'undefined' && "80+ Titanium" == powerSupply.certifications ? 'selected' : '') %> value="80+ Titanium">80+ Titanium</option>
+              <option <%= (typeof powerSupply !== 'undefined' && "80+ Bronze" == powerSupply.certification ? 'selected' : '') %> value="80+ Bronze">80+ Bronze</option>
+              <option <%= (typeof powerSupply !== 'undefined' && "80+ Silver" == powerSupply.certification ? 'selected' : '') %> value="80+ Silver">80+ Silver</option>
+              <option <%= (typeof powerSupply !== 'undefined' && "80+ Gold" == powerSupply.certification ? 'selected' : '') %> value="80+ Gold">80+ Gold</option>
+              <option <%= (typeof powerSupply !== 'undefined' && "80+ Platinum" == powerSupply.certification ? 'selected' : '') %> value="80+ Platinum">80+ Platinum</option>
+              <option <%= (typeof powerSupply !== 'undefined' && "80+ Titanium" == powerSupply.certification ? 'selected' : '') %> value="80+ Titanium">80+ Titanium</option>
             </select>
           </div>
 
@@ -62,7 +62,7 @@
         </div>
         <div class="form-group">
           <label for="image" style="font-size: 1.15rem;">Image</label>
-          <p class="alert-danger">For the moment, you can have only one image for product. In the future, this functionality will be expanded</p>
+          <p class="alert-danger">Por el momento, solamente se puede añadir una imagen del producto. En el futuro esta función será expandida  🥴</p>
           <input id="image" type="file" multiple name="image" class="form-control-file" required>
           <input id="last_image" name="last_image" value="<%= (typeof powerSupply === 'undefined' ? '' : powerSupply.image) %>" style="visibility:hidden">
           <img src="<%= (typeof powerSupply !== 'undefined' && typeof powerSupply.toObject().image !== 'undefined') 

@@ -420,11 +420,31 @@
         </div>
         <div class="form-group">
           <label for="image">Image</label>
-          <p class="alert alert-danger">For the moment, you can have only one image for product. In the future, this
-            functionality will be expanded</p>
+          <p class="alert alert-danger">Por el momento, solamente se puede añadir una imagen del producto. 
+            En el futuro esta función será expandida  🥴</p>
           <input type="file" multiple name="image" required id="image" class="form-control-file">
+          <input id="last_image" name="last_image" value="<%= (typeof computer === 'undefined' ? '' : computer.image) %>" style="visibility:hidden">
+          <img src="<%= (typeof computer !== 'undefined' && typeof computer.toObject().image !== 'undefined') 
+          ? `/images/${computer.image}` : 'https://via.placeholder.com/300x250' %>" height="250" alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
         </div>
 
+        <script>
+          function previewFile() {
+            var preview = document.getElementById("preview");
+            var file = document.querySelector("input[type=file]").files[0];
+            var reader = new FileReader();
+        
+            reader.addEventListener("load", function() {
+              preview.src = reader.result;
+            }, false);
+        
+            if (file) {
+              reader.readAsDataURL(file);
+            }
+          }
+        
+          document.querySelector("input[type=file]").addEventListener("change", previewFile);
+        </script>
         <div class="text-center">
           <button type="submit" class="btn btn-primary">Submit</button>
         </div>

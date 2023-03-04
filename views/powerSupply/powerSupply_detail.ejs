@@ -1,70 +1,69 @@
 <%- include('../partials/header.ejs') %>
 
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-6">
-      <% if(powerSupply.image !== undefined){ %>
-      <img class="img-tumbnail" height="360px" style="margin:20px" src="/images/<%= powerSupply.image %>" alt="<%= powerSupply.name %>">
-      <% }; %>
-    </div>
-    <div class="col-md-6">
-      <h1 style="margin-top: 60px;"><%= powerSupply.name %></h1>
-      <br>
-      <p>
-        <a style="color:gray" href="<%= powerSupply.brand.url %>"><%= powerSupply.brand.name %></a>
-      </p>
+    <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <% if(powerSupply.image !== undefined){ %>
+              <img class="img-tumbnail" height= "360px" style="margin:20px"src="/images/<%= powerSupply.image %>" alt="<%= powerSupply.name %>">
+            <% }; %>
+          </div>
+          <div class="col-md-6">
+            <h1  style="margin-top: 60px;"><%= powerSupply.name %></h1>
+            <br>
+              <p>
+                  <a style="color:gray"href="<%= powerSupply.brand.url %>" ><%= powerSupply.brand.name %></a>
+              </p>
+            
+            <p>
+              <span class="badge badge-success badge-pill">
+                <%= "$" + powerSupply.price.toLocaleString() + " ARS"%>
+              </span> </p>
 
-      <p>
-        <span class="badge badge-success badge-pill">
-          <%= "$" + powerSupply.price.toLocaleString() + " ARS"%>
-        </span>
-      </p>
-
-      <% const prod = {name:powerSupply.name, id:powerSupply._id, price: powerSupply.price, image:powerSupply.image  }%>
-      <button value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add to cart</button>
-    </div>
-
-
+              <% const prod = {name:powerSupply.name, id:powerSupply._id, price: powerSupply.price, image:powerSupply.image  }%>
+        <button  value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add to cart</button>
+          </div>
+      
+      
+        </div>
+        <hr><br>
+    
+       
+            <div class="row">
+                
+                    <div class="col-md-4">
+                        <h4 class="text-secondary">Model</h4>
+                        <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= powerSupply.model %></p>
+                    </div>
+                
+                
+                    <div class="col-md-4">
+                        <h4 class="text-secondary">Power</h4>
+                        <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= powerSupply.power %></p>
+                    </div>
+                
+                    
+                    <div class="col-md-4">
+                        <h4 class="text-secondary">Certifications</h4>
+                        <p class="text-white" style="background-color: #6c757d; padding: 10px;" ><%= powerSupply.certification %></p>
+                    </div>
+                
+        
+            
+            </div>
+            
+                
+                
+            </div>
+            <br>
+  <div class="card-footer" style="margin-bottom: 20px">
+             
+    <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+    <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
+    <a href="<%= powerSupply.url %>/delete" class="btn btn-danger float-right">Delete</a>
+    <a href="<%= powerSupply.url %>/update" class="btn btn-primary float-right" style="background: rgb(51, 51, 148)"bac>Update</a>
+    <% } %> 
   </div>
-  <hr><br>
-
-
-  <div class="row">
-
-    <div class="col-md-4">
-      <h4 class="text-secondary">Model</h4>
-      <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= powerSupply.model %></p>
-    </div>
-
-
-    <div class="col-md-4">
-      <h4 class="text-secondary">Power</h4>
-      <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= powerSupply.power %></p>
-    </div>
-
-
-    <div class="col-md-4">
-      <h4 class="text-secondary">Certifications</h4>
-      <p class="text-white" style="background-color: #6c757d; padding: 10px;"><%= powerSupply.certifications %></p>
-    </div>
-
-
-
-  </div>
-
-
-
-</div>
-<br>
-<div class="card-footer" style="margin-bottom: 20px">
-
-  <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
-  <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
-  <a href="<%= powerSupply.url %>/delete" class="btn btn-danger float-right">Delete</a>
-  <a href="<%= powerSupply.url %>/update" class="btn btn-primary float-right" style="background: rgb(51, 51, 148)" bac>Update</a>
-  <% } %>
-</div>
 </div>
 
 
