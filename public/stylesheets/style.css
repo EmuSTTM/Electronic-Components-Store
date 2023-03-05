@@ -1,3 +1,154 @@
+
+/* 
+Style refereido al header 
+*/
+
+
+:root {
+  --color-secondary: #ffffff;
+  --color-primary: #ff9900;
+  --color-background-header: #131921;
+  --color-body-background: #eeeeee;
+}
+
+#Boh {
+  font-size: 1.3em;
+  color:var(--color-secondary)
+}
+
+footer{
+  background-color: var(--color-background-header);
+  color: var(--color-secondary)
+}
+
+.ul_footer li a{
+  color: var(--color-secondary)
+}
+.ul_footer {
+  list-style: none;
+}
+
+.h5_footer{
+  color:var(--color-primary)
+}
+
+footer li {
+  color: var(--color-secondary)
+}
+#Byte {
+  color:var(--color-primary)
+}
+
+
+#nav-header{
+  padding-top: 0.5rem;padding-bottom: 0.5rem;
+  background-color: var(--color-background-header);
+}
+body{
+  background-color: var(--color-body-background)
+}
+
+h5{
+  height: 10vh;
+}
+
+#btn-cart-add{
+  padding: 0.35rem 1.5rem;
+  border-radius: 5px;
+  float:right;
+}
+
+
+.card-img-top_computer{
+  object-fit:cover;
+}
+.card-img-top_computer{
+  height: 52vh;
+}
+#container_list-products{
+  margin-top:15px;
+  padding:0;
+}
+
+ul.navbar-nav {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-toggle::after {
+  display:none;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.27rem 1rem;
+}
+
+.mb-3, .my-3 {
+  margin-bottom: 1rem ;
+  padding: 0px 5px;
+}
+
+
+
+
+@media (min-width: 576px){
+  /* Configuraciones para el nav de la izquierda */
+  .col-sm-2 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 16.6666666667%;
+    flex: 0 0 17.6666666667%;
+    max-width: 17.6666666667%;
+    padding-right: 0;
+}
+}
+
+.col-sm-10 {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 83.3333333333%;
+  flex: 0 0 82.3333333333%;
+  max-width: 82.3333333333%;
+}
+
+
+#cart-button {
+  border: none;
+  text-decoration:none;
+  font-size: 1.4em;
+  background-color: transparent;
+  color: var(--color-secondary);
+  padding: 10px 10px;
+  transition: all 0.3s;
+  right: 85px;
+}
+
+#cart-button:hover {
+  cursor: pointer;
+  color: var(--color-primary);
+  outline:none;
+}
+
+#cart-button:focus {
+  outline: none;
+  outline:none;
+}
+
+#cart-count {
+  outline:none;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: var(--color-secondary)
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+  color: var(--color-primary)
+}
+/* FF206E */
+
+
+
+
 .sidebar-nav {
   margin-top: 20px;
   padding: 0;
@@ -89,25 +240,7 @@
   background-color: #f1f1f1;
 }
 
-#cart-button {
-  border: none;
 
-  font-size: 25px;
-  background-color: white;
-  color: #a8a9ab;
-  padding: 10px 20px;
-  transition: all 0.3s;
-  right: 85px;
-}
-
-#cart-button:hover {
-  cursor: pointer;
-  color: #414141;
-}
-
-#cart-button:focus {
-  outline: none;
-}
 
 /* Estilo para el botón principal */
 .dropbtn {
