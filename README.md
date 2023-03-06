@@ -36,3 +36,5 @@ Esto iniciará el servidor de desarrollo en el puerto predeterminado (3000). Si 
 Esta aplicación es un e-commerce ficticio, por lo que permite agregar al carrito productos, crearlos, actualizarlos, eliminarlos y visualizarlos. Posee
 a su vez un sistema de usuarios, donde se limitan y añaden funciones dependiendo del rol. Si desea tener acceso a todas las funcionalidades de la página,
 cree un usuario con el rol de "vendedor" en /users/signup. Esto le permitirá crear todos los productos, actualizarlos y borrarlos.
+
+Actualmente es necesario que crees a mano los productos y los vayas añadiendo a la base de datos. En un futuro el archivo populatedb va a estar actualizado para que puedan tener una lista de productos de default sin la necesidad de crearlos ustedes mismos.
