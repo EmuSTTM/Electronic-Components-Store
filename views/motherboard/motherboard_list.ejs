@@ -9,9 +9,13 @@
       <div class="card h-100">
         <% const prod = {name:motherboard_list[i].name, id:motherboard_list[i]._id, price: motherboard_list[i].price, image:motherboard_list[i].image  }%>
 
-        <img src="<%=  typeof motherboard_list[i].toObject().image !== 'undefined' ? '/images/' + motherboard_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= motherboard_list[i].name%>">
+        <img style="padding:10px;" src="<%=  typeof motherboard_list[i].toObject().image !== 'undefined' ? '/images/' + motherboard_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= motherboard_list[i].name%>">
         <div class="card-body">
-          <h5 class="card-title"> <a href="<%= motherboard_list[i].url %>"><%= motherboard_list[i].name %></a> </h5>
+          <h5 class="card-title"> 
+            <a href="<%= motherboard_list[i].url %>">
+              <%= motherboard_list[i].name.slice(0, 25) + (motherboard_list[i].name.length > 25 ? '...' : '')%>
+            </a> 
+          </h5>
           <p class="card-text">
             <% for (var j = 0; j < motherboard_list[i].brand.length; j++) { %>
             <%= motherboard_list[i].brand[j].name %>
@@ -21,8 +25,9 @@
               <%= "$" + motherboard_list[i].price.toLocaleString() + " ARS"%>
             </span>
           </p>
-          <a href="<%= motherboard_list[i].url %>" class="btn btn-primary">See More</a>
-          <button value="<%= JSON.stringify(prod)%>" class="btn btn-primary product-cart">Add Cart</button>
+          
+          <button value="<%= JSON.stringify(prod)%>"  id="btn-cart-add"
+            class="btn btn-primary product-cart">Add Cart</button>
         </div>
       </div>
     </div>

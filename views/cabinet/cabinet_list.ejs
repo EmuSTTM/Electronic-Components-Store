@@ -9,15 +9,17 @@
         <% const prod = {name:cabinet_list[i].name, id:cabinet_list[i]._id,
         price: cabinet_list[i].price, image:cabinet_list[i].image }%>
 
-        <img
+        <img style="padding:10px;"
           src="<%=  typeof cabinet_list[i].toObject().image !== 'undefined' ? '/images/' + cabinet_list[i].image : 'https://via.placeholder.com/300x200' %>"
           class="card-img-top"
           alt="<%= cabinet_list[i].name%>"
         />
         <div class="card-body">
-          <h5 class="card-title">
-            <a href="<%= cabinet_list[i].url %>"><%= cabinet_list[i].name %></a>
-          </h5>
+          <h5 class="card-title"> 
+              <a href="<%= cabinet_list[i].url %>">
+                <%= cabinet_list[i].name.slice(0, 25) + (cabinet_list[i].name.length > 25 ? '...' : '')%>
+              </a> 
+            </h5>
           <p class="card-text">
             <% for (var j = 0; j < cabinet_list[i].brand.length; j++) { %> <%=
             cabinet_list[i].brand[j].name %> <% } %> -
@@ -29,12 +31,10 @@
               <%= "$" + cabinet_list[i].price.toLocaleString() + " ARS"%>
             </span>
           </p>
-          <a href="<%= cabinet_list[i].url %>" class="btn btn-primary"
-            >See More</a
-          >
           <button
             value="<%= JSON.stringify(prod)%>"
             class="btn btn-primary product-cart"
+            id="btn-cart-add"
           >
             Add Cart
           </button>

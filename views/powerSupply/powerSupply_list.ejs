@@ -9,17 +9,17 @@
         id:powerSupply_list[i]._id, price: powerSupply_list[i].price,
         image:powerSupply_list[i].image }%>
 
-        <img
+        <img style="padding:10px;"
           src="<%=  typeof powerSupply_list[i].toObject().image !== 'undefined' ? '/images/' + powerSupply_list[i].image : 'https://via.placeholder.com/300x200' %>"
           class="card-img-top"
           alt="<%= powerSupply_list[i].name%>"
         />
         <div class="card-body">
-          <h5 class="card-title">
-            <a href="<%= powerSupply_list[i].url %>"
-              ><%= powerSupply_list[i].name %></a
-            >
-          </h5>
+          <h5 class="card-title"> 
+              <a href="<%= powerSupply_list[i].url %>">
+                <%= powerSupply_list[i].name.slice(0, 25) + (powerSupply_list[i].name.length > 25 ? '...' : '')%>
+              </a> 
+            </h5>
           <p class="card-text">
             <% for (var j = 0; j < powerSupply_list[i].brand.length; j++) { %>
             <%= powerSupply_list[i].brand[j].name %> <% } %> <%=
@@ -29,12 +29,10 @@
               <%= "$" + powerSupply_list[i].price.toLocaleString() + " ARS"%>
             </span>
           </p>
-          <a href="<%= powerSupply_list[i].url %>" class="btn btn-primary"
-            >See More</a
-          >
           <button
             value="<%= JSON.stringify(prod)%>"
             class="btn btn-primary product-cart"
+            id="btn-cart-add"
           >
             Add Cart
           </button>

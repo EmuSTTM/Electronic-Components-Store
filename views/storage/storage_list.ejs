@@ -8,15 +8,17 @@
         <% const prod = {name:storage_list[i].name, id:storage_list[i]._id,
         price: storage_list[i].price, image:storage_list[i].image }%>
 
-        <img
+        <img style="padding:10px;"
           src="<%=  typeof storage_list[i].toObject().image !== 'undefined' ? '/images/' + storage_list[i].image : 'https://via.placeholder.com/300x200' %>"
           class="card-img-top"
           alt="<%= storage_list[i].name%>"
         />
         <div class="card-body">
-          <h5 class="card-title">
-            <a href="<%= storage_list[i].url %>"><%= storage_list[i].name %></a>
-          </h5>
+          <h5 class="card-title"> 
+              <a href="<%= storage_list[i].url %>">
+                <%= storage_list[i].name.slice(0, 25) + (storage_list[i].name.length > 25 ? '...' : '')%>
+              </a> 
+            </h5>
           <p class="card-text">
             <% for (var j = 0; j < storage_list[i].brand.length; j++) { %> <%=
             storage_list[i].brand[j].name %> <% } %>
@@ -28,12 +30,10 @@
               <%= "$" + storage_list[i].price.toLocaleString() + " ARS"%>
             </span>
           </p>
-          <a href="<%= storage_list[i].url %>" class="btn btn-primary"
-            >See More</a
-          >
           <button
             value="<%= JSON.stringify(prod)%>"
             class="btn btn-primary product-cart"
+            id="btn-cart-add"
           >
             Add Cart
           </button>

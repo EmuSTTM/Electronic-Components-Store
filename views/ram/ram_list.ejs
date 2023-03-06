@@ -8,15 +8,17 @@
         <% const prod = {name:ram_list[i].name, id:ram_list[i]._id, price:
         ram_list[i].price, image:ram_list[i].image }%>
 
-        <img
+        <img style="padding:10px;"
           src="<%=  typeof ram_list[i].toObject().image !== 'undefined' ? '/images/' + ram_list[i].image : 'https://via.placeholder.com/300x200' %>"
           class="card-img-top"
           alt="<%= ram_list[i].name%>"
         />
         <div class="card-body">
-          <h5 class="card-title">
-            <a href="<%= ram_list[i].url %>"><%= ram_list[i].name %></a>
-          </h5>
+          <h5 class="card-title"> 
+              <a href="<%= ram_list[i].url %>">
+                <%= ram_list[i].name.slice(0, 25) + (ram_list[i].name.length > 25 ? '...' : '')%>
+              </a> 
+            </h5>
           <p class="card-text">
             <% for (var j = 0; j < ram_list[i].brand.length; j++) { %> <%=
             ram_list[i].brand[j].name %> <% } %>
@@ -28,10 +30,10 @@
               <%= "$" + ram_list[i].price.toLocaleString() + " ARS"%>
             </span>
           </p>
-          <a href="<%= ram_list[i].url %>" class="btn btn-primary">See More</a>
           <button
             value="<%= JSON.stringify(prod)%>"
             class="btn btn-primary product-cart"
+            id="btn-cart-add"
           >
             Add Cart
           </button>

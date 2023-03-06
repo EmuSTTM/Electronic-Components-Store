@@ -10,7 +10,11 @@
       
           <img src="<%=  typeof computer_list[i].toObject().image !== 'undefined' ? '/images/' + computer_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top card-img-top_computer" alt="<%= computer_list[i].name %>">
           <div class="card-body d-flex flex-column">
-            <h5 class="card-title"> <a href="<%= computer_list[i].url %>"><%= prod.name %></a> </h5>
+            <h5 class="card-title"> 
+              <a href="<%= computer_list[i].url %>">
+                <%= computer_list[i].name.slice(0, 45) + (computer_list[i].name.length > 45 ? '...' : '')%>
+              </a> 
+            </h5>
             <p class="card-text">
               <br>
               <span class="badge badge-success badge-pill">

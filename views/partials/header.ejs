@@ -5,7 +5,7 @@
   <title><%= title %></title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <link rel="icon" type="image/png" href="static_images/icono.png">
 
 
 
@@ -38,9 +38,9 @@
           <% if (typeof session != "undefined" && typeof session.user != "undefined") { %>
 
             <div class="dropdown" style="padding:0;">
-              <button class="dropbtn  dropdown-toggle nav-link" ><i class="fa-solid fa-user"></i></button>
+              <button id="login"class="dropbtn  dropdown-toggle nav-link" ><i class="fa-solid fa-user"></i></button>
               <div class="dropdown-content">
-                <a class="dropdown-item" href="/users/logout">Salir</a>
+                <a class="dropdown-item"  id="log-out" href="/users/logout">Salir</a>
               </div>
             </div>
     
@@ -68,7 +68,7 @@
   </nav>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-2">
+      <div class="col-sm-2" style="margin:20px 0;">
         <ul class="nav flex-column sidebar-nav">
           
           <li class="nav-item">

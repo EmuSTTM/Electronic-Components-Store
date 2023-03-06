@@ -43,7 +43,17 @@ footer li {
 #nav-header{
   padding-top: 0.5rem;padding-bottom: 0.5rem;
   background-color: var(--color-background-header);
+  
 }
+
+#nav-header #navbarNav ul li a{
+  color:var(--color-secondary)
+}
+
+#nav-header #navbarNav ul li a:hover{
+  color:var(--color-primary)
+}
+
 body{
   background-color: var(--color-body-background)
 }
@@ -73,10 +83,6 @@ h5{
 ul.navbar-nav {
   display: flex;
   align-items: center;
-}
-
-.dropdown-toggle::after {
-  display:none;
 }
 
 .nav-link {
@@ -141,12 +147,16 @@ ul.navbar-nav {
   color: var(--color-secondary)
 }
 
-.navbar-light .navbar-nav .nav-link:hover {
+.navbar-light .navbar-nav .nav-link {
+  color: var(--color-secondary)
+}
+
+.nav-link:hover {
   color: var(--color-primary)
 }
 /* FF206E */
 
-
+#nav-header
 
 
 .sidebar-nav {
@@ -288,17 +298,40 @@ ul.navbar-nav {
 /* Estilo para los elementos de la lista */
 .dropdown-content a {
   color: black;
-  padding: 12px 16px;
+  padding: 0;
   text-decoration: none;
   display: block;
+  text-align: left;
+  color:antiquewhite
+  
 }
 
 /* Cambia el color de fondo de los elementos de la lista al pasar el ratón por encima */
 .dropdown-content a:hover {
-  color: red;
   background-color: transparent;
+}
+
+#log-out{
+  color: var(--color-primary) !important ;
+}
+
+#log-out:hover{
+  color: red !important;
 }
 
 .dropdown-content a:focus {
   background-color: transparent;
+}
+
+#login:focus{
+  color:var(--color-primary)
+}
+
+#login:hover{
+  color:var(--color-primary)
+}
+
+
+.t-white{
+  color:var(--color-secondary)
 }

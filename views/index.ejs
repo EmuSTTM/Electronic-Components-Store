@@ -1,16 +1,18 @@
-<%- include('./partials/header.ejs') %>
+<%- include('./partials/index_header.ejs') %>
 
 <div class="container my-5">
-  <h1 class="text-center"><%= title %></h1>
-  <p class="text-center">
-    Welcome to Electronic Components Store, here you will find all the
-    components you need!
+  <h1 class="text-center">Electronic Components Store</h1>
+  <p class="text-center" style="width: 75%;margin:auto">
+    Bienvenido a ByteBoh, es un proyecto de e-commerce inspirado en otras webs como 
+    <a href="https://compragamer.com/" target="_blank">compra gamer</a> y 
+    <a href="https://www.computodo.com.ar/" target="_blank">compu todo</a>. Mi intención con este proyecto es
+     mostrar mis capacidades como programador.
   </p>
-
+  <br>
   <% if (error) { %>
-  <p class="text-center text-danger">Error getting dynamic content.</p>
+  <p class="text-center text-danger">Error obteniendo contenido dinámico </p>
   <% } else { %>
-  <p class="text-center">ECS has the following record counts:</p>
+  <p class="text-center">Tenemos el siguiente catálogo de productos:</p>
   <div class="row">
     <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
       <div class="card h-100">
