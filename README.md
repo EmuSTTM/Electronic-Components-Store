@@ -25,7 +25,7 @@ npm install
 ### Configuración de la base de datos
 Este proyecto utiliza una base de datos MongoDB por defecto. Asegúrate de tener instalado y ejecutando MongoDB en tu máquina local. Si deseas cambiar la conexión a la base de datos, modifica la variable MONGODB_URI en el archivo app.js .
 
-Ejecución
+### Ejecución
 Para ejecutar la aplicación, utiliza el siguiente comando:
 ```
 npm run dev
