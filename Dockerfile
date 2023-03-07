@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Instala las dependencias de la app
-RUN npm install --production
+RUN NODE_ENV=development npm i
 
 # Copia todo el contenido de tu proyecto a la imagen
 COPY . .
