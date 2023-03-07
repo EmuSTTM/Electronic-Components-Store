@@ -1,5 +1,5 @@
 node_modules/
-
-public/images/
-
-anotaciones.txt
+public/images/*.jpg
+public/images/*.jpeg
+public/images/*.png
+public/images/*.gif
