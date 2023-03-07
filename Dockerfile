@@ -1,5 +1,5 @@
 # Utiliza la imagen oficial de Node como base
-FROM node:latest
+FROM node:18.13.0
 
 # Crea el directorio de trabajo de la app en la imagen
 WORKDIR /usr/src/app
