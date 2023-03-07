@@ -21,8 +21,9 @@ const app = express();
 // Middlewares
 const setActivePage = require("./middlewares/setActivePage");
 
-// Connect to MongoDB
-const MONGODB_URI = "mongodb://127.0.0.1:27017/ECS"; //Reemplaza la url de tu instancia de MongoDB
+// Connect to MongoDB 
+//mongodb://127.0.0.1:27017/ECS Para DEV y el otro para Desarrollo
+const MONGODB_URI = "mongodb+srv://emusttm:01Tgeqk91B8Vijiy@ecs.siltcam.mongodb.net/ECS"; //Reemplaza la url de tu instancia de MongoDB
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 const db = mongoose.connection;
 
@@ -35,7 +36,7 @@ db.once("open", function () {
 // Crear instancia de MongoStore y pasarla como parámetro en app.use(session({...}))
 
 const store = new MongoStore({
-  mongoUrl: "mongodb://127.0.0.1:27017/ECS-users",
+  mongoUrl: "mongodb+srv://emusttm:01Tgeqk91B8Vijiy@ecs.siltcam.mongodb.net/ECS", //mongodb://127.0.0.1:27017/ECS-users
   mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
   collectionName: "sessions",
   ttl: 24 * 60 * 60, // time to live in seconds
