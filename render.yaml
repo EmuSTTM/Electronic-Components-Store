@@ -1,0 +1,16 @@
+# Indica que se va a construir una imagen Docker para la aplicación
+build:
+  # El nombre que le vas a dar a la imagen
+  image: EmuSTTM/ByteBoh
+
+# Indica cómo se va a ejecutar la aplicación
+run:
+  # Indica el comando que se debe ejecutar para arrancar la aplicación
+  cmd: npm start
+
+  # Indica el puerto que debe exponer la aplicación
+  port: 3000
+
+  # Indica la base de datos MongoDB que se va a utilizar
+  env:
+    MONGODB_URI: "mongodb+srv://emusttm:01Tgeqk91B8Vijiy@ecs.siltcam.mongodb.net/ECS"
