@@ -38,7 +38,7 @@
           <% if (typeof session != "undefined" && typeof session.user != "undefined") { %>
 
             <div class="dropdown" style="padding:0;">
-              <button id="login"class="dropbtn  dropdown-toggle nav-link" ><i class="fa-solid fa-user"></i></button>
+              <button  class="dropbtn  nav-link" id="login" ><i class="fa-solid fa-user"></i></button>
               <div class="dropdown-content">
                 <a class="dropdown-item"  id="log-out" href="/users/logout">Salir</a>
               </div>
@@ -47,7 +47,7 @@
             <% } else { %>
     
             <div>
-              <a href="/users/login">Log in</a>
+              <a href="/users/login" id="login">Log in</a>
             </div>
     
             <% } %>

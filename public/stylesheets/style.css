@@ -32,6 +32,26 @@ footer{
   color:var(--color-primary)
 }
 
+.h5_index{
+  font-size:0.9em;
+  text-align: center;
+  line-height: 20px;
+  height: 30px;
+
+}
+
+.card_index:hover{
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px);
+}
+
+.card_index:hover a{
+  color:var(--color-primary);
+  text-decoration: none;
+}
+
+
+
 footer li {
   color: var(--color-secondary)
 }
@@ -313,6 +333,9 @@ ul.navbar-nav {
 
 #log-out{
   color: var(--color-primary) !important ;
+  padding:0;
+  font-size:0.74em;
+
 }
 
 #log-out:hover{
@@ -324,14 +347,21 @@ ul.navbar-nav {
 }
 
 #login:focus{
-  color:var(--color-primary)
+  color:var(--color-primary);
+
+  
 }
 
 #login:hover{
-  color:var(--color-primary)
+  color:var(--color-primary);
+
 }
 
 
 .t-white{
   color:var(--color-secondary)
+}
+
+a:hover{
+  text-decoration: none
 }
