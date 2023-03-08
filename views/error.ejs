@@ -1,13 +1,6 @@
 
-<%- include('./partials/header.ejs') %>
 
-<div class="container card" style="margin-top: 5vh">
-
-    <h1><%= message_title %></h1>
-    <h5><%= message %> 😅</h5>
-</div>
-
-
-
-<%- include('./partials/footer.ejs')%>
+<h1><%= message %></h1>
+<h2><%= error.status %></h2>
+<pre><%= error.stack %></pre>
 

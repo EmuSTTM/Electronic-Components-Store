@@ -13,7 +13,7 @@ router.get("/:id", computerController.computer_detail);
 router.get("/:id/delete", setUserRole, computerController.computer_delete_get);
 router.post("/:id/delete", computerController.computer_delete_post);
 
-router.get("/:id/update",  setUserRole, computerController.computer_update_get);
+router.get("/:id/update", setUserRole, computerController.computer_update_get);
 router.post(
   "/:id/update",
   upload.single("image"),

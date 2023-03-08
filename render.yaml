@@ -9,7 +9,10 @@ run:
   cmd: npm start
 
   # Indica el puerto que debe exponer la aplicación
-  port: 3000
+  port: 3001
 
+  # Define las variables de entorno que necesita la aplicación
+  env:
+    PORT: 3001
   # Indica la base de datos MongoDB que se va a utilizar
   # Esta es una variable de entorno lo que garantiza que se protejan los datos privados

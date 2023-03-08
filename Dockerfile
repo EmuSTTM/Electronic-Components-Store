@@ -13,8 +13,9 @@ RUN npm install
 # Copia todo el contenido de tu proyecto a la imagen
 COPY . .
 
-# Exponemos el puerto 3000
-EXPOSE 3000
+# Exponemos el puerto 3001
+EXPOSE 3001
 
+ENV PORT=3001
 # Inicia la app
 CMD [ "npm", "start" ]

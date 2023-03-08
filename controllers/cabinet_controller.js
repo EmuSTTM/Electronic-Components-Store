@@ -114,9 +114,16 @@ exports.cabinet_create_post = [
       bay_5_25: req.body.bay_5_25,
       bay_3_5: req.body.bay_3_5,
       bay_2_5: req.body.bay_2_5,
-      image: req.file.filename,
       price: req.body.price,
     });
+
+    if(req.file){
+      console.log(cabinet)
+      const filename = req.file.filename;
+      console.log(filename)
+      cabinet.setImgUrl(filename);
+
+    }
     if (!errors.isEmpty()) {
       // There are errors. Render the form again with sanitized values/error messages.
       Brand.find((err, brands) => {
