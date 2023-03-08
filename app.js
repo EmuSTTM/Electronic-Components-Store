@@ -4,6 +4,10 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
+// Necesarios para el development
+const compression = require("compression");
+const helmet = require("helmet");
+
 // Necesario para el incio de sesión de los usuarios
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
@@ -54,11 +58,25 @@ app.use(
   })
 );
 
-//asdas
+
+
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+
+// Middlewares
+app.use(compression());
+// El helmet genera que tenga problemas con dependencias como fontawesome
+
+app.use(
+  helmet({
+    // Nos permite usar algunas dependencias en las views, como bootstrap o fontawesome
+    contentSecurityPolicy: false,
+  })
+);
+
+
 
 app.use(logger("dev"));
 app.use(express.json());
