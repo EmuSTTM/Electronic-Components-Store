@@ -12,5 +12,4 @@ run:
   port: 3000
 
   # Indica la base de datos MongoDB que se va a utilizar
-  env:
-    MONGODB_URI: "mongodb+srv://emusttm:01Tgeqk91B8Vijiy@ecs.siltcam.mongodb.net/ECS"
+  # Esta es una variable de entorno lo que garantiza que se protejan los datos privados
