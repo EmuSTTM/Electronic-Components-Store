@@ -62,9 +62,9 @@
           <label for="image" style="font-size: 1.15rem;">Image</label>
           <p class="alert-danger">Por el momento, solamente se puede añadir una imagen del producto. En el futuro esta función será expandida  🥴</p>
           <input id="image" type="file" multiple name="image" class="form-control-file" required>
-          <input id="last_image" name="last_image" value="<%= (typeof cabinet === 'undefined' ? '' : cabinet.image) %>" style="visibility:hidden">
-          <img src="<%= (typeof cabinet !== 'undefined' && typeof cabinet.toObject().image !== 'undefined') 
-          ? `/images/${cabinet.image}` : 'https://via.placeholder.com/300x250' %>" height="250" alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
+          <input id="last_image" name="last_image" value="<%= (typeof cabinet === 'undefined' ? '' : cabinet.imgName) %>" style="visibility:hidden">
+          <img src="<%= (typeof cabinet !== 'undefined' && typeof cabinet.toObject().imgUrl !== 'undefined') 
+          ? `${cabinet.imgUrl}` : 'https://via.placeholder.com/300x250' %>" height="250" alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
         </div>
         <button type="submit" class="btn btn-primary d-flex mx-auto mt-3" style="margin-bottom: 10px;">Submit</button>
     </form>

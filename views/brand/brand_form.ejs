@@ -57,11 +57,11 @@
         <input
           id="last_image"
           name="last_image"
-          value="<%= (typeof brand === 'undefined' ? '' : brand.image) %>"
+          value="<%= (typeof brand === 'undefined' ? '' : brand.imgName) %>"
           style="visibility: hidden"
         />
         <img
-          src="<%= (typeof brand !== 'undefined' && typeof brand.toObject().image !== 'undefined') ? `/images/${brand.image}` : 'https://via.placeholder.com/200x200' %>"
+          src="<%= (typeof brand !== 'undefined' && typeof brand.toObject().imgUrl !== 'undefined') ? `${brand.imgUrl}` : 'https://via.placeholder.com/200x200' %>"
           height="200"
           alt="Image preview..."
           id="preview"

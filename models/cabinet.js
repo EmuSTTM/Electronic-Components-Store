@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 
-const { appConfig } = require("../config")
-
 const cabinetSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -43,7 +41,7 @@ const cabinetSchema = new mongoose.Schema({
     min: 0,
     required: true,
   },
-  imgUrl: {
+  image: {
     type: String,
   },
 });
@@ -51,13 +49,6 @@ const cabinetSchema = new mongoose.Schema({
 cabinetSchema.virtual("url").get(function () {
   return `/components/cabinet/${this._id}`;
 });
-
-cabinetSchema.methods.setImgUrl = function  setImgUrl (filename) {
-  console.log(appConfig)
-   const { host } = appConfig;
-   this.imgUrl = `${host}/public/${filename}`
-
-}
 const Cabinet = mongoose.model("Cabinet", cabinetSchema);
 
 module.exports = Cabinet;
