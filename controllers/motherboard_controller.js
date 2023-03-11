@@ -5,7 +5,13 @@ const Computer = require("../models/computer");
 const { body, validationResult } = require("express-validator");
 
 const async = require("async");
-const fs = require("fs");
+
+
+// Configuraciones necesarias para añadir y eliminar imagenes. 
+const deleteImage = require("../models/image");
+const  { appConfig } = require('../config');
+const { host } = appConfig;
+
 
 // Display list of all Motherboards.
 exports.motherboard_list = function (req, res, next) {
@@ -25,14 +31,7 @@ exports.motherboard_list = function (req, res, next) {
     });
 };
 
-/*
-En el atributo "name" se valida que sea un string y que no esté vacío.
-En el atributo "brand" se valida que sea un ObjectId válido y que haga referencia a un objeto de la colección "Brand".
-En el atributo "price" se valida que sea un número mayor o igual a cero.
-En el atributo "chipset" se valida que el valor sea uno de los valores especificados en el enumerado.
-En el atributo "ramSlots" se valida que sea un número mayor o igual a cero.
-En el atributo "maxRam" se valida que sea una cadena con el formato "X GB" o "X TB".
-*/
+
 
 // Display detail page for a specific Motherboard.
 exports.motherboard_detail = (req, res, next) => {
@@ -138,8 +137,12 @@ exports.motherboard_create_post = [
       socket_ram: req.body.socket_ram,
       sockets_sata: req.body.sockets_sata,
       sockets_v2: req.body.sockets_v2,
-      image: req.file.filename,
     });
+
+    if (typeof req.file !== "undefined") {
+      motherboard.image = `${host}/image/${req.file.filename}`;
+      motherboard.imgId = req.file.id;
+    } 
 
     if (!errors.isEmpty()) {
       // There are errors. Render the form again with sanitized values/error messages.
@@ -217,7 +220,7 @@ exports.motherboard_delete_post = (req, res, next) => {
       motherboard(callback) {
         Motherboard.findById(req.body.motherboardid).exec(callback);
       },
-      motherboard_computers(calblack) {
+      motherboard_computers(callback) {
         Computer.find({ motherboard: req.body.motherboardid }).exec(callback);
       },
     },
@@ -243,12 +246,11 @@ exports.motherboard_delete_post = (req, res, next) => {
         if (err) {
           return next(err);
         }
-        if (typeof results.motherboard.image != undefined) {
-          const ImageName = "public/images/" + results.motherboard.image;
-
-          if (fs.existsSync(ImageName)) {
-            fs.unlinkSync(ImageName);
-          }
+        if (
+          typeof results.motherboard.image != undefined &&
+          typeof results.motherboard.imgId != "undefined"
+        ) {
+          deleteImage(results.motherboard.imgId)
         }
 
         // Success - go to motherboard list
@@ -369,7 +371,8 @@ exports.motherboard_update_post = [
     });
 
     if (typeof req.file !== "undefined") {
-      motherboard.image = req.file.filename;
+      motherboard.image = `${host}/image/${req.file.filename}`;
+      motherboard.imgId = req.file.id;
     } else {
       motherboard.image = req.body.last_image;
     }
@@ -405,13 +408,10 @@ exports.motherboard_update_post = [
           }
           if (
             typeof results.motherboard.image != undefined &&
+            typeof results.motherboard.imgId != "undefined" &&
             typeof req.file != "undefined"
           ) {
-            const ImageName = "public/images/" + results.motherboard.image;
-
-            if (fs.existsSync(ImageName)) {
-              fs.unlinkSync(ImageName);
-            }
+            deleteImage(results.motherboard.imgId)
           }
           res.render("motherboard/motherboard_form", {
             title: "Update motherboard",
@@ -431,13 +431,10 @@ exports.motherboard_update_post = [
       }
       if (
         typeof motherboard.image != undefined &&
-        typeof req.file != "undefined"
+        typeof req.file != "undefined" &&
+        typeof motherboard.imgId != "undefined"
       ) {
-        const ImageName = "public/images/" + motherboard.image;
-
-        if (fs.existsSync(ImageName)) {
-          fs.unlinkSync(ImageName);
-        }
+        deleteImage(motherboard.imgId)
       }
     });
 

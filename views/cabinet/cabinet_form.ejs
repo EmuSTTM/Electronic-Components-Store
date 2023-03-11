@@ -64,7 +64,7 @@
           <input id="image" type="file" multiple name="image" class="form-control-file" required>
           <input id="last_image" name="last_image" value="<%= (typeof cabinet === 'undefined' ? '' : cabinet.image) %>" style="visibility:hidden">
           <img src="<%= (typeof cabinet !== 'undefined' && typeof cabinet.toObject().image !== 'undefined') 
-          ? `/images/${cabinet.image}` : 'https://via.placeholder.com/300x250' %>" height="250" alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
+          ? `${cabinet.image}` : 'https://via.placeholder.com/300x250' %>" height="250" alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
         </div>
         <button type="submit" class="btn btn-primary d-flex mx-auto mt-3" style="margin-bottom: 10px;">Submit</button>
     </form>

@@ -161,7 +161,7 @@ const actualizarCarrito = () => {
     } else {
       div.innerHTML = `
         <div class="col-2">
-            <img src="/images/${
+            <img src="${
               prod.image
             }" class="img-fluid" style="max-height: 100px; padding: 5px;">
         </div>

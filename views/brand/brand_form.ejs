@@ -61,7 +61,7 @@
           style="visibility: hidden"
         />
         <img
-          src="<%= (typeof brand !== 'undefined' && typeof brand.toObject().image !== 'undefined') ? `/images/${brand.image}` : 'https://via.placeholder.com/200x200' %>"
+          src="<%= (typeof brand !== 'undefined' && typeof brand.toObject().image !== 'undefined') ? `${brand.image}` : 'https://via.placeholder.com/200x200' %>"
           height="200"
           alt="Image preview..."
           id="preview"

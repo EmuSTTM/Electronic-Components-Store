@@ -61,6 +61,9 @@ const computerSchema = new mongoose.Schema({
   image: {
     type: String,
   },
+  imgId: {
+    type: String,
+  },
 });
 
 computerSchema.virtual("url").get(function () {

@@ -8,9 +8,15 @@ const Storage = require("../models/storage");
 const Computer = require("../models/computer");
 const CPU = require("../models/cpu");
 
+const deleteImage = require("../models/image");
+
 const async = require("async");
 const { body, validationResult } = require("express-validator");
-const fs = require("fs");
+
+
+const  { appConfig } = require('../config');
+const { host } = appConfig;
+
 
 // Display list of all Brands. Brand list it's a it useless
 exports.brand_list = function (req, res, next) {
@@ -120,9 +126,12 @@ exports.brand_create_post = [
     const brand = new Brand({
       name: req.body.name,
     });
+
+
     if (typeof req.file !== "undefined") {
-      brand.image = req.file.filename;
-    }
+      brand.image = `${host}/image/${req.file.filename}`;
+      brand.imgId = req.file.id;
+    } 
     if (typeof req.body.description !== "undefined") {
       brand.description = req.body.description;
     }
@@ -317,12 +326,11 @@ exports.brand_delete_post = (req, res, next) => {
         if (err) {
           return next(err);
         }
-        if (typeof results.brand.image != undefined) {
-          const ImageName = "public/images/" + results.brand.image;
-
-          if (fs.existsSync(ImageName)) {
-            fs.unlinkSync(ImageName);
-          }
+        if (
+          typeof results.brand.image != undefined &&
+          typeof results.brand.imgId != "undefined"
+        ) {
+          deleteImage(results.brand.imgId)
         }
         res.redirect("/components/brands");
       });
@@ -362,7 +370,8 @@ exports.brand_update_post = [
     });
 
     if (typeof req.file !== "undefined") {
-      brand.image = req.file.filename;
+      brand.image = `${host}/image/${req.file.filename}`;
+      brand.imgId = req.file.id;
     } else {
       brand.image = req.body.last_image;
     }
@@ -381,12 +390,12 @@ exports.brand_update_post = [
           err.status = 404;
           return next(err);
         }
-        if (typeof brand.image != undefined && typeof req.file != "undefined") {
-          const ImageName = "public/images/" + brand.image;
-
-          if (fs.existsSync(ImageName)) {
-            fs.unlinkSync(ImageName);
-          }
+        if (
+          typeof brand.image != undefined &&
+          typeof req.file != "undefined" &&
+          typeof brand.imgId != "undefined"
+        ) {
+          deleteImage(brand.imgId)
         }
         res.render("brand/brand_form", {
           title: "Update Brand",
@@ -402,12 +411,12 @@ exports.brand_update_post = [
       if (err) {
         return next(err);
       }
-      if (typeof brand.image != undefined && typeof req.file != "undefined") {
-        const ImageName = "public/images/" + brand.image;
-
-        if (fs.existsSync(ImageName)) {
-          fs.unlinkSync(ImageName);
-        }
+      if (
+        typeof brand.image != undefined &&
+        typeof req.file != "undefined" &&
+        typeof brand.imgId != "undefined"
+      ) {
+        deleteImage(brand.imgId)
       }
     });
     // Data from form is valid. Update the record.

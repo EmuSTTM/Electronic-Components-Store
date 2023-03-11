@@ -43,6 +43,9 @@ const cpuSchema = new Schema({
   image: {
     type: String,
   },
+  imgId: {
+    type: String,
+  },
 });
 
 cpuSchema.virtual("url").get(function () {

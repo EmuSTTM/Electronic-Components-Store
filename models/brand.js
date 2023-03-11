@@ -4,6 +4,7 @@ const brandSchema = new mongoose.Schema({
   name: { type: String, required: true },
   image: { type: String },
   description: { type: String },
+  imgId: { type: String}
 });
 
 brandSchema.virtual("url").get(function () {

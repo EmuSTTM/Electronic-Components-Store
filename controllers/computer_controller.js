@@ -11,7 +11,13 @@ const Computer = require("../models/computer");
 const { body, validationResult } = require("express-validator");
 
 const async = require("async");
-const fs = require("fs");
+
+
+// Configuraciones necesarias para añadir y eliminar imagenes. 
+const deleteImage = require("../models/image");
+const  { appConfig } = require('../config');
+const { host } = appConfig;
+
 
 // Display list of all Computers.
 exports.computer_list = (req, res, next) => {
@@ -361,9 +367,11 @@ exports.computer_create_post = [
           powerSupply: results.powerSupply,
         });
 
-        if (typeof req.file.filename != "undefined") {
-          computer.image = req.file.filename;
-        }
+        if (typeof req.file !== "undefined") {
+          computer.image = `${host}/image/${req.file.filename}`;
+          computer.imgId = req.file.id;
+        } 
+    
         if (typeof req.body.description != "undefined") {
           computer.description = req.body.description;
         }
@@ -474,12 +482,12 @@ exports.computer_delete_post = (req, res, next) => {
       if (err) {
         return next(err);
       }
-      if (typeof computer.image != undefined) {
-        const ImageName = "public/images/" + computer.image;
 
-        if (fs.existsSync(ImageName)) {
-          fs.unlinkSync(ImageName);
-        }
+      if (
+        typeof computer.image != undefined &&
+        typeof computer.imgId != "undefined"
+      ) {
+        deleteImage(computer.imgId)
       }
       // Success - go to author list
       res.redirect("/computers/");
@@ -731,9 +739,10 @@ exports.computer_update_post = [
         }
 
         if (typeof req.file !== "undefined") {
-          computer.image = req.file.filename;
+            computer.image = `${host}/image/${req.file.filename}`;
+            computer.imgId = req.file.id;
         } else {
-          computer.image = req.body.last_image;
+            computer.image = req.body.last_image;
         }
 
 
@@ -780,14 +789,12 @@ exports.computer_update_post = [
             (err, results) => {
               if (
                 typeof results.computer.image != undefined &&
+                typeof results.computer.imgId != "undefined"&&
                 typeof req.file != "undefined"
               ) {
-                const ImageName = "public/images/" + results.computer.image;
-
-                if (fs.existsSync(ImageName)) {
-                  fs.unlinkSync(ImageName);
-                }
+                deleteImage(results.computer.imgId)
               }
+              
 
               res.render("computer/computer_update", {
                 title: "Update Computer",
@@ -815,13 +822,9 @@ exports.computer_update_post = [
 
             if (
               typeof found_computer.image != undefined &&
-              typeof req.file != "undefined"
+              typeof found_computer.imgId != "undefined"
             ) {
-              const ImageName = "public/images/" + found_computer.image;
-
-              if (fs.existsSync(ImageName)) {
-                fs.unlinkSync(ImageName);
-              }
+              deleteImage(found_computer.imgId)
             }
           });
 

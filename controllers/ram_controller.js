@@ -4,7 +4,13 @@ const Computer = require("../models/computer");
 
 const async = require("async");
 const { body, validationResult } = require("express-validator");
-const fs = require("fs");
+
+
+// Configuraciones necesarias para añadir y eliminar imagenes. 
+const deleteImage = require("../models/image");
+const  { appConfig } = require('../config');
+const { host } = appConfig;
+
 
 // Display list of all Ram. // brand model size speed type price
 exports.ram_list = function (req, res, next) {
@@ -47,28 +53,6 @@ exports.ram_detail = (req, res, next) => {
     });
 };
 
-// // Display detail page for a specific ram.
-// exports.ram_detail = (req, res, next) => {
-//   ram.findById(req.params.id)
-//   .populate("brand")
-//   .exec(
-// (err, ram) => {
-//   if(err){
-//     return next(err);
-//   }
-//   if(ram == null){
-//     // No results
-//     const err = new Error("speed Supply not found");
-//     err.status = 404;
-//     return next(err);
-//   }
-//   // Todo sucedió correctamente
-//   res.render("ram/ram_detail",{
-//     title:"speed Supply Detail",
-//     ram: ram,
-//   })
-// })
-// };
 
 // Display Ram create form on GET.
 exports.ram_create_get = (req, res, next) => {
@@ -122,9 +106,11 @@ exports.ram_create_post = [
       price: req.body.price,
       size: req.body.size,
     });
-    if (!req.file) {
-      ram.image = req.file.filename;
-    }
+    
+    if (typeof req.file !== "undefined") {
+      ram.image = `${host}/image/${req.file.filename}`;
+      ram.imgId = req.file.id;
+    } 
 
     if (!errors.isEmpty()) {
       // There are errors. Render the form again with sanitized values/error messages.
@@ -200,7 +186,7 @@ exports.ram_delete_post = (req, res, next) => {
       ram(callback) {
         RAM.findById(req.body.ramid).exec(callback);
       },
-      ram_computers(calblack) {
+      ram_computers(callback) {
         Computer.find({ ram: req.body.ramid }).exec(callback);
       },
     },
@@ -226,12 +212,11 @@ exports.ram_delete_post = (req, res, next) => {
         if (err) {
           return next(err);
         }
-        if (typeof results.ram.image != undefined) {
-          const ImageName = "public/images/" + results.ram.image;
-
-          if (fs.existsSync(ImageName)) {
-            fs.unlinkSync(ImageName);
-          }
+        if (
+          typeof results.ram.image != undefined &&
+          typeof results.ram.imgId != "undefined"
+        ) {
+          deleteImage(results.ram.imgId)
         }
 
         // Success - go to ram list
@@ -322,7 +307,8 @@ exports.ram_update_post = [
     });
 
     if (typeof req.file !== "undefined") {
-      ram.image = req.file.filename;
+      ram.image = `${host}/image/${req.file.filename}`;
+      ram.imgId = req.file.id;
     } else {
       ram.image = req.body.last_image;
     }
@@ -356,13 +342,10 @@ exports.ram_update_post = [
           }
           if (
             typeof results.ram.image != undefined &&
+            typeof results.ram.imgId != "undefined" &&
             typeof req.file != "undefined"
           ) {
-            const ImageName = "public/images/" + results.ram.image;
-
-            if (fs.existsSync(ImageName)) {
-              fs.unlinkSync(ImageName);
-            }
+            deleteImage(results.ram.imgId)
           }
           res.render("ram/ram_form", {
             title: "Update ram",
@@ -380,12 +363,12 @@ exports.ram_update_post = [
       if (err) {
         return next(err);
       }
-      if (typeof ram.image != undefined && typeof req.file != "undefined") {
-        const ImageName = "public/images/" + ram.image;
-
-        if (fs.existsSync(ImageName)) {
-          fs.unlinkSync(ImageName);
-        }
+      if (
+        typeof ram.image != undefined &&
+        typeof req.file != "undefined" &&
+        typeof ram.imgId != "undefined"
+      ) {
+        deleteImage(ram.imgId)
       }
     });
     // Data from form is valid. Update the record.

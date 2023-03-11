@@ -4,7 +4,12 @@ const Computer = require("../models/computer");
 
 const { body, validationResult } = require("express-validator");
 const async = require("async");
-const fs = require("fs");
+
+
+// Configuraciones necesarias para añadir y eliminar imagenes. 
+const deleteImage = require("../models/image");
+const  { appConfig } = require('../config');
+const { host } = appConfig;
 
 // Display list of all cpus.
 exports.cpu_list = (req, res, next) => {
@@ -112,8 +117,12 @@ exports.cpu_create_post = [
       socket: req.body.socket,
       frecuency_ram: req.body.frecuencyRam,
       price: req.body.price,
-      image: req.file.filename,
     });
+
+    if (typeof req.file !== "undefined") {
+      cpu.image = `${host}/image/${req.file.filename}`;
+      cpu.imgId = req.file.id;
+    } 
 
     if (!errors.isEmpty()) {
       // There are errors. Render the form again with sanitized values/error messages.
@@ -189,7 +198,7 @@ exports.cpu_delete_post = (req, res, next) => {
       cpu(callback) {
         CPU.findById(req.body.cpuid).exec(callback);
       },
-      cpu_computers(calblack) {
+      cpu_computers(callback) {
         Computer.find({ cpu: req.body.cpuid }).exec(callback);
       },
     },
@@ -215,12 +224,11 @@ exports.cpu_delete_post = (req, res, next) => {
         if (err) {
           return next(err);
         }
-        if (typeof results.cpu.image != undefined) {
-          const ImageName = "public/images/" + results.cpu.image;
-
-          if (fs.existsSync(ImageName)) {
-            fs.unlinkSync(ImageName);
-          }
+        if (
+          typeof results.cpu.image != undefined &&
+          typeof results.cpu.imgId != "undefined"
+        ) {
+          deleteImage(results.cpu.imgId)
         }
 
         // Success - go to cpu list
@@ -314,7 +322,8 @@ exports.cpu_update_post = [
       _id: req.params.id,
     });
     if (typeof req.file !== "undefined") {
-      cpu.image = req.file.filename;
+      cpu.image = `${host}/image/${req.file.filename}`;
+      cpu.imgId = req.file.id;
     } else {
       cpu.image = req.body.last_image;
     }
@@ -345,15 +354,10 @@ exports.cpu_update_post = [
             }
           }
           if (
-            typeof cpu.image != "undefined" &&
-            typeof req.file != "undefined"
+            typeof results.cpu.image != undefined &&
+            typeof results.cpu.imgId != "undefined"
           ) {
-            
-            const ImageName = "public/images/" + results.cpu.image;
-
-            if (fs.existsSync(ImageName)) {
-              fs.unlinkSync(ImageName);
-            }
+            deleteImage(results.cpu.imgId)
           }
 
           res.render("cpu/cpu_form", {
@@ -372,12 +376,12 @@ exports.cpu_update_post = [
       if (err) {
         return next(err);
       }
-      if (typeof cpu.image != undefined && typeof req.file != "undefined") {
-        const ImageName = "public/images/" + cpu.image;
-
-        if (fs.existsSync(ImageName)) {
-          fs.unlinkSync(ImageName);
-        }
+      if (
+        typeof cpu.image != undefined &&
+        typeof req.file != "undefined" &&
+        typeof cpu.imgId != "undefined"
+      ) {
+        deleteImage(cpu.imgId)
       }
     });
 

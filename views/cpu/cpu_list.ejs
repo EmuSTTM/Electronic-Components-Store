@@ -10,7 +10,7 @@
         cpu_list[i].price, image:cpu_list[i].image }%>
 
         <img style="padding:10px;"
-          src="<%=  typeof cpu_list[i].toObject().image !== 'undefined' ? '/images/' + cpu_list[i].image : 'https://via.placeholder.com/300x200' %>"
+          src="<%=  typeof cpu_list[i].toObject().image !== 'undefined' ? cpu_list[i].image : 'https://via.placeholder.com/300x200' %>"
           class="card-img-top"
           alt="<%= cpu_list[i].name%>"
         />

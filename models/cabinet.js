@@ -44,6 +44,9 @@ const cabinetSchema = new mongoose.Schema({
   image: {
     type: String,
   },
+  imgId: {
+    type: String,
+  },
 });
 
 cabinetSchema.virtual("url").get(function () {

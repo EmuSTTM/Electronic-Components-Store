@@ -1,17 +1,19 @@
 const PowerSupply = require("../models/power-supply");
 const Brand = require("../models/brand");
 const Computer = require("../models/computer");
-const deleteImage = require("../models/image");
+
+
 
 const async = require("async");
 const { body, validationResult } = require("express-validator");
-const fs = require("fs");
 
+
+// Configuraciones necesarias para añadir y eliminar imagenes. 
+const deleteImage = require("../models/image");
 const  { appConfig } = require('../config');
 const { host } = appConfig;
 
 
-const mongoose = require("mongoose");
 
 
 
@@ -32,12 +34,6 @@ exports.powerSupply_list = function (req, res, next) {
       });
     });
 };
-// El campo name es requerido y debe ser una cadena de caracteres
-// El campo brand es una clave foranea hacia el esquema Brand, es requerido
-// El campo model es requerido y debe ser una cadena de caracteres
-// El campo power es requerido, debe ser un número y debe ser mayor a 0
-// El campo certification es un arreglo de strings, con una lista de valores posibles y su valor default.
-// El campo price es requerido, debe ser un número y debe ser mayor a 0
 
 // Display detail page for a specific PowerSupply.
 exports.powerSupply_detail = (req, res, next) => {
@@ -123,8 +119,12 @@ exports.powerSupply_create_post = [
       power: req.body.power,
       certification: req.body.certification,
       price: req.body.price,
-      image: req.file.filename,
     });
+
+    if (typeof req.file !== "undefined") {
+      powerSupply.image = `${host}/image/${req.file.filename}`;
+      powerSupply.imgId = req.file.id;
+    } 
 
     if (!errors.isEmpty()) {
       // There are errors. Render the form again with sanitized values/error messages.
@@ -202,7 +202,7 @@ exports.powerSupply_delete_post = (req, res, next) => {
       powerSupply(callback) {
         PowerSupply.findById(req.body.powerSupplyid).exec(callback);
       },
-      powerSupply_computers(calblack) {
+      powerSupply_computers(callback) {
         Computer.find({ powerSupply: req.body.powerSupplyid }).exec(callback);
       },
     },
@@ -227,13 +227,6 @@ exports.powerSupply_delete_post = (req, res, next) => {
       PowerSupply.findByIdAndRemove(req.body.powerSupplyid, (err) => {
         if (err) {
           return next(err);
-        }
-        if (typeof results.powerSupply.image != undefined) {
-          const ImageName = "public/images/" + results.powerSupply.image;
-
-          if (fs.existsSync(ImageName)) {
-            fs.unlinkSync(ImageName);
-          }
         }
         if (
           typeof results.powerSupply.image != undefined &&
@@ -373,13 +366,10 @@ exports.powerSupply_update_post = [
           }
           if (
             typeof results.powerSupply.image != undefined &&
+            typeof results.powerSupply.imgId != "undefined" &&
             typeof req.file != "undefined"
           ) {
-            const ImageName = "public/images/" + results.powerSupply.image;
-
-            if (fs.existsSync(ImageName)) {
-              fs.unlinkSync(ImageName);
-            }
+            deleteImage(results.powerSupply.imgId)
           }
           res.render("powerSupply/powerSupply_form", {
             title: "Update powerSupply",

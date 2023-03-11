@@ -2,9 +2,15 @@ const Cabinet = require("../models/cabinet");
 const Brand = require("../models/brand");
 const Computer = require("../models/computer");
 
-const fs = require("fs");
+
 const async = require("async");
 const { body, validationResult, check } = require("express-validator");
+
+// Configuraciones necesarias para añadir y eliminar imagenes. 
+const deleteImage = require("../models/image");
+const  { appConfig } = require('../config');
+const { host } = appConfig;
+
 
 // Display list of all Cabinets.
 exports.cabinet_list = function (req, res, next) {
@@ -114,9 +120,13 @@ exports.cabinet_create_post = [
       bay_5_25: req.body.bay_5_25,
       bay_3_5: req.body.bay_3_5,
       bay_2_5: req.body.bay_2_5,
-      image: req.file.filename,
       price: req.body.price,
     });
+
+    if (typeof req.file !== "undefined") {
+      cabinet.image = `${host}/image/${req.file.filename}`;
+      cabinet.imgId = req.file.id;
+    } 
     if (!errors.isEmpty()) {
       // There are errors. Render the form again with sanitized values/error messages.
       Brand.find((err, brands) => {
@@ -191,7 +201,7 @@ exports.cabinet_delete_post = (req, res, next) => {
       cabinet(callback) {
         Cabinet.findById(req.body.cabinetid).exec(callback);
       },
-      cabinet_computers(calblack) {
+      cabinet_computers(callback) {
         Computer.find({ cabinet: req.body.cabinetid }).exec(callback);
       },
     },
@@ -217,12 +227,11 @@ exports.cabinet_delete_post = (req, res, next) => {
         if (err) {
           return next(err);
         }
-        if (typeof results.cabinet.image != undefined) {
-          const ImageName = "public/images/" + results.cabinet.image;
-
-          if (fs.existsSync(ImageName)) {
-            fs.unlinkSync(ImageName);
-          }
+        if (
+          typeof results.cabinet.image != undefined &&
+          typeof results.cabinet.imgId != "undefined"
+        ) {
+          deleteImage(results.cabinet.imgId)
         }
 
         // Success - go to cabinet list
@@ -329,7 +338,8 @@ exports.cabinet_update_post = [
       _id: req.params.id,
     });
     if (typeof req.file !== "undefined") {
-      cabinet.image = req.file.filename;
+      cabinet.image = `${host}/image/${req.file.filename}`;
+      cabinet.imgId = req.file.id;
     } else {
       cabinet.image = req.body.last_image;
     }
@@ -363,13 +373,10 @@ exports.cabinet_update_post = [
           }
           if (
             typeof results.cabinet.image != undefined &&
-            typeof req.file != "undefined"
+            typeof req.file != "undefined" &&
+            typeof results.cabinet.imgId != "undefined"
           ) {
-            const ImageName = "public/images/" + results.cabinet.image;
-
-            if (fs.existsSync(ImageName)) {
-              fs.unlinkSync(ImageName);
-            }
+            deleteImage(results.cabinet.imgId)
           }
 
           res.render("cabinet/cabinet_form", {
@@ -388,12 +395,12 @@ exports.cabinet_update_post = [
       if (err) {
         return next(err);
       }
-      if (typeof cabinet.image != undefined && typeof req.file != "undefined") {
-        const ImageName = "public/images/" + cabinet.image;
-
-        if (fs.existsSync(ImageName)) {
-          fs.unlinkSync(ImageName);
-        }
+      if (
+        typeof cabinet.image != undefined &&
+        typeof req.file != "undefined" &&
+        typeof cabinet.imgId != "undefined"
+      ) {
+        deleteImage(cabinet.imgId)
       }
     });
 

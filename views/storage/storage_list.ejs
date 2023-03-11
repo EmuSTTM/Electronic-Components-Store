@@ -9,7 +9,7 @@
         price: storage_list[i].price, image:storage_list[i].image }%>
 
         <img style="padding:10px;"
-          src="<%=  typeof storage_list[i].toObject().image !== 'undefined' ? '/images/' + storage_list[i].image : 'https://via.placeholder.com/300x200' %>"
+          src="<%=  typeof storage_list[i].toObject().image !== 'undefined' ? storage_list[i].image : 'https://via.placeholder.com/300x200' %>"
           class="card-img-top"
           alt="<%= storage_list[i].name%>"
         />

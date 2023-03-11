@@ -40,6 +40,9 @@ const RAMSchema = new mongoose.Schema({
   image: {
     type: String,
   },
+  imgId: {
+    type: String,
+  },
 });
 
 RAMSchema.virtual("url").get(function () {

@@ -31,6 +31,9 @@ const motherboardSchema = new mongoose.Schema({
   image: {
     type: String,
   },
+  imgId: {
+    type: String,
+  },
 
   // properties for compatibilities
   ram_slots: {

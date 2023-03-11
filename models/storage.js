@@ -35,6 +35,9 @@ const storageSchema = new mongoose.Schema({
   image: {
     type: String,
   },
+  imgId: {
+    type: String,
+  },
 });
 
 storageSchema.virtual("url").get(function () {

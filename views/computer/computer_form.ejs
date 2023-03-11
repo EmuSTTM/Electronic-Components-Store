@@ -178,7 +178,7 @@
       <div class="col-md-3 mb-3">
         <div class="card  product storage  h-100" id="<%= storage._id %>" onclick="selectProduct(<%= JSON.stringify(storage) %>, 'storage', <%= JSON.stringify(prod) %>);">
 
-          <img src="<%=  typeof storage.toObject().image !== 'undefined' ? '/images/' + storage.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= storage.name%>">
+          <img src="<%=  typeof storage.toObject().image !== 'undefined' ? storage.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= storage.name%>">
           <div class="card-body">
             <h5 class="card-title"> <a href="<%= storage.url %>"><%= storage.name %></a>  </h5> 
             <p class="card-text">
@@ -209,7 +209,7 @@
       <div class="col-md-3 mb-3">
         <div class="card  product ram h-100" id="<%= ram._id %>" onclick="selectProduct(<%= JSON.stringify(ram) %>, 'ram', <%= JSON.stringify(prod) %>);">
 
-          <img src="<%=  typeof ram.toObject().image !== 'undefined' ? '/images/' + ram.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= ram.name%>">
+          <img src="<%=  typeof ram.toObject().image !== 'undefined' ? ram.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= ram.name%>">
           <div class="card-body">
             <h5 class="card-title"> <a href="<%= ram.url %>"><%= ram.name %></a>  </h5> 
             <p class="card-text">
@@ -264,7 +264,7 @@
       <div class="col-md-3 mb-3 " >
         <div class="card h-100 product" id="<%= cpu._id %>" onclick="selectProduct(<%= JSON.stringify(cpu) %>, 'cpu', <%= JSON.stringify(prod) %>);">
 
-          <img src="<%=  typeof cpu.toObject().image !== 'undefined' ? '/images/' + cpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= cpu.name%>">
+          <img src="<%=  typeof cpu.toObject().image !== 'undefined' ? cpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= cpu.name%>">
           <div class="card-body">
             <h5 class="card-title"> <a href="<%= cpu.url %>"><%= cpu.name %></a>  </h5> 
             <p class="card-text">
@@ -288,7 +288,7 @@
       <div class="col-md-3 mb-3">
         <div class="card  h-100 product" id="<%= gpu._id %>" onclick="selectProduct(<%= JSON.stringify(gpu) %>, 'gpu', <%= JSON.stringify(prod) %>);">
 
-          <img src="<%=  typeof gpu.toObject().image !== 'undefined' ? '/images/' + gpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= gpu.name%>">
+          <img src="<%=  typeof gpu.toObject().image !== 'undefined' ? gpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= gpu.name%>">
           <div class="card-body">
             <h5 class="card-title"> <a href="<%= gpu.url %>"><%= gpu.name %></a>  </h5> 
             <p class="card-text">
@@ -315,7 +315,7 @@
       <div class="col-md-3 mb-3">
         <div class="card  h-100 product" id="<%= powerSupply._id %>" onclick="selectProduct(<%= JSON.stringify(powerSupply) %>, 'powerSupply', <%= JSON.stringify(prod) %>);">
 
-          <img src="<%=  typeof powerSupply.toObject().image !== 'undefined' ? '/images/' + powerSupply.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= powerSupply.name%>">
+          <img src="<%=  typeof powerSupply.toObject().image !== 'undefined' ? powerSupply.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= powerSupply.name%>">
           <div class="card-body">
             <h5 class="card-title"> <a href="<%= powerSupply.url %>"><%= powerSupply.name %></a>  </h5> 
             <p class="card-text">
@@ -343,7 +343,7 @@
       <div class="col-md-3 mb-3">
         <div class="card h-100 product" id="<%= motherboard._id %>" onclick="selectProduct( <%= JSON.stringify(motherboard) %>, 'motherboard', <%= JSON.stringify(prod) %>);");">
 
-          <img src="<%=  typeof motherboard.toObject().image !== 'undefined' ? '/images/' + motherboard.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= motherboard.name%>">
+          <img src="<%=  typeof motherboard.toObject().image !== 'undefined' ? motherboard.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= motherboard.name%>">
           <div class="card-body">
             <h5 class="card-title"> <a href="<%= motherboard.url %>"><%= motherboard.name %></a>  </h5> 
             <p class="card-text">
@@ -371,7 +371,7 @@
         <div class="card h-100 product" id="<%= cabinet._id %>" onclick="selectProduct(<%= JSON.stringify(cabinet) %>, 'cabinet', <%= JSON.stringify(prod) %>);" >
 
           <img 
-          src="<%=  typeof cabinet.toObject().image !== 'undefined' ? '/images/' + cabinet.image : 'https://via.placeholder.com/300x200' %>" 
+          src="<%=  typeof cabinet.toObject().image !== 'undefined' ? cabinet.image : 'https://via.placeholder.com/300x200' %>" 
           class="card-img-top" alt="<%= cabinet.name%>"  >
           <div class="card-body" >
             <h5 class="card-title"> <a href="<%= cabinet.url %>"><%= cabinet.name %></a>  </h5> 
@@ -425,7 +425,7 @@
           <input type="file" multiple name="image" required id="image" class="form-control-file">
           <input id="last_image" name="last_image" value="<%= (typeof computer === 'undefined' ? '' : computer.image) %>" style="visibility:hidden">
           <img src="<%= (typeof computer !== 'undefined' && typeof computer.toObject().image !== 'undefined') 
-          ? `/images/${computer.image}` : 'https://via.placeholder.com/300x250' %>" height="250" alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
+          ? `${computer.image}` : 'https://via.placeholder.com/300x250' %>" height="250" alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
         </div>
 
         <script>

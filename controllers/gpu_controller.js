@@ -4,7 +4,13 @@ const Computer = require("../models/computer");
 
 const async = require("async");
 const { body, validationResult } = require("express-validator");
-const fs = require("fs");
+
+
+// Configuraciones necesarias para añadir y eliminar imagenes. 
+const deleteImage = require("../models/image");
+const  { appConfig } = require('../config');
+const { host } = appConfig;
+
 
 // Display list of all GPU.
 exports.gpu_list = function (req, res, next) {
@@ -36,22 +42,7 @@ exports.gpu_list = function (req, res, next) {
 
 // Display detail page for a specific GPU.
 exports.gpu_detail = (req, res, next) => {
-  // gpu.findById(req.params.id)
-  // .populate('brand')
-  // .exec((err, gpu) => {
-  //     if (err) {
-  //         return next(err);
-  //     }
-  //     if (gpu == null) {
-  //         const err = new Error("gpu not found");
-  //         err.status = 404;
-  //         return next(err);
-  //     }
-  //     res.render("gpu/gpu_detail", {
-  //         title: "gpu Detail",
-  //         gpu: gpu,
-  //     });
-  // });
+
   GPU.findById(req.params.id)
     .populate("brand")
     .exec((err, gpu) => {
@@ -146,8 +137,11 @@ exports.gpu_create_post = [
       stream_processors: req.body.stream_processors,
       tdp: req.body.tdp,
       price: req.body.price,
-      image: req.file.filename,
     });
+    if (typeof req.file !== "undefined") {
+      gpu.image = `${host}/image/${req.file.filename}`;
+      gpu.imgId = req.file.id;
+    } 
     if (!errors.isEmpty()) {
       // There are errors. Render the form again with sanitized values/error messages.
       Brand.find((err, brands) => {
@@ -222,7 +216,7 @@ exports.gpu_delete_post = (req, res, next) => {
       gpu(callback) {
         GPU.findById(req.body.gpuid).exec(callback);
       },
-      gpu_computers(calblack) {
+      gpu_computers(callback) {
         Computer.find({ gpu: req.body.gpuid }).exec(callback);
       },
     },
@@ -248,12 +242,11 @@ exports.gpu_delete_post = (req, res, next) => {
         if (err) {
           return next(err);
         }
-        if (typeof results.gpu.image != undefined) {
-          const ImageName = "public/images/" + results.gpu.image;
-
-          if (fs.existsSync(ImageName)) {
-            fs.unlinkSync(ImageName);
-          }
+        if (
+          typeof results.gpu.image != undefined &&
+          typeof results.gpu.imgId != "undefined"
+        ) {
+          deleteImage(results.gpu.imgId)
         }
 
         // Success - go to gpu list
@@ -301,18 +294,7 @@ exports.gpu_update_get = (req, res, next) => {
   );
 };
 exports.gpu_update_post = [
-  //   (req, res, next) => {
-  //   GPU.findById(req.params.id,
-  //       (err, gpu) => {
-  //         if (err) {
-  //           return next(err);
-  //         }
 
-  //         if (typeof req.file == "undefined" || req.body.image == "undefined"){
-  //           req.body.image = gpu.image;
-  //         }
-  //       })
-  // },
 
   // Convert the genre to an array.
   (req, res, next) => {
@@ -374,7 +356,8 @@ exports.gpu_update_post = [
       _id: req.params.id,
     });
     if (typeof req.file !== "undefined") {
-      gpu.image = req.file.filename;
+      gpu.image = `${host}/image/${req.file.filename}`;
+      gpu.imgId = req.file.id;
     } else {
       gpu.image = req.body.last_image;
     }
@@ -408,13 +391,10 @@ exports.gpu_update_post = [
           }
           if (
             typeof results.gpu.image != undefined &&
+            typeof results.gpu.imgId != "undefined"&&
             typeof req.file != "undefined"
           ) {
-            const ImageName = "public/images/" + results.gpu.image;
-
-            if (fs.existsSync(ImageName)) {
-              fs.unlinkSync(ImageName);
-            }
+            deleteImage(results.gpu.imgId)
           }
 
           res.render("gpu/gpu_form", {
@@ -433,12 +413,12 @@ exports.gpu_update_post = [
       if (err) {
         return next(err);
       }
-      if (typeof gpu.image != "undefined" && typeof req.file != "undefined") {
-        const ImageName = "public/images/" + gpu.image;
-
-        if (fs.existsSync(ImageName)) {
-          fs.unlinkSync(ImageName);
-        }
+      if (
+        typeof gpu.image != undefined &&
+        typeof req.file != "undefined" &&
+        typeof gpu.imgId != "undefined"
+      ) {
+        deleteImage(gpu.imgId)
       }
     });
 

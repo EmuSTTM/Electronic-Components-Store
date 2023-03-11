@@ -10,7 +10,7 @@
         image:powerSupply_list[i].image }%>
 
         <img style="padding:10px;"
-          src="<%=  typeof powerSupply_list[i].toObject().image !== 'undefined' ? '/images/' + powerSupply_list[i].image : 'https://via.placeholder.com/300x200' %>"
+          src="<%=  typeof powerSupply_list[i].toObject().image !== 'undefined' ? powerSupply_list[i].image : 'https://via.placeholder.com/300x200' %>"
           class="card-img-top"
           alt="<%= powerSupply_list[i].name%>"
         />

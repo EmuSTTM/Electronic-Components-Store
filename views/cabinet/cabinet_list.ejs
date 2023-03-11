@@ -10,7 +10,7 @@
         price: cabinet_list[i].price, image:cabinet_list[i].image }%>
 
         <img style="padding:10px;"
-          src="<%=  typeof cabinet_list[i].toObject().image !== 'undefined' ? '/images/' + cabinet_list[i].image : 'https://via.placeholder.com/300x200' %>"
+          src="<%=  typeof cabinet_list[i].toObject().image !== 'undefined' ? cabinet_list[i].image : 'https://via.placeholder.com/300x200' %>"
           class="card-img-top"
           alt="<%= cabinet_list[i].name%>"
         />

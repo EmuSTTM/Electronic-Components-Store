@@ -9,7 +9,8 @@
       <div class="card h-100">
         <% const prod = {name:motherboard_list[i].name, id:motherboard_list[i]._id, price: motherboard_list[i].price, image:motherboard_list[i].image  }%>
 
-        <img style="padding:10px;" src="<%=  typeof motherboard_list[i].toObject().image !== 'undefined' ? '/images/' + motherboard_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= motherboard_list[i].name%>">
+        <img style="padding:10px;" src="<%=  typeof motherboard_list[i].toObject().image !== 'undefined' ?
+        motherboard_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= motherboard_list[i].name%>">
         <div class="card-body">
           <h5 class="card-title"> 
             <a href="<%= motherboard_list[i].url %>">

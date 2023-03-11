@@ -9,7 +9,7 @@
       <div class="card h-100">
         <% const prod = {name:gpu_list[i].name, id:gpu_list[i]._id, price: gpu_list[i].price, image:gpu_list[i].image  }%>
 
-        <img style="padding:10px;" src="<%=  typeof gpu_list[i].toObject().image !== 'undefined' ? '/images/' + gpu_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= gpu_list[i].name%>">
+        <img style="padding:10px;" src="<%=  typeof gpu_list[i].toObject().image !== 'undefined' ? gpu_list[i].image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= gpu_list[i].name%>">
         <div class="card-body">
           <h5 class="card-title"> 
             <a href="<%= gpu_list[i].url %>">

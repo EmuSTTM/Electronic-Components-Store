@@ -79,7 +79,7 @@
           <input id="image" type="file" multiple name="image" class="form-control-file" required>
           <input id="last_image" name="last_image" value="<%= (typeof gpu === 'undefined' ? '' : gpu.image) %>" style="visibility:hidden">
           <img src="<%= (typeof gpu !== 'undefined' && typeof gpu.toObject().image !== 'undefined') 
-          ? `/images/${gpu.image}` : 'https://via.placeholder.com/300x250' %>" height="250" alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
+          ? `${gpu.image}` : 'https://via.placeholder.com/300x250' %>" height="250" alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
         </div>
     </form>
     <button type="submit" class="btn btn-primary d-flex mx-auto mt-3" style="margin-bottom: 10px;">Submit</button>

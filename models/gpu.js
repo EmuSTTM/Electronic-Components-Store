@@ -55,6 +55,9 @@ const gpuSchema = new mongoose.Schema({
   image: {
     type: String,
   },
+  imgId: {
+    type: String,
+  },
 });
 
 gpuSchema.virtual("url").get(function () {

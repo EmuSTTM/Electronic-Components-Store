@@ -129,7 +129,7 @@
         <input id="image" type="file" multiple name="image" class="form-control-file">
         <input id="last_image" name="last_image" value="<%= (typeof computer === 'undefined' ? '' : computer.image) %>" style="visibility:hidden">
         <img src="<%= (typeof computer !== 'undefined' && typeof computer.toObject().image !== 'undefined') 
-    ? `/images/${computer.image}` : 'https://via.placeholder.com/300x250' %>" height="250" alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
+    ? `${computer.image}` : 'https://via.placeholder.com/300x250' %>" height="250" alt="Image preview..." id="preview" style="margin: 20px auto; display: block;">
       </div>
 
 

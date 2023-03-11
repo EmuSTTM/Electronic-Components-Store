@@ -9,7 +9,7 @@
         ram_list[i].price, image:ram_list[i].image }%>
 
         <img style="padding:10px;"
-          src="<%=  typeof ram_list[i].toObject().image !== 'undefined' ? '/images/' + ram_list[i].image : 'https://via.placeholder.com/300x200' %>"
+          src="<%=  typeof ram_list[i].toObject().image !== 'undefined' ? ram_list[i].image : 'https://via.placeholder.com/300x200' %>"
           class="card-img-top"
           alt="<%= ram_list[i].name%>"
         />
