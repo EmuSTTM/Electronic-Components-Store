@@ -8,6 +8,7 @@ const logger = require("morgan");
 const compression = require("compression");
 const helmet = require("helmet");
 
+
 // Necesario para el incio de sesión de los usuarios
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
@@ -16,6 +17,7 @@ const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const componentsRouter = require("./routes/components");
 const pcsRouter = require("./routes/computers");
+
 
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
@@ -34,11 +36,19 @@ const MONGODB_URI = process.env.MONGODB_URI || dev_db_url; //Reemplaza la url de
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 const db = mongoose.connection;
 
+
+let gfs;
 //Check for successful connection
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", function () {
   console.log("Connection to MongoDB established successfully");
+  // Configurate of GDS for images
+   gfs = new mongoose.mongo.GridFSBucket(db.db, {bucketName: 'images'})
+   
+   
 });
+
+
 
 // Crear instancia de MongoStore y pasarla como parámetro en app.use(session({...}))
 
@@ -91,6 +101,33 @@ app.use("/", setActivePage, indexRouter);
 app.use("/users", setActivePage, usersRouter);
 app.use("/components", setActivePage, componentsRouter);
 app.use("/computers", setActivePage, pcsRouter);
+
+app.get('/image/:filename', (req, res) => {
+  gfs.find({ filename: req.params.filename }).toArray((err, files) => {
+    // Check if file
+    if (!files || files.length === 0) {
+      return res.status(404).json({
+        err: 'No file exists'
+      });
+    }
+
+    // Check if image
+    const file = files[0];
+    if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
+      // Set content type header
+      res.set('Content-Type', file.contentType);
+      
+      // Read output to browser
+      const readstream = gfs.openDownloadStreamByName(file.filename);
+      readstream.pipe(res);
+    } else {
+      res.status(404).json({
+        err: 'Not an image'
+      });
+    }
+  });
+});
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

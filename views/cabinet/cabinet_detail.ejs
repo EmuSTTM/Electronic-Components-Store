@@ -5,13 +5,12 @@
     <% const prod = {name:cabinet.name, id:cabinet._id, price: cabinet.price,
     image:cabinet.image }%>
     <div class="col-md-6">
-      <% if(cabinet.imgUrl !== undefined){ %>
-        
+      <% if(cabinet.image !== undefined){ %>
       <img
         class="img-tumbnail"
         height="360px"
         style="margin: 20px"
-        src="<%= cabinet.imgUrl %>"
+        src="/images/<%= cabinet.image %>"
         alt="<%= cabinet.name %>"
       />
       <% }; %>

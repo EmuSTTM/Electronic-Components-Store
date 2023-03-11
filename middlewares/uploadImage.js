@@ -1,21 +1,25 @@
 const multer = require("multer");
-var date = Date.now();
+const date = Date.now();
+const GridFsStorage = require("multer-gridfs-storage")
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/images");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + "-" + date + "." + file.originalname);
-  },
-  fileFilter: (req, file, cb) => {
-    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
-      return cb(new Error("Sólo se permiten imágenes"));
-    }
-    cb(null, true);
-  },
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/ECS";
+
+const storage = new GridFsStorage({
+  url: MONGODB_URI,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      const date = Date.now();
+      const filename = file.fieldname + '-' + date + '.' + file.originalname.split('.').pop();
+      const fileInfo = {
+        filename: filename,
+        bucketName: 'images'
+      };
+      resolve(fileInfo);
+    });
+  }
 });
-
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage
+});
 
 module.exports = upload;

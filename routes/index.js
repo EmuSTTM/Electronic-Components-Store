@@ -6,8 +6,13 @@ const cartController = require("../controllers/cart_controller");
 // Middleware of multers
 const upload = require("../middlewares/uploadImage");
 
+
+
 /* GET home page. */
 router.get("/", indexController.index);
+
+
+
 
 router.get("/cart", cartController.index);
 router.post("/cart", cartController.cart_computer);

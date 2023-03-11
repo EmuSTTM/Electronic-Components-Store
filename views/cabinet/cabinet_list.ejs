@@ -7,11 +7,10 @@
     <div class="col-md-3 mb-3">
       <div class="card h-100">
         <% const prod = {name:cabinet_list[i].name, id:cabinet_list[i]._id,
-        price: cabinet_list[i].price, imgUrl:cabinet_list[i].imgUrl}%>
+        price: cabinet_list[i].price, image:cabinet_list[i].image }%>
 
-        <% console.log(cabinet_list[i].toObject().imgUrl)%>
         <img style="padding:10px;"
-          src="<%=  typeof cabinet_list[i].toObject().imgUrl !== 'undefined' ? cabinet_list[i].imgUrl : 'https://via.placeholder.com/300x200' %>"
+          src="<%=  typeof cabinet_list[i].toObject().image !== 'undefined' ? '/images/' + cabinet_list[i].image : 'https://via.placeholder.com/300x200' %>"
           class="card-img-top"
           alt="<%= cabinet_list[i].name%>"
         />

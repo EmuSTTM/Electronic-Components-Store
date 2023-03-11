@@ -1,10 +1,19 @@
 const PowerSupply = require("../models/power-supply");
 const Brand = require("../models/brand");
 const Computer = require("../models/computer");
+const deleteImage = require("../models/image");
 
 const async = require("async");
 const { body, validationResult } = require("express-validator");
 const fs = require("fs");
+
+const  { appConfig } = require('../config');
+const { host } = appConfig;
+
+
+const mongoose = require("mongoose");
+
+
 
 // Display list of all PowerSupply.
 exports.powerSupply_list = function (req, res, next) {
@@ -76,7 +85,9 @@ exports.powerSupply_create_post = [
       req.body.brand =
         typeof req.body.brand === "undefined" ? [] : [req.body.brand];
     }
+   
     next();
+    
   },
   // Validate and sanitize the name field.
   body("name", "PowerSupply name is required")
@@ -189,7 +200,7 @@ exports.powerSupply_delete_post = (req, res, next) => {
   async.parallel(
     {
       powerSupply(callback) {
-        powerSupply.findById(req.body.powerSupplyid).exec(callback);
+        PowerSupply.findById(req.body.powerSupplyid).exec(callback);
       },
       powerSupply_computers(calblack) {
         Computer.find({ powerSupply: req.body.powerSupplyid }).exec(callback);
@@ -213,7 +224,7 @@ exports.powerSupply_delete_post = (req, res, next) => {
         });
       }
 
-      powerSupply.findByIdAndRemove(req.body.powerSupplyid, (err) => {
+      PowerSupply.findByIdAndRemove(req.body.powerSupplyid, (err) => {
         if (err) {
           return next(err);
         }
@@ -223,6 +234,12 @@ exports.powerSupply_delete_post = (req, res, next) => {
           if (fs.existsSync(ImageName)) {
             fs.unlinkSync(ImageName);
           }
+        }
+        if (
+          typeof results.powerSupply.image != undefined &&
+          typeof results.powerSupply.imgId != "undefined"
+        ) {
+          deleteImage(results.powerSupply.imgId)
         }
 
         // Success - go to powerSupply list
@@ -277,7 +294,7 @@ exports.powerSupply_update_post = [
     if (!Array.isArray(req.body.brand)) {
       req.body.brand =
         typeof req.body.brand === "undefined" ? [] : [req.body.brand];
-    }
+    }    
     next();
   },
   // Validate and sanitize the name field.
@@ -307,6 +324,7 @@ exports.powerSupply_update_post = [
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
+
     // Create a powerSupply object with escaped/trimmed data and old id.
     const powerSupply = new PowerSupply({
       name: req.body.name,
@@ -317,9 +335,9 @@ exports.powerSupply_update_post = [
       price: req.body.price,
       _id: req.params.id,
     });
-
     if (typeof req.file !== "undefined") {
-      powerSupply.image = req.file.filename;
+      powerSupply.image = `${host}/image/${req.file.filename}`;
+      powerSupply.imgId = req.file.id;
     } else {
       powerSupply.image = req.body.last_image;
     }
@@ -381,13 +399,10 @@ exports.powerSupply_update_post = [
       }
       if (
         typeof powerSupply.image != undefined &&
-        typeof req.file != "undefined"
+        typeof req.file != "undefined" &&
+        typeof powerSupply.imgId != "undefined"
       ) {
-        const ImageName = "public/images/" + powerSupply.image;
-
-        if (fs.existsSync(ImageName)) {
-          fs.unlinkSync(ImageName);
-        }
+        deleteImage(powerSupply.imgId)
       }
     });
     // Data from form is valid. Update the record.

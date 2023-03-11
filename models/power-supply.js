@@ -41,6 +41,9 @@ const PowerSupplySchema = new Schema({
   image: {
     type: String,
   },
+  imgId: {
+    type: String,
+  },
 });
 
 PowerSupplySchema.virtual("url").get(function () {

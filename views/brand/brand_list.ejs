@@ -8,7 +8,7 @@
     <div class="col-md-2 mb-3">
       <div class="card h-100 text-center">
         <img
-          src="<%=  typeof brand_list[i].toObject().imgUrl !== 'undefined' ? brand_list[i].imgUrl : 'https://via.placeholder.com/100x100' %>"
+          src="<%=  typeof brand_list[i].toObject().image !== 'undefined' ? '/images/' + brand_list[i].image : 'https://via.placeholder.com/100x100' %>"
           class="card-img-top"
           alt="<%= brand_list[i].name%>"
         />
