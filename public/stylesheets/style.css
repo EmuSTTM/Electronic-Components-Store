@@ -88,6 +88,12 @@ h5{
   float:right;
 }
 
+.btn-cart-add{
+  padding: 0.35rem 1.5rem;
+  border-radius: 5px;
+  float:right;
+}
+
 
 .card-img-top_computer{
   object-fit:cover;
@@ -221,7 +227,7 @@ ul.navbar-nav {
 }
 
 .brand-img {
-  margin: 10px 17px;
+  margin: 1px 2px 8px 4px;
 }
 
 .brand-img:hover {

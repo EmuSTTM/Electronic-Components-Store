@@ -38,7 +38,7 @@
     </div>
   </aside>
 
-  <div class="product-container" id="product-container"></div>
+  <div style="margin:0px 11px" class="product-container" id="product-container"></div>
 
   <script>
     var selectedProducts = []
@@ -172,15 +172,15 @@
         case 'storage_img':
           productContainer.innerHTML += `
   <div id="storage-alert"></div>
-    <div class="row">
+    <div class="row" >
     <% for (storage of storages) { %>
       <% let prod = {name:storage.name, id:storage._id, price: storage.price, image:storage.image  }%>
       <div class="col-md-3 mb-3">
         <div class="card  product storage  h-100" id="<%= storage._id %>" onclick="selectProduct(<%= JSON.stringify(storage) %>, 'storage', <%= JSON.stringify(prod) %>);">
 
-          <img src="<%=  typeof storage.toObject().image !== 'undefined' ? storage.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= storage.name%>">
+          <img style="padding:10px;" src="<%=  typeof storage.toObject().image !== 'undefined' ? storage.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= storage.name%>">
           <div class="card-body">
-            <h5 class="card-title"> <a href="<%= storage.url %>"><%= storage.name %></a>  </h5> 
+            <h5 class="card-title"> <a href="<%= storage.url %>"><%= storage.name.slice(0, 30) + (storage.name.length > 30 ? '...' : '')%></a>  </h5> 
             <p class="card-text">
               <% for (var j = 0; j < storage.brand.length; j++) { %>
                 <%= storage.brand[j].name %>
@@ -209,9 +209,9 @@
       <div class="col-md-3 mb-3">
         <div class="card  product ram h-100" id="<%= ram._id %>" onclick="selectProduct(<%= JSON.stringify(ram) %>, 'ram', <%= JSON.stringify(prod) %>);">
 
-          <img src="<%=  typeof ram.toObject().image !== 'undefined' ? ram.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= ram.name%>">
+          <img style="padding:10px;" src="<%=  typeof ram.toObject().image !== 'undefined' ? ram.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= ram.name%>">
           <div class="card-body">
-            <h5 class="card-title"> <a href="<%= ram.url %>"><%= ram.name %></a>  </h5> 
+            <h5 class="card-title"> <a href="<%= ram.url %>"><%= ram.name.slice(0, 30) + (ram.name.length > 30 ? '...' : '')%></a>  </h5> 
             <p class="card-text">
               <% for (var j = 0; j < ram.brand.length; j++) { %>
                 <%= ram.brand[j].name %>
@@ -240,8 +240,9 @@
 
           productContainer.innerHTML += `
   <div id="brand-alert"></div>
+  <div class="row">
     <% for (brand of brands){%>
-    <div class="row">
+    
       <% if(brand.name.toLowerCase() == "intel"){%>
       <div class="col-md-3 card brand-img" id="<%= brand._id%>" 
         onclick="selectProduct( <%= JSON.stringify(brand) %>, 'brand');">
@@ -254,19 +255,20 @@
         <img alt="amd"  src="/static_images/amd.png"> 
       </div>
       <% } %>
-    </div>
-
     <% } %>
+  </div>
+
     <div id="cpu-alert"></div>
+    
     <div class="row">
     <% for (cpu of cpus) { %>
       <% let prod = {name:cpu.name, id:cpu._id, price: cpu.price, image:cpu.image  }%>
       <div class="col-md-3 mb-3 " >
         <div class="card h-100 product" id="<%= cpu._id %>" onclick="selectProduct(<%= JSON.stringify(cpu) %>, 'cpu', <%= JSON.stringify(prod) %>);">
 
-          <img src="<%=  typeof cpu.toObject().image !== 'undefined' ? cpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= cpu.name%>">
+          <img style="padding:10px;" src="<%=  typeof cpu.toObject().image !== 'undefined' ? cpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= cpu.name%>">
           <div class="card-body">
-            <h5 class="card-title"> <a href="<%= cpu.url %>"><%= cpu.name %></a>  </h5> 
+            <h5 class="card-title"> <a href="<%= cpu.url %>"><%= cpu.name.slice(0, 30) + (cpu.name.length > 30 ? '...' : '')%> %></a> </h5> 
             <p class="card-text">
                 <%= cpu.core_count %> cores <br>
                 <%= cpu.thread_count %> threads<br>
@@ -288,9 +290,9 @@
       <div class="col-md-3 mb-3">
         <div class="card  h-100 product" id="<%= gpu._id %>" onclick="selectProduct(<%= JSON.stringify(gpu) %>, 'gpu', <%= JSON.stringify(prod) %>);">
 
-          <img src="<%=  typeof gpu.toObject().image !== 'undefined' ? gpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= gpu.name%>">
+          <img style="padding:10px;" src="<%=  typeof gpu.toObject().image !== 'undefined' ? gpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= gpu.name%>">
           <div class="card-body">
-            <h5 class="card-title"> <a href="<%= gpu.url %>"><%= gpu.name %></a>  </h5> 
+            <h5 class="card-title"> <a href="<%= gpu.url %>"><%= gpu.name.slice(0, 30) + (gpu.name.length > 30 ? '...' : '')%></a>  </h5> 
             <p class="card-text">
               <% for (var j = 0; j < gpu.brand.length; j++) { %>
                 <%= gpu.brand[j].name %>
@@ -317,7 +319,7 @@
 
           <img src="<%=  typeof powerSupply.toObject().image !== 'undefined' ? powerSupply.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= powerSupply.name%>">
           <div class="card-body">
-            <h5 class="card-title"> <a href="<%= powerSupply.url %>"><%= powerSupply.name %></a>  </h5> 
+            <h5 class="card-title"> <a href="<%= powerSupply.url %>"><%= powerSupply.name.slice(0, 30) + (powerSupply.name.length > 30 ? '...' : '')%></a>  </h5> 
             <p class="card-text">
               <% for (var j = 0; j < powerSupply.brand.length; j++) { %>
                 <%= powerSupply.brand[j].name %>
@@ -345,7 +347,7 @@
 
           <img src="<%=  typeof motherboard.toObject().image !== 'undefined' ? motherboard.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= motherboard.name%>">
           <div class="card-body">
-            <h5 class="card-title"> <a href="<%= motherboard.url %>"><%= motherboard.name %></a>  </h5> 
+            <h5 class="card-title"> <a href="<%= motherboard.url %>"><%= motherboard.name.slice(0, 30) + (motherboard.name.length > 30 ? '...' : '')%></a>  </h5> 
             <p class="card-text">
               <% for (var j = 0; j < motherboard.brand.length; j++) { %>
                 <%= motherboard.brand[j].name %>
@@ -374,7 +376,7 @@
           src="<%=  typeof cabinet.toObject().image !== 'undefined' ? cabinet.image : 'https://via.placeholder.com/300x200' %>" 
           class="card-img-top" alt="<%= cabinet.name%>"  >
           <div class="card-body" >
-            <h5 class="card-title"> <a href="<%= cabinet.url %>"><%= cabinet.name %></a>  </h5> 
+            <h5 class="card-title"> <a href="<%= cabinet.url %>"><%= cabinet.name.slice(0, 30) + (cabinet.name.length > 30 ? '...' : '')%></a>  </h5> 
             <p class="card-text" >
               <% for (var j = 0; j < cabinet.brand.length; j++) { %>
                 <%= cabinet.brand[j].name %>
@@ -445,8 +447,8 @@
         
           document.querySelector("input[type=file]").addEventListener("change", previewFile);
         </script>
-        <div class="text-center">
-          <button type="submit" class="btn btn-primary">Submit</button>
+        <div style="float:left" >
+          <button type="submit"  class="btn btn-primary btn-cart-add">Submit</button>
         </div>
         <% } %>
           <div style="display:none;">
@@ -502,8 +504,9 @@
       </form>
       <form id="form-cart" action="cart" method="post" enctype="multipart/form-data">
         <input style="display:none;" id="cart_array" name="cart_array" type="text" required>
-        <div class="text-center">
-          <button style="margin:10px" id="add-cart-button" class="btn btn-primary" type="submit">Add Cart</button>
+        <div  <%= (typeof session !="undefined" && typeof session.user !="undefined" && session.user.rol=="vendedor")
+        ? 'style=float:right' : 'class=text-center' %>>
+          <button  id="add-cart-button" class="btn btn-primary btn-cart-add" type="submit">Add Cart</button>
         </div>
 
       </form>
