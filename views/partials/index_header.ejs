@@ -5,12 +5,12 @@
   <title><%= title %></title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://kit.fontawesome.com/13e89618ce.js">
 
   <link rel="icon" type="image/png" href="static_images/icono.png">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.5.2/lux/bootstrap.min.css">
   <link rel="stylesheet" href="/stylesheets/style.css" type="text/css">
+  <link rel="stylesheet" href="/stylesheets/style_index.css" type="text/css">
   
   <script src="https://kit.fontawesome.com/13e89618ce.js" crossorigin="anonymous"></script>
   <script defer src="/javascripts/shopping_cart.js"></script>
@@ -27,7 +27,7 @@
     <div class="collapse ml-auto navbar-collapse row" id="navbarNav"style="justify-content: flex-end;">
       <ul class="navbar-nav"  >
         <li class="nav-item ml-auto">
-          <a class="nav-link <%= (option == 'components') ? 'active' : '' %>" href="/components">Productos</a>
+          <a class="nav-link <%= (option == 'components') ? 'active' : '' %>" href="/computers">Productos</a>
         </li>
         <li class="nav-item">
           <a class="nav-link <%= (option == 'pcBuild') ? 'active' : '' %>" href="/pcBuild">PConstructor</a>
@@ -68,72 +68,121 @@
     </div>
   </nav>
 
-  <div style="height: 70vh; width: 100vw; padding: 0; margin:0;overflow: hidden;">
+  <!-- <div style="height: 70vh; width: 100vw; padding: 0; margin:0;overflow: hidden;">
     <img src="/static_images/computer_index.png" style="height: 100%; width: 100%; object-fit: cover;">
+  </div> -->
+
+
+  <div class="slider-container">
+    <div class="slider">
+      <img src="/static_images/computer_index-1.png" alt="Imagen 1">
+      <img src="/static_images/computer_index-2.jpg" alt="Imagen 2">
+      <img src="/static_images/computer_index-3.jpg" alt="Imagen 3">
+    </div>
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
   </div>
-  <div style="position: absolute; top: 62.6px; left: 10px; height: 70vh; width: 20vw; background-color: rgba(0, 0, 0, 0.65); color: white; padding: 20px;">
-    <div class="container-fluid">
-      <div class="row" >
-        <div class="col-sm-2" style="margin:20px 0;" >
-          <ul class="nav flex-column sidebar-nav">
-            
+
+  <script>
+    var slideIndex = 1;
+    showSlides(slideIndex);
+    
+    // Avanza/retrocede un slide
+    function plusSlides(n) {
+      showSlides(slideIndex += n);
+    }
+    
+    // Muestra un slide específico
+    function currentSlide(n) {
+      showSlides(slideIndex = n);
+    }
+    
+    // Función principal que muestra los slides
+    function showSlides(n) {
+      var i;
+      var slides = document.getElementsByClassName("slider")[0].getElementsByTagName("img");
+      if (n > slides.length) {slideIndex = 1}
+      if (n < 1) {slideIndex = slides.length}
+      for (i = 0; i < slides.length; i++) {
+          slides[i].classList.add("hide");
+      }
+      slides[slideIndex-1].classList.remove("hide");
+      slideIndex++;
+      if (slideIndex > slides.length) {slideIndex = 1}
+    }
+    setInterval(showSlides, 8000); // Cambia la imagen cada 8 segundos
+    </script>
+
+<div style="position: absolute; top: 62.6px; left: 30px; 
+background-color: rgba(0, 0, 0, 0.65); color: white;
+ padding: 20px 0 20px 20px; display: flex; flex-direction: column;
+  <%= (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") 
+ ? '' : "height: 80vh;" %>>
+ ">
+  <div class="container-fluid" style="flex-grow: 1;">
+    <div class="row">
+      <div class="col-sm-2" style="margin:20px 0;">
+        <ul class="nav flex-column sidebar-nav" style="width:100%">
+          <li class="nav-item">
+            <a class="nav-link t-white" href="/computers">Computadoras</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link t-white" href="/components/brands">Marcas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link t-white" href="/components/cabinets">Gabinetes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link t-white" href="/components/cpus">CPUs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link t-white" href="/components/gpus">GPUs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link t-white" href="/components/motherboards">Mothers</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link t-white" href="/components/powerSupplies">Fuentes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link t-white" href="/components/rams">RAMs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link t-white" href="/components/storages">Almacenamiento</a>
+          </li>
+          <br>
+          <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
+            <li class="nav-item t-white" style="width:100%"">
+              <hr style="background-color: white;width:100%!important">
+            </li>
+          <br>
+
+          <li class="nav-item" style="margin-top:25px">
+            <a class="nav-link t-white" href="/pcBuild">PC Constructor</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link t-white" href="/components/brand/create">Agregar Marca</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link t-white" href="/components/cabinet/create">Agregar Gabinete</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link t-white" href="/components/cpu/create">Agregar CPU</a>
+          </li>
             <li class="nav-item">
-              <a class="nav-link t-white" href="/computers">Computadoras</a>
+              <a class="nav-link t-white" href="/components/gpu/create">Agregar GPU</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link t-white" href="/components/brands">Marcas</a>
+              <a class="nav-link t-white" href="/components/motherboard/create">Agregar Mother</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link t-white" href="/components/cabinets">Gabinetes</a>
+              <a class="nav-link t-white" href="/components/powersupply/create">Agregar Fuente</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link t-white" href="/components/cpus">CPUs</a>
+              <a class="nav-link t-white" href="/components/ram/create">Agregar RAM</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link t-white" href="/components/gpus">GPUs</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link t-white" href="/components/motherboards">Mothers</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link t-white" href="/components/powerSupplies">Fuentes</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link t-white" href="/components/rams">RAMs</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link t-white" href="/components/storages">Almacenamiento</a>
-            </li>
-            <li class="nav-item t-white" style="width:100%">
-              <hr>
-            </li>
-            <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
-            <li class="nav-item" style="margin-top:25px">
-              <a class="nav-link" href="/pcBuild">PC Constructor</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/brand/create">Agregar Marca</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/cabinet/create">Agregar Gabinete</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/cpu/create">Agregar CPU</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/gpu/create">Agregar GPU</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/motherboard/create">Agregar Mother</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/powersupply/create">Agregar Fuente</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/ram/create">Agregar RAM</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/components/storage/create">Agregar Almacenamiento</a>
+              <a class="nav-link t-white" href="/components/storage/create">Agregar Almacenamiento</a>
             </li>
             <% } %>
           </ul>
