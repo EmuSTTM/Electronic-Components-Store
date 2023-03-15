@@ -1,4 +1,7 @@
 <%- include('../partials/header.ejs') %>
+
+<link rel="stylesheet" href="/stylesheets/style_form.css" type="text/css">
+
 <div class="card" style="width: 650px; margin: 20px auto;">
   <h5 class="card-header" style="font-size: 1.25rem; text-align: center;">
     <%= title %>
@@ -9,17 +12,17 @@
       <p class="alert-danger">Este formulario es útil, pero por el momento tiene mucho que mejorar. Por falta de tiempo decidí dejarlo así.
         Actualizar los storages o las rams es conveniente hacerlo en PCBuild en lugar de en computer update. Gracias por entender 😊</p>
       <div class="form-group">
-        <label for="name">Name</label>
+        <label for="name">Nombre</label>
         <input type="text" class="form-control" name="name" id="name" value="<%= (typeof computer === 'undefined' ? '' : computer.name) %>" required>
       </div>
       <div class="form-group">
-        <label for="description">Description (optional)</label>
+        <label for="description">Descripción opcional </label>
         <textarea name="description" value="<%= (typeof computer === 'undefined' ? '' : computer.description) %>" id="description" class="form-control" rows="3" placeholder="Write your description"></textarea>
       </div>
       <div class="row">
         <div class="col-6">
           <div class="form-group">
-            <label for="brand">Brand:</label>
+            <label for="brand">Marca</label>
             <select class="form-control" id="brand" name="brand">
               <% brands.forEach(function(brand) { %>
               <option value="<%= brand._id %>" <% if (computer.brand.equals(brand._id)) { %>selected<% } %>><%= brand.name %></option>
@@ -27,7 +30,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="cabinet">Cabinet:</label><br>
+            <label for="cabinet">Gabinete</label><br>
             <select class="form-control" id="cabinet" name="cabinet">
               <% cabinets.forEach(function(cabinet) { %>
               <option value="<%= cabinet._id %>" <% if (computer.cabinet.equals(cabinet._id)) { %>selected<% } %>><%= cabinet.name %></option>
@@ -68,7 +71,7 @@
 
           <div class="form-group">
 
-            <label for="powerSupply">Power Supply:</label><br>
+            <label for="powerSupply">Fuente</label><br>
             <select class="form-control" id="powerSupply" name="powerSupply">
               <% powerSupplies.forEach(function(powerSupply) { %>
               <option value="<%= powerSupply._id %>" <% if (computer.powerSupply.equals(powerSupply._id)) { %>selected<% } %>><%= powerSupply.name %></option>

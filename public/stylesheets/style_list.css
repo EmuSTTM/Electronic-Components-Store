@@ -1,0 +1,31 @@
+:root {
+    --color-secondary: #ffffff;
+    --color-primary: #ff9900;
+    --color-background-header: #131921;
+    --color-body-background: #eeeeee;
+  }
+
+
+/* LIST COMPUTER */
+
+#container_list-products{
+  margin-top:15px;
+  padding:0;
+}
+
+
+
+
+.card-img-top_computer{
+    object-fit:cover;
+  }
+  .card-img-top_computer{
+    height: 52vh;
+  }
+
+
+  .mb-3, .my-3 {
+    margin-bottom: 1rem ;
+    padding: 0px 5px;
+  }
+  

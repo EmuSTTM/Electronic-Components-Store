@@ -7,7 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" type="image/png" href="static_images/icono.png">
-  
+   <!-- Agregar las bibliotecas de jQuery, Popper.js y Bootstrap -->
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+   <!-- Resto del código del encabezado -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.5.2/lux/bootstrap.min.css">
   <link rel="stylesheet" href="/stylesheets/style.css" type="text/css">
 
@@ -19,59 +24,100 @@
 </head>
 
 <body>
-  <nav id="nav-header"class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="/">
-      <span id="Boh" ><span id="Byte">Byte</span>Boh</span>
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse ml-auto navbar-collapse row" id="navbarNav"style="justify-content: flex-end;">
-      <ul class="navbar-nav"  >
-        <li class="nav-item ml-auto">
-          <a class="nav-link <%= (option == 'components') ? 'active' : '' %>" href="/computers">Productos</a>
+ <nav id="nav-header" class="navbar navbar-expand-lg navbar-light">
+  <a class="navbar-brand" href="/">
+    <span id="Boh"><span id="Byte">Byte</span>Boh</span>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"><i class=" fa-solid fa-bars  "></i></span>
+  </button>
+  <script>
+    const navbarToggler = document.querySelector('.navbar-toggler');
+
+    navbarToggler.addEventListener('click', function() {
+      this.classList.toggle('active');
+    });
+  </script>
+  <div class="collapse ml-auto navbar-collapse row" id="navbarNav" style="justify-content: flex-end;">
+    
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/pcBuild">PConstructor</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/computers">Productos</a>
+      </li>
+      
+        <li class="nav-item nav-item-responsive" style="margin-right: 10px;">
+          <a class="nav-link" href="/" style="font-size:1.3em;"><i class="fa-solid fa-house"></i></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link <%= (option == 'pcBuild') ? 'active' : '' %>" href="/pcBuild">PConstructor</a>
-        </li> 
-        <li class="nav-item" style="margin-right: 3px;">
-          <a class="nav-link" href="/" style="font-size:1.3em"><i class="fa-solid fa-house"></i></a>
-        </li>
-        <li class="nav-item"  style="margin-right: 0;">
+        <li class="nav-item nav-item-responsive" style="margin-right: 0;">
           <% if (typeof session != "undefined" && typeof session.user != "undefined") { %>
 
-            <div class="dropdown" style="padding:0;">
-              <button  class="dropbtn  nav-link" id="login" ><i class="fa-solid fa-user"></i></button>
-              <div class="dropdown-content">
-                <a class="dropdown-item"  id="log-out" href="/users/logout">Salir</a>
-              </div>
+          <div class="dropdown" style="padding:0;">
+            <button id="login" class="dropbtn   nav-link"><i class="fa-solid fa-user"></i></button>
+            <div class="dropdown-content">
+              <a class="dropdown-item" id="log-out" href="/users/logout">Salir</a>
             </div>
-    
-            <% } else { %>
-    
-            <div>
-              <a href="/users/login" id="login">Log in</a>
-            </div>
-    
-            <% } %>
+          </div>
+
+          <% } else { %>
+
+          <div>
+            <a href="/users/login" id="login">Log in</a>
+          </div>
+
+          <% } %>
         </li>
-      
-        <li class="nav-item">
+
+        <li class="nav-item nav-item-responsive">
           <a href="/cart" id="cart-button">
             <i class="fa-solid fa-cart-shopping "></i>
-          <span id="cart-count">0</span></a>
+            <span class="cart-count">0</span></a>
         </li>
-        
-      
     </ul>
-      
+  </div>
+</nav>
+
+<nav id="nav-secondary" class="navbar navbar-expand-sm navbar-dark">
+  <button class="sidebar-toggle" type="button" aria-label="Toggle navigation">
+    <span><i class="fa-solid fa-magnifying-glass"></i></span>
+  </button>
+
+  
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" href="/">
+        <i class="fa-solid fa-house"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <% if (typeof session != "undefined" && typeof session.user != "undefined") { %>
+      <div class="dropdown">
+        <button class="dropbtn nav-link"><i class="fa-solid fa-user"></i></button>
+        <div class="dropdown-content">
+          <a class="dropdown-item" href="/users/logout">Salir</a>
+        </div>
+      </div>
+      <% } else { %>
+      <a href="/users/login" class="nav-link">Log in</a>
+      <% } %>
+    </li>
+    <li class="nav-item">
+      <a href="/cart" class="nav-link">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="cart-count">0</span>
+      </a>
+    </li>
+  </ul>
+</nav>
       
       
     </div>
   </nav>
-  <div class="container-fluid">
+  <div class="container-fluid ">
     <div class="row">
-      <div class="col-sm-2" style="margin:20px 0;">
+      <div class="col-sm-2 lateralnav">
         <ul class="nav flex-column sidebar-nav">
           
           <li class="nav-item">
@@ -135,4 +181,12 @@
           <% } %>
         </ul>
       </div>
+      <script>
+        const sidebarToggler = document.querySelector('.sidebar-toggle');
+        const lateralnav = document.querySelector('.lateralnav')
+      
+        sidebarToggler.addEventListener('click', function() {
+          lateralnav.classList.toggle('lateralnav-active');
+        });
+      </script>
       <div class="col-sm-10">

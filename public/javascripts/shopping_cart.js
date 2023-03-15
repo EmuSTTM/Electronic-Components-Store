@@ -3,7 +3,7 @@ const productos = document.getElementsByClassName("product-cart");
 
 let carrito = [];
 
-const contadorCarrito = document.getElementById("cart-count");
+const contadoresCarrito = document.querySelectorAll(".cart-count");
 
 
 agregarAlCarrito = (product) => {
@@ -73,7 +73,9 @@ agregarAlCarrito = (product) => {
       carrito.push(armado);
     }
 
-    contadorCarrito.innerText = carrito.length;
+    contadoresCarrito.forEach(contador => {
+      contador.innerText = carrito.length;
+    });
     localStorage.setItem("carrito", JSON.stringify(carrito));
     if (window.location.href.includes("/cart")) {
       actualizarCarrito();
@@ -94,7 +96,9 @@ agregarAlCarrito = (product) => {
     carrito.push(product);
   }
 
-  contadorCarrito.innerText = carrito.length;
+  contadoresCarrito.forEach(contador => {
+    contador.innerText = carrito.length;
+  });
   localStorage.setItem("carrito", JSON.stringify(carrito));
   if (window.location.href.includes("/cart")) {
     actualizarCarrito();
@@ -217,14 +221,18 @@ const actualizarCarrito = () => {
   });
   localStorage.setItem("carrito", JSON.stringify(carrito));
   // Ahora actualizamos el numero del contador del carrito
-  contadorCarrito.innerText = carrito.length;
+  contadoresCarrito.forEach(contador => {
+    contador.innerText = carrito.length;
+  });
 };
 
 // Esto es para que el carrito pueda acceder a la información del LocalStorage
 document.addEventListener("DOMContentLoaded", () => {
   if (localStorage.getItem("carrito")) {
     carrito = JSON.parse(localStorage.getItem("carrito"));
-    contadorCarrito.innerText = carrito.length;
+    contadoresCarrito.forEach(contador => {
+      contador.innerText = carrito.length;
+    });
   }
 
   if (window.location.href.includes("/cart")) {

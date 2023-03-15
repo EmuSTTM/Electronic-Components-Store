@@ -1,3 +1,7 @@
+
+
+        /* SLIDER */
+
 .slider-container {
     position: relative;
     width: 100%;
@@ -38,4 +42,38 @@
   /* Clase para ocultar elementos */
   .hide {
     display: none;
+  }
+
+
+    /* RECUADROS CON ICONOS */
+
+  .h5_index{
+    font-size:0.9em;
+    text-align: center;
+    line-height: 20px;
+    height: 30px;
+  
+  }
+  
+  .card_index:hover{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transform: translateY(-5px);
+  }
+  
+  .card_index:hover a{
+    color:var(--color-primary);
+    text-decoration: none;
+  }
+
+  .container-lateralnav-vendedor{
+    position: absolute; top: 62.6px; left: 44px; 
+    background-color: rgba(0, 0, 0, 0.65); color: white;
+     padding: 20px 0 20px 20px; display: flex; flex-direction: column;
+  }
+
+.container-lateralnav{
+  position: absolute; top: 62.6px; left: 44px; 
+  background-color: rgba(0, 0, 0, 0.65); color: white;
+   padding: 20px 0 20px 20px; display: flex; flex-direction: column;
+   height: 80vh;
   }

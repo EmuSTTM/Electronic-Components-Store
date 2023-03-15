@@ -79,12 +79,12 @@ app.set("view engine", "ejs");
 app.use(compression());
 // El helmet genera que tenga problemas con dependencias como fontawesome
 
-app.use(
-  helmet({
-    // Nos permite usar algunas dependencias en las views, como bootstrap o fontawesome
-    contentSecurityPolicy: false,
-  })
-);
+// app.use(
+//   helmet({
+//     // Nos permite usar algunas dependencias en las views, como bootstrap o fontawesome
+//     contentSecurityPolicy: false,
+//   })
+// );
 
 
 

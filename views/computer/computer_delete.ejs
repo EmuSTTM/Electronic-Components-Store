@@ -1,12 +1,13 @@
 <%- include('../partials/header.ejs') %>
-<div class="container" style="margin: 10px 0">
+<link rel="stylesheet" href="/stylesheets/style_form.css" type="text/css">
+<div class="container container-delete" >
   <div class="row">
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <h3>Delete computer <%= computer.name %></h3>
+          <h3>Borrar computadora <%= computer.name %></h3>
           <div class="card-body">
-            <p>Are you sure you want to delete the following computer?</p>
+            <p>Estas seguro de que quieres eliminar esta computadora?</p>
             <h4><%= computer.name %></h4>
             <form action="" method="post">
               <input
@@ -16,8 +17,8 @@
                 required
               />
               <div class="form-group">
-                <button type="submit" class="btn btn-danger">Delete</button>
-                <a href="/computers/" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-danger">Borrar</button>
+                <a href="/computers/" class="btn btn-secondary">Cancelar</a>
               </div>
             </form>
           </div>

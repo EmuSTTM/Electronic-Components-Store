@@ -11,67 +11,62 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.5.2/lux/bootstrap.min.css">
   <link rel="stylesheet" href="/stylesheets/style.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/style_index.css" type="text/css">
-  
+
   <script src="https://kit.fontawesome.com/13e89618ce.js" crossorigin="anonymous"></script>
   <script defer src="/javascripts/shopping_cart.js"></script>
 </head>
 
 <body>
-  <nav id="nav-header"class="navbar navbar-expand-lg navbar-light">
+  <nav id="nav-header" class="navbar navbar-expand-lg navbar-light">
     <a class="navbar-brand" href="/">
-      <span id="Boh" ><span id="Byte">Byte</span>Boh</span>
+      <span id="Boh"><span id="Byte">Byte</span>Boh</span>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse ml-auto navbar-collapse row" id="navbarNav"style="justify-content: flex-end;">
-      <ul class="navbar-nav"  >
+    <div class="collapse ml-auto navbar-collapse row" id="navbarNav">
+      <ul class="navbar-nav">
         <li class="nav-item ml-auto">
           <a class="nav-link <%= (option == 'components') ? 'active' : '' %>" href="/computers">Productos</a>
         </li>
         <li class="nav-item">
           <a class="nav-link <%= (option == 'pcBuild') ? 'active' : '' %>" href="/pcBuild">PConstructor</a>
-        </li> 
-        <li class="nav-item" style="margin-right: 3px;">
-          <a class="nav-link" href="/" style="font-size:1.3em"><i class="fa-solid fa-house"></i></a>
         </li>
-        <li class="nav-item"  style="margin-right: 0;">
+        <li class="nav-item" style="margin-right: 10px;">
+          <a class="nav-link" href="/" style="font-size:1.3em;"><i class="fa-solid fa-house"></i></a>
+        </li>
+        <li class="nav-item" style="margin-right: 0;">
           <% if (typeof session != "undefined" && typeof session.user != "undefined") { %>
 
-            <div class="dropdown" style="padding:0;">
-              <button id="login"class="dropbtn   nav-link" ><i class="fa-solid fa-user"></i></button>
-              <div class="dropdown-content">
-                <a class="dropdown-item"  id="log-out" href="/users/logout">Salir</a>
-              </div>
+          <div class="dropdown" style="padding:0;">
+            <button id="login" class="dropbtn   nav-link"><i class="fa-solid fa-user"></i></button>
+            <div class="dropdown-content">
+              <a class="dropdown-item" id="log-out" href="/users/logout">Salir</a>
             </div>
-    
-            <% } else { %>
-    
-            <div>
-              <a href="/users/login"  id="login">Log in</a>
-            </div>
-    
-            <% } %>
+          </div>
+
+          <% } else { %>
+
+          <div>
+            <a href="/users/login" id="login">Log in</a>
+          </div>
+
+          <% } %>
         </li>
-      
+
         <li class="nav-item">
           <a href="/cart" id="cart-button">
             <i class="fa-solid fa-cart-shopping "></i>
-          <span id="cart-count">0</span></a>
+            <span id="cart-count">0</span></a>
         </li>
-        
-      
-    </ul>
-      
-      
-      
+
+
+      </ul>
+
+
+
     </div>
   </nav>
-
-  <!-- <div style="height: 70vh; width: 100vw; padding: 0; margin:0;overflow: hidden;">
-    <img src="/static_images/computer_index.png" style="height: 100%; width: 100%; object-fit: cover;">
-  </div> -->
-
 
   <div class="slider-container">
     <div class="slider">
@@ -86,114 +81,118 @@
   <script>
     var slideIndex = 1;
     showSlides(slideIndex);
-    
+
     // Avanza/retrocede un slide
     function plusSlides(n) {
       showSlides(slideIndex += n);
     }
-    
+
     // Muestra un slide específico
     function currentSlide(n) {
       showSlides(slideIndex = n);
     }
-    
+
     // Función principal que muestra los slides
     function showSlides(n) {
       var i;
       var slides = document.getElementsByClassName("slider")[0].getElementsByTagName("img");
-      if (n > slides.length) {slideIndex = 1}
-      if (n < 1) {slideIndex = slides.length}
-      for (i = 0; i < slides.length; i++) {
-          slides[i].classList.add("hide");
+      if (n > slides.length) {
+        slideIndex = 1
       }
-      slides[slideIndex-1].classList.remove("hide");
+      if (n < 1) {
+        slideIndex = slides.length
+      }
+      for (i = 0; i < slides.length; i++) {
+        slides[i].classList.add("hide");
+      }
+      slides[slideIndex - 1].classList.remove("hide");
       slideIndex++;
-      if (slideIndex > slides.length) {slideIndex = 1}
+      if (slideIndex > slides.length) {
+        slideIndex = 1
+      }
     }
     setInterval(showSlides, 8000); // Cambia la imagen cada 8 segundos
-    </script>
+  </script>
+  <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") {%>
+  <div class="container-lateralnav-vendedor">
+    <% } else { %>
+    <div class="container-lateralnav">
+      <% } %>
+      <div class="container-fluid" style="flex-grow: 1;">
+        <div class="row">
+          <div class="col-sm-2">
+            <ul class="nav flex-column sidebar-nav" style="width:max-content">
+              <li class="nav-item">
+                <a class="nav-link t-white" href="/computers">Computadoras</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link t-white" href="/components/brands">Marcas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link t-white" href="/components/cabinets">Gabinetes</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link t-white" href="/components/cpus">CPUs</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link t-white" href="/components/gpus">GPUs</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link t-white" href="/components/motherboards">Mothers</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link t-white" href="/components/powerSupplies">Fuentes</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link t-white" href="/components/rams">RAMs</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link t-white" href="/components/storages">Almacenamiento</a>
+              </li>
+              <br>
+              <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
+              <li class="nav-item t-white" >
+              <hr style=" background-color: white;width:100%;">
+              </li>
+              <br>
 
-<div style="position: absolute; top: 62.6px; left: 30px; 
-background-color: rgba(0, 0, 0, 0.65); color: white;
- padding: 20px 0 20px 20px; display: flex; flex-direction: column;
-  <%= (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") 
- ? '' : "height: 80vh;" %>>
- ">
-  <div class="container-fluid" style="flex-grow: 1;">
-    <div class="row">
-      <div class="col-sm-2" style="margin:20px 0;">
-        <ul class="nav flex-column sidebar-nav" style="width:100%">
-          <li class="nav-item">
-            <a class="nav-link t-white" href="/computers">Computadoras</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link t-white" href="/components/brands">Marcas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link t-white" href="/components/cabinets">Gabinetes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link t-white" href="/components/cpus">CPUs</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link t-white" href="/components/gpus">GPUs</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link t-white" href="/components/motherboards">Mothers</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link t-white" href="/components/powerSupplies">Fuentes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link t-white" href="/components/rams">RAMs</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link t-white" href="/components/storages">Almacenamiento</a>
-          </li>
-          <br>
-          <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
-            <li class="nav-item t-white" style="width:100%"">
-              <hr style="background-color: white;width:100%!important">
-            </li>
-          <br>
-
-          <li class="nav-item" style="margin-top:25px">
-            <a class="nav-link t-white" href="/pcBuild">PC Constructor</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link t-white" href="/components/brand/create">Agregar Marca</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link t-white" href="/components/cabinet/create">Agregar Gabinete</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link t-white" href="/components/cpu/create">Agregar CPU</a>
-          </li>
-            <li class="nav-item">
-              <a class="nav-link t-white" href="/components/gpu/create">Agregar GPU</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link t-white" href="/components/motherboard/create">Agregar Mother</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link t-white" href="/components/powersupply/create">Agregar Fuente</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link t-white" href="/components/ram/create">Agregar RAM</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link t-white" href="/components/storage/create">Agregar Almacenamiento</a>
-            </li>
-            <% } %>
-          </ul>
+              <li class="nav-item" style="margin-top:25px">
+                <a class="nav-link t-white" href="/pcBuild">PC Constructor</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link t-white" href="/components/brand/create">Agregar Marca</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link t-white" href="/components/cabinet/create">Agregar Gabinete</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link t-white" href="/components/cpu/create">Agregar CPU</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link t-white" href="/components/gpu/create">Agregar GPU</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link t-white" href="/components/motherboard/create">Agregar Mother</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link t-white" href="/components/powersupply/create">Agregar Fuente</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link t-white" href="/components/ram/create">Agregar RAM</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link t-white" href="/components/storage/create">Agregar Almacenamiento</a>
+              </li>
+              <% } %>
+            </ul>
+          </div>
         </div>
-  </div>
-  
-</div>
-</div>
 
-<% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
-      <div class="col-sm-8" style="margin-left:30vw">
-<% }else{ %>
-    <div class="col-sm-12">
-    <% } %>
+      </div>
+    </div>
+
+    <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
+    <div class="col-sm-8" style="margin-left:30vw">
+      <% }else{ %>
+      <div class="col-sm-12">
+        <% } %>
