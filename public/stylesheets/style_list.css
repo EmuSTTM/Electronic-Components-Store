@@ -13,9 +13,22 @@
   padding:0;
 }
 
+#btn-cart-add {
+  padding: 0.35rem 1.5rem;
+  border-radius: 5px;
+  margin-top: auto;
+  margin-left: auto;
+  width: 112px;
+}
 
+.card-body{
+  display:flex;
+  flex-direction: column;;
+}
 
-
+.col-md-3{
+  margin-top:0;
+}
 .card-img-top_computer{
     object-fit:cover;
   }
@@ -27,5 +40,17 @@
   .mb-3, .my-3 {
     margin-bottom: 1rem ;
     padding: 0px 5px;
+    margin-top:0;
   }
   
+
+  .badge{
+    margin: 10px 0;
+  }
+
+@media (max-width:   872px) {
+  /* Configuraciones para el nav  */
+  .card-title {
+    font-size: 0.85em;
+  }
+}
