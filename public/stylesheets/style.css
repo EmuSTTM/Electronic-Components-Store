@@ -223,11 +223,17 @@ ul.navbar-nav {
      padding: 20px 0 20px 20px; display: flex; flex-direction: column;
      width: 100vw;max-width: none; margin:0;position:absolute;z-index:10;
   }
+  hr{
+    border-color: white;
+    width: calc(100% - 20px);
+  }
   .nav-link{
     font-size:1.25rem;
     color:var(--color-secondary);
     text-align:center;
   }
+
+
   .col-md-4 {
 
     flex: 1;
@@ -263,7 +269,10 @@ ul.navbar-nav {
 }
 @media (max-width: 991px) {
 
+  .nav-link-secondary{
+    font-size:1.10rem;
 
+  }
 .nav-item-responsive{
   display:none;
 }

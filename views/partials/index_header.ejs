@@ -7,7 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="icon" type="image/png" href="static_images/icono.png">
-
+   <!-- Agregar las bibliotecas de jQuery, Popper.js y Bootstrap -->
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+   <!-- Resto del código del encabezado -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.5.2/lux/bootstrap.min.css">
   <link rel="stylesheet" href="/stylesheets/style.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/style_index.css" type="text/css">
@@ -22,51 +27,89 @@
       <span id="Boh"><span id="Byte">Byte</span>Boh</span>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon"><i class=" fa-solid fa-bars  "></i></span>
     </button>
-    <div class="collapse ml-auto navbar-collapse row" id="navbarNav">
+    <script>
+      const navbarToggler = document.querySelector('.navbar-toggler');
+  
+      navbarToggler.addEventListener('click', function() {
+        this.classList.toggle('active');
+      });
+    </script>
+    <div class="collapse ml-auto navbar-collapse row" id="navbarNav" style="justify-content: flex-end;">
+      
       <ul class="navbar-nav">
-        <li class="nav-item ml-auto">
-          <a class="nav-link <%= (option == 'components') ? 'active' : '' %>" href="/computers">Productos</a>
+        <li class="nav-item">
+          <a class="nav-link" href="/pcBuild">PConstructor</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link <%= (option == 'pcBuild') ? 'active' : '' %>" href="/pcBuild">PConstructor</a>
+          <a class="nav-link" href="/computers">Productos</a>
         </li>
-        <li class="nav-item" style="margin-right: 10px;">
-          <a class="nav-link" href="/" style="font-size:1.3em;"><i class="fa-solid fa-house"></i></a>
-        </li>
-        <li class="nav-item" style="margin-right: 0;">
-          <% if (typeof session != "undefined" && typeof session.user != "undefined") { %>
-
-          <div class="dropdown" style="padding:0;">
-            <button id="login" class="dropbtn   nav-link"><i class="fa-solid fa-user"></i></button>
-            <div class="dropdown-content">
-              <a class="dropdown-item" id="log-out" href="/users/logout">Salir</a>
+        
+          <li class="nav-item nav-item-responsive" style="margin-right: 10px;">
+            <a class="nav-link" href="/" style="font-size:1.3em;"><i class="fa-solid fa-house"></i></a>
+          </li>
+          <li class="nav-item nav-item-responsive" style="margin-right: 0;">
+            <% if (typeof session != "undefined" && typeof session.user != "undefined") { %>
+  
+            <div class="dropdown" style="padding:0;">
+              <button id="login" class="dropbtn  nav-link nav-link"><i class="fa-solid fa-user"></i></button>
+              <div class="dropdown-content">
+                <a class="dropdown-item" id="log-out" href="/users/logout">Salir</a>
+              </div>
             </div>
-          </div>
-
-          <% } else { %>
-
-          <div>
-            <a href="/users/login" id="login">Log in</a>
-          </div>
-
-          <% } %>
-        </li>
-
-        <li class="nav-item">
-          <a href="/cart" id="cart-button">
-            <i class="fa-solid fa-cart-shopping "></i>
-            <span id="cart-count">0</span></a>
-        </li>
-
-
+  
+            <% } else { %>
+  
+            <div>
+              <a href="/users/login" id="login">Log in</a>
+            </div>
+  
+            <% } %>
+          </li>
+  
+          <li class="nav-item nav-item-responsive">
+            <a href="/cart" id="cart-button">
+              <i class="fa-solid fa-cart-shopping "></i>
+              <span class="cart-count">0</span></a>
+          </li>
       </ul>
-
-
-
     </div>
   </nav>
+  
+  <nav id="nav-secondary" class="navbar navbar-expand-sm navbar-dark">
+    <button class="sidebar-toggle" type="button" aria-label="Toggle navigation" style="outline:none">
+      <span><i class="fa-solid fa-magnifying-glass"></i></span>
+    </button>
+  
+    
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link  nav-link-secondary" href="/">
+          <i class="fa-solid fa-house"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <% if (typeof session != "undefined" && typeof session.user != "undefined") { %>
+        <div class="dropdown">
+          <button class="dropbtn nav-link  nav-link-secondary"><i class="fa-solid fa-user"></i></button>
+          <div class="dropdown-content">
+            <a class="dropdown-item" href="/users/logout">Salir</a>
+          </div>
+        </div>
+        <% } else { %>
+        <a href="/users/login" class="nav-link">Log in</a>
+        <% } %>
+      </li>
+      <li class="nav-item">
+        <a href="/cart" class="nav-link  nav-link-secondary">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-count">0</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+        
 
   <div class="slider-container">
     <div class="slider">
@@ -151,8 +194,8 @@
               </li>
               <br>
               <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
-              <li class="nav-item t-white" >
-              <hr style=" background-color: white;width:100%;">
+              <li class="nav-item" >
+              <hr>
               </li>
               <br>
 
@@ -190,9 +233,24 @@
 
       </div>
     </div>
+    <script>
+    const sidebarToggler = document.querySelector('.sidebar-toggle');
+    const lateralnav = document.querySelector('.container-lateralnav')
+    if( lateralnav){
+      sidebarToggler.addEventListener('click', function() {
+      lateralnav.classList.toggle('lateralnav-active');
+    });
+    } else {
+      const lateralnavVendedor = document.querySelector('.container-lateralnav-vendedor')
+      sidebarToggler.addEventListener('click', function() {
+      lateralnavVendedor.classList.toggle('lateralnav-active');
+    });
+    }
+
+  </script>
 
     <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") { %>
-    <div class="col-sm-8" style="margin-left:30vw">
+    <div class="col-sm-8">
       <% }else{ %>
       <div class="col-sm-12">
         <% } %>

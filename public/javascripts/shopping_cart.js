@@ -121,23 +121,22 @@ const actualizarCarrito = () => {
   // Cargamos el estilo que va a tener cada elemento del carrito en el carrito
   carrito.forEach((prod) => {
     const div = document.createElement("DIV");
-    div.classList.add("row", "producto-en-carrito", "w-100");
+    div.classList.add("row", "producto-en-carrito", "w-100",);
 
     let priceOfProduct = prod.price * prod.cantidad;
     if (prod.id == 00000) {
       div.innerHTML = `
-                <div class="col-2">
+                <div class="col-3 image-cart_container">
                     <img src="${
                       prod.image
-                    }" class="img-fluid" style="max-height: 100px; 
-                    padding: 5px;">
+                    }" class="img-fluid" style="max-height: 100px;">
                 </div>
 
-                <div class="col-5">
+                <div class="col-5 name-cart_container">
                     <p>${prod.name}</p>
                 </div>
 
-                <div class="col-3" >
+                <div class="col-3 count-cart_container" >
                         <div class="input-group mb-3" style="border:1px 
                         solid #dfdfdf; border-radius: 3px; ">
                     <div class="input-group-prepend">
@@ -157,24 +156,24 @@ const actualizarCarrito = () => {
                     </div>
                 </div>
                 
-                <div class="col-2">
+                <div class="price-cart_container">
                 <p style="color:#4675b9">
                 $ ${priceOfProduct.toLocaleString()}</p>
                 </div>
         `;
     } else {
       div.innerHTML = `
-        <div class="col-2">
+        <div class="col-2 image-cart_container">
             <img src="${
               prod.image
-            }" class="img-fluid" style="max-height: 100px; padding: 5px;">
+            }" class="img-fluid" style="max-height: 100%; padding: 5px;">
         </div>
 
-        <div class="col-5">
+        <div class="col-5 name-cart_container">
             <p>${prod.name}</p>
         </div>
 
-        <div class="col-3" >
+        <div class="col-3 count-cart_container" >
                 <div class="input-group mb-3" 
                 style="border:1px solid #dfdfdf; border-radius: 3px; ">
                     <div class="input-group-prepend">
@@ -196,7 +195,7 @@ const actualizarCarrito = () => {
                 </div>
         </div>
         
-        <div class="col-2">
+        <div class="col-2 price-cart_container">
         <p style="color:#4675b9">$ ${priceOfProduct.toLocaleString()}</p>
         </div>
     `;

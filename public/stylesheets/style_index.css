@@ -77,3 +77,67 @@
    padding: 20px 0 20px 20px; display: flex; flex-direction: column;
    height: 80vh;
   }
+
+  .col-sm-8{
+    margin-left: 30vw
+  }
+  
+
+  @media (max-width: 991px) {
+    
+    body{
+      font-size:1.2em;
+    }
+    .container-lateralnav-vendedor{
+      display:none;
+
+    }
+    .container-lateralnav{
+      display:none;
+
+    }
+    
+    .lateralnav-active{
+      position: absolute; top: 128.88px; left: 0; 
+      background-color: rgba(0, 0, 0, 0.65); color: white;
+        display: flex; flex-direction: column;
+       width: 100vw;max-width: none; margin:0;position:absolute;z-index:10;
+    }
+    .sidebar-toggle {
+      display:block;
+      font-size:1.1rem;
+      order: 1;
+      margin-right: auto;
+      margin-left: 15px;
+      background-color: transparent;
+      border:none;
+    }
+    .nav-link{
+ 
+      color:var(--color-secondary);
+      text-align:center;
+    }
+    .sidebar-nav{
+      width:100vw;
+      margin-right: 20px;
+      
+    }
+    .col-sm-2{
+      margin:0;
+      padding:0;
+    }
+
+    hr{
+      margin-left: calc(100vw - 20px)
+    }
+
+    .col-sm-8{
+      margin-left: 0;
+      -ms-flex: 0 0 100%;
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+
+
+

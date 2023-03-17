@@ -4,3 +4,118 @@
     --color-background-header: #131921;
     --color-body-background: #eeeeee;
   }
+
+
+  .quantity-text{
+    text-align: center;
+  }
+
+  .producto-en-carrito{
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: white;
+    align-items:center;
+    justify-items: center;
+    margin-bottom: 5px;
+  }
+  .minus-btn{
+    border: none;
+    padding: 0 20px;
+
+    background-color: transparent;
+  }
+  .plus-btn{
+    border: none;
+    padding: 0 20px;
+    background-color: transparent;
+    
+  }
+  .input-group{
+    background-color: #f7f7f9;
+  }
+  @media (max-width: 767px){
+    .col-sm-10{
+      -webkit-box-flex: 0;
+      flex: 0 0 100%;
+      max-width: 100%;
+      margin: 20px 0;
+    }
+    .container-cart{
+      width: 100%;
+      max-width: 100%;
+    }
+
+    
+
+  }
+  
+  @media (max-width: 875px){
+    .quantity-text{
+      text-align: center;
+      padding:10px 0;
+    }
+  
+    .minus-btn{
+      border: none;
+      padding: 0 15px;
+    }
+    .plus-btn{
+      border: none;
+      padding: 0 15px;
+    }
+  }
+
+  @media (max-width: 550px){
+    .quantity-text{
+      text-align: center;
+      padding:10px 0;
+      margin:auto;
+      width: 30px !important;
+    }
+    .mb-3{
+      display: flex;
+      flex-direction: column;    }
+  
+      .col-sm-10{
+        padding:0;
+      }
+    .minus-btn{
+      border: none;
+      padding: 0 15px;
+      margin:auto;
+    }
+    .plus-btn{
+      border: none;
+      padding: 0 15px;
+      margin:auto
+    }
+    .producto-en-carrito{
+      margin-right: 0;
+      margin-left: 0;
+      border-radius: 0px;
+    }
+    .image-cart_container{
+      -webkit-box-flex: 0;
+      -ms-flex: 0 0 33.3333333333%;
+      flex: 0 0 33.3333333333%;
+      max-width: 33.3333333333%
+    }
+
+    .name-cart_container{
+      display: none;
+    }
+    .count-cart_container{
+      -webkit-box-flex: 0;
+      -ms-flex: 0 0 33.3333333333%;
+      flex: 0 0 33.3333333333%;
+      max-width: 33.3333333333%;
+      padding: 5px 35px;
+    }
+
+    .price-cart_container{
+      -webkit-box-flex: 0;
+      -ms-flex: 0 0 33.3333333333%;
+      flex: 0 0 33.3333333333%;
+      max-width: 33.3333333333%
+    }
+  }
