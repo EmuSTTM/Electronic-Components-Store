@@ -90,3 +90,11 @@
 .container-delete{
   margin: 10px 0;
 }
+
+@media (max-width: 991px){
+  .col-sm-10{
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+

@@ -87,7 +87,7 @@
     margin-top:0;
   }
   .nav-link{
-    font-size:1.2em;
+    font-size:1.15em;
     font-weight: bold;
    
   }
@@ -112,6 +112,9 @@
     .container-lateralnav{
       display:none;
 
+    }
+    .lateralnav{
+      display:none;
     }
     
     .lateralnav-active{

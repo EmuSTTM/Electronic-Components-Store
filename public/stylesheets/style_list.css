@@ -32,9 +32,7 @@
 .card-img-top_computer{
     object-fit:cover;
   }
-  .card-img-top_computer{
-    height: 52vh;
-  }
+  
 
 
   .mb-3, .my-3 {
@@ -48,9 +46,24 @@
     margin: 10px 0;
   }
 
-@media (max-width:   872px) {
+@media (max-width:   991px) {
   /* Configuraciones para el nav  */
   .card-title {
     font-size: 0.85em;
+  }
+  .mb-3{
+    max-width: 50vw;
+    flex: 1;
+  }
+  
+}
+
+@media (max-width: 767px) {
+
+  .container{
+    padding: 0;
+  }
+  .container_list-products{
+    width: 90vw;
   }
 }
