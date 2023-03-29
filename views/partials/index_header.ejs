@@ -36,7 +36,7 @@
         this.classList.toggle('active');
       });
     </script>
-    <div class="collapse ml-auto navbar-collapse row" id="navbarNav" style="justify-content: flex-end;">
+    <div class="collapse ml-auto navbar-collapse row" id="navbarNav">
       
       <ul class="navbar-nav">
         <li class="nav-item">
@@ -127,16 +127,17 @@
 
     // Avanza/retrocede un slide
     function plusSlides(n) {
-      showSlides(slideIndex += n);
+      showSlides(slideIndex += n, n );
     }
 
-    // Muestra un slide específico
-    function currentSlide(n) {
-      showSlides(slideIndex = n);
-    }
+    // // Muestra un slide específico
+    // function currentSlide(n) {
+    //   showSlides(slideIndex = n);
+    // }
 
     // Función principal que muestra los slides
-    function showSlides(n) {
+    function showSlides(n, value = 1) {
+      console.log(value)
       var i;
       var slides = document.getElementsByClassName("slider")[0].getElementsByTagName("img");
       if (n > slides.length) {
@@ -148,13 +149,21 @@
       for (i = 0; i < slides.length; i++) {
         slides[i].classList.add("hide");
       }
-      slides[slideIndex - 1].classList.remove("hide");
-      slideIndex++;
+
+      if(value = -1){
+        slides[slideIndex - 1].classList.remove("hide");
+      }else {
+        slides[slideIndex - 1].classList.remove("hide");
+         slideIndex++;
+      }
+      
+
+
       if (slideIndex > slides.length) {
-        slideIndex = 1
+        slideIndex = 1;
       }
     }
-    setInterval(showSlides, 8000); // Cambia la imagen cada 8 segundos
+    setInterval(()=>{plusSlides(1)}, 8000); // Cambia la imagen cada 8 segundos
   </script>
   <% if (typeof session != "undefined" && typeof session.user != "undefined" && session.user.rol == "vendedor") {%>
   <div class="container-lateralnav-vendedor">
@@ -162,7 +171,7 @@
     <div class="container-lateralnav">
       <% } %>
       <div class="container-fluid" style="flex-grow: 1;">
-        <div class="row">
+        <div class="row" style=""">
           <div class="col-sm-2">
             <ul class="nav flex-column sidebar-nav" style="width:max-content">
               <li class="nav-item">

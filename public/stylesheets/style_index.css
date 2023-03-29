@@ -83,6 +83,15 @@
   }
   
 
+  .row .col-sm-2{
+    margin-top:0;
+  }
+  .nav-link{
+    font-size:1.2em;
+    font-weight: bold;
+   
+  }
+
   @media (max-width: 991px) {
     
     body{
@@ -91,6 +100,14 @@
     .container-lateralnav-vendedor{
       display:none;
 
+    }
+
+    .nav-link{
+      font-size: 1.5em;
+    margin-bottom: 0.8em;
+    }
+    .sidebar-nav{
+      width: 100vw !important;
     }
     .container-lateralnav{
       display:none;
@@ -102,6 +119,7 @@
       background-color: rgba(0, 0, 0, 0.65); color: white;
         display: flex; flex-direction: column;
        width: 100vw;max-width: none; margin:0;position:absolute;z-index:10;
+       height: max-content;
     }
     .sidebar-toggle {
       display:block;
