@@ -1,45 +1,17 @@
 # Electronic-Components-Store
 
-Un sitio web para la venta de productos electrónicos. Desarrollado utilizando Node.hs y Express, y utilicé MongoDB como base de datos. Además, el sitio cuenta con una sección dedicada al armado de computadoras, que incluye validaciones de compatibilidad entre los componentes, lo que ayuda a los clientes a seleccionar los productos adecuados para sus necesidades específicas.
+Un sitio web para la venta de productos electrónicos que ha sido desarrollado utilizando las tecnologías Node.js y Express, con MongoDB como base de datos. Este sitio web incluye una sección especializada en el armado de computadoras que ofrece validaciones de compatibilidad entre los componentes, lo que permite a los clientes elegir los productos más adecuados para satisfacer sus necesidades específicas.
 
 
-### Requisitos previos
-Antes de ejecutar este proyecto, asegúrate de tener instalados los siguientes requisitos previos:
-
-Node.js (versión 10 o superior)
-MongoDB (versión 4.0 o superior)
-
-### Instalación
-Para instalar este proyecto, sigue estos pasos:
-
-Clona este repositorio en tu computadora:
-```
-git clone https://github.com/EmuSTTM/Electronic-Components-Store.git
-```
-Ingresa a la carpeta del proyecto: cd Electronic-Components-Store
-Instala las dependencias del proyecto: 
-```
-npm install
-```
-
-### Configuración de la base de datos
-Este proyecto utiliza una base de datos MongoDB por defecto. Asegúrate de tener instalado y ejecutando MongoDB en tu máquina local. Si deseas cambiar la conexión a la base de datos, modifica la variable MONGODB_URI en el archivo app.js .
-
-### Ejecución
-Para ejecutar la aplicación, utiliza el siguiente comando:
-```
-npm run dev
-```
-Esto iniciará el servidor de desarrollo en el puerto predeterminado (3000). Si deseas utilizar otro puerto, modifica la variable PORT en el archivo bin/www .
 
 ### Uso
-Esta aplicación es un e-commerce ficticio, por lo que permite agregar al carrito productos, crearlos, actualizarlos, eliminarlos y visualizarlos. Posee
-a su vez un sistema de usuarios, donde se limitan y añaden funciones dependiendo del rol. Si desea tener acceso a todas las funcionalidades de la página,
-cree un usuario con el rol de "vendedor" en /users/signup. Esto le permitirá crear todos los productos, actualizarlos y borrarlos.
+Esta aplicación es un e-commerce ficticio que permite a los usuarios agregar productos al carrito, crear nuevos productos, actualizar y eliminar productos existentes, así como visualizarlos. Además, cuenta con un sistema de usuarios que limita y agrega funciones en función de su rol asignado.
 
-Actualmente es necesario que crees a mano los productos y los vayas añadiendo a la base de datos. En un futuro el archivo populatedb va a estar actualizado para que puedan tener una lista de productos de default sin la necesidad de crearlos ustedes mismos.
+Para acceder a todas las funcionalidades de la página, se debe crear un usuario con el rol de "vendedor" en /users/signup. Esto permitirá al usuario crear, actualizar y borrar todos los productos disponibles.
 
+Actualmente, los productos deben ser creados manualmente y agregados a la base de datos.
 
 
 ## Deploy
-El proyecto está desplegado en byteboh.onrender.com. Tiene un sistema de usuarios, por lo que si quieres agregar y/o editar productos necesitarás crear un usuario con el rol de vendedor. No es necesario que pongas datos reales, sólo crea un usuario con datos inventados pero asegúrate de darle el rol de "vendedor".
+
+El proyecto se encuentra alojado en https://byteboh.onrender.com/ y cuenta con un sistema de usuarios. Si deseas agregar y/o editar productos, deberás crear un usuario con el rol de vendedor. No es necesario proporcionar datos reales, solo asegúrate de crear un usuario con información ficticia y asignarle el rol de "vendedor".
