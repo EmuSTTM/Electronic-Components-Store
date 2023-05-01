@@ -38,3 +38,8 @@ a su vez un sistema de usuarios, donde se limitan y añaden funciones dependiend
 cree un usuario con el rol de "vendedor" en /users/signup. Esto le permitirá crear todos los productos, actualizarlos y borrarlos.
 
 Actualmente es necesario que crees a mano los productos y los vayas añadiendo a la base de datos. En un futuro el archivo populatedb va a estar actualizado para que puedan tener una lista de productos de default sin la necesidad de crearlos ustedes mismos.
+
+
+
+## Deploy
+El proyecto está desplegado en byteboh.onrender.com. Tiene un sistema de usuarios, por lo que si quieres agregar y/o editar productos necesitarás crear un usuario con el rol de vendedor. No es necesario que pongas datos reales, sólo crea un usuario con datos inventados pero asegúrate de darle el rol de "vendedor".
