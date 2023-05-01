@@ -4,6 +4,9 @@ Un sitio web para la venta de productos electrónicos que ha sido desarrollado u
 
 
 
+ <img src="./bytebohh.png" alt="ByteBoh imagen">
+
+
 ## Uso
 Esta aplicación es un e-commerce ficticio que permite a los usuarios agregar productos al carrito, crear nuevos productos, actualizar y eliminar productos existentes, así como visualizarlos. Además, cuenta con un sistema de usuarios que limita y agrega funciones en función de su rol asignado.
 
