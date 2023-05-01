@@ -180,7 +180,7 @@
 
           <img style="padding:10px;" src="<%=  typeof storage.toObject().image !== 'undefined' ? storage.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= storage.name%>">
           <div class="card-body">
-            <h5 class="card-title"> <a href="<%= storage.url %>"><%= storage.name.slice(0, 30) + (storage.name.length > 30 ? '...' : '')%></a>  </h5> 
+            <h5 class="card-title"> <%= storage.name.slice(0, 30) + (storage.name.length > 30 ? '...' : '')%> </h5> 
             <p class="card-text">
               <% for (var j = 0; j < storage.brand.length; j++) { %>
                 <%= storage.brand[j].name %>
@@ -211,7 +211,7 @@
 
           <img style="padding:10px;" src="<%=  typeof ram.toObject().image !== 'undefined' ? ram.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= ram.name%>">
           <div class="card-body">
-            <h5 class="card-title"> <a href="<%= ram.url %>"><%= ram.name.slice(0, 30) + (ram.name.length > 30 ? '...' : '')%></a>  </h5> 
+            <h5 class="card-title"> <%= ram.name.slice(0, 30) + (ram.name.length > 30 ? '...' : '')%> </h5> 
             <p class="card-text">
               <% for (var j = 0; j < ram.brand.length; j++) { %>
                 <%= ram.brand[j].name %>
@@ -268,7 +268,7 @@
 
           <img style="padding:10px;" src="<%=  typeof cpu.toObject().image !== 'undefined' ? cpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= cpu.name%>">
           <div class="card-body">
-            <h5 class="card-title"> <a href="<%= cpu.url %>"><%= cpu.name.slice(0, 30) + (cpu.name.length > 30 ? '...' : '')%> %></a> </h5> 
+            <h5 class="card-title"> <%= cpu.name.slice(0, 30) + (cpu.name.length > 30 ? '...' : '')%> %> </h5> 
             <p class="card-text">
                 <%= cpu.core_count %> cores <br>
                 <%= cpu.thread_count %> threads<br>
@@ -292,7 +292,7 @@
 
           <img style="padding:10px;" src="<%=  typeof gpu.toObject().image !== 'undefined' ? gpu.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= gpu.name%>">
           <div class="card-body">
-            <h5 class="card-title"> <a href="<%= gpu.url %>"><%= gpu.name.slice(0, 30) + (gpu.name.length > 30 ? '...' : '')%></a>  </h5> 
+            <h5 class="card-title"> <%= gpu.name.slice(0, 30) + (gpu.name.length > 30 ? '...' : '')%> </h5> 
             <p class="card-text">
               <% for (var j = 0; j < gpu.brand.length; j++) { %>
                 <%= gpu.brand[j].name %>
@@ -319,7 +319,7 @@
 
           <img src="<%=  typeof powerSupply.toObject().image !== 'undefined' ? powerSupply.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= powerSupply.name%>">
           <div class="card-body">
-            <h5 class="card-title"> <a href="<%= powerSupply.url %>"><%= powerSupply.name.slice(0, 30) + (powerSupply.name.length > 30 ? '...' : '')%></a>  </h5> 
+            <h5 class="card-title"> <%= powerSupply.name.slice(0, 30) + (powerSupply.name.length > 30 ? '...' : '')%> </h5> 
             <p class="card-text">
               <% for (var j = 0; j < powerSupply.brand.length; j++) { %>
                 <%= powerSupply.brand[j].name %>
@@ -347,7 +347,7 @@
 
           <img src="<%=  typeof motherboard.toObject().image !== 'undefined' ? motherboard.image : 'https://via.placeholder.com/300x200' %>" class="card-img-top" alt="<%= motherboard.name%>">
           <div class="card-body">
-            <h5 class="card-title"> <a href="<%= motherboard.url %>"><%= motherboard.name.slice(0, 30) + (motherboard.name.length > 30 ? '...' : '')%></a>  </h5> 
+            <h5 class="card-title"> <%= motherboard.name.slice(0, 30) + (motherboard.name.length > 30 ? '...' : '')%>  </h5> 
             <p class="card-text">
               <% for (var j = 0; j < motherboard.brand.length; j++) { %>
                 <%= motherboard.brand[j].name %>
@@ -376,7 +376,7 @@
           src="<%=  typeof cabinet.toObject().image !== 'undefined' ? cabinet.image : 'https://via.placeholder.com/300x200' %>" 
           class="card-img-top" alt="<%= cabinet.name%>"  >
           <div class="card-body" >
-            <h5 class="card-title"> <a href="<%= cabinet.url %>"><%= cabinet.name.slice(0, 30) + (cabinet.name.length > 30 ? '...' : '')%></a>  </h5> 
+            <h5 class="card-title"> <%= cabinet.name.slice(0, 30) + (cabinet.name.length > 30 ? '...' : '')%>  </h5> 
             <p class="card-text" >
               <% for (var j = 0; j < cabinet.brand.length; j++) { %>
                 <%= cabinet.brand[j].name %>
