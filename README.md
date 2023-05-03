@@ -18,3 +18,5 @@ Actualmente, los productos deben ser creados manualmente y agregados a la base d
 ## Deploy
 
 El proyecto se encuentra alojado en https://byteboh.onrender.com/ y cuenta con un sistema de usuarios. Si deseas agregar y/o editar productos, deberás crear un usuario con el rol de vendedor. No es necesario proporcionar datos reales, solo asegúrate de crear un usuario con información ficticia y asignarle el rol de "vendedor".
+
+<b>AVISO: </b>Actualmente, el deploy es lento y puede tomar un poco más de tiempo de lo normal, por lo que es común experimentar demoras de algunos segundos.
